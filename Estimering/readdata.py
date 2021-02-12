@@ -4,18 +4,18 @@ Spyder Editor
 
 This is a temporary script file.
 """
-import rpy2
-from rpy2.robjects.packages import importr
-from rpy2.robjects import pandas2ri
-from rpy2.robjects import r
+#import rpy2
+#from rpy2.robjects.packages import importr
+#from rpy2.robjects import pandas2ri
+#from rpy2.robjects import r
 
-import sys
+#import sys
 # sys.platform = 'win64'
 import pandas as pd
-import dreamtools as dt
-import os
-import numpy as np
-import statsmodels.api as sm
+#import dreamtools as dt
+#import os
+#import numpy as np
+#import statsmodels.api as sm
 
 # Importerer priser - udregnet i excel
 priser = pd.read_excel(r'priser.xlsx')
@@ -38,4 +38,30 @@ maengder_250_450.reset_index(drop=True, inplace=True)
 maengder_450_700.reset_index(drop=True, inplace=True) 
 maengder_700_1mio.reset_index(drop=True, inplace=True) 
 maengder_o1mio.reset_index(drop=True, inplace=True) 
+
+
+
+#Importerer løbende priser
+loebpriser = pd.read_excel(r'loebpriser.xlsx')
+
+#Splitter mængderne op i forskellige indkomstgrupper
+loebpriser_gns        = loebpriser.iloc[:47,:] 
+loebpriser_u250       = loebpriser.iloc[47:94,:]
+loebpriser_250_450    = loebpriser.iloc[94:141,:]
+loebpriser_450_700    = loebpriser.iloc[141:188,:]
+loebpriser_700_1mio   = loebpriser.iloc[188:235,:]
+loebpriser_o1mio      = loebpriser.iloc[235:,:]
+
+#reset index number
+loebpriser_gns.reset_index(drop=True, inplace=True) 
+loebpriser_u250.reset_index(drop=True, inplace=True) 
+loebpriser_250_450.reset_index(drop=True, inplace=True) 
+loebpriser_450_700.reset_index(drop=True, inplace=True) 
+loebpriser_700_1mio.reset_index(drop=True, inplace=True) 
+loebpriser_o1mio.reset_index(drop=True, inplace=True) 
+
+#danner grupper
+#food_gns = loebpriser_gns()
+
+
 
