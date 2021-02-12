@@ -94,30 +94,45 @@ for df,name in zip((loebpriser_gns, loebpriser_u250, loebpriser_250_450,
     #plt.plot(rel_TurTjeVar_Ene[name],label=name)
     #plt.legend()
 
-#Konstruerer priser for hvert nest - det er lidt tricky. 
-priserTur = priser[priser['MAKRO_gruppe']=='Turisme']
-mTur = maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme']
+#Konstruerer priser for hver forbrugs-gruppe - ikke nested
 
-pt   = priserTur.iloc[:,1:27]*mTur.iloc[:,1:27]
-sumpt = pt.sum(axis=0)
-sumTur = mTur.sum(axis=0)
-pTur=sumpt/sumTur
+Prisindeks = {}
+Grupper = ["Turisme","Tjenester","Varer","Biler","Energi"]
+
+for name in Grupper:
+    Prisindeks[name] = ((priser[priser['MAKRO_gruppe']==name].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']==name]
+         .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0))
+    
+#printer prisindekset for turisme
+Prisindeks_tur = Prisindeks["Turisme"]
+print(Prisindeks_tur)
+
+#Nu skal vi konstruere priser for de nestede forbrugsgrupper 
+# hvordan gøres dette? 
 
 
-priserVar = priser[priser['MAKRO_gruppe']=='Varer']
-mVar = maengder_gns[maengder_gns['MAKRO_gruppe']=='Varer']
 
-pv   = priserVar.iloc[:,1:27]*mVar.iloc[:,1:27]
-sumpv = pv.sum(axis=0)
-sumVar = mVar.sum(axis=0)
-pVar=sumpv/sumVar
+
+#Prisindeks på 
+
+#priserTur = priser[priser['MAKRO_gruppe']=='Turisme']
+#mTur = maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme']
+#pTur = ((priser[priser['MAKRO_gruppe']=='Turisme'].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme']
+#         .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme'].sum(axis=0))
+
+#priserVar = priser[priser['MAKRO_gruppe']=='Varer']
+#mVar = maengder_gns[maengder_gns['MAKRO_gruppe']=='Varer']
+#pv   = priserVar.iloc[:,1:27]*mVar.iloc[:,1:27]
+#sumpv = pv.sum(axis=0)
+#sumVar = mVar.sum(axis=0)
+#pVar=sumpv/sumVar
 
 
 
 #pTur = (priser.iloc[33,1:27]*maengder_gns.iloc[33,1:27] + priser.iloc[39,1:27]*maengder_gns.iloc[39,1:27]
 #        )/(maengder_gns.iloc[33,1:27] + maengder_gns.iloc[39,1:27])
 
-print(pTur)
+
 
 
 
