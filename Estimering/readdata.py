@@ -98,10 +98,20 @@ for df,name in zip((loebpriser_gns, loebpriser_u250, loebpriser_250_450,
 priserTur = priser[priser['MAKRO_gruppe']=='Turisme']
 mTur = maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme']
 
-pv   = priserTur.iloc[:,1:27]*mTur.iloc[:,1:27]
-sumpv = pv.sum(axis=0)
+pt   = priserTur.iloc[:,1:27]*mTur.iloc[:,1:27]
+sumpt = pt.sum(axis=0)
 sumTur = mTur.sum(axis=0)
-pTur=sumpv/sumTur
+pTur=sumpt/sumTur
+
+
+priserVar = priser[priser['MAKRO_gruppe']=='Varer']
+mVar = maengder_gns[maengder_gns['MAKRO_gruppe']=='Varer']
+
+pv   = priserVar.iloc[:,1:27]*mVar.iloc[:,1:27]
+sumpv = pv.sum(axis=0)
+sumVar = mVar.sum(axis=0)
+pVar=sumpv/sumVar
+
 
 
 #pTur = (priser.iloc[33,1:27]*maengder_gns.iloc[33,1:27] + priser.iloc[39,1:27]*maengder_gns.iloc[39,1:27]
