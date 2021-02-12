@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+This is a temporary script file.
+"""
+import rpy2
+from rpy2.robjects.packages import importr
+from rpy2.robjects import pandas2ri
+from rpy2.robjects import r
+
+import sys
+# sys.platform = 'win64'
+import pandas as pd
+import dreamtools as dt
+import os
+import numpy as np
+import statsmodels.api as sm
+
+# Importerer priser - udregnet i excel
+priser = pd.read_excel(r'priser.xlsx')
+
+#Importerer mængder
+maengderstor = pd.read_excel(r'fastepriser.xlsx')
+
+#Splitter mængderne op i forskellige indkomstgrupper
+maengder_gns        = maengderstor.iloc[:47,:] 
+maengder_u250       = maengderstor.iloc[47:94,:]
+maengder_250_450    = maengderstor.iloc[94:141,:]
+maengder_450_700    = maengderstor.iloc[141:188,:]
+maengder_700_1mio   = maengderstor.iloc[188:235,:]
+maengder_o1mio      = maengderstor.iloc[235:,:]
+
+#reset index number
+maengder_gns.reset_index(drop=True, inplace=True) 
+maengder_u250.reset_index(drop=True, inplace=True) 
+maengder_250_450.reset_index(drop=True, inplace=True) 
+maengder_450_700.reset_index(drop=True, inplace=True) 
+maengder_700_1mio.reset_index(drop=True, inplace=True) 
+maengder_o1mio.reset_index(drop=True, inplace=True) 
+
