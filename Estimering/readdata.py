@@ -61,16 +61,25 @@ loebpriser_o1mio.reset_index(drop=True, inplace=True)
 #danner grupper
 #food_gns = loebpriser_gns()
 loebpriser_gns_makro = loebpriser_gns.groupby("MAKRO_gruppe").sum()
+print(loebpriser_gns_makro.index)
 
-indkomstkategorier = ["_gns", "_u250", "_250450", "450_700", "700_1mio" , "o1mio"]
+indkomstkategorier = ["loebpriser_gns_makro", "_u250", "_250450", "450_700", "700_1mio" , "o1mio"]
 
-reviews={} 
-for df in (loebpriser_gns, loebpriser_u250, loebpriser_250_450,
-           loebpriser_450_700, loebpriser_700_1mio, loebpriser_o1mio):
-for df_name in indkomstkategorier
-    df_name= df+'_makro'
-    reviews[df_name] = df.groupby("MAKRO_gruppe").sum()
+#loebpriser_gns_makro+hej =loebpriser_gns_makro
 
+#for df_name in indkomstkategorier
+ #   df_name= df+'_makro'
+  #  reviews[df_name] = df.groupby("MAKRO_gruppe").sum()
+
+import numpy as np
+
+priservar = priser[priser['MAKRO_gruppe']=='Varer']
+mvar = maengder_gns[maengder_gns['MAKRO_gruppe']=='Varer']
+for i in priservar.iterrows():
+    pvar = priservar[i]*mvar[i].sum()
+
+    
+print(pvar)
     
 
 

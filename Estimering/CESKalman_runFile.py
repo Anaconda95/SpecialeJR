@@ -6,6 +6,7 @@ Created on Wed Aug 26 13:02:56 2020
 
 Run the CESKalman function from R to get substitutionselasticities
 """
+
 import rpy2
 from rpy2.robjects.packages import importr
 from rpy2.robjects import pandas2ri
