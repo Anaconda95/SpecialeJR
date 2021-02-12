@@ -4,6 +4,8 @@ Spyder Editor
 
 This is a temporary script file.
 """
+
+
 #import rpy2
 #from rpy2.robjects.packages import importr
 #from rpy2.robjects import pandas2ri
@@ -12,6 +14,7 @@ This is a temporary script file.
 #import sys
 # sys.platform = 'win64'
 import pandas as pd
+import matplotlib.pyplot as plt
 #import dreamtools as dt
 #import os
 #import numpy as np
@@ -59,19 +62,52 @@ loebpriser_700_1mio.reset_index(drop=True, inplace=True)
 loebpriser_o1mio.reset_index(drop=True, inplace=True) 
 
 #danner grupper
-#food_gns = loebpriser_gns()
 loebpriser_gns_makro = loebpriser_gns.groupby("MAKRO_gruppe").sum()
 
-indkomstkategorier = ["_gns", "_u250", "_250450", "450_700", "700_1mio" , "o1mio"]
+indkomstkategorier = ["gns", "u250", "250_450", "450_700", "700_1mio" , "o1mio"]
 
-reviews={} 
-for df in (loebpriser_gns, loebpriser_u250, loebpriser_250_450,
-           loebpriser_450_700, loebpriser_700_1mio, loebpriser_o1mio):
-for df_name in indkomstkategorier
-    df_name= df+'_makro'
-    reviews[df_name] = df.groupby("MAKRO_gruppe").sum()
+makro_loebpris={}
+rel_Tur_Tje={} 
+TurTje={}
+rel_TurTje_Var={}
+TurTjeVar={}
+rel_TurTjeVar_Ene={}
+TurTjeVarEne={}
+rel_TurTjeVarEne_Bil={}
+ikkeBol={}
 
-    
+#Konstruerer nests og relative budgetandele
+#Gemmer de forskellige variable som dicts.
+for df,name in zip((loebpriser_gns, loebpriser_u250, loebpriser_250_450,
+           loebpriser_450_700, loebpriser_700_1mio, loebpriser_o1mio)
+           ,indkomstkategorier):
+    makro_loebpris[name]= df.groupby("MAKRO_gruppe").sum()
+    rel_Tur_Tje[name] = makro_loebpris[name].loc['Turisme',:]/makro_loebpris[name].loc['Tjenester',:]
+    TurTje[name] = makro_loebpris[name].loc['Turisme',:]+makro_loebpris[name].loc['Tjenester',:]
+    rel_TurTje_Var[name] = TurTje[name]/makro_loebpris[name].loc['Varer',:]
+    TurTjeVar[name]=TurTje[name]+makro_loebpris[name].loc['Varer',:]
+    rel_TurTjeVar_Ene[name]=TurTjeVar[name]/makro_loebpris[name].loc['Energi',:]
+    TurTjeVarEne[name]=TurTjeVar[name]+makro_loebpris[name].loc['Energi',:]
+    rel_TurTjeVarEne_Bil[name]=TurTjeVarEne[name]/makro_loebpris[name].loc['Biler',:]
+    ikkeBol[name]=TurTjeVarEne[name]+makro_loebpris[name].loc['Biler',:]
+
+    #plt.plot(rel_TurTjeVar_Ene[name],label=name)
+    #plt.legend()
+
+#Konstruerer priser for hvert nest - det er lidt tricky. 
+priserTur = priser[priser['MAKRO_gruppe']=='Turisme']
+mTur = maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme']
+
+pv   = priserTur.iloc[:,1:27]*mTur.iloc[:,1:27]
+sumpv = pv.sum(axis=0)
+sumTur = mTur.sum(axis=0)
+pTur=sumpv/sumTur
+
+
+#pTur = (priser.iloc[33,1:27]*maengder_gns.iloc[33,1:27] + priser.iloc[39,1:27]*maengder_gns.iloc[39,1:27]
+#        )/(maengder_gns.iloc[33,1:27] + maengder_gns.iloc[39,1:27])
+
+print(pTur)
 
 
 
