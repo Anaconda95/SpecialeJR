@@ -39,8 +39,6 @@ maengder_450_700.reset_index(drop=True, inplace=True)
 maengder_700_1mio.reset_index(drop=True, inplace=True) 
 maengder_o1mio.reset_index(drop=True, inplace=True) 
 
-
-
 #Importerer løbende priser
 loebpriser = pd.read_excel(r'loebpriser.xlsx')
 
@@ -62,6 +60,19 @@ loebpriser_o1mio.reset_index(drop=True, inplace=True)
 
 #danner grupper
 #food_gns = loebpriser_gns()
+loebpriser_gns_makro = loebpriser_gns.groupby("MAKRO_gruppe").sum()
+
+indkomstkategorier = ["_gns", "_u250", "_250450", "450_700", "700_1mio" , "o1mio"]
+
+reviews={} 
+for df in (loebpriser_gns, loebpriser_u250, loebpriser_250_450,
+           loebpriser_450_700, loebpriser_700_1mio, loebpriser_o1mio):
+for df_name in indkomstkategorier
+    df_name= df+'_makro'
+    reviews[df_name] = df.groupby("MAKRO_gruppe").sum()
+
+    
+
 
 
 
