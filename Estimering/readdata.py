@@ -97,27 +97,52 @@ for df,name in zip((loebpriser_gns, loebpriser_u250, loebpriser_250_450,
 #Konstruerer priser for hver forbrugs-gruppe - ikke nested
 
 Prisindeks = {}
-Grupper = ["Turisme","Tjenester","Varer","Biler","Energi"]
+maengder_gns_MAKRO = {}
+Grupper = ["Turisme","Tjenester","Varer","Energi","Biler"]
 
 for name in Grupper:
     Prisindeks[name] = ((priser[priser['MAKRO_gruppe']==name].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']==name]
          .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0))
+    maengder_gns_MAKRO[name] = maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0)
     
 #printer prisindekset for turisme
 Prisindeks_tur = Prisindeks["Turisme"]
-print(Prisindeks_tur)
+#print(Prisindeks_tur)
+#print(Prisindeks)
+#print(maengder_gns_MAKRO)
+
+#danner prisindeks for nests
+Prisindeks_Tur_Tje =    (Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"]
+                         )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"])
+Prisindeks_TurTje_Var = (
+                        Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"]
+                         +Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"]
+                     )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"]
+                     +  maengder_gns_MAKRO["Varer"])
+Prisindeks_TurTjeVar_Ene = (
+                        Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"] +
+                        Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"] + Prisindeks["Energi"]*maengder_gns_MAKRO["Energi"]
+                     )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"]
+                     +  maengder_gns_MAKRO["Varer"] + maengder_gns_MAKRO["Energi"] )
+Prisindeks_TurTjeVarEne_Bil = (
+                        Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"] +
+                        Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"] + Prisindeks["Energi"]*maengder_gns_MAKRO["Energi"] +
+                        Prisindeks["Biler"]*maengder_gns_MAKRO["Biler"]
+                     )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"] +
+                        maengder_gns_MAKRO["Varer"] + maengder_gns_MAKRO["Energi"]  +
+                        maengder_gns_MAKRO["Biler"])                        
+
+print(Prisindeks_TurTjeVarEne_Bil)
+
+plt.plot(Prisindeks_TurTjeVar_Ene)
+plt.legend()
+
+#hej
+
+#noter
 
 #Nu skal vi konstruere priser for de nestede forbrugsgrupper 
 # hvordan gøres dette? 
-
-TurTje_maengde
-
-turTje_pris = (Prisindeks["Turisme"]*(meangder_gns[maengder_gns['MAKRO_gruppe']=="Turisme"].iloc[:,1:27].sum(axis=0)+Prisindeks["Tjenester"]*(meangder_gns[maengder_gns['MAKRO_gruppe']=="Tjenester"].iloc[:,1:27].sum(axis=0)))
-
-
-#((priser[priser['MAKRO_gruppe']==name].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']==name]
- #        .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0))
-
 
 #Prisindeks på 
 
@@ -132,8 +157,6 @@ turTje_pris = (Prisindeks["Turisme"]*(meangder_gns[maengder_gns['MAKRO_gruppe']=
 #sumpv = pv.sum(axis=0)
 #sumVar = mVar.sum(axis=0)
 #pVar=sumpv/sumVar
-
-
 
 #pTur = (priser.iloc[33,1:27]*maengder_gns.iloc[33,1:27] + priser.iloc[39,1:27]*maengder_gns.iloc[39,1:27]
 #        )/(maengder_gns.iloc[33,1:27] + maengder_gns.iloc[39,1:27])
