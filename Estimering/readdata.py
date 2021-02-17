@@ -97,21 +97,32 @@ for df,name in zip((loebpriser_gns, loebpriser_u250, loebpriser_250_450,
 #Konstruerer priser for hver forbrugs-gruppe - ikke nested
 
 Prisindeks = {}
+maengder_gns_MAKRO = {}
 Grupper = ["Turisme","Tjenester","Varer","Biler","Energi"]
 
 for name in Grupper:
     Prisindeks[name] = ((priser[priser['MAKRO_gruppe']==name].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']==name]
          .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0))
+    maengder_gns_MAKRO[name] = maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0)
     
 #printer prisindekset for turisme
 Prisindeks_tur = Prisindeks["Turisme"]
-print(Prisindeks_tur)
+#print(Prisindeks_tur)
+#print(Prisindeks)
+#print(maengder_gns_MAKRO)
+
+#danner prisindeks for nests
+Prisindeks_turtje = (Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"])/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"])
+
+
+print(Prisindeks_turtje)
+
+
+
+#noter
 
 #Nu skal vi konstruere priser for de nestede forbrugsgrupper 
 # hvordan gøres dette? 
-
-
-
 
 #Prisindeks på 
 
@@ -126,8 +137,6 @@ print(Prisindeks_tur)
 #sumpv = pv.sum(axis=0)
 #sumVar = mVar.sum(axis=0)
 #pVar=sumpv/sumVar
-
-
 
 #pTur = (priser.iloc[33,1:27]*maengder_gns.iloc[33,1:27] + priser.iloc[39,1:27]*maengder_gns.iloc[39,1:27]
 #        )/(maengder_gns.iloc[33,1:27] + maengder_gns.iloc[39,1:27])
