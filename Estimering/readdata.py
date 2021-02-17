@@ -112,19 +112,19 @@ Prisindeks_tur = Prisindeks["Turisme"]
 #print(maengder_gns_MAKRO)
 
 #danner prisindeks for nests
-Prisindeks_Tur_Tje =    (Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"]
+Prisindeks_TurTje =    (Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"]
                          )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"])
-Prisindeks_TurTje_Var = (
+Prisindeks_TurTjeVar = (
                         Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"]
                          +Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"]
                      )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"]
                      +  maengder_gns_MAKRO["Varer"])
-Prisindeks_TurTjeVar_Ene = (
+Prisindeks_TurTjeVarEne = (
                         Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"] +
                         Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"] + Prisindeks["Energi"]*maengder_gns_MAKRO["Energi"]
                      )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"]
                      +  maengder_gns_MAKRO["Varer"] + maengder_gns_MAKRO["Energi"] )
-Prisindeks_TurTjeVarEne_Bil = (
+Prisindeks_TurTjeVarEneBil = (
                         Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"] +
                         Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"] + Prisindeks["Energi"]*maengder_gns_MAKRO["Energi"] +
                         Prisindeks["Biler"]*maengder_gns_MAKRO["Biler"]
@@ -132,10 +132,46 @@ Prisindeks_TurTjeVarEne_Bil = (
                         maengder_gns_MAKRO["Varer"] + maengder_gns_MAKRO["Energi"]  +
                         maengder_gns_MAKRO["Biler"])                        
 
-print(Prisindeks_TurTjeVarEne_Bil)
+#danner relative priser
+relp_Tur_Tje = Prisindeks["Turisme"] / Prisindeks["Tjenester"]
+relp_TurTje_Var = Prisindeks_TurTje /  Prisindeks["Varer"]
+relp_TurTjeVar_Ene = Prisindeks_TurTjeVar /  Prisindeks["Energi"]
+relp_TurTjeVarEne_Bil = Prisindeks_TurTjeVarEne /  Prisindeks["Biler"]
 
-plt.plot(Prisindeks_TurTjeVar_Ene)
-plt.legend()
+import matplotlib.pylab as pylab
+params = {'legend.fontsize': 'x-large',
+          'figure.figsize': (10, 10),
+         'axes.labelsize': 'x-large',
+         'axes.titlesize':'x-large',
+         'xtick.labelsize':'x-large',
+         'ytick.labelsize':'x-large'}
+pylab.rcParams.update(params)
+
+#Tegner figur som i MAKRO202
+fig, axs = plt.subplots(4, 2)
+axs[0, 0].plot(rel_Tur_Tje["gns"])
+axs[0, 0].set_title('Relative budgetandele')
+axs[0, 0].set_ylabel('TurTje')
+axs[0, 1].plot(relp_Tur_Tje)
+axs[0, 1].set_title('Relative priser')
+axs[1, 0].plot(rel_TurTje_Var["gns"])
+axs[1, 0].set_ylabel('TurTjeVar')
+axs[1, 1].plot(relp_TurTje_Var)
+axs[2, 0].plot(rel_TurTjeVar_Ene["gns"])
+axs[2, 0].set_ylabel('TurTjeVar_Ene')
+axs[2, 1].plot(relp_TurTjeVar_Ene)
+axs[3, 0].plot(rel_TurTjeVarEne_Bil["gns"])
+axs[3, 0].set_ylabel('TurTjeVarEne_Bil')
+axs[3, 1].plot(relp_TurTjeVarEne_Bil)
+
+# Hide x labels and tick labels for top plots and y ticks for right plots.
+for ax in axs.flat:
+    ax.label_outer()
+    ax.xaxis.set_major_locator(plt.MaxNLocator(6))
+
+plt.savefig('relbudrelp.eps')
+
+    
 
 #hej
 
