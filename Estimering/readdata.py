@@ -110,7 +110,13 @@ print(Prisindeks_tur)
 #Nu skal vi konstruere priser for de nestede forbrugsgrupper 
 # hvordan gøres dette? 
 
+TurTje_maengde
 
+turTje_pris = (Prisindeks["Turisme"]*(meangder_gns[maengder_gns['MAKRO_gruppe']=="Turisme"].iloc[:,1:27].sum(axis=0)+Prisindeks["Tjenester"]*(meangder_gns[maengder_gns['MAKRO_gruppe']=="Tjenester"].iloc[:,1:27].sum(axis=0)))
+
+
+#((priser[priser['MAKRO_gruppe']==name].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']==name]
+ #        .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0))
 
 
 #Prisindeks på 
