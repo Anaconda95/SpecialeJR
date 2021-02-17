@@ -137,7 +137,7 @@ print(Prisindeks_TurTjeVarEne_Bil)
 plt.plot(Prisindeks_TurTjeVar_Ene)
 plt.legend()
 
-
+#hej
 
 #noter
 
