@@ -98,7 +98,7 @@ for df,name in zip((loebpriser_gns, loebpriser_u250, loebpriser_250_450,
 
 Prisindeks = {}
 maengder_gns_MAKRO = {}
-Grupper = ["Turisme","Tjenester","Varer","Biler","Energi"]
+Grupper = ["Turisme","Tjenester","Varer","Energi","Biler"]
 
 for name in Grupper:
     Prisindeks[name] = ((priser[priser['MAKRO_gruppe']==name].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']==name]
@@ -112,10 +112,30 @@ Prisindeks_tur = Prisindeks["Turisme"]
 #print(maengder_gns_MAKRO)
 
 #danner prisindeks for nests
-Prisindeks_turtje = (Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"])/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"])
+Prisindeks_Tur_Tje =    (Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"]
+                         )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"])
+Prisindeks_TurTje_Var = (
+                        Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"]
+                         +Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"]
+                     )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"]
+                     +  maengder_gns_MAKRO["Varer"])
+Prisindeks_TurTjeVar_Ene = (
+                        Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"] +
+                        Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"] + Prisindeks["Energi"]*maengder_gns_MAKRO["Energi"]
+                     )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"]
+                     +  maengder_gns_MAKRO["Varer"] + maengder_gns_MAKRO["Energi"] )
+Prisindeks_TurTjeVarEne_Bil = (
+                        Prisindeks["Turisme"]*maengder_gns_MAKRO["Turisme"]+Prisindeks["Tjenester"]*maengder_gns_MAKRO["Tjenester"] +
+                        Prisindeks["Varer"]*maengder_gns_MAKRO["Varer"] + Prisindeks["Energi"]*maengder_gns_MAKRO["Energi"] +
+                        Prisindeks["Biler"]*maengder_gns_MAKRO["Biler"]
+                     )/(maengder_gns_MAKRO["Turisme"]+maengder_gns_MAKRO["Tjenester"] +
+                        maengder_gns_MAKRO["Varer"] + maengder_gns_MAKRO["Energi"]  +
+                        maengder_gns_MAKRO["Biler"])                        
 
+print(Prisindeks_TurTjeVarEne_Bil)
 
-print(Prisindeks_turtje)
+plt.plot(Prisindeks_TurTjeVar_Ene)
+plt.legend()
 
 
 
