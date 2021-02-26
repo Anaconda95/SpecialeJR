@@ -94,17 +94,46 @@ for df,name in zip((loebpriser_gns, loebpriser_u250, loebpriser_250_450,
     #plt.plot(rel_TurTjeVar_Ene[name],label=name)
     #plt.legend()
 
-#Konstruerer priser for hver forbrugs-gruppe - ikke nested
+# Danner mængder for de forskellige indkomstgrupper
 
+makro_maengder = {}
+TurTje_maengde = {}
+TurTjeVar_maengde ={}
+TurTjeVarEne_maengde = {}
+TurTjeVarEneBil_maengde = {}
+
+for df,name in zip((maengder_gns, maengder_u250, maengder_250_450,
+           maengder_450_700, maengder_700_1mio, maengder_o1mio)
+           ,indkomstkategorier):  
+    makro_maengder[name]= df.groupby("MAKRO_gruppe").sum()
+    TurTje_maengde[name]= makro_maengder[name].loc['Turisme',:]+makro_maengder[name].loc['Turisme',:]
+    TurTjeVar_maengde[name]= makro_maengder[name].loc['Turisme',:]+makro_maengder[name].loc['Turisme',:]+makro_maengder[name].loc['Varer',:]
+    TurTjeVarEne_maengde[name]= makro_maengder[name].loc['Turisme',:]+makro_maengder[name].loc['Turisme',:]+makro_maengder[name].loc['Varer',:]+makro_maengder[name].loc['Energi',:]
+    TurTjeVarEneBil_maengde[name]= makro_maengder[name].loc['Turisme',:]+makro_maengder[name].loc['Turisme',:]+makro_maengder[name].loc['Varer',:]+makro_maengder[name].loc['Energi',:]+makro_maengder[name].loc['Biler',:]
+   
+    
+#Danner prisindeks
+   
 Prisindeks = {}
+
 maengder_gns_MAKRO = {}
+maengder_u250_MAKRO = {}
+maengder_250_450_MAKRO = {}
+maengder_450_700_MAKRO = {}
+maengder_700_1mio_MAKRO = {}
+maengder_o1mio_MAKRO = {}
+    
 Grupper = ["Turisme","Tjenester","Varer","Energi","Biler"]
 
 for name in Grupper:
     Prisindeks[name] = ((priser[priser['MAKRO_gruppe']==name].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']==name]
          .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0))
     maengder_gns_MAKRO[name] = maengder_gns[maengder_gns['MAKRO_gruppe']==name].sum(axis=0)
-    
+    maengder_u250_MAKRO[name] = maengder_u250[maengder_u250['MAKRO_gruppe']==name].sum(axis=0)
+    maengder_250_450_MAKRO[name] = maengder_250_450[maengder_250_450['MAKRO_gruppe']==name].sum(axis=0) 
+    maengder_450_700_MAKRO[name] = maengder_450_700[maengder_450_700['MAKRO_gruppe']==name].sum(axis=0)
+    maengder_700_1mio_MAKRO[name] = maengder_700_1mio[maengder_700_1mio['MAKRO_gruppe']==name].sum(axis=0)
+    maengder_o1mio_MAKRO[name] = maengder_o1mio[maengder_o1mio['MAKRO_gruppe']==name].sum(axis=0)
 #printer prisindekset for turisme
 Prisindeks_tur = Prisindeks["Turisme"]
 #print(Prisindeks_tur)
@@ -171,31 +200,167 @@ for ax in axs.flat:
 
 plt.savefig('relbudrelp.eps')
 
-    
+import csv
 
-#hej
+samlet_data_gns = pd.DataFrame()
+samlet_data_gns["Turisme_pris"]=Prisindeks["Turisme"]
+samlet_data_gns["Tjenster_pris"]=Prisindeks["Tjenester"]
+samlet_data_gns["TurTje_pris"]=Prisindeks_TurTje
+samlet_data_gns["Varer_pris"]=Prisindeks["Varer"]
+samlet_data_gns["TurTjeVar_pris"]=Prisindeks_TurTjeVar
+samlet_data_gns["Energi_pris"]=Prisindeks["Energi"]
+samlet_data_gns["TurTjeVarEne_pris"]=Prisindeks_TurTjeVarEne
+samlet_data_gns["Biler_pris"]=Prisindeks["Biler"]
+samlet_data_gns["Turisme_maengde"]=maengder_gns_MAKRO["Turisme"]
+samlet_data_gns["Tjenester_maengde"]=maengder_gns_MAKRO["Tjenester"]
+samlet_data_gns["TurTje_maengde"]=TurTje_maengde["gns"]
+samlet_data_gns["Varer_maengde"]=maengder_gns_MAKRO["Varer"]
+samlet_data_gns["TurTjeVar_maengde"]=TurTjeVar_maengde["gns"]
+samlet_data_gns["Energi_maengde"]=maengder_gns_MAKRO["Energi"]
+samlet_data_gns["TurTjeVarEne_maengde"]=TurTjeVarEne_maengde["gns"]
+samlet_data_gns["Biler_maengde"]=maengder_gns_MAKRO["Biler"]
+#samlet_data_gns = samlet_data_gns.drop("MAKRO_gruppe", axis=0)
+#samlet_data_gns = samlet_data_gns.drop("Egen_gruppe", axis=0)
+#samlet_data_gns = samlet_data_gns.drop("Kategori", axis=0)
 
-#noter
 
-#Nu skal vi konstruere priser for de nestede forbrugsgrupper 
-# hvordan gøres dette? 
 
-#Prisindeks på 
+samlet_data_u250 = pd.DataFrame()
+samlet_data_u250["Turisme_pris"]=Prisindeks["Turisme"]
+samlet_data_u250["Tjenster_pris"]=Prisindeks["Tjenester"]
+samlet_data_u250["TurTje_pris"]=Prisindeks_TurTje
+samlet_data_u250["Varer_pris"]=Prisindeks["Varer"]
+samlet_data_u250["TurTjeVar_pris"]=Prisindeks_TurTjeVar
+samlet_data_u250["Energi_pris"]=Prisindeks["Energi"]
+samlet_data_u250["TurTjeVarEne_pris"]=Prisindeks_TurTjeVarEne
+samlet_data_u250["Biler_pris"]=Prisindeks["Biler"]
+samlet_data_u250["Turisme_maengde"]=maengder_u250_MAKRO["Turisme"]
+samlet_data_u250["Tjenester_maengde"]=maengder_u250_MAKRO["Tjenester"]
+samlet_data_u250["TurTje_maengde"]=TurTje_maengde["u250"]
+samlet_data_u250["Varer_maengde"]=maengder_u250_MAKRO["Varer"]
+samlet_data_u250["TurTjeVar_maengde"]=TurTjeVar_maengde["u250"]
+samlet_data_u250["Energi_maengde"]=maengder_u250_MAKRO["Energi"]
+samlet_data_u250["TurTjeVarEne_maengde"]=TurTjeVarEne_maengde["u250"]
+samlet_data_u250["Biler_maengde"]=maengder_u250_MAKRO["Biler"]
+#samlet_data_u250 = samlet_data_u250.drop("MAKRO_gruppe", axis=0)
+#samlet_data_u250 = samlet_data_u250.drop("Egen_gruppe", axis=0)
+#samlet_data_u250 = samlet_data_u250.drop("Kategori", axis=0)
 
-#priserTur = priser[priser['MAKRO_gruppe']=='Turisme']
-#mTur = maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme']
-#pTur = ((priser[priser['MAKRO_gruppe']=='Turisme'].iloc[:,1:27]*maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme']
-#         .iloc[:,1:27]).sum(axis=0))/(maengder_gns[maengder_gns['MAKRO_gruppe']=='Turisme'].sum(axis=0))
+samlet_data_250_450 = pd.DataFrame()
+samlet_data_250_450["Turisme_pris"]=Prisindeks["Turisme"]
+samlet_data_250_450["Tjenster_pris"]=Prisindeks["Tjenester"]
+samlet_data_250_450["TurTje_pris"]=Prisindeks_TurTje
+samlet_data_250_450["Varer_pris"]=Prisindeks["Varer"]
+samlet_data_250_450["TurTjeVar_pris"]=Prisindeks_TurTjeVar
+samlet_data_250_450["Energi_pris"]=Prisindeks["Energi"]
+samlet_data_250_450["TurTjeVarEne_pris"]=Prisindeks_TurTjeVarEne
+samlet_data_250_450["Biler_pris"]=Prisindeks["Biler"]
+samlet_data_250_450["Turisme_maengde"]=maengder_250_450_MAKRO["Turisme"]
+samlet_data_250_450["Tjenester_maengde"]=maengder_250_450_MAKRO["Tjenester"]
+samlet_data_250_450["TurTje_maengde"]=TurTje_maengde["250_450"]
+samlet_data_250_450["Varer_maengde"]=maengder_250_450_MAKRO["Varer"]
+samlet_data_250_450["TurTjeVar_maengde"]=TurTjeVar_maengde["250_450"]
+samlet_data_250_450["Energi_maengde"]=maengder_250_450_MAKRO["Energi"]
+samlet_data_250_450["TurTjeVarEne_maengde"]=TurTjeVarEne_maengde["250_450"]
+samlet_data_250_450["Biler_maengde"]=maengder_250_450_MAKRO["Biler"]
+#samlet_data_250_450 = samlet_data_250_450.drop("MAKRO_gruppe", axis=0)
+#samlet_data_250_450 = samlet_data_250_450.drop("Egen_gruppe", axis=0)
+#samlet_data_250_450 = samlet_data_250_450.drop("Kategori", axis=0)
 
-#priserVar = priser[priser['MAKRO_gruppe']=='Varer']
-#mVar = maengder_gns[maengder_gns['MAKRO_gruppe']=='Varer']
-#pv   = priserVar.iloc[:,1:27]*mVar.iloc[:,1:27]
-#sumpv = pv.sum(axis=0)
-#sumVar = mVar.sum(axis=0)
-#pVar=sumpv/sumVar
+samlet_data_450_700 = pd.DataFrame()
+samlet_data_450_700["Turisme_pris"]=Prisindeks["Turisme"]
+samlet_data_450_700["Tjenster_pris"]=Prisindeks["Tjenester"]
+samlet_data_450_700["TurTje_pris"]=Prisindeks_TurTje
+samlet_data_450_700["Varer_pris"]=Prisindeks["Varer"]
+samlet_data_450_700["TurTjeVar_pris"]=Prisindeks_TurTjeVar
+samlet_data_450_700["Energi_pris"]=Prisindeks["Energi"]
+samlet_data_450_700["TurTjeVarEne_pris"]=Prisindeks_TurTjeVarEne
+samlet_data_450_700["Biler_pris"]=Prisindeks["Biler"]
+samlet_data_450_700["Turisme_maengde"]=maengder_450_700_MAKRO["Turisme"]
+samlet_data_450_700["Tjenester_maengde"]=maengder_450_700_MAKRO["Tjenester"]
+samlet_data_450_700["TurTje_maengde"]=TurTje_maengde["450_700"]
+samlet_data_450_700["Varer_maengde"]=maengder_450_700_MAKRO["Varer"]
+samlet_data_450_700["TurTjeVar_maengde"]=TurTjeVar_maengde["450_700"]
+samlet_data_450_700["Energi_maengde"]=maengder_450_700_MAKRO["Energi"]
+samlet_data_450_700["TurTjeVarEne_maengde"]=TurTjeVarEne_maengde["450_700"]
+samlet_data_450_700["Biler_maengde"]=maengder_450_700_MAKRO["Biler"]
+#samlet_data_450_700 = samlet_data_450_700.drop("MAKRO_gruppe", axis=0)
+#samlet_data_450_700 = samlet_data_450_700.drop("Egen_gruppe", axis=0)
+#samlet_data_450_700 = samlet_data_450_700.drop("Kategori", axis=0)
 
-#pTur = (priser.iloc[33,1:27]*maengder_gns.iloc[33,1:27] + priser.iloc[39,1:27]*maengder_gns.iloc[39,1:27]
-#        )/(maengder_gns.iloc[33,1:27] + maengder_gns.iloc[39,1:27])
+samlet_data_700_1mio = pd.DataFrame()
+samlet_data_700_1mio["Turisme_pris"]=Prisindeks["Turisme"]
+samlet_data_700_1mio["Tjenster_pris"]=Prisindeks["Tjenester"]
+samlet_data_700_1mio["TurTje_pris"]=Prisindeks_TurTje
+samlet_data_700_1mio["Varer_pris"]=Prisindeks["Varer"]
+samlet_data_700_1mio["TurTjeVar_pris"]=Prisindeks_TurTjeVar
+samlet_data_700_1mio["Energi_pris"]=Prisindeks["Energi"]
+samlet_data_700_1mio["TurTjeVarEne_pris"]=Prisindeks_TurTjeVarEne
+samlet_data_700_1mio["Biler_pris"]=Prisindeks["Biler"]
+samlet_data_700_1mio["Turisme_maengde"]=maengder_700_1mio_MAKRO["Turisme"]
+samlet_data_700_1mio["Tjenester_maengde"]=maengder_700_1mio_MAKRO["Tjenester"]
+samlet_data_700_1mio["TurTje_maengde"]=TurTje_maengde["700_1mio"]
+samlet_data_700_1mio["Varer_maengde"]=maengder_700_1mio_MAKRO["Varer"]
+samlet_data_700_1mio["TurTjeVar_maengde"]=TurTjeVar_maengde["700_1mio"]
+samlet_data_700_1mio["Energi_maengde"]=maengder_700_1mio_MAKRO["Energi"]
+samlet_data_700_1mio["TurTjeVarEne_maengde"]=TurTjeVarEne_maengde["700_1mio"]
+samlet_data_700_1mio["Biler_maengde"]=maengder_700_1mio_MAKRO["Biler"]
+#samlet_data_700_1mio = samlet_data_700_1mio.drop("MAKRO_gruppe", axis=0)
+#samlet_data_700_1mio = samlet_data_u250.drop("Egen_gruppe", axis=0)
+#samlet_data_700_1mio = samlet_data_700_1mio.drop("Kategori", axis=0)
+
+samlet_data_o1mio = pd.DataFrame()
+samlet_data_o1mio["Turisme_pris"]=Prisindeks["Turisme"]
+samlet_data_o1mio["Tjenster_pris"]=Prisindeks["Tjenester"]
+samlet_data_o1mio["TurTje_pris"]=Prisindeks_TurTje
+samlet_data_o1mio["Varer_pris"]=Prisindeks["Varer"]
+samlet_data_o1mio["TurTjeVar_pris"]=Prisindeks_TurTjeVar
+samlet_data_o1mio["Energi_pris"]=Prisindeks["Energi"]
+samlet_data_o1mio["TurTjeVarEne_pris"]=Prisindeks_TurTjeVarEne
+samlet_data_o1mio["Biler_pris"]=Prisindeks["Biler"]
+samlet_data_o1mio["Turisme_maengde"]=maengder_o1mio_MAKRO["Turisme"]
+samlet_data_o1mio["Tjenester_maengde"]=maengder_o1mio_MAKRO["Tjenester"]
+samlet_data_o1mio["TurTje_maengde"]=TurTje_maengde["o1mio"]
+samlet_data_o1mio["Varer_maengde"]=maengder_o1mio_MAKRO["Varer"]
+samlet_data_o1mio["TurTjeVar_maengde"]=TurTjeVar_maengde["o1mio"]
+samlet_data_o1mio["Energi_maengde"]=maengder_o1mio_MAKRO["Energi"]
+samlet_data_o1mio["TurTjeVarEne_maengde"]=TurTjeVarEne_maengde["o1mio"]
+samlet_data_o1mio["Biler_maengde"]=maengder_o1mio_MAKRO["Biler"]
+#samlet_data_o1mio = samlet_data_o1mio.drop("MAKRO_gruppe", axis=0)
+#samlet_data_o1mio = samlet_data_o1mio.drop("Egen_gruppe", axis=0)
+#samlet_data_o1mio = samlet_data_o1mio.drop("Kategori", axis=0)
+
+#dette loop virker ikke 
+dataset = (samlet_data_u250, samlet_data_250_450, samlet_data_450_700, samlet_data_700_1mio, samlet_data_o1mio, samlet_data_gns)
+for df in dataset:
+    df = df.drop("MAKRO_gruppe", axis=0)
+    df = df.drop("Egen_gruppe", axis=0)
+    df = df.drop("Kategori", axis=0)
+
+
+samlet_data_u250.to_csv("data_u250.csv")
+samlet_data_250_450.to_csv("data_250_450.csv")
+samlet_data_450_700.to_csv("data_450_700.csv")
+samlet_data_700_1mio.to_csv("data_700_1mio.csv")
+samlet_data_o1mio.to_csv("data_o1mio.csv")
+samlet_data_gns.to_csv("data_gns.csv")
+
+
+
+# Til pythonfil: samlet_data_gns.to_pickle("data_tur_tje.pkl")
+# Samler det hele i en zip
+
+#compression_opts = dict(method='zip',
+ #                       archive_name='out.csv')  
+
+#df.to_csv('out.zip', index=False,
+#          compression=compression_opts)
+
+
+# Nu skal vi estimere. slut på databehandling. 
+
+
+
 
 
 
