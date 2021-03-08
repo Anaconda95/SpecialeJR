@@ -1,0 +1,41 @@
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/08/21 23:08:51 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   3   
+   4   
+   5  ##### Settings affald #######
+   6   
+   7   
+   8   
+   9  #### funktion til at importere fra moduler ####
+  10   
+  11   
+  12  # ----------------------------------------------------------------------------------------------------
+  13  #  Define function: import_from_modules
+  14  # ----------------------------------------------------------------------------------------------------
+  15   
+  16   
+  17   
+  18   
+  19  # kan tilføje flere settings?
+
+
+COMPILATION TIME     =        0.000 SECONDS      2 MB  33.1.0 rb238721 WEX-WEI
+
+
+EXECUTION TIME       =        0.000 SECONDS      2 MB  33.1.0 rb238721 WEX-WEI
+
+
+USER: Large MUD - 20 User License                    G200907/0001CA-WIN
+      DREAM, Danish Rational Economic Agents Model                DC620
+
+
+**** FILE SUMMARY
+
+Input      C:\specialeJR\GAMS\Expanded\settings_AM.gmy
+Output     C:\specialeJR\GAMS\LST\settings_AM.lst
+Save       C:\specialeJR\GAMS\Saved\settings_AM.g0?
+
+**** WARNING - COMPILER OPTIONS ARE NON DEFAULT     EOLCOM # 
