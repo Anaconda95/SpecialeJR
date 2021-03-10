@@ -26,6 +26,7 @@ p(F)
 p_C
 N(HH)
 X(HH,F)
+G  "Offentlig produktions"
 ;
 
 parameters
@@ -34,10 +35,12 @@ gamma(F,HH)
 E
 E_x(HH)
 rho(HH)  "produktivitets-parameter"
+tau(f) 
 ;
 
 equations
 e1
+e11
 e2
 e3
 e4
@@ -48,30 +51,32 @@ e7
 
 
 #Virksomehdernes efterspørgsel
-e1(HH,F)..    L(HH,F) =e= mu(HH,F)*(w(HH)/pp)**(-E)*Y(F);
+e1(HH,'D')..    L(HH,'D') =e= mu(HH,'D')*(w(HH)/p('D'))**(-E)*Y('D');
+
+e11('L','C')..  L('L','C') =e= mu('L','C')*(w('L')/p('C'))**(-E)*Y('C');
 
 #Nukprofit for hver virksomehd
 
-e2(F)..       sum((HH), w(HH)*L(HH,F)) =e= pp*Y(F);
+e2(F)..       sum((HH), w(HH)*L(HH,F)) =e= p(F)*Y(F);
 
 #Arbejdsmarked
 e3(HH)..      sum(F,L(HH,F)) =e= N(HH)*rho(HH);
 
 
 # Privat efterspørgsel
-e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*(p(F)/p_C)**(-E_x(HH))*(w(HH)*rho(HH)*N(HH)/p_C);
+e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C)**(-E_x(HH))*(w(HH)*rho(HH)*N(HH)/p_C);
 
 # Budget restriktion
-e5(HH)..      sum(F, p(F)*X(HH,F)) =e= w(HH)*rho(HH)*N(HH);
+e5(HH)..      sum(F, (1+tau(F))*p(F)*X(HH,F)) =e= w(HH)*rho(HH)*N(HH);
 
 # Varermarkedsligevægt    #lidt i tvivl om hvilket prisindeks her - uden priser måske?
-e6..          sum((F,HH), X(HH,F)) =e= sum(F,Y(F));
+e6..          sum((HH,F), X(HH,F)) =e= sum(F,Y(F));
 
 # prisen er numeraire
-e7..       pp =e= 1;
+e7..       p_C =e= 1;
 
 
-Model lille_model /e1, e2, e3, e4, e5, e6, e7/;
+Model lille_model /e1,e11,  e2, e3, e4, e5, e6, e7/;
 
 
 
@@ -97,7 +102,7 @@ bef(HH) "arbejdsstyrke med uddannelsestype j"
 bef('L') = 1100;
 bef('H') = 1100;
 
-E = 2;
+E = 0.2;
 
 E_x(HH) = 0.5;
 
@@ -124,38 +129,28 @@ X.l('H','D') = Y.l('D')*0.5;
 
 X.l(HH,'C') = w.l(HH)*rho(HH)*N.l(HH)-p.l('D')*X.l(HH,'D');
 
-# mu er ens på tværs af F ?? 
+ 
 mu(HH,F) = L.l(HH,F)/Y.l(F);
 
 
-# gamma er meget høj for L og lav for H
+
 gamma(F,HH) = X.l(HH,F)/lonsum(HH);
 
-
+tau('D')=0;
+tau('C')=0;
 
 
 solve lille_model using cns;
 
 
-execute_unload 'Output\lille_model';
+execute_unload 'Output\lille_model_basis';
 
-#  set objekter /Y, w1, w2, L1, L2, C, p, N1, N2, N, mu1, mu2/;
+tau('D')=0.1;
+tau('C')=0;
 
-#  set eksperiment /baseline, stod1, stod2, stod3/;
+solve lille_model using cns;
 
-#  parameter output(objekter,eksperiment);
-
-#  Output('Y','baseline') = Y.l;
-#  Output('w1', 'baseline') =w.l('L');
-#  Output('w2','baseline') =w.l('H');
-#  Output('L1','baseline') = L.l('L');
-#  Output('L2','baseline') = L.l('H');
-#  Output('C','baseline') = C.l;
-#  Output('p','baseline') = p.l;
-#  Output('N1','baseline') = N.l('L');
-#  Output('N2','baseline') = N.l('H');
-#  Output('N','baseline') = sum(j, N.l(HH));
-#  Output('mu1','baseline') = mu('L');
-#  Output('mu2','baseline') = mu('HH');
+execute_unload 'Output\lille_model_tau01';
 
 
+ 

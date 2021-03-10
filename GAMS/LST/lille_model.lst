@@ -26,163 +26,159 @@
   45  p_C
   46  N(HH)
   47  X(HH,F)
-  48  ;
-  49   
-  50  parameters
-  51  mu(HH,F)
-  52  gamma(F,HH)
-  53  E
-  54  E_x(HH)
-  55  rho(HH)  "produktivitets-parameter"
-  56  ;
-  57   
-  58  equations
-  59  e1
-  60  e2
-  61  e3
-  62  e4
-  63  e5
-  64  e6
-  65  e7
-  66  ;
-  67   
-  68   
-  69  #Virksomehdernes efterspørgsel
-  70  e1(HH,F)..    L(HH,F) =e= mu(HH,F)*(w(HH)/pp)**(-E)*Y(F);
+  48  G  "Offentlig produktions"
+  49  ;
+  50   
+  51  parameters
+  52  mu(HH,F)
+  53  gamma(F,HH)
+  54  E
+  55  E_x(HH)
+  56  rho(HH)  "produktivitets-parameter"
+  57  tau(f)
+  58  ;
+  59   
+  60  equations
+  61  e1
+  62  e11
+  63  e2
+  64  e3
+  65  e4
+  66  e5
+  67  e6
+  68  e7
+  69  ;
+  70   
   71   
-  72  #Nukprofit for hver virksomehd
-  73   
-  74  e2(F)..       sum((HH), w(HH)*L(HH,F)) =e= pp*Y(F);
-  75   
-  76  #Arbejdsmarked
-  77  e3(HH)..      sum(F,L(HH,F)) =e= N(HH)*rho(HH);
+  72  #Virksomehdernes efterspørgsel
+  73  e1(HH,'D')..    L(HH,'D') =e= mu(HH,'D')*(w(HH)/p('D'))**(-E)*Y('D');
+  74   
+  75  e11('L','C')..  L('L','C') =e= mu('L','C')*(w('L')/p('C'))**(-E)*Y('C');
+  76   
+  77  #Nukprofit for hver virksomehd
   78   
-  79   
-  80  # Privat efterspørgsel
-  81  e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*(p(F)/p_C)**(-E_x(HH))*(w(HH)*rho(HH)*N(HH)/p_C);
-  82   
-  83  # Budget restriktion
-  84  e5(HH)..      sum(F, p(F)*X(HH,F)) =e= w(HH)*rho(HH)*N(HH);
-  85   
-  86  # Varermarkedsligevægt    #lidt i tvivl om hvilket prisindeks her - uden priser måske?
-  87  e6..          sum((F,HH), X(HH,F)) =e= sum(F,Y(F));
-  88   
-  89  # prisen er numeraire
-  90  e7..       pp =e= 1;
-  91   
-  92   
-  93  Model lille_model /e1, e2, e3, e4, e5, e6, e7/;
-  94   
-  95   
+  79  e2(F)..       sum((HH), w(HH)*L(HH,F)) =e= p(F)*Y(F);
+  80   
+  81  #Arbejdsmarked
+  82  e3(HH)..      sum(F,L(HH,F)) =e= N(HH)*rho(HH);
+  83   
+  84   
+  85  # Privat efterspørgsel
+  86  e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C)**(-E_x(HH))*(w(HH)*rho(HH)*N(HH)/p_C);
+  87   
+  88  # Budget restriktion
+  89  e5(HH)..      sum(F, (1+tau(F))*p(F)*X(HH,F)) =e= w(HH)*rho(HH)*N(HH);
+  90   
+  91  # Varermarkedsligevægt    #lidt i tvivl om hvilket prisindeks her - uden priser måske?
+  92  e6..          sum((HH,F), X(HH,F)) =e= sum(F,Y(F));
+  93   
+  94  # prisen er numeraire
+  95  e7..       p_C =e= 1;
   96   
-  97  ####### Lav data ########
-  98  *--------------------------------------------*
-  99  * Nationalregnskabet til opgave 3.1
- 100  * NR = 1000
- 101  *--------------------------------------------*
- 102   
- 103  parameter NR, lonsum(HH);
- 104  NR          = 1000;
- 105  lonsum('H') = 650;
- 106  lonsum('L') = 350;
+  97   
+  98  Model lille_model /e1,e11,  e2, e3, e4, e5, e6, e7/;
+  99   
+ 100   
+ 101   
+ 102  ####### Lav data ########
+ 103  *--------------------------------------------*
+ 104  * Nationalregnskabet til opgave 3.1
+ 105  * NR = 1000
+ 106  *--------------------------------------------*
  107   
- 108   
- 109  *--------------------------------------------*
- 110  * Befolkning og BNP
- 111  *--------------------------------------------*
+ 108  parameter NR, lonsum(HH);
+ 109  NR          = 1000;
+ 110  lonsum('H') = 650;
+ 111  lonsum('L') = 350;
  112   
- 113  parameter
- 114  bef(HH) "arbejdsstyrke med uddannelsestype j"
- 115  ;
- 116  bef('L') = 1100;
- 117  bef('H') = 1100;
- 118   
- 119  E = 2;
- 120   
- 121  E_x(HH) = 0.5;
- 122   
- 123  rho(HH) = lonsum(HH)/bef(HH);
- 124   
- 125  w.l(HH) = 1;
- 126   
- 127  Y.l('D') = 400;
- 128  Y.l('C') = 600;
+ 113   
+ 114  *--------------------------------------------*
+ 115  * Befolkning og BNP
+ 116  *--------------------------------------------*
+ 117   
+ 118  parameter
+ 119  bef(HH) "arbejdsstyrke med uddannelsestype j"
+ 120  ;
+ 121  bef('L') = 1100;
+ 122  bef('H') = 1100;
+ 123   
+ 124  E = 0.2;
+ 125   
+ 126  E_x(HH) = 0.5;
+ 127   
+ 128  rho(HH) = lonsum(HH)/bef(HH);
  129   
- 130  L.l(HH,F) = lonsum(HH)*Y.l(F)/NR;
+ 130  w.l(HH) = 1;
  131   
- 132   
- 133  pp.l = 1;
+ 132  Y.l('D') = 400;
+ 133  Y.l('C') = 600;
  134   
- 135  p_C.l = 1;
+ 135  L.l(HH,F) = lonsum(HH)*Y.l(F)/NR;
  136   
- 137  p.l(F) = 1;
- 138   
- 139  N.fx(HH) = bef(HH);
- 140   
- 141  X.l('L','D') = Y.l('D')*0.5;
- 142  X.l('H','D') = Y.l('D')*0.5;
+ 137   
+ 138  pp.l = 1;
+ 139   
+ 140  p_C.l = 1;
+ 141   
+ 142  p.l(F) = 1;
  143   
- 144  X.l(HH,'C') = w.l(HH)*rho(HH)*N.l(HH)-p.l('D')*X.l(HH,'D');
+ 144  N.fx(HH) = bef(HH);
  145   
- 146  # mu er ens på tværs af F ??
- 147  mu(HH,F) = L.l(HH,F)/Y.l(F);
+ 146  X.l('L','D') = Y.l('D')*0.5;
+ 147  X.l('H','D') = Y.l('D')*0.5;
  148   
- 149   
- 150  # gamma er meget høj for L og lav for H
- 151  gamma(F,HH) = X.l(HH,F)/lonsum(HH);
- 152   
+ 149  X.l(HH,'C') = w.l(HH)*rho(HH)*N.l(HH)-p.l('D')*X.l(HH,'D');
+ 150   
+ 151   
+ 152  mu(HH,F) = L.l(HH,F)/Y.l(F);
  153   
  154   
  155   
- 156  solve lille_model using cns;
+ 156  gamma(F,HH) = X.l(HH,F)/lonsum(HH);
  157   
- 158   
- 159  execute_unload 'Output\lille_model';
+ 158  tau('D')=0;
+ 159  tau('C')=0;
  160   
- 161  #  set objekter /Y, w1, w2, L1, L2, C, p, N1, N2, N, mu1, mu2/;
- 162   
- 163  #  set eksperiment /baseline, stod1, stod2, stod3/;
+ 161   
+ 162  solve lille_model using cns;
+ 163   
  164   
- 165  #  parameter output(objekter,eksperiment);
+ 165  execute_unload 'Output\lille_model_basis';
  166   
- 167  #  Output('Y','baseline') = Y.l;
- 168  #  Output('w1', 'baseline') =w.l('L');
- 169  #  Output('w2','baseline') =w.l('H');
- 170  #  Output('L1','baseline') = L.l('L');
- 171  #  Output('L2','baseline') = L.l('H');
- 172  #  Output('C','baseline') = C.l;
- 173  #  Output('p','baseline') = p.l;
- 174  #  Output('N1','baseline') = N.l('L');
- 175  #  Output('N2','baseline') = N.l('H');
- 176  #  Output('N','baseline') = sum(j, N.l(HH));
- 177  #  Output('mu1','baseline') = mu('L');
- 178  #  Output('mu2','baseline') = mu('HH');
- 179   
- 180   
+ 167  tau('D')=0.1;
+ 168  tau('C')=0;
+ 169   
+ 170  solve lille_model using cns;
+ 171   
+ 172  execute_unload 'Output\lille_model_tau01';
+ 173   
+ 174   
+ 175   
 
 
 COMPILATION TIME     =        0.000 SECONDS      3 MB  33.1.0 rb238721 WEX-WEI
-GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/08/21 23:08:51 Page 1
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE lille_model Using CNS From line 156
+Equation Listing    SOLVE lille_model Using CNS From line 162
 
 
 ---- e1  =E=  
 
-e1(L,D)..  L(L,D) + (280)*w(L) - (0.35)*Y(D) - (280)*pp =E= 0 ; (LHS = 0)
+e1(L,D)..  L(L,D) + (28)*w(L) - (0.35)*Y(D) - (28)*p(D) =E= 0 ; (LHS = 0)
      
-e1(L,C)..  L(L,C) + (420)*w(L) - (0.35)*Y(C) - (420)*pp =E= 0 ; (LHS = 0)
+e1(H,D)..  L(H,D) + (52)*w(H) - (0.65)*Y(D) - (52)*p(D) =E= 0 ; (LHS = 0)
      
-e1(H,D)..  L(H,D) + (520)*w(H) - (0.65)*Y(D) - (520)*pp =E= 0 ; (LHS = 0)
-     
-REMAINING ENTRY SKIPPED
 
+---- e11  =E=  
+
+e11(L,C)..  L(L,C) + (42)*w(L) - (0.35)*Y(C) - (42)*p(C) =E= 0 ; (LHS = 0)
+     
 
 ---- e2  =E=  
 
-e2(D)..  (1)*L(L,D) + (1)*L(H,D) + (140)*w(L) + (260)*w(H) - (1)*Y(D) - (400)*pp =E= 0 ; (LHS = 0)
+e2(D)..  (1)*L(L,D) + (1)*L(H,D) + (140)*w(L) + (260)*w(H) - (1)*Y(D) - (400)*p(D) =E= 0 ; (LHS = 0)
      
-e2(C)..  (1)*L(L,C) + (1)*L(H,C) + (210)*w(L) + (390)*w(H) - (1)*Y(C) - (600)*pp =E= 0 ; (LHS = 0)
+e2(C)..  (1)*L(L,C) + (1)*L(H,C) + (210)*w(L) + (390)*w(H) - (1)*Y(C) - (600)*p(C) =E= 0 ; (LHS = 0)
      
 
 ---- e3  =E=  
@@ -217,11 +213,11 @@ e6..  - Y(D) - Y(C) + X(L,D) + X(L,C) + X(H,D) + X(H,C) =E= 0 ; (LHS = 0)
 
 ---- e7  =E=  
 
-e7..  pp =E= 1 ; (LHS = 1)
+e7..  p_C =E= 1 ; (LHS = 1)
      
-GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/08/21 23:08:51 Page 2
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE lille_model Using CNS From line 156
+Column Listing      SOLVE lille_model Using CNS From line 162
 
 
 ---- L  
@@ -234,7 +230,7 @@ L(L,D)
 
 L(L,C)
                 (.LO, .L, .UP, .M = -INF, 210, +INF, 0)
-        1       e1(L,C)
+        1       e11(L,C)
        (1)      e2(C)
         1       e3(L)
 
@@ -250,8 +246,8 @@ REMAINING ENTRY SKIPPED
 
 w(L)
                 (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
-     (280)      e1(L,D)
-     (420)      e1(L,C)
+      (28)      e1(L,D)
+      (42)      e11(L,C)
      (140)      e2(D)
      (210)      e2(C)
     (-200)      e4(L,D)
@@ -260,8 +256,7 @@ w(L)
 
 w(H)
                 (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
-     (520)      e1(H,D)
-     (780)      e1(H,C)
+      (52)      e1(H,D)
      (260)      e2(D)
      (390)      e2(C)
     (-200)      e4(H,D)
@@ -280,29 +275,18 @@ Y(D)
 
 Y(C)
                 (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
-      (-0.35)   e1(L,C)
-      (-0.65)   e1(H,C)
+      (-0.35)   e11(L,C)
       (-1)      e2(C)
        -1       e6
-
-
----- pp  
-
-pp
-                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
-    (-280)      e1(L,D)
-    (-420)      e1(L,C)
-    (-520)      e1(H,D)
-    (-780)      e1(H,C)
-    (-400)      e2(D)
-    (-600)      e2(C)
-        1       e7
 
 
 ---- p  
 
 p(D)
                 (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (-28)      e1(L,D)
+     (-52)      e1(H,D)
+    (-400)      e2(D)
      (100)      e4(L,D)
      (100)      e4(H,D)
      (200)      e5(L)
@@ -310,6 +294,8 @@ p(D)
 
 p(C)
                 (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (-42)      e11(L,C)
+    (-600)      e2(C)
       (75)      e4(L,C)
      (225)      e4(H,C)
      (150)      e5(L)
@@ -324,6 +310,7 @@ p_C
       (75)      e4(L,C)
      (100)      e4(H,D)
      (225)      e4(H,C)
+        1       e7
 
 
 ---- N  
@@ -364,31 +351,31 @@ X(H,D)
         1       e6
 
 REMAINING ENTRY SKIPPED
-GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/08/21 23:08:51 Page 3
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE lille_model Using CNS From line 156
+Model Statistics    SOLVE lille_model Using CNS From line 162
 
 
 MODEL STATISTICS
 
-BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           16
-BLOCKS OF VARIABLES           8     SINGLE VARIABLES           18
-NON ZERO ELEMENTS            73     NON LINEAR N-Z             52
-CODE LENGTH                 142     CONSTANT POOL              26
-SINGLE =E|X= EQUS            16     SINGLE UNFIXED VARS        16
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           15
+BLOCKS OF VARIABLES           7     SINGLE VARIABLES           17
+NON ZERO ELEMENTS            69     NON LINEAR N-Z             49
+CODE LENGTH                 132     CONSTANT POOL              26
+SINGLE =E|X= EQUS            15     SINGLE UNFIXED VARS        15
 
 
-GENERATION TIME      =        0.047 SECONDS      4 MB  33.1.0 rb238721 WEX-WEI
-GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/08/21 23:08:51 Page 4
+GENERATION TIME      =        0.031 SECONDS      4 MB  33.1.0 rb238721 WEX-WEI
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Solution Report     SOLVE lille_model Using CNS From line 156
+Solution Report     SOLVE lille_model Using CNS From line 162
 
 
                S O L V E      S U M M A R Y
 
      MODEL   lille_model         
      TYPE    CNS                 
-     SOLVER  CONOPT              FROM LINE  156
+     SOLVER  CONOPT              FROM LINE  162
 
 **** SOLVER STATUS     1 Normal Completion         
 **** MODEL STATUS      17 Solved Singular          
@@ -412,15 +399,15 @@ CONOPT 3         33.1.0 rb238721 Released Nov 01, 2020 WEI x86 64bit/MS Window
  ** Error in Square System: Pivot too small.
  
  
- CONOPT time Total                            0.004 seconds
-   of which: Function evaluations             0.000 =  0.0%
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.001 = 50.0%
              1st Derivative evaluations       0.000 =  0.0%
  
 
-**** ERRORS/WARNINGS IN EQUATION e1(H,D)
+**** ERRORS/WARNINGS IN EQUATION e2(C)
      1 error(s): Pivot too small.
 
-**** ERRORS/WARNINGS IN VARIABLE L(L,D)
+**** ERRORS/WARNINGS IN VARIABLE Y(D)
      1 error(s): Pivot too small.
 
 ---- EQU e1  
@@ -428,16 +415,20 @@ CONOPT 3         33.1.0 rb238721 Released Nov 01, 2020 WEI x86 64bit/MS Window
            LOWER          LEVEL          UPPER
 
 L.D          .              .              .          
+H.D          .              .              .          
+
+---- EQU e11  
+
+           LOWER          LEVEL          UPPER
+
 L.C          .              .              .          
-H.D          .              .              .     DEPND
-H.C          .              .              .          
 
 ---- EQU e2  
 
          LOWER          LEVEL          UPPER
 
 D          .              .              .          
-C          .              .              .          
+C          .              .              .     DEPND
 
 ---- EQU e3  
 
@@ -471,7 +462,7 @@ H          .              .              .
 
            LOWER          LEVEL          UPPER
 
-L.D        -INF          140.0000        +INF    DEPND
+L.D        -INF          140.0000        +INF         
 L.C        -INF          210.0000        +INF         
 H.D        -INF          260.0000        +INF         
 H.C        -INF          390.0000        +INF         
@@ -487,12 +478,8 @@ H        -INF            1.0000        +INF
 
          LOWER          LEVEL          UPPER
 
-D        -INF          400.0000        +INF         
+D        -INF          400.0000        +INF    DEPND
 C        -INF          600.0000        +INF         
-
-                           LOWER          LEVEL          UPPER
-
----- VAR pp                -INF            1.0000        +INF         
 
 ---- VAR p  
 
@@ -525,12 +512,370 @@ H.C        -INF          450.0000        +INF
 **** REPORT SUMMARY :        0 INFEASIBLE
                              1  DEPENDENT (DEPND)
                              2     ERRORS ( ****)
-GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/08/21 23:08:51 Page 5
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE lille_model Using CNS From line 170
+
+
+---- e1  =E=  
+
+e1(L,D)..  L(L,D) + (28)*w(L) - (0.35)*Y(D) - (28)*p(D) =E= 0 ; (LHS = 0)
+     
+e1(H,D)..  L(H,D) + (52)*w(H) - (0.65)*Y(D) - (52)*p(D) =E= 0 ; (LHS = 0)
+     
+
+---- e11  =E=  
+
+e11(L,C)..  L(L,C) + (42)*w(L) - (0.35)*Y(C) - (42)*p(C) =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  
+
+e2(D)..  (1)*L(L,D) + (1)*L(H,D) + (140)*w(L) + (260)*w(H) - (1)*Y(D) - (400)*p(D) =E= 0 ; (LHS = 0)
+     
+e2(C)..  (1)*L(L,C) + (1)*L(H,C) + (210)*w(L) + (390)*w(H) - (1)*Y(C) - (600)*p(C) =E= 0 ; (LHS = 0)
+     
+
+---- e3  =E=  
+
+e3(L)..  L(L,D) + L(L,C) - 0.318181818181818*N(L) =E= 0 ; (LHS = 0)
+     
+e3(H)..  L(H,D) + L(H,C) - 0.590909090909091*N(H) =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  
+
+e4(L,D)..  - (190.692517849118)*w(L) + (95.3462589245592)*p(D) + (95.3462589245592)*p_C - (0.17335683440829)*N(L) + X(L,D) =E= 0 ; (LHS = 9.30748215088155, INFES = 9.30748215088155 ****)
+     
+e4(L,C)..  - (150)*w(L) + (75)*p(C) + (75)*p_C - (0.136363636363636)*N(L) + X(L,C) =E= 0 ; (LHS = 0)
+     
+e4(H,D)..  - (190.692517849118)*w(H) + (95.3462589245592)*p(D) + (95.3462589245592)*p_C - (0.17335683440829)*N(H) + X(H,D) =E= 0 ; (LHS = 9.30748215088155, INFES = 9.30748215088155 ****)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- e5  =E=  
+
+e5(L)..  - (350)*w(L) + (220)*p(D) + (150)*p(C) - (0.318181818181818)*N(L) + (1.1)*X(L,D) + (1)*X(L,C) =E= 0 ; (LHS = 20, INFES = 20 ****)
+     
+e5(H)..  - (650)*w(H) + (220)*p(D) + (450)*p(C) - (0.590909090909091)*N(H) + (1.1)*X(H,D) + (1)*X(H,C) =E= 0 ; (LHS = 20, INFES = 20 ****)
+     
+
+---- e6  =E=  
+
+e6..  - Y(D) - Y(C) + X(L,D) + X(L,C) + X(H,D) + X(H,C) =E= 0 ; (LHS = 0)
+     
+
+---- e7  =E=  
+
+e7..  p_C =E= 1 ; (LHS = 1)
+     
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE lille_model Using CNS From line 170
+
+
+---- L  
+
+L(L,D)
+                (.LO, .L, .UP, .M = -INF, 140, +INF, 0)
+        1       e1(L,D)
+       (1)      e2(D)
+        1       e3(L)
+
+L(L,C)
+                (.LO, .L, .UP, .M = -INF, 210, +INF, 0)
+        1       e11(L,C)
+       (1)      e2(C)
+        1       e3(L)
+
+L(H,D)
+                (.LO, .L, .UP, .M = -INF, 260, +INF, 0)
+        1       e1(H,D)
+       (1)      e2(D)
+        1       e3(H)
+
+REMAINING ENTRY SKIPPED
+
+---- w  
+
+w(L)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (28)      e1(L,D)
+      (42)      e11(L,C)
+     (140)      e2(D)
+     (210)      e2(C)
+    (-190.6925) e4(L,D)
+    (-150)      e4(L,C)
+    (-350)      e5(L)
+
+w(H)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (52)      e1(H,D)
+     (260)      e2(D)
+     (390)      e2(C)
+    (-190.6925) e4(H,D)
+    (-450)      e4(H,C)
+    (-650)      e5(H)
+
+
+---- Y  
+
+Y(D)
+                (.LO, .L, .UP, .M = -INF, 400, +INF, 0)
+      (-0.35)   e1(L,D)
+      (-0.65)   e1(H,D)
+      (-1)      e2(D)
+       -1       e6
+
+Y(C)
+                (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
+      (-0.35)   e11(L,C)
+      (-1)      e2(C)
+       -1       e6
+
+
+---- p  
+
+p(D)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (-28)      e1(L,D)
+     (-52)      e1(H,D)
+    (-400)      e2(D)
+      (95.3463) e4(L,D)
+      (95.3463) e4(H,D)
+     (220)      e5(L)
+     (220)      e5(H)
+
+p(C)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (-42)      e11(L,C)
+    (-600)      e2(C)
+      (75)      e4(L,C)
+     (225)      e4(H,C)
+     (150)      e5(L)
+     (450)      e5(H)
+
+
+---- p_C  
+
+p_C
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (95.3463) e4(L,D)
+      (75)      e4(L,C)
+      (95.3463) e4(H,D)
+     (225)      e4(H,C)
+        1       e7
+
+
+---- N  
+
+N(L)
+                (.LO, .L, .UP, .M = 1100, 1100, 1100, 0)
+       -0.3182  e3(L)
+      (-0.1734) e4(L,D)
+      (-0.1364) e4(L,C)
+      (-0.3182) e5(L)
+
+N(H)
+                (.LO, .L, .UP, .M = 1100, 1100, 1100, 0)
+       -0.5909  e3(H)
+      (-0.1734) e4(H,D)
+      (-0.4091) e4(H,C)
+      (-0.5909) e5(H)
+
+
+---- X  
+
+X(L,D)
+                (.LO, .L, .UP, .M = -INF, 200, +INF, 0)
+        1       e4(L,D)
+       (1.1)    e5(L)
+        1       e6
+
+X(L,C)
+                (.LO, .L, .UP, .M = -INF, 150, +INF, 0)
+        1       e4(L,C)
+       (1)      e5(L)
+        1       e6
+
+X(H,D)
+                (.LO, .L, .UP, .M = -INF, 200, +INF, 0)
+        1       e4(H,D)
+       (1.1)    e5(H)
+        1       e6
+
+REMAINING ENTRY SKIPPED
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE lille_model Using CNS From line 170
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           8     SINGLE EQUATIONS           15
+BLOCKS OF VARIABLES           7     SINGLE VARIABLES           17
+NON ZERO ELEMENTS            69     NON LINEAR N-Z             49
+CODE LENGTH                 136     CONSTANT POOL              27
+SINGLE =E|X= EQUS            15     SINGLE UNFIXED VARS        15
+
+
+GENERATION TIME      =        0.016 SECONDS      4 MB  33.1.0 rb238721 WEX-WEI
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 8
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE lille_model Using CNS From line 170
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   lille_model         
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  170
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      5 Locally Infeasible        
+
+ RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ ITERATION COUNT, LIMIT         1    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         33.1.0 rb238721 Released Nov 01, 2020 WEI x86 64bit/MS Window
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  0
+ 
+ 
+ ** Error in Square System: Pivot too small.
+ 
+ 
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+**** ERRORS/WARNINGS IN EQUATION e2(C)
+     1 error(s): Pivot too small.
+
+**** ERRORS/WARNINGS IN VARIABLE Y(D)
+     1 error(s): Pivot too small.
+
+---- EQU e1  
+
+           LOWER          LEVEL          UPPER
+
+L.D          .              .              .          
+H.D          .              .              .          
+
+---- EQU e11  
+
+           LOWER          LEVEL          UPPER
+
+L.C          .              .              .          
+
+---- EQU e2  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .     DEPND
+
+---- EQU e3  
+
+         LOWER          LEVEL          UPPER
+
+L          .              .              .          
+H          .              .              .          
+
+---- EQU e4  
+
+           LOWER          LEVEL          UPPER
+
+L.D          .             9.3075          .     INFES
+L.C          .              .              .          
+H.D          .             9.3075          .     INFES
+H.C          .              .              .          
+
+---- EQU e5  
+
+         LOWER          LEVEL          UPPER
+
+L          .            20.0000          .     INFES
+H          .            20.0000          .     INFES
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e6                  .              .              .          
+---- EQU e7                 1.0000         1.0000         1.0000      
+
+---- VAR L  
+
+           LOWER          LEVEL          UPPER
+
+L.D        -INF          140.0000        +INF         
+L.C        -INF          210.0000        +INF         
+H.D        -INF          260.0000        +INF         
+H.C        -INF          390.0000        +INF         
+
+---- VAR w  
+
+         LOWER          LEVEL          UPPER
+
+L        -INF            1.0000        +INF         
+H        -INF            1.0000        +INF         
+
+---- VAR Y  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          400.0000        +INF    DEPND
+C        -INF          600.0000        +INF         
+
+---- VAR p  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF            1.0000        +INF         
+C        -INF            1.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR p_C               -INF            1.0000        +INF         
+
+---- VAR N  
+
+         LOWER          LEVEL          UPPER
+
+L      1100.0000      1100.0000      1100.0000      
+H      1100.0000      1100.0000      1100.0000      
+
+---- VAR X  
+
+           LOWER          LEVEL          UPPER
+
+L.D        -INF          200.0000        +INF         
+L.C        -INF          150.0000        +INF         
+H.D        -INF          200.0000        +INF         
+H.C        -INF          450.0000        +INF         
+
+
+**** REPORT SUMMARY :        4 INFEASIBLE (INFES)
+                    SUM         58.6150
+                    MAX         20.0000
+                    MEAN        14.6537
+                             1  DEPENDENT (DEPND)
+                             2     ERRORS ( ****)
+GAMS 33.1.0  rb238721 Released Nov  1, 2020 WEX-WEI x86 64bit/MS Windows - 03/10/21 12:17:57 Page 9
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 E x e c u t i o n
 
 
-EXECUTION TIME       =        0.203 SECONDS      4 MB  33.1.0 rb238721 WEX-WEI
+EXECUTION TIME       =        0.219 SECONDS      4 MB  33.1.0 rb238721 WEX-WEI
 
 
 USER: Large MUD - 20 User License                    G200907/0001CA-WIN

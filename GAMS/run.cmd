@@ -15,9 +15,11 @@ goto start
 IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
 
-%gamY%  lille_model.gms r=Saved\settings_AM s=Saved\lille_model
-IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
+rem %gamY%  lille_model.gms r=Saved\settings_AM s=Saved\lille_model
+rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
+%gamY%  lille_model2.gms r=Saved\settings_AM s=Saved\lille_model2
+IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
 :pathsNotFound
 ECHO ----------------------------------------------------------------------------------------------------
