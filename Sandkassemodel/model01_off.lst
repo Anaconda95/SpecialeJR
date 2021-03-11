@@ -1,0 +1,697 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  *Verdens simpleste CGE-model
+   2  set hh /L,H/
+   3      f  /c,d/;
+   4   
+   5  Variables
+   6     Y(f) 'output'
+   7     L(f) 'arbejdskraft'
+   8     w 'løn'
+   9     C(hh,f) 'vareforbrug'
+  10     p(f) 'pris'
+  11     A 'Teknologi'
+  12     N 'Befolkning'
+  13     Lump 'provenu, fordeles lump sum'
+  14     L_g;
+  15   
+  16  Parameters
+  17  phi(hh) 'Indkomstandele'
+  18  gamma(hh,f) 'Forbrugsandele'
+  19  tau(f)  'Skat';
+  20   
+  21   
+  22  phi('L')=0.3;
+  23  phi('H')=0.7;
+  24   
+  25  gamma('L','c')=0.5;
+  26  gamma('L','d')=0.5;
+  27  gamma('H','c')=0.6;
+  28  gamma('H','d')=0.4;
+  29   
+  30  tau(f)=0;
+  31   
+  32  Y.l('c')=400;
+  33  Y.l('d')=600;
+  34  L.l('c')=400;
+  35  L.l('d')=600;
+  36  w.l=1;
+  37  p.l(f)=1;
+  38   
+  39  A.fx=1;
+  40  N.fx=1000;
+  41   
+  42   
+  43  C.l(hh,f)=gamma(hh,f)*phi(hh)*N.l;
+  44   
+  45  Lump.l=0;
+  46   
+  47  Equation
+  48  e1 'efterspørgsel efter arbejdskraft'
+  49  e2 'nul profit betingelse'
+  50  e3 'ligevægt på arbejdsmarkedet'
+  51  e4 'privat forbrug'
+  52  e5 'pris er numeraire'
+  53  e6 'goodeq for det ene marked'
+  54  e7 'off sektor';
+  55   
+  56  e1(f)..             L(f) =e= 1/A*Y(f);
+  57   
+  58  e2(f)..             (1-tau(f))*p(f)*Y(f) =e= w*L(f);
+  59   
+  60  e3..                sum(f,L(f)) + L_g =e= N;
+  61   
+  62  e4(hh,f)..          C(hh,f) =e= gamma(hh,f)*[ phi(hh)*N*w]/[p(f)];
+  63   
+  64  e5..                w =e= 1;
+  65   
+  66  e6..                sum(hh,C(hh,'C') )=e= Y('C');
+  67   
+  68  e7..                w*L_g =e= sum(f,tau(f)*p(f)*Y(f));
+  69   
+  70  Model simpelcge / all /;
+  71   
+  72  Solve simpelcge using CNS;
+  73   
+  74  tau('D')=0.1;
+  75   
+  76  solve simpelcge using CNS;
+
+
+COMPILATION TIME     =        0.001 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE simpelcge Using CNS From line 72
+
+
+---- e1  =E=  efterspørgsel efter arbejdskraft
+
+e1(c)..  - (1)*Y(c) + L(c) + (400)*A =E= 0 ; (LHS = 0)
+     
+e1(d)..  - (1)*Y(d) + L(d) + (600)*A =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  nul profit betingelse
+
+e2(c)..  (1)*Y(c) - (1)*L(c) - (400)*w + (400)*p(c) =E= 0 ; (LHS = 0)
+     
+e2(d)..  (1)*Y(d) - (1)*L(d) - (600)*w + (600)*p(d) =E= 0 ; (LHS = 0)
+     
+
+---- e3  =E=  ligevægt på arbejdsmarkedet
+
+e3..  L(c) + L(d) - N + L_g =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  privat forbrug
+
+e4(L,c)..  - (150)*w + C(L,c) + (150)*p(c) - (0.15)*N =E= 0 ; (LHS = 0)
+     
+e4(L,d)..  - (150)*w + C(L,d) + (150)*p(d) - (0.15)*N =E= 0 ; (LHS = 0)
+     
+e4(H,c)..  - (420)*w + C(H,c) + (420)*p(c) - (0.42)*N =E= 0 ; (LHS = 0)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- e5  =E=  pris er numeraire
+
+e5..  w =E= 1 ; (LHS = 1)
+     
+
+---- e6  =E=  goodeq for det ene marked
+
+e6..  - Y(c) + C(L,c) + C(H,c) =E= 0 ; (LHS = 170, INFES = 170 ****)
+     
+
+---- e7  =E=  off sektor
+
+e7..  (0)*w + (1)*L_g =E= 0 ; (LHS = 0)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE simpelcge Using CNS From line 72
+
+
+---- Y  output
+
+Y(c)
+                (.LO, .L, .UP, .M = -INF, 400, +INF, 0)
+      (-1)      e1(c)
+       (1)      e2(c)
+       -1       e6
+
+Y(d)
+                (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
+      (-1)      e1(d)
+       (1)      e2(d)
+
+
+---- L  arbejdskraft
+
+L(c)
+                (.LO, .L, .UP, .M = -INF, 400, +INF, 0)
+        1       e1(c)
+      (-1)      e2(c)
+        1       e3
+
+L(d)
+                (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
+        1       e1(d)
+      (-1)      e2(d)
+        1       e3
+
+
+---- w  løn
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-400)      e2(c)
+    (-600)      e2(d)
+    (-150)      e4(L,c)
+    (-150)      e4(L,d)
+    (-420)      e4(H,c)
+    (-280)      e4(H,d)
+        1       e5
+       (0)      e7
+
+
+---- C  vareforbrug
+
+C(L,c)
+                (.LO, .L, .UP, .M = -INF, 150, +INF, 0)
+        1       e4(L,c)
+        1       e6
+
+C(L,d)
+                (.LO, .L, .UP, .M = -INF, 150, +INF, 0)
+        1       e4(L,d)
+
+C(H,c)
+                (.LO, .L, .UP, .M = -INF, 420, +INF, 0)
+        1       e4(H,c)
+        1       e6
+
+REMAINING ENTRY SKIPPED
+
+---- p  pris
+
+p(c)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (400)      e2(c)
+     (150)      e4(L,c)
+     (420)      e4(H,c)
+
+p(d)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (600)      e2(d)
+     (150)      e4(L,d)
+     (280)      e4(H,d)
+
+
+---- A  Teknologi
+
+A
+                (.LO, .L, .UP, .M = 1, 1, 1, 0)
+     (400)      e1(c)
+     (600)      e1(d)
+
+
+---- N  Befolkning
+
+N
+                (.LO, .L, .UP, .M = 1000, 1000, 1000, 0)
+       -1       e3
+      (-0.15)   e4(L,c)
+      (-0.15)   e4(L,d)
+      (-0.42)   e4(H,c)
+      (-0.28)   e4(H,d)
+
+
+---- L_g  
+
+L_g
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       e3
+       (1)      e7
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE simpelcge Using CNS From line 72
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           12
+BLOCKS OF VARIABLES           8     SINGLE VARIABLES           14
+NON ZERO ELEMENTS            40     NON LINEAR N-Z             26
+DERIVATIVE POOL              20     CONSTANT POOL              20
+CODE LENGTH                  69
+SINGLE =E|X= EQUS            12     SINGLE UNFIXED VARS        12
+
+
+GENERATION TIME      =        0.004 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE simpelcge Using CNS From line 72
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   simpelcge           
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  72
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.002 10000000000.000
+ ITERATION COUNT, LIMIT         3    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   2
+                   Post-triangular equations:  2
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.001 = 50.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU e1  efterspørgsel efter arbejdskraft
+
+         LOWER          LEVEL          UPPER
+
+c          .              .              .          
+d          .              .              .          
+
+---- EQU e2  nul profit betingelse
+
+         LOWER          LEVEL          UPPER
+
+c          .              .              .          
+d          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e3                  .              .              .          
+
+  e3  ligevægt på arbejdsmarkedet
+
+---- EQU e4  privat forbrug
+
+           LOWER          LEVEL          UPPER
+
+L.c          .              .              .          
+L.d          .              .              .          
+H.c          .              .              .          
+H.d          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e5                 1.0000         1.0000         1.0000      
+---- EQU e6                  .              .              .          
+---- EQU e7                  .              .              .          
+
+  e5  pris er numeraire
+  e6  goodeq for det ene marked
+  e7  off sektor
+
+---- VAR Y  output
+
+         LOWER          LEVEL          UPPER
+
+c        -INF          570.0000        +INF         
+d        -INF          430.0000        +INF         
+
+---- VAR L  arbejdskraft
+
+         LOWER          LEVEL          UPPER
+
+c        -INF          570.0000        +INF         
+d        -INF          430.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+  w  løn
+
+---- VAR C  vareforbrug
+
+           LOWER          LEVEL          UPPER
+
+L.c        -INF          150.0000        +INF         
+L.d        -INF          150.0000        +INF         
+H.c        -INF          420.0000        +INF         
+H.d        -INF          280.0000        +INF         
+
+---- VAR p  pris
+
+         LOWER          LEVEL          UPPER
+
+c        -INF            1.0000        +INF         
+d        -INF            1.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR A                  1.0000         1.0000         1.0000      
+---- VAR N               1000.0000      1000.0000      1000.0000      
+---- VAR L_g               -INF             .            +INF         
+
+  A  Teknologi
+  N  Befolkning
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE simpelcge Using CNS From line 76
+
+
+---- e1  =E=  efterspørgsel efter arbejdskraft
+
+e1(c)..  - (1)*Y(c) + L(c) + (570)*A =E= 0 ; (LHS = 0)
+     
+e1(d)..  - (1)*Y(d) + L(d) + (430)*A =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  nul profit betingelse
+
+e2(c)..  (1)*Y(c) - (1)*L(c) - (570)*w + (570)*p(c) =E= 0 ; (LHS = 0)
+     
+e2(d)..  (0.9)*Y(d) - (1)*L(d) - (430)*w + (387)*p(d) =E= 0 ; (LHS = -43, INFES = 43 ****)
+     
+
+---- e3  =E=  ligevægt på arbejdsmarkedet
+
+e3..  L(c) + L(d) - N + L_g =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  privat forbrug
+
+e4(L,c)..  - (150)*w + C(L,c) + (150)*p(c) - (0.15)*N =E= 0 ; (LHS = 0)
+     
+e4(L,d)..  - (150)*w + C(L,d) + (150)*p(d) - (0.15)*N =E= 0 ; (LHS = 0)
+     
+e4(H,c)..  - (420)*w + C(H,c) + (420)*p(c) - (0.42)*N =E= 0 ; (LHS = 0)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- e5  =E=  pris er numeraire
+
+e5..  w =E= 1 ; (LHS = 1)
+     
+
+---- e6  =E=  goodeq for det ene marked
+
+e6..  - Y(c) + C(L,c) + C(H,c) =E= 0 ; (LHS = 0)
+     
+
+---- e7  =E=  off sektor
+
+e7..  - (0.1)*Y(d) + (0)*w - (43)*p(d) + (1)*L_g =E= 0 ; (LHS = -43, INFES = 43 ****)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE simpelcge Using CNS From line 76
+
+
+---- Y  output
+
+Y(c)
+                (.LO, .L, .UP, .M = -INF, 570, +INF, 0)
+      (-1)      e1(c)
+       (1)      e2(c)
+       -1       e6
+
+Y(d)
+                (.LO, .L, .UP, .M = -INF, 430, +INF, 0)
+      (-1)      e1(d)
+       (0.9)    e2(d)
+      (-0.1)    e7
+
+
+---- L  arbejdskraft
+
+L(c)
+                (.LO, .L, .UP, .M = -INF, 570, +INF, 0)
+        1       e1(c)
+      (-1)      e2(c)
+        1       e3
+
+L(d)
+                (.LO, .L, .UP, .M = -INF, 430, +INF, 0)
+        1       e1(d)
+      (-1)      e2(d)
+        1       e3
+
+
+---- w  løn
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-570)      e2(c)
+    (-430)      e2(d)
+    (-150)      e4(L,c)
+    (-150)      e4(L,d)
+    (-420)      e4(H,c)
+    (-280)      e4(H,d)
+        1       e5
+       (0)      e7
+
+
+---- C  vareforbrug
+
+C(L,c)
+                (.LO, .L, .UP, .M = -INF, 150, +INF, 0)
+        1       e4(L,c)
+        1       e6
+
+C(L,d)
+                (.LO, .L, .UP, .M = -INF, 150, +INF, 0)
+        1       e4(L,d)
+
+C(H,c)
+                (.LO, .L, .UP, .M = -INF, 420, +INF, 0)
+        1       e4(H,c)
+        1       e6
+
+REMAINING ENTRY SKIPPED
+
+---- p  pris
+
+p(c)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (570)      e2(c)
+     (150)      e4(L,c)
+     (420)      e4(H,c)
+
+p(d)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (387)      e2(d)
+     (150)      e4(L,d)
+     (280)      e4(H,d)
+     (-43)      e7
+
+
+---- A  Teknologi
+
+A
+                (.LO, .L, .UP, .M = 1, 1, 1, 0)
+     (570)      e1(c)
+     (430)      e1(d)
+
+
+---- N  Befolkning
+
+N
+                (.LO, .L, .UP, .M = 1000, 1000, 1000, 0)
+       -1       e3
+      (-0.15)   e4(L,c)
+      (-0.15)   e4(L,d)
+      (-0.42)   e4(H,c)
+      (-0.28)   e4(H,d)
+
+
+---- L_g  
+
+L_g
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       e3
+       (1)      e7
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 8
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE simpelcge Using CNS From line 76
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           12
+BLOCKS OF VARIABLES           8     SINGLE VARIABLES           14
+NON ZERO ELEMENTS            42     NON LINEAR N-Z             28
+DERIVATIVE POOL              20     CONSTANT POOL              21
+CODE LENGTH                  74
+SINGLE =E|X= EQUS            12     SINGLE UNFIXED VARS        12
+
+
+GENERATION TIME      =        0.004 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:09:56 Page 9
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE simpelcge Using CNS From line 76
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   simpelcge           
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  76
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.001 10000000000.000
+ ITERATION COUNT, LIMIT        11    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  2
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.001 seconds
+   of which: Function evaluations             0.001 =100.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU e1  efterspørgsel efter arbejdskraft
+
+         LOWER          LEVEL          UPPER
+
+c          .              .              .          
+d          .              .              .          
+
+---- EQU e2  nul profit betingelse
+
+         LOWER          LEVEL          UPPER
+
+c          .              .              .          
+d          .       -3.869997E-8          .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e3                  .              .              .          
+
+  e3  ligevægt på arbejdsmarkedet
+
+---- EQU e4  privat forbrug
+
+           LOWER          LEVEL          UPPER
+
+L.c          .              .              .          
+L.d          .              .              .          
+H.c          .              .              .          
+H.d          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e5                 1.0000         1.0000         1.0000      
+---- EQU e6                  .              .              .          
+---- EQU e7                  .              .              .          
+
+  e5  pris er numeraire
+  e6  goodeq for det ene marked
+  e7  off sektor
+
+---- VAR Y  output
+
+         LOWER          LEVEL          UPPER
+
+c        -INF          570.0000        +INF         
+d        -INF          387.0000        +INF         
+
+---- VAR L  arbejdskraft
+
+         LOWER          LEVEL          UPPER
+
+c        -INF          570.0000        +INF         
+d        -INF          387.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+  w  løn
+
+---- VAR C  vareforbrug
+
+           LOWER          LEVEL          UPPER
+
+L.c        -INF          150.0000        +INF         
+L.d        -INF          135.0000        +INF         
+H.c        -INF          420.0000        +INF         
+H.d        -INF          252.0000        +INF         
+
+---- VAR p  pris
+
+         LOWER          LEVEL          UPPER
+
+c        -INF            1.0000        +INF         
+d        -INF            1.1111        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR A                  1.0000         1.0000         1.0000      
+---- VAR N               1000.0000      1000.0000      1000.0000      
+---- VAR L_g               -INF           43.0000        +INF         
+
+  A  Teknologi
+  N  Befolkning
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+                             1  PROJECTED
+
+
+EXECUTION TIME       =        0.097 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/model01_off.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/model01_off.lst

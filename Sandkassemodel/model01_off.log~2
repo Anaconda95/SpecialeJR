@@ -1,0 +1,83 @@
+--- Job model01_off.gms Start 03/10/21 16:57:46 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/model01_off.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/225a/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- model01_off.gms(76) 3 Mb
+--- Starting execution: elapsed 0:00:00.005
+--- model01_off.gms(45) 4 Mb
+--- Generating CNS model simpelcge
+--- model01_off.gms(72) 6 Mb
+---   12 rows  14 columns  40 non-zeroes
+---   69 nl-code  26 nl-non-zeroes
+--- model01_off.gms(72) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.010
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.7000000000E+02 (Input point)
+ 
+                   Pre-triangular equations:   2
+                   Post-triangular equations:  2
+ 
+      1   0        1.7000000000E+02 (After pre-processing)
+      2   0        6.6406250000E-01 (After scaling)
+      3            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model simpelcge
+--- Executing after solve: elapsed 0:00:00.049
+--- model01_off.gms(74) 4 Mb
+--- Generating CNS model simpelcge
+--- model01_off.gms(76) 6 Mb
+---   12 rows  14 columns  41 non-zeroes
+---   70 nl-code  26 nl-non-zeroes
+--- model01_off.gms(76) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.054
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        8.6000000000E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  2
+ 
+      1   0        8.6000000000E+01 (After pre-processing)
+      2   0        1.5117187500E+00 (After scaling)
+     10   0     0  7.1235156662E-10               1.0E+00      F  T
+     11            6.4759364538E-11
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model simpelcge
+*** Status: Normal completion
+--- Job model01_off.gms Stop 03/10/21 16:57:46 elapsed 0:00:00.097

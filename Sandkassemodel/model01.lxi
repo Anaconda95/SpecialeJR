@@ -1,0 +1,69 @@
+B 3 C o m p i l a t i o n
+B 88 Equation Listing    SOLVE simpelcge Using CNS From line 73
+D 91 e1
+D 98 e2
+D 105 e3
+D 110 e4
+D 121 e5
+D 126 e6
+D 131 e7
+B 137 Column Listing      SOLVE simpelcge Using CNS From line 73
+E 140 Y
+E 154 L
+E 169 w
+E 182 C
+E 200 p
+E 215 A
+E 223 N
+E 234 Lump
+B 246 Model Statistics    SOLVE simpelcge Using CNS From line 73
+B 262 Solution Report     SOLVE simpelcge Using CNS From line 73
+F 298 e1
+F 305 e2
+F 314 e3
+F 318 e4
+F 329 e5
+F 330 e6
+F 331 e7
+G 337 Y
+G 344 L
+G 353 w
+G 357 C
+G 366 p
+G 375 A
+G 376 N
+G 377 Lump
+B 389 Equation Listing    SOLVE simpelcge Using CNS From line 77
+D 392 e1
+D 399 e2
+D 406 e3
+D 411 e4
+D 422 e5
+D 427 e6
+D 432 e7
+B 438 Column Listing      SOLVE simpelcge Using CNS From line 77
+E 441 Y
+E 456 L
+E 471 w
+E 484 C
+E 502 p
+E 517 A
+E 525 N
+E 536 Lump
+B 548 Model Statistics    SOLVE simpelcge Using CNS From line 77
+B 564 Solution Report     SOLVE simpelcge Using CNS From line 77
+F 600 e1
+F 607 e2
+F 616 e3
+F 620 e4
+F 631 e5
+F 632 e6
+F 633 e7
+G 639 Y
+G 646 L
+G 655 w
+G 659 C
+G 668 p
+G 677 A
+G 678 N
+G 679 Lump
