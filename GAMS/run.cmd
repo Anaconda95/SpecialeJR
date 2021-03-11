@@ -18,7 +18,10 @@ IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 rem %gamY%  lille_model.gms r=Saved\settings_AM s=Saved\lille_model
 rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
-%gamY%  lille_model2.gms r=Saved\settings_AM s=Saved\lille_model2
+%gamY%  lille_model_off.gms r=Saved\settings_AM s=Saved\lille_model_off
+IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
+
+%gamY%  gdxmerge.gms r=Saved\lille_model_off s=Saved\gdxmerge
 IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
 :pathsNotFound
