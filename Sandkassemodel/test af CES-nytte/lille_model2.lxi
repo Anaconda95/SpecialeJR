@@ -1,0 +1,104 @@
+B 3 C o m p i l a t i o n
+B 182 Equation Listing    SOLVE lille_model2 Using CNS From line 133
+D 185 e1
+D 192 e2
+D 199 e4
+D 210 e5
+D 217 e6
+D 224 e7
+D 229 e8
+B 235 Column Listing      SOLVE lille_model2 Using CNS From line 133
+E 238 L
+E 251 w
+E 266 Y
+E 281 p
+E 300 p_C
+E 313 N
+E 325 X
+E 347 G
+B 361 Model Statistics    SOLVE lille_model2 Using CNS From line 133
+B 377 Solution Report     SOLVE lille_model2 Using CNS From line 133
+F 413 e1
+F 420 e2
+F 427 e4
+F 436 e5
+F 443 e6
+F 452 e7
+F 453 e8
+G 455 L
+G 464 w
+G 466 Y
+G 473 p
+G 480 p_C
+G 489 N
+G 491 X
+G 502 G
+B 512 Equation Listing    SOLVE lille_model2 Using CNS From line 147
+D 515 e1
+D 522 e2
+D 529 e4
+D 540 e5
+D 547 e6
+D 554 e7
+D 559 e8
+B 565 Column Listing      SOLVE lille_model2 Using CNS From line 147
+E 568 L
+E 581 w
+E 596 Y
+E 611 p
+E 630 p_C
+E 643 N
+E 655 X
+E 677 G
+B 691 Model Statistics    SOLVE lille_model2 Using CNS From line 147
+B 707 Solution Report     SOLVE lille_model2 Using CNS From line 147
+F 743 e1
+F 750 e2
+F 757 e4
+F 766 e5
+F 773 e6
+F 782 e7
+F 783 e8
+G 785 L
+G 794 w
+G 796 Y
+G 803 p
+G 810 p_C
+G 819 N
+G 821 X
+G 832 G
+B 842 Equation Listing    SOLVE lille_model2 Using CNS From line 161
+D 845 e1
+D 852 e2
+D 859 e4
+D 870 e5
+D 877 e6
+D 884 e7
+D 889 e8
+B 895 Column Listing      SOLVE lille_model2 Using CNS From line 161
+E 898 L
+E 911 w
+E 926 Y
+E 941 p
+E 960 p_C
+E 973 N
+E 985 X
+E 1009 G
+B 1023 Model Statistics    SOLVE lille_model2 Using CNS From line 161
+B 1039 Solution Report     SOLVE lille_model2 Using CNS From line 161
+F 1075 e1
+F 1082 e2
+F 1089 e4
+F 1098 e5
+F 1105 e6
+F 1114 e7
+F 1115 e8
+G 1117 L
+G 1126 w
+G 1128 Y
+G 1135 p
+G 1142 p_C
+G 1151 N
+G 1153 X
+G 1164 G
+B 1175 E x e c u t i o n

@@ -1,0 +1,119 @@
+--- Job lille_model2.gms Start 03/11/21 10:16:41 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/test af CES-nytte/lille_model2.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/test af CES-nytte/225a/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- lille_model2.gms(171) 3 Mb
+--- Starting execution: elapsed 0:00:00.017
+--- lille_model2.gms(131) 4 Mb
+--- Generating CNS model lille_model2
+--- lille_model2.gms(133) 6 Mb
+---   14 rows  15 columns  58 non-zeroes
+---   104 nl-code  40 nl-non-zeroes
+--- lille_model2.gms(133) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.026
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        0.0000000000E+00 (Input point)
+ 
+                   Pre-triangular equations:   2
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model lille_model2
+--- Executing after solve: elapsed 0:00:00.107
+--- lille_model2.gms(141) 4 Mb
+--- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/test af CES-nytte/Output\lille_model2_basis.gdx
+--- lille_model2.gms(145) 4 Mb
+--- Generating CNS model lille_model2
+--- lille_model2.gms(147) 6 Mb
+---   14 rows  15 columns  58 non-zeroes
+---   104 nl-code  40 nl-non-zeroes
+--- lille_model2.gms(147) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.119
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.0000000000E+02 (Input point)
+ 
+                   Pre-triangular equations:   2
+                   Post-triangular equations:  0
+ 
+      1   0        4.0000000000E+02 (After pre-processing)
+      2   0        1.1601562500E+00 (After scaling)
+      3            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model lille_model2
+--- Executing after solve: elapsed 0:00:00.165
+--- lille_model2.gms(155) 4 Mb
+--- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/test af CES-nytte/Output\lille_model2_homo.gdx
+--- lille_model2.gms(159) 4 Mb
+--- Generating CNS model lille_model2
+--- lille_model2.gms(161) 6 Mb
+---   14 rows  15 columns  60 non-zeroes
+---   108 nl-code  40 nl-non-zeroes
+--- lille_model2.gms(161) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.168
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.4509887828E+02 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  0
+ 
+      1   0        5.4509887828E+02 (After pre-processing)
+      2   0        4.6958783750E+00 (After scaling)
+      7            8.1297446552E-10
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model lille_model2
+--- Executing after solve: elapsed 0:00:00.208
+--- lille_model2.gms(171) 4 Mb
+--- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/test af CES-nytte/Output\lille_model2_tau01.gdx
+*** Status: Normal completion
+--- Job lille_model2.gms Stop 03/11/21 10:16:41 elapsed 0:00:00.209
