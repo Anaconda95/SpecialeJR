@@ -1,21 +1,16 @@
-############# Lille model ###############
-
-
-#  Vi vil gerne have en model med:
-#  To husholdninger med forskellige produktiviteter
-#  To virksomheder, en clean og en dirty, der bruger husholdningernes arbejdskraft som input
-#  Husholdningerne køber begge varer med CES præferencer
-#  En offentlig sektor, der beskatter dirty og smider provenuet ud 
+********** Lille model med offentlig sektor (dvs ingen omfordeling) *************
 
 
 
-# sets
+* sets
+* Husholdninger 
 set HH /"L","H"/;
 
+* Firmaer
 set F /"D","C"/;
 
 
-# Vars 
+*Variable
 variables
 L(F) 
 w
@@ -41,19 +36,16 @@ p_G
 ;
 
 parameters
-mu(HH,F)
 gamma(F,HH)
-E
-E_x(HH)
-rho(HH)  "produktivitets-parameter"
-tau(f) 
+E_x(HH)  "Forbrugselasticitet"
+rho(HH)  "produktivitets-parameter for HH"
+tau(f)   "Forbrugsskat"
 ;
 
 equations
 e1
 e11
 e2
-e22
 e3
 e4
 e5
@@ -63,43 +55,44 @@ e8
 ;
 
 
-#Virksomehdernes efterspørgsel
+*Virksomehdernes efterspørgsel
 e1(F)..       L(F) =e= Y(F);
 
 e11..         L_G =e= Y_G;
 
 
-#Nukprofit for hver virksomhed
+*Nukprofit for hver virksomhed
 e2(F)..       w*L(F) =e= p(F)*Y(F);
 
 
-#Arbejdsmarked
+*Arbejdsmarked
 e3..          sum(F,L(F))+L_G =e= sum(HH,rho(HH)*N);
 
 
-# Privat efterspørgsel
+* Privat efterspørgsel
 e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C(hh))**(-E_x(HH))*((w*rho(HH)*N)/p_C(hh));
 
 
-# Budget restriktion
+* Budget restriktion
 e5(HH)..      sum((f), (1+tau(F))*p(F)*X(HH,F)) =e= w*rho(HH)*N;
 
-# Varermarkedsligevægt
+* Varermarkedsligevægt (udeladt ligevægt for clean good)
 e6('D')..       sum(HH,X(HH,'D')) =e= Y('D');
 
-# prisen er numeraire
+* prisen er numeraire
 e7..          w =e= 1;
 
-e8..          Y_G =e= sum(HH, tau('D')*X(HH,'D'));
+* Off sektor
+e8..          w*L_G =e= sum(HH, tau('D')*X(HH,'D'));
 
 Model lille_model_off /e1,e11,e2, e3, e4, e5, e6, e7, e8/;
 
 
 
-####### Kalibrering ########
+********** Kalibrering *********
 
-E_x('L') = 2;
-E_x('H') = 0.5;
+E_x('L') = 0.1;
+E_x('H') = 2.5;
 
 rho('L') = 0.3;
 rho('H') = 0.7;
@@ -118,8 +111,8 @@ p.l(F) = 1;
 
 N.fx = 1000;
 
-X.l('L','D') = Y.l('D')*0.4;
-X.l('H','D') = Y.l('D')*0.6;
+X.l('L','D') = Y.l('D')*0.5;
+X.l('H','D') = Y.l('D')*0.5;
 
 X.l(HH,'C') = w.l*rho(HH)*N.l-X.l(HH,'D');
 
@@ -140,10 +133,7 @@ N_0.fx = N.l;
 
 
 
-EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh));
-EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l;
-EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
-
+* Løser nulstød
 solve lille_model_off using cns;
 
 X_total.l(F) = sum(HH,X.l(HH,F));
@@ -151,11 +141,13 @@ X_total.l(F) = sum(HH,X.l(HH,F));
 EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh));
 EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l;
 EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ev_pct.l(hh) = EV.l(hh)/(rho(hh)*N.l*w.l);
+ev_p_pct.l(hh) = Ev_p.l(hh)/(rho(hh)*N.l*w.l);
 
 execute_unload 'Output\lille_model_off_basis';
 
 
-########## stød ############
+************* Stød: tau = 0.1 **********
 tau('D')=0.1;
 tau('C')=0;
 
@@ -169,4 +161,4 @@ EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
 ev_pct.l(hh) = EV.l(hh)/(rho(hh)*N.l*w.l);
 ev_p_pct.l(hh) = Ev_p.l(hh)/(rho(hh)*N.l*w.l);
 
-execute_unload 'Output\lille_model2_off_tau01';
+execute_unload 'Output\lille_model_off_tau01';
