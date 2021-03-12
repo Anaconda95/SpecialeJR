@@ -1,0 +1,226 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:12:02 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  ############# Lille model ###############
+****  $409                      $2
+****   2  Identifier expected
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+   2   
+   3   
+   4  #  Vi vil gerne have en model med:
+   5  #  To husholdninger med forskellige produktiviteter
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+   6  #  To virksomheder, en clean og en dirty, der bruger husholdningernes arbejdskraft som input
+   7  #  Husholdningerne køber begge varer med CES præferencer
+   8  #  En offentlig sektor, der beskatter dirty og smider provenuet ud
+   9   
+  10   
+  11   
+  12  # sets
+  13  set HH /"L","H"/;
+****    $2
+****   2  Identifier expected
+  14   
+  15  set F /"D","C"/;
+  16   
+  17   
+  18  # Vars
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  19  variables
+  20  L(F)
+  21  w
+  22  Y(F)
+  23  p(F)
+  24  p_C
+  25  N
+  26  X(HH,F)
+  27  G  "Offentlig produktions"
+  28  ;
+  29   
+  30  parameters
+  31  mu(HH,F)
+  32  gamma(F,HH)
+  33  E
+  34  E_x(HH)
+  35  rho(HH)  "produktivitets-parameter"
+  36  tau(f)
+  37  ;
+  38   
+  39  equations
+  40  e1
+  41  e2
+  42  e3
+  43  e4
+  44  e5
+  45  e6
+  46  e7
+  47  ;
+  48   
+  49   
+  50  #Virksomehdernes efterspørgsel
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  51  e1(F)..       L(F) =e= Y(F);
+  52   
+  53   
+  54  #Nukprofit for hver virksomhed
+****  $409              $7,140     $36
+****   7  '(' expected
+****  36  '=' or '..' or ':=' or '$=' operator expected
+****      rest of statement ignored
+**** 140  Unknown symbol
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  55  e2(F)..       w*L(F) =e= p(F)*Y(F);
+****                $143,141,143,141,149,2,441,148,143,300
+****   2  Identifier expected
+****   8  ')' expected
+****  10  ',' expected
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+**** 143  A suffix is missing
+**** 148  Dimension different - The symbol is referenced with more/less
+****         indices as declared
+**** 149  Uncontrolled set entered as constant
+**** 300  Remaining errors not printed for this line
+**** 441  Expected TO or DOWNTO. The general syntax of a FOR statement is
+****        FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+**** 442  Expected a ',' or BY. The general syntax of a FOR statement is
+****        FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+  56   
+  57  #Arbejdsmarked
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  58  e3..          sum(F,L(F)) =e= sum(HH,N*rho(HH));
+  59   
+  60   
+  61  # Privat efterspørgsel
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  62  e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C)**(-E_x(HH))*(w*rho(HH)*N/p_C);
+  63   
+  64  # Budget restriktion
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  65  e5..      sum((HH,f), (1+tau(F))*p(F)*X(HH,F)) =e= sum(HH,w*rho(HH)*N);
+  66   
+  67  # Varermarkedsligevægt
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  68  e6(F)..       sum((HH), X(HH,F)) =e= Y(F);
+  69   
+  70  # prisen er numeraire
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  71  e7..          w =e= 1;
+  72   
+  73   
+  74  Model lille_model2 /e1,e2, e6, e4, e5, e7/;
+  75   
+  76   
+  77   
+  78  ####### Kalibrering ########
+****  $409
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+  79   
+  80  E_x(HH) = 0.5;
+  81   
+  82  rho('L') = 0.3;
+  83  rho('H') = 0.7;
+  84   
+  85  w.l = 1;
+  86   
+  87  Y.l('D') = 400;
+  88  Y.l('C') = 600;
+  89   
+  90  L.l(F) = Y.l(F);
+  91   
+  92   
+  93  p_C.l = 1;
+  94   
+  95  p.l(F) = 1;
+  96   
+  97  N.fx = 1000;
+  98   
+  99  X.l('L','D') = Y.l('D')*0.5;
+ 100  X.l('H','D') = Y.l('D')*0.5;
+ 101   
+ 102  X.l(HH,'C') = w.l*rho(HH)*N.l-X.l(HH,'D');
+ 103   
+ 104  gamma(F,HH) = X.l(HH,F)/(rho(HH)*N.l);
+ 105   
+ 106  tau('D')=0;
+ 107  tau('C')=0;
+ 108   
+ 109   
+ 110  solve lille_model2 using cns;
+****                              $257
+**** 257  Solve statement not checked because of previous errors
+ 111   
+ 112   
+ 113  execute_unload 'Output\lille_model2_basis';
+ 114   
+ 115  tau('D')=0.1;
+ 116  tau('C')=0;
+ 117   
+ 118  solve lille_model2 using cns;
+****                              $257
+**** 257  Solve statement not checked because of previous errors
+ 119   
+ 120  execute_unload 'Output\lille_model2_tau01';
+ 121   
+ 122   
+ 123   # Evt kør dette efter modellen er løst for at være sikker på at få de nyeste tal med
+****   $409                                          $7,140,36
+****   7  '(' expected
+****  36  '=' or '..' or ':=' or '$=' operator expected
+****      rest of statement ignored
+**** 140  Unknown symbol
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+ 125  #$call gdx2xls Output\lille_model_stod.gdx
+****  $36,119,2,441,2,119,442,10,8,299  UNEXPECTED END OF FILE (1)
+
+**** 49 ERROR(S)   0 WARNING(S)
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:12:02 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+     2      124 CALL           1     124  GDXmerge o=Output\lille_model2_stod.gdx i=Output\lille_model2_basis.gdx Output\lille_model2_tau01.gdx id=X,p,p_C,Y,tau,L,w,E_x
+
+
+COMPILATION TIME     =        0.090 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.lst
+
+**** USER ERROR(S) ENCOUNTERED

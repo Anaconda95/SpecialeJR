@@ -1,0 +1,165 @@
+--- Job lille_model2.gms Start 03/11/21 10:12:02 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/225a/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- lille_model2.gms(1) 2 Mb 2 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+*** Error   2 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Identifier expected
+--- lille_model2.gms(5) 2 Mb 3 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(13) 3 Mb 4 Errors
+*** Error   2 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Identifier expected
+--- lille_model2.gms(18) 3 Mb 5 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(50) 3 Mb 6 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(54) 3 Mb 10 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+*** Error   7 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    '(' expected
+*** Error 140 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unknown symbol
+*** Error  36 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+--- lille_model2.gms(55) 3 Mb 26 Errors
+*** Error 143 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    A suffix is missing
+*** Error 141 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 143 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    A suffix is missing
+*** Error 141 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 149 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Uncontrolled set entered as constant
+*** Error   2 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Identifier expected
+*** Error 441 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error 148 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error 143 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    A suffix is missing
+*** Error 300 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Remaining errors not printed for this line
+--- lille_model2.gms(57) 3 Mb 27 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(61) 3 Mb 28 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(64) 3 Mb 29 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(67) 3 Mb 30 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(70) 3 Mb 31 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(78) 3 Mb 32 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- lille_model2.gms(110) 3 Mb 33 Errors
+*** Error 257 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Solve statement not checked because of previous errors
+--- lille_model2.gms(118) 3 Mb 34 Errors
+*** Error 257 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Solve statement not checked because of previous errors
+--- lille_model2.gms(123) 3 Mb 38 Errors
+*** Error 409 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+*** Error   7 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    '(' expected
+*** Error 140 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Unknown symbol
+*** Error  36 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+--- lille_model2.gms(124) 3 Mb
+--- call GDXmerge o=Output\lille_model2_stod.gdx i=Output\lille_model2_basis.gdx Output\lille_model2_tau01.gdx id=X,p,p_C,Y,tau,L,w,E_x
+Include Id: X
+Include Id: p
+Include Id: p_C
+Include Id: Y
+Include Id: tau
+Include Id: L
+Include Id: w
+Include Id: E_x
+Output file: Outputlille_model2_stod.gdx
+"i" is no valid pattern for an existing input file name, skipped it as input
+"Outputlille_model2_basis.gdx" is no valid pattern for an existing input file name, skipped it as input
+"Outputlille_model2_tau01.gdx" is no valid pattern for an existing input file name, skipped it as input
+No valid input files specified
+--- lille_model2.gms(125) 3 Mb 49 Errors
+*** Error  36 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+*** Error 119 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Number (primary) expected
+*** Error   2 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Identifier expected
+*** Error 441 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Expected TO or DOWNTO. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error   2 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Identifier expected
+*** Error 119 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Number (primary) expected
+*** Error 442 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Expected a ',' or BY. The general syntax of a FOR statement is
+      FOR ( i = start TO/DOWNTO end [BY increment] , statements )
+*** Error  10 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    ',' expected
+*** Error   8 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    ')' expected
+*** Error 300 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/lille_model2.gms
+    Remaining errors not printed for this line
+--- lille_model2.gms(125) 3 Mb 49 Errors
+*** Status: Compilation error(s)
+--- Job lille_model2.gms Stop 03/11/21 10:12:02 elapsed 0:00:00.101

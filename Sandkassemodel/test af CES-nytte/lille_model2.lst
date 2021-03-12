@@ -1,0 +1,1189 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  *############# Lille model ###############
+   2   
+   3   
+   4  *#  Vi vil gerne have en model med:
+   5  *#  To husholdninger med forskellige produktiviteter
+   6  *#  To virksomheder, en clean og en dirty, der bruger husholdningernes arbejdskraft som input
+   7  *#  Husholdningerne køber begge varer med CES præferencer
+   8  *#  En offentlig sektor, der beskatter dirty og smider provenuet ud
+   9   
+  10   
+  11   
+  12  *# sets
+  13  set HH /"L","H"/;
+  14  set F /"D","C"/;
+  15   
+  16  *# Vars
+  17  variables
+  18  L(F)
+  19  w
+  20  Y(F)
+  21  p(F)
+  22  p_C(hh)
+  23  N
+  24  X(HH,F)
+  25  G  "Offentlig produktions"
+  26  X_total(F)
+  27  EV(hh)
+  28  EV_p(hh)
+  29  EV_I(hh)
+  30  p_C_0(hh)
+  31  w_0
+  32  N_0
+  33  lumpsum(hh)
+  34  EV_pct(hh)
+  35  EV_p_pct(hh)
+  36  ;
+  37   
+  38  parameters
+  39  mu(HH,F)
+  40  gamma(F,HH)
+  41  E
+  42  E_x(HH)
+  43  rho(HH)  "produktivitets-parameter"
+  44  tau(f)
+  45  ;
+  46   
+  47  equations
+  48  e1
+  49  e2
+  50  e3
+  51  e4
+  52  e5
+  53  e6
+  54  e7
+  55  e8
+  56  ;
+  57   
+  58   
+  59  *#Virksomehdernes efterspørgsel
+  60  e1(F)..       L(F) =e= Y(F);
+  61   
+  62   
+  63  *#Nukprofit for hver virksomhed
+  64  e2(F)..       w*L(F) =e= p(F)*Y(F);
+  65   
+  66  *#Arbejdsmarked
+  67  e3..          sum(F,L(F)) =e= sum(HH,rho(HH)*N);
+  68   
+  69   
+  70  *# Privat efterspørgsel
+  71  e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C(hh))**(-E_x(HH))*((w*rho(HH)*N+G/card(hh))/p_C(hh));
+  72   
+  73   
+  74  *# Budget restriktion
+  75  e5(HH)..      sum((f), (1+tau(F))*p(F)*X(HH,F)) =e= w*rho(HH)*N+G/card(hh);
+  76   
+  77  *# Varermarkedsligevægt
+  78  e6(F)..       sum(HH,X(HH,F)) =e= Y(F);
+  79   
+  80  *# prisen er numeraire
+  81  e7..          w =e= 1;
+  82   
+  83  e8..          G =e= sum(HH, tau('D')*X(HH,'D'));
+  84   
+  85  Model lille_model2 /e1,e2, e4, e5, e6, e7, e8/;
+  86   
+  87   
+  88   
+  89  *####### Kalibrering ########
+  90   
+  91  E_x('L') = 0.5;
+  92  E_x('H') = 2;
+  93   
+  94  rho('L') = 0.3;
+  95  rho('H') = 0.7;
+  96   
+  97  w.l = 1;
+  98   
+  99  Y.l('D') = 400;
+ 100  Y.l('C') = 600;
+ 101   
+ 102  L.l(F) = Y.l(F);
+ 103   
+ 104   
+ 105  p_C.l(hh) = 1;
+ 106   
+ 107  p.l(F) = 1;
+ 108   
+ 109  N.fx = 1000;
+ 110   
+ 111  X.l('L','D') = Y.l('D')*0.4;
+ 112  X.l('H','D') = Y.l('D')*0.6;
+ 113   
+ 114  X.l(HH,'C') = w.l*rho(HH)*N.l-X.l(HH,'D');
+ 115   
+ 116  gamma(F,HH) = X.l(HH,F)/(rho(HH)*N.l);
+ 117   
+ 118  tau('D')=0;
+ 119  tau('C')=0;
+ 120   
+ 121  G.l = tau('D')*sum(HH,X.l(HH,'D'));
+ 122   
+ 123  p_c_0.fx(hh) = p_c.l(hh);
+ 124  w_0.fx = w.l;
+ 125  N_0.fx = N.l;
+ 126   
+ 127   
+ 128  lumpsum.l(hh) = G.l/card(hh);
+ 129  EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh)+lumpsum.l(hh));
+ 130  EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l+lumpsum.l(hh);
+ 131  EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 132   
+ 133  solve lille_model2 using cns;
+ 134   
+ 135  X_total.l(F) = sum(HH,X.l(HH,F));
+ 136  lumpsum.l(hh) = G.l/card(hh);
+ 137  EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh)+lumpsum.l(hh));
+ 138  EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l+lumpsum.l(hh);
+ 139  EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 140   
+ 141  execute_unload 'Output\lille_model2_basis';
+ 142   
+ 143   
+ 144  *#homogenitetsstød
+ 145  N.fx=1200;
+ 146   
+ 147  solve lille_model2 using cns;
+ 148   
+ 149  X_total.l(F) = sum(HH,X.l(HH,F));
+ 150  lumpsum.l(hh) = G.l/card(hh);
+ 151  EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh)+lumpsum.l(hh));
+ 152  EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l+lumpsum.l(hh);
+ 153  EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 154   
+ 155  execute_unload 'Output\lille_model2_homo';
+ 156   
+ 157  N.fx=1000;
+ 158  tau('D')=0.1;
+ 159  tau('C')=0;
+ 160   
+ 161  solve lille_model2 using cns;
+ 162   
+ 163  X_total.l(F) = sum(HH,X.l(HH,F));
+ 164  lumpsum.l(hh) = G.l/card(hh);
+ 165  EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh)+lumpsum.l(hh));
+ 166  EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l+lumpsum.l(hh);
+ 167  EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 168  ev_pct.l(hh) = EV.l(hh)/(rho(hh)*N.l*w.l);
+ 169  ev_p_pct.l(hh) = Ev_p.l(hh)/(rho(hh)*N.l*w.l);
+ 170   
+ 171  execute_unload 'Output\lille_model2_tau01';
+
+
+COMPILATION TIME     =        0.001 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE lille_model2 Using CNS From line 133
+
+
+---- e1  =E=  
+
+e1(D)..  L(D) - Y(D) =E= 0 ; (LHS = 0)
+     
+e1(C)..  L(C) - Y(C) =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  
+
+e2(D)..  (1)*L(D) + (400)*w - (1)*Y(D) - (400)*p(D) =E= 0 ; (LHS = 0)
+     
+e2(C)..  (1)*L(C) + (600)*w - (1)*Y(C) - (600)*p(C) =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  
+
+e4(L,D)..  - (160)*w + (80)*p(D) + (80)*p_C(L) - (0.16)*N + X(L,D) - (0.266666666666667)*G =E= 0 ; (LHS = 0)
+     
+e4(L,C)..  - (140)*w + (70)*p(C) + (70)*p_C(L) - (0.14)*N + X(L,C) - (0.233333333333333)*G =E= 0 ; (LHS = 0)
+     
+e4(H,D)..  - (240)*w + (480)*p(D) - (240)*p_C(H) - (0.24)*N + X(H,D) - (0.171428571428571)*G =E= 0 ; (LHS = 0)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- e5  =E=  
+
+e5(L)..  - (300)*w + (160)*p(D) + (140)*p(C) - (0.3)*N + (1)*X(L,D) + (1)*X(L,C) - 0.5*G =E= 0 ; (LHS = 0)
+     
+e5(H)..  - (700)*w + (240)*p(D) + (460)*p(C) - (0.7)*N + (1)*X(H,D) + (1)*X(H,C) - 0.5*G =E= 0 ; (LHS = 0)
+     
+
+---- e6  =E=  
+
+e6(D)..  - Y(D) + X(L,D) + X(H,D) =E= 0 ; (LHS = 0)
+     
+e6(C)..  - Y(C) + X(L,C) + X(H,C) =E= 0 ; (LHS = 0)
+     
+
+---- e7  =E=  
+
+e7..  w =E= 1 ; (LHS = 1)
+     
+
+---- e8  =E=  
+
+e8..  G =E= 0 ; (LHS = 0)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE lille_model2 Using CNS From line 133
+
+
+---- L  
+
+L(D)
+                (.LO, .L, .UP, .M = -INF, 400, +INF, 0)
+        1       e1(D)
+       (1)      e2(D)
+
+L(C)
+                (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
+        1       e1(C)
+       (1)      e2(C)
+
+
+---- w  
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (400)      e2(D)
+     (600)      e2(C)
+    (-160)      e4(L,D)
+    (-140)      e4(L,C)
+    (-240)      e4(H,D)
+    (-460)      e4(H,C)
+    (-300)      e5(L)
+    (-700)      e5(H)
+        1       e7
+
+
+---- Y  
+
+Y(D)
+                (.LO, .L, .UP, .M = -INF, 400, +INF, 0)
+       -1       e1(D)
+      (-1)      e2(D)
+       -1       e6(D)
+
+Y(C)
+                (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
+       -1       e1(C)
+      (-1)      e2(C)
+       -1       e6(C)
+
+
+---- p  
+
+p(D)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-400)      e2(D)
+      (80)      e4(L,D)
+     (480)      e4(H,D)
+     (160)      e5(L)
+     (240)      e5(H)
+
+p(C)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-600)      e2(C)
+      (70)      e4(L,C)
+     (920)      e4(H,C)
+     (140)      e5(L)
+     (460)      e5(H)
+
+
+---- p_C  
+
+p_C(L)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (80)      e4(L,D)
+      (70)      e4(L,C)
+
+p_C(H)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-240)      e4(H,D)
+    (-460)      e4(H,C)
+
+
+---- N  
+
+N
+                (.LO, .L, .UP, .M = 1000, 1000, 1000, 0)
+      (-0.16)   e4(L,D)
+      (-0.14)   e4(L,C)
+      (-0.24)   e4(H,D)
+      (-0.46)   e4(H,C)
+      (-0.3)    e5(L)
+      (-0.7)    e5(H)
+
+
+---- X  
+
+X(L,D)
+                (.LO, .L, .UP, .M = -INF, 160, +INF, 0)
+        1       e4(L,D)
+       (1)      e5(L)
+        1       e6(D)
+
+X(L,C)
+                (.LO, .L, .UP, .M = -INF, 140, +INF, 0)
+        1       e4(L,C)
+       (1)      e5(L)
+        1       e6(C)
+
+X(H,D)
+                (.LO, .L, .UP, .M = -INF, 240, +INF, 0)
+        1       e4(H,D)
+       (1)      e5(H)
+        1       e6(D)
+
+REMAINING ENTRY SKIPPED
+
+---- G  Offentlig produktions
+
+G
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+      (-0.2667) e4(L,D)
+      (-0.2333) e4(L,C)
+      (-0.1714) e4(H,D)
+      (-0.3286) e4(H,C)
+       -0.5     e5(L)
+       -0.5     e5(H)
+        1       e8
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE lille_model2 Using CNS From line 133
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           14
+BLOCKS OF VARIABLES           8     SINGLE VARIABLES           15
+NON ZERO ELEMENTS            58     NON LINEAR N-Z             40
+DERIVATIVE POOL              20     CONSTANT POOL              24
+CODE LENGTH                 104
+SINGLE =E|X= EQUS            14     SINGLE UNFIXED VARS        14
+
+
+GENERATION TIME      =        0.003 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE lille_model2 Using CNS From line 133
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   lille_model2        
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  133
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.001 10000000000.000
+ ITERATION COUNT, LIMIT         2    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   2
+                   Post-triangular equations:  0
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.001 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU e1  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+---- EQU e2  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+---- EQU e4  
+
+           LOWER          LEVEL          UPPER
+
+L.D          .              .              .          
+L.C          .              .              .          
+H.D          .              .              .          
+H.C          .              .              .          
+
+---- EQU e5  
+
+         LOWER          LEVEL          UPPER
+
+L          .              .              .          
+H          .              .              .          
+
+---- EQU e6  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e7                 1.0000         1.0000         1.0000      
+---- EQU e8                  .              .              .          
+
+---- VAR L  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          400.0000        +INF         
+C        -INF          600.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+---- VAR Y  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          400.0000        +INF         
+C        -INF          600.0000        +INF         
+
+---- VAR p  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF            1.0000        +INF         
+C        -INF            1.0000        +INF         
+
+---- VAR p_C  
+
+         LOWER          LEVEL          UPPER
+
+L        -INF            1.0000        +INF         
+H        -INF            1.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR N               1000.0000      1000.0000      1000.0000      
+
+---- VAR X  
+
+           LOWER          LEVEL          UPPER
+
+L.D        -INF          160.0000        +INF         
+L.C        -INF          140.0000        +INF         
+H.D        -INF          240.0000        +INF         
+H.C        -INF          460.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR G                 -INF             .            +INF         
+
+  G  Offentlig produktions
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE lille_model2 Using CNS From line 147
+
+
+---- e1  =E=  
+
+e1(D)..  L(D) - Y(D) =E= 0 ; (LHS = 0)
+     
+e1(C)..  L(C) - Y(C) =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  
+
+e2(D)..  (1)*L(D) + (400)*w - (1)*Y(D) - (400)*p(D) =E= 0 ; (LHS = 0)
+     
+e2(C)..  (1)*L(C) + (600)*w - (1)*Y(C) - (600)*p(C) =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  
+
+e4(L,D)..  - (192)*w + (96)*p(D) + (96)*p_C(L) - (0.16)*N + X(L,D) - (0.266666666666667)*G =E= 0 ; (LHS = -32, INFES = 32 ****)
+     
+e4(L,C)..  - (168)*w + (84)*p(C) + (84)*p_C(L) - (0.14)*N + X(L,C) - (0.233333333333333)*G =E= 0 ; (LHS = -28, INFES = 28 ****)
+     
+e4(H,D)..  - (288)*w + (576)*p(D) - (288)*p_C(H) - (0.24)*N + X(H,D) - (0.171428571428571)*G =E= 0 ; (LHS = -48, INFES = 48 ****)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- e5  =E=  
+
+e5(L)..  - (360)*w + (160)*p(D) + (140)*p(C) - (0.3)*N + (1)*X(L,D) + (1)*X(L,C) - 0.5*G =E= 0 ; (LHS = -60, INFES = 60 ****)
+     
+e5(H)..  - (840)*w + (240)*p(D) + (460)*p(C) - (0.7)*N + (1)*X(H,D) + (1)*X(H,C) - 0.5*G =E= 0 ; (LHS = -140, INFES = 140 ****)
+     
+
+---- e6  =E=  
+
+e6(D)..  - Y(D) + X(L,D) + X(H,D) =E= 0 ; (LHS = 0)
+     
+e6(C)..  - Y(C) + X(L,C) + X(H,C) =E= 0 ; (LHS = 0)
+     
+
+---- e7  =E=  
+
+e7..  w =E= 1 ; (LHS = 1)
+     
+
+---- e8  =E=  
+
+e8..  G =E= 0 ; (LHS = 0)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE lille_model2 Using CNS From line 147
+
+
+---- L  
+
+L(D)
+                (.LO, .L, .UP, .M = -INF, 400, +INF, 0)
+        1       e1(D)
+       (1)      e2(D)
+
+L(C)
+                (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
+        1       e1(C)
+       (1)      e2(C)
+
+
+---- w  
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (400)      e2(D)
+     (600)      e2(C)
+    (-192)      e4(L,D)
+    (-168)      e4(L,C)
+    (-288)      e4(H,D)
+    (-552)      e4(H,C)
+    (-360)      e5(L)
+    (-840)      e5(H)
+        1       e7
+
+
+---- Y  
+
+Y(D)
+                (.LO, .L, .UP, .M = -INF, 400, +INF, 0)
+       -1       e1(D)
+      (-1)      e2(D)
+       -1       e6(D)
+
+Y(C)
+                (.LO, .L, .UP, .M = -INF, 600, +INF, 0)
+       -1       e1(C)
+      (-1)      e2(C)
+       -1       e6(C)
+
+
+---- p  
+
+p(D)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-400)      e2(D)
+      (96)      e4(L,D)
+     (576)      e4(H,D)
+     (160)      e5(L)
+     (240)      e5(H)
+
+p(C)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-600)      e2(C)
+      (84)      e4(L,C)
+    (1104)      e4(H,C)
+     (140)      e5(L)
+     (460)      e5(H)
+
+
+---- p_C  
+
+p_C(L)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (96)      e4(L,D)
+      (84)      e4(L,C)
+
+p_C(H)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-288)      e4(H,D)
+    (-552)      e4(H,C)
+
+
+---- N  
+
+N
+                (.LO, .L, .UP, .M = 1200, 1200, 1200, 0)
+      (-0.16)   e4(L,D)
+      (-0.14)   e4(L,C)
+      (-0.24)   e4(H,D)
+      (-0.46)   e4(H,C)
+      (-0.3)    e5(L)
+      (-0.7)    e5(H)
+
+
+---- X  
+
+X(L,D)
+                (.LO, .L, .UP, .M = -INF, 160, +INF, 0)
+        1       e4(L,D)
+       (1)      e5(L)
+        1       e6(D)
+
+X(L,C)
+                (.LO, .L, .UP, .M = -INF, 140, +INF, 0)
+        1       e4(L,C)
+       (1)      e5(L)
+        1       e6(C)
+
+X(H,D)
+                (.LO, .L, .UP, .M = -INF, 240, +INF, 0)
+        1       e4(H,D)
+       (1)      e5(H)
+        1       e6(D)
+
+REMAINING ENTRY SKIPPED
+
+---- G  Offentlig produktions
+
+G
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+      (-0.2667) e4(L,D)
+      (-0.2333) e4(L,C)
+      (-0.1714) e4(H,D)
+      (-0.3286) e4(H,C)
+       -0.5     e5(L)
+       -0.5     e5(H)
+        1       e8
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 8
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE lille_model2 Using CNS From line 147
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           14
+BLOCKS OF VARIABLES           8     SINGLE VARIABLES           15
+NON ZERO ELEMENTS            58     NON LINEAR N-Z             40
+DERIVATIVE POOL              20     CONSTANT POOL              24
+CODE LENGTH                 104
+SINGLE =E|X= EQUS            14     SINGLE UNFIXED VARS        14
+
+
+GENERATION TIME      =        0.003 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 9
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE lille_model2 Using CNS From line 147
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   lille_model2        
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  147
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.002 10000000000.000
+ ITERATION COUNT, LIMIT         3    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   2
+                   Post-triangular equations:  0
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU e1  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+---- EQU e2  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+---- EQU e4  
+
+           LOWER          LEVEL          UPPER
+
+L.D          .              .              .          
+L.C          .              .              .          
+H.D          .              .              .          
+H.C          .              .              .          
+
+---- EQU e5  
+
+         LOWER          LEVEL          UPPER
+
+L          .              .              .          
+H          .              .              .          
+
+---- EQU e6  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e7                 1.0000         1.0000         1.0000      
+---- EQU e8                  .              .              .          
+
+---- VAR L  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          480.0000        +INF         
+C        -INF          720.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+---- VAR Y  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          480.0000        +INF         
+C        -INF          720.0000        +INF         
+
+---- VAR p  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF            1.0000        +INF         
+C        -INF            1.0000        +INF         
+
+---- VAR p_C  
+
+         LOWER          LEVEL          UPPER
+
+L        -INF            1.0000        +INF         
+H        -INF            1.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR N               1200.0000      1200.0000      1200.0000      
+
+---- VAR X  
+
+           LOWER          LEVEL          UPPER
+
+L.D        -INF          192.0000        +INF         
+L.C        -INF          168.0000        +INF         
+H.D        -INF          288.0000        +INF         
+H.C        -INF          552.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR G                 -INF             .            +INF         
+
+  G  Offentlig produktions
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 10
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE lille_model2 Using CNS From line 161
+
+
+---- e1  =E=  
+
+e1(D)..  L(D) - Y(D) =E= 0 ; (LHS = 0)
+     
+e1(C)..  L(C) - Y(C) =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  
+
+e2(D)..  (1)*L(D) + (480)*w - (1)*Y(D) - (480)*p(D) =E= 0 ; (LHS = 0)
+     
+e2(C)..  (1)*L(C) + (720)*w - (1)*Y(C) - (720)*p(C) =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  
+
+e4(L,D)..  - (152.554014279295)*w + (76.2770071396474)*p(D) + (76.2770071396474)*p_C(L) - (0.152554014279295)*N + X(L,D) - (0.254256690465491)*G =E= 0 ; (LHS = 39.4459857207052, INFES = 39.4459857207052 ****)
+     
+e4(L,C)..  - (140)*w + (70)*p(C) + (70)*p_C(L) - (0.14)*N + X(L,C) - (0.233333333333333)*G =E= 0 ; (LHS = 28, INFES = 28 ****)
+     
+e4(H,D)..  - (198.347107438017)*w + (396.694214876033)*p(D) - (198.347107438017)*p_C(H) - (0.198347107438017)*N + X(H,D) - (0.141676505312869)*G =E= 0 ; (LHS = 89.6528925619835, INFES = 89.6528925619835 ****)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- e5  =E=  
+
+e5(L)..  - (300)*w + (211.2)*p(D) + (168)*p(C) - (0.3)*N + (1.1)*X(L,D) + (1)*X(L,C) - 0.5*G =E= 0 ; (LHS = 79.2, INFES = 79.2 ****)
+     
+e5(H)..  - (700)*w + (316.8)*p(D) + (552)*p(C) - (0.7)*N + (1.1)*X(H,D) + (1)*X(H,C) - 0.5*G =E= 0 ; (LHS = 168.8, INFES = 168.8 ****)
+     
+
+---- e6  =E=  
+
+e6(D)..  - Y(D) + X(L,D) + X(H,D) =E= 0 ; (LHS = 0)
+     
+e6(C)..  - Y(C) + X(L,C) + X(H,C) =E= 0 ; (LHS = 0)
+     
+
+---- e7  =E=  
+
+e7..  w =E= 1 ; (LHS = 1)
+     
+
+---- e8  =E=  
+
+e8..  - 0.1*X(L,D) - 0.1*X(H,D) + G =E= 0 ; (LHS = -48, INFES = 48 ****)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 11
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE lille_model2 Using CNS From line 161
+
+
+---- L  
+
+L(D)
+                (.LO, .L, .UP, .M = -INF, 480, +INF, 0)
+        1       e1(D)
+       (1)      e2(D)
+
+L(C)
+                (.LO, .L, .UP, .M = -INF, 720, +INF, 0)
+        1       e1(C)
+       (1)      e2(C)
+
+
+---- w  
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (480)      e2(D)
+     (720)      e2(C)
+    (-152.554)  e4(L,D)
+    (-140)      e4(L,C)
+    (-198.3471) e4(H,D)
+    (-460)      e4(H,C)
+    (-300)      e5(L)
+    (-700)      e5(H)
+        1       e7
+
+
+---- Y  
+
+Y(D)
+                (.LO, .L, .UP, .M = -INF, 480, +INF, 0)
+       -1       e1(D)
+      (-1)      e2(D)
+       -1       e6(D)
+
+Y(C)
+                (.LO, .L, .UP, .M = -INF, 720, +INF, 0)
+       -1       e1(C)
+      (-1)      e2(C)
+       -1       e6(C)
+
+
+---- p  
+
+p(D)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-480)      e2(D)
+      (76.277)  e4(L,D)
+     (396.6942) e4(H,D)
+     (211.2)    e5(L)
+     (316.8)    e5(H)
+
+p(C)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-720)      e2(C)
+      (70)      e4(L,C)
+     (920)      e4(H,C)
+     (168)      e5(L)
+     (552)      e5(H)
+
+
+---- p_C  
+
+p_C(L)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (76.277)  e4(L,D)
+      (70)      e4(L,C)
+
+p_C(H)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-198.3471) e4(H,D)
+    (-460)      e4(H,C)
+
+
+---- N  
+
+N
+                (.LO, .L, .UP, .M = 1000, 1000, 1000, 0)
+      (-0.1526) e4(L,D)
+      (-0.14)   e4(L,C)
+      (-0.1983) e4(H,D)
+      (-0.46)   e4(H,C)
+      (-0.3)    e5(L)
+      (-0.7)    e5(H)
+
+
+---- X  
+
+X(L,D)
+                (.LO, .L, .UP, .M = -INF, 192, +INF, 0)
+        1       e4(L,D)
+       (1.1)    e5(L)
+        1       e6(D)
+       -0.1     e8
+
+X(L,C)
+                (.LO, .L, .UP, .M = -INF, 168, +INF, 0)
+        1       e4(L,C)
+       (1)      e5(L)
+        1       e6(C)
+
+X(H,D)
+                (.LO, .L, .UP, .M = -INF, 288, +INF, 0)
+        1       e4(H,D)
+       (1.1)    e5(H)
+        1       e6(D)
+       -0.1     e8
+
+REMAINING ENTRY SKIPPED
+
+---- G  Offentlig produktions
+
+G
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+      (-0.2543) e4(L,D)
+      (-0.2333) e4(L,C)
+      (-0.1417) e4(H,D)
+      (-0.3286) e4(H,C)
+       -0.5     e5(L)
+       -0.5     e5(H)
+        1       e8
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 12
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE lille_model2 Using CNS From line 161
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           7     SINGLE EQUATIONS           14
+BLOCKS OF VARIABLES           8     SINGLE VARIABLES           15
+NON ZERO ELEMENTS            60     NON LINEAR N-Z             40
+DERIVATIVE POOL              20     CONSTANT POOL              25
+CODE LENGTH                 108
+SINGLE =E|X= EQUS            14     SINGLE UNFIXED VARS        14
+
+
+GENERATION TIME      =        0.003 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 13
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE lille_model2 Using CNS From line 161
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   lille_model2        
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  161
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.002 10000000000.000
+ ITERATION COUNT, LIMIT         7    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  0
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU e1  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+---- EQU e2  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+---- EQU e4  
+
+           LOWER          LEVEL          UPPER
+
+L.D          .              .              .          
+L.C          .              .              .          
+H.D          .       -8.207761E-8          .          
+H.C          .       -1.903520E-7          .          
+
+---- EQU e5  
+
+         LOWER          LEVEL          UPPER
+
+L          .              .              .          
+H          .              .              .          
+
+---- EQU e6  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e7                 1.0000         1.0000         1.0000      
+---- EQU e8                  .              .              .          
+
+---- VAR L  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          367.9089        +INF         
+C        -INF          632.0911        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+---- VAR Y  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          367.9089        +INF         
+C        -INF          632.0911        +INF         
+
+---- VAR p  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF            1.0000        +INF         
+C        -INF            1.0000        +INF         
+
+---- VAR p_C  
+
+         LOWER          LEVEL          UPPER
+
+L        -INF            1.0527        +INF         
+H        -INF            1.0322        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR N               1000.0000      1000.0000      1000.0000      
+
+---- VAR X  
+
+           LOWER          LEVEL          UPPER
+
+L.D        -INF          157.8006        +INF         
+L.C        -INF          144.8148        +INF         
+H.D        -INF          210.1083        +INF         
+H.C        -INF          487.2763        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR G                 -INF           36.7909        +INF         
+
+  G  Offentlig produktions
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+                             4  PROJECTED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/11/21 10:16:43 Page 14
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.126 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/test af CES-nytte/lille_model2.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/test af CES-nytte/lille_model2.lst
