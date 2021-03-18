@@ -1,4 +1,4 @@
---- Job stone_geary_5h_simpelkali.gms Start 03/18/21 10:07:36 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job stone_geary_5h_simpelkali.gms Start 03/18/21 15:31:19 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -18,7 +18,7 @@ Licensee: Course License                                 S210104/0001AO-GEN
           Course license for use within the course and related course work
 --- Starting compilation
 --- stone_geary_5h_simpelkali.gms(259) 3 Mb
---- Starting execution: elapsed 0:00:00.017
+--- Starting execution: elapsed 0:00:00.015
 --- stone_geary_5h_simpelkali.gms(189) 4 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h_kal.gdx
 --- Generating CNS model stone_geary
@@ -26,7 +26,7 @@ Licensee: Course License                                 S210104/0001AO-GEN
 ---   19 rows  32 columns  97 non-zeroes
 ---   144 nl-code  80 nl-non-zeroes
 --- stone_geary_5h_simpelkali.gms(194) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.036
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.031
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -49,7 +49,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model stone_geary
---- Executing after solve: elapsed 0:00:00.123
+--- Executing after solve: elapsed 0:00:00.158
 --- stone_geary_5h_simpelkali.gms(204) 4 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h_basis.gdx
 --- stone_geary_5h_simpelkali.gms(231) 4 Mb
@@ -58,7 +58,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
 ---   19 rows  32 columns  102 non-zeroes
 ---   149 nl-code  80 nl-non-zeroes
 --- stone_geary_5h_simpelkali.gms(233) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.128
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.165
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -81,10 +81,10 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model stone_geary
---- Executing after solve: elapsed 0:00:00.162
+--- Executing after solve: elapsed 0:00:00.203
 --- stone_geary_5h_simpelkali.gms(244) 4 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h_tau01.gdx
 --- stone_geary_5h_simpelkali.gms(256) 4 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h_tau01_tab.gdx
 *** Status: Normal completion
---- Job stone_geary_5h_simpelkali.gms Stop 03/18/21 10:07:37 elapsed 0:00:00.164
+--- Job stone_geary_5h_simpelkali.gms Stop 03/18/21 15:31:20 elapsed 0:00:00.206
