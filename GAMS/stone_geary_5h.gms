@@ -77,9 +77,9 @@ e3..          sum(F,L(F))+L_G =e= sum(HH,rho(HH)*N);
 
 
 * Privat efterspørgsel  * vi skal ændre i denne! 
-#e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C(hh))**(-E_x(HH))*((w*rho(HH)*N)/p_C(hh));
+*#e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C(hh))**(-E_x(HH))*((w*rho(HH)*N)/p_C(hh));
 
-#e4(HH,F)..    X(HH,F) =e= mu(F) + alpha(F,HH)/((1+tau(F))*p(F))*(w*rho(hh)*N-sub);
+*#e4(HH,F)..    X(HH,F) =e= mu(F) + alpha(F,HH)/((1+tau(F))*p(F))*(w*rho(hh)*N-sub);
 
 e4(HH)..      (w*rho(hh)*N-sum(F,p(F)*mu(F))) =e= ((X(HH,'D')-mu('D'))/(X(HH,'C')-mu('D'))*(alpha('C',HH)/alpha('D',HH))*((1+tau('D'))*p('D'))/((1+tau('C'))*p('C')))*(w*rho(hh)*N-sum(F,p(F)*mu(F))) ;
 
@@ -113,9 +113,6 @@ rho('5') = 0.431;
 
 w.l = 1;
 
-
-
-
 p_C.l(hh) = 1;
 
 p.l(F) = 1;
@@ -137,7 +134,6 @@ share('D','5') = 0.16;
 
 share('C',hh) = 1 - share('D',hh) ;
 
-
 X.l(HH,F) = (share(F,HH)/p.l(F))*(w.l*rho(hh)*N.l);
 
 X.fx(HH,F) = X.l(HH,F);
@@ -149,6 +145,7 @@ tau('C')=0;
 
 w.fx =1;
 
+$ontext
 equations
 c1
 c2;
@@ -159,9 +156,7 @@ c2(HH)..      sum((f), (1+tau(F))*p(F)*X(HH,F)) =e= w*rho(HH)*N;
 model kali /c1,c2/;
 
 solve kali using cns;
-
-
-
+$offtext
 
 alpha.fx(F,HH) = alpha.l(F,HH);
 mu.fx(F) = mu.l(F);
@@ -174,8 +169,6 @@ Y.l('D') = sum(HH,X.l(HH,'D'));
 Y.l('C') = sum(HH,X.l(HH,'C'));
 
 L.l(F) = Y.l(F);
-
-
 
 G.l = tau('D')*sum(HH,X.l(HH,'D'));
 
