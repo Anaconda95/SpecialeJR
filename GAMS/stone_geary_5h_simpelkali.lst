@@ -1,0 +1,1106 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  ********** Lille model med offentlig sektor (dvs ingen omfordeling) *************
+   2   
+   3   
+   4   
+   5  * sets
+   6  * Husholdninger
+   7  set HH /1*5/;
+   8   
+   9   
+  10  * Firmaer
+  11  set F /"D","C"/;
+  12  alias(F,FF);
+  13   
+  14   
+  15  *Variable
+  16  variables
+  17  L(F)
+  18  w
+  19  Y(F)
+  20  p(F)
+  21  p_C(hh)
+  22  N
+  23  X(HH,F)
+  24  G  "Offentlig produktions"
+  25  X_total(F)
+  26  EV(hh)
+  27  EV_p(hh)
+  28  EV_I(hh)
+  29  p_C_0(hh)
+  30  w_0
+  31  N_0
+  32  lumpsum(hh)
+  33  EV_pct(hh)
+  34  EV_p_pct(hh)
+  35  Y_G
+  36  L_G
+  37  p_G
+  38  X_D_rel(hh)
+  39  X_D_0(hh)
+  40  sub
+  41  alpha(F,HH)
+  42  mu(F)
+  43  ;
+  44   
+  45  parameters
+  46  rho(HH)  "produktivitets-parameter for HH"
+  47  tau(f)   "Forbrugsskat"
+  48  share(F,HH)
+  49  ;
+  50   
+  51  equations
+  52  e1
+  53  e11
+  54  e2
+  55  e3
+  56  e4
+  57  e44
+  58  e5
+  59  e6
+  60  e7
+  61  e8
+  62  ;
+  63   
+  64   
+  65  *Virksomehdernes efterspørgsel
+  66  e1(F)..       L(F) =e= Y(F);
+  67   
+  68  e11..         L_G =e= Y_G;
+  69   
+  70   
+  71  *Nukprofit for hver virksomhed
+  72  e2(F)..       w*L(F) =e= p(F)*Y(F);
+  73   
+  74   
+  75  *Arbejdsmarked
+  76  e3..          sum(F,L(F))+L_G =e= sum(HH,rho(HH)*N);
+  77   
+  78   
+  79  * Privat efterspørgsel  * vi skal ændre i denne!
+  80  *#e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C(hh))**(-E_x(HH))*((w*rho(HH)*N)/p_C(hh));
+  81   
+  82  *#e4(HH,F)..    X(HH,F) =e= mu(F) + alpha(F,HH)/((1+tau(F))*p(F))*(w*rho(hh)*N-sub);
+  83   
+  84  *e4(HH)..      (w*rho(hh)*N-sum(F,p(F)*mu(F))) =e= ((X(HH,'D')-mu('D'))/(X(HH,'C')-mu('D'))*(alpha('C',HH)/alpha('D',HH))*((1+tau('D'))*p('D'))/((1+tau('C'))*p('C')))*(w*rho(hh)*N-sum(F,p(F)*mu(F))) ;
+  85   
+  86  *e4(HH)..      X(HH,'D')/X(HH,'C') =e= [mu('D')+(alpha('D',hh)/p('D'))*((w*rho(hh)*N-sub))] / [mu('C')+(alpha('C',hh)/p('C'))*((w*rho(hh)*N-sub))];
+  87   
+  88  e4(hh)..         p('C')*(X(HH,'c')-mu('c')) =e= alpha('c',hh)/alpha('d',hh)*(X(HH,'d')-mu('d'))*p('d');
+  89  *pr_C*C(i)      =e= alpha/beta*(D(i)-D0)*pr_D;
+  90   
+  91  e44..         sub =e= sum(F,p(F)*mu(F));
+  92   
+  93  * Budget restriktion
+  94  e5(HH)..      sum((f), (1+tau(F))*p(F)*X(HH,F)) =e= w*rho(HH)*N;
+  95   
+  96  * Varermarkedsligevægt (udeladt ligevægt for clean good)
+  97  e6('D')..       sum(HH,X(HH,'D')) =e= Y('D');
+  98   
+  99  * prisen er numeraire
+ 100  e7..          w =e= 1;
+ 101   
+ 102  * Off sektor
+ 103  e8..          w*L_G =e= sum(HH, tau('D')*X(HH,'D'));
+ 104   
+ 105  Model stone_geary /e1,e11,e2, e3, e4, e5, e6, e7, e8/;
+ 106   
+ 107  * 25 lign
+ 108  * 20 var
+ 109   
+ 110  ********** Kalibrering *********
+ 111   
+ 112   
+ 113  rho('1') = 0.055;
+ 114  rho('2') = 0.118;
+ 115  rho('3') = 0.167;
+ 116  rho('4') = 0.229;
+ 117  rho('5') = 0.431;
+ 118   
+ 119  w.l = 1;
+ 120   
+ 121  p.l(F) = 1;
+ 122   
+ 123  N.fx = 1000;
+ 124   
+ 125  mu.l('C') = 0;
+ 126  mu.l('D') = 10;
+ 127   
+ 128  *alpha er først budget andele og derefter marginale budgetandele.  Y og alpha er kalibreret til fødevarer, el, gas og brændsel, som andel af samlet forbrug
+ 129   
+ 130  sub.l = sum(F,p.l(F)*mu.l(F));
+ 131   
+ 132  share('D','1') = 0.22;
+ 133  share('D','2') = 0.21;
+ 134  share('D','3') = 0.18;
+ 135  share('D','4') = 0.18;
+ 136  share('D','5') = 0.16;
+ 137   
+ 138  share('C',hh) = 1 - share('D',hh) ;
+ 139   
+ 140  X.l(HH,F) = (share(F,HH)/p.l(F))*(w.l*rho(hh)*N.l);
+ 141   
+ 142   
+ 143   
+ 144  tau('D')=0;
+ 145  tau('C')=0;
+ 146   
+ 147   
+ 148   
+      equations
+      c1
+      c2;
+       
+      c1(f,hh).. alpha(F,HH) =e= (X(HH,F)-mu(F))*p(F)/(w*rho(hh)*N-sub);
+      c2(HH)..      sum((f), (1+tau(F))*p(F)*X(HH,F)) =e= w*rho(HH)*N;
+       
+      model kali /c1,c2/;
+       
+      solve kali using cns;
+ 161   
+ 162  alpha.fx(F,HH) = (X.l(hh,f)-mu.l(f))/(w.l*rho(hh)*N.l-sub.l)*p.l(f);
+ 163  mu.fx(F) = mu.l(F);
+ 164   
+ 165  *tjek, at det kalibreres rigtigt. Det gør det.
+ 166  Parameter x_kali(hh,f);
+ 167  x_kali(hh,f)=  mu.l(f) + (alpha.l(f,hh)/p.l(f))*((w.l*rho(hh)*N.l-sub.l));
+ 168   
+ 169   
+ 170  Y.l('D') = sum(HH,X.l(HH,'D'));
+ 171  Y.l('C') = sum(HH,X.l(HH,'C'));
+ 172   
+ 173  L.l(F) = Y.l(F);
+ 174   
+ 175  G.l = tau('D')*sum(HH,X.l(HH,'D'));
+ 176   
+ 177  Y_G.l = 0;
+ 178  L_G.l =0;
+ 179  p_G.l=1;
+ 180   
+ 181  *p_c_0.fx(hh) = p_c.l(hh);
+ 182  w_0.fx = w.l;
+ 183  N_0.fx = N.l;
+ 184  X_D_0.l(hh) = X.l(hh,'D');
+ 185  X_total.l(F) = sum(HH,X.l(HH,F));
+ 186   
+ 187   
+ 188   
+ 189  execute_unload 'stone_geary_5h_kal';
+ 190   
+ 191   
+ 192   
+ 193  * Løser nulstød
+ 194  solve stone_geary using cns;
+ 195  X_D_0.l(hh) = X.l(hh,'D');
+ 196  X_total.l(F) = sum(HH,X.l(HH,F));
+ 197  X_D_rel.l(hh) = (X.l(hh,'D')-X_D_0.l(hh))/X_D_0.l(hh);
+ 198  *EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh));
+ 199  *EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l;
+ 200  *EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 201  *ev_pct.l(hh) = EV.l(hh)/(rho(hh)*N.l*w.l);
+ 202  *ev_p_pct.l(hh) = Ev_p.l(hh)/(rho(hh)*N.l*w.l);
+ 203   
+ 204  execute_unload 'stone_geary_5h_basis';
+ 205   
+ 206  set ud  /alpha,"X", "Xrel", "U", "Urel", "EV", EVinc/;
+ 207  set exp /"base","tax"/;
+ 208   
+ 209  parameter output(exp,ud,hh,f);
+ 210  parameter output2(exp,ud,hh);
+ 211  parameter sigma(f), p_0(f), EVLES(hh), m(hh);
+ 212   
+ 213  *Calculating EV from World Bank paper overview
+ 214  m(hh)=w.l*rho(hh)*N.l;
+ 215  p_0(f)=p.l(f);
+ 216  sigma(f)=p_0(f)/(p.l(f)+tau(f));
+ 217   
+ 218  EVLES(hh)= m(hh)*(prod(f,sigma(f)**alpha.l(f,hh))-1)+sum(f,p_0(f)*mu.l(f)) - prod(f,sigma(f)**alpha.l(f,hh))*(sum(f,(p.l(f)+tau(f))*mu.l(f)));
+ 219   
+ 220  output('base','alpha',hh,f)=alpha.l(f,hh);
+ 221  output('base','X',hh,f)=X.l(hh,f);
+ 222  output('base','Xrel',hh,f)=X.l(hh,f)-output('base','X',hh,f);
+ 223  output2('base','U',hh)=prod(f,[X.l(hh,f)-mu.l(f)]**alpha.l(f,hh));
+ 224  output2('base','Urel',hh)=prod(f,[X.l(hh,f)-mu.l(f)]**alpha.l(f,hh))-output2('base','U',hh);
+ 225  output2('base','EV',hh)=EVLES(hh);
+ 226   
+ 227   
+ 228   
+ 229  ************* Stød: tau = 0.1 **********
+ 230  tau('D')=0.1;
+ 231  tau('C')=0;
+ 232   
+ 233  solve stone_geary using cns;
+ 234   
+ 235  X_total.l(F) = sum(HH,X.l(HH,F));
+ 236   
+ 237  *EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh));
+ 238  *EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l;
+ 239  *EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 240  *ev_pct.l(hh) = EV.l(hh)/(rho(hh)*N.l*w.l);
+ 241  *ev_p_pct.l(hh) = Ev_p.l(hh)/(rho(hh)*N.l*w.l);
+ 242  X_D_rel.l(hh) = (X.l(hh,'D')-X_D_0.l(hh))/X_D_0.l(hh);
+ 243   
+ 244  execute_unload 'stone_geary_5h_tau01';
+ 245  sigma(f)=p_0(f)/(p.l(f)+tau(f));
+ 246   
+ 247  EVLES(hh)= m(hh)*(prod(f,sigma(f)**alpha.l(f,hh))-1)+sum(f,p_0(f)*mu.l(f)) - prod(f,sigma(f)**alpha.l(f,hh))*(sum(f,(p.l(f)+tau(f))*mu.l(f)));
+ 248   
+ 249  output('tax','X',hh,f)=X.l(hh,f);
+ 250  output('tax','Xrel',hh,f)=[X.l(hh,f)-output('base','X',hh,f)]/output('base','X',hh,f);
+ 251  output2('tax','U',hh)=prod(f,[X.l(hh,f)-mu.l(f)]**alpha.l(f,hh));
+ 252  output2('tax','Urel',hh)=prod(f,[X.l(hh,f)-mu.l(f)]**alpha.l(f,hh))-output2('base','U',hh);
+ 253  output2('tax','EV',hh)=EVLES(hh);
+ 254  output2('tax','EVinc',hh)=EVLES(hh)/m(hh);
+ 255   
+ 256  execute_unload 'stone_geary_5h_tau01_tab' output output2;
+ 257   
+ 258   
+ 259   
+
+
+COMPILATION TIME     =        0.009 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE stone_geary Using CNS From line 194
+
+
+---- e1  =E=  
+
+e1(D)..  L(D) - Y(D) =E= 0 ; (LHS = 0)
+     
+e1(C)..  L(C) - Y(C) =E= 0 ; (LHS = 0)
+     
+
+---- e11  =E=  
+
+e11..  - Y_G + L_G =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  
+
+e2(D)..  (1)*L(D) + (177.12)*w - (1)*Y(D) - (177.12)*p(D) =E= 0 ; (LHS = 0)
+     
+e2(C)..  (1)*L(C) + (822.88)*w - (1)*Y(C) - (822.88)*p(C) =E= 0 ; (LHS = 0)
+     
+
+---- e3  =E=  
+
+e3..  L(D) + L(C) - N + L_G =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  
+
+e4(1)..  - (42.9)*p(D) + (42.9)*p(C) - (20.4285714285714)*X(1,D) + (1)*X(1,C) + (919.285714285714)*alpha(D,1) - (45)*alpha(C,1) + (20.4285714285714)*mu(D) - (1)*mu(C) =E= 0 ; (LHS = 0)
+     
+e4(2)..  - (93.22)*p(D) + (93.22)*p(C) - (6.30717185385656)*X(2,D) + (1)*X(2,C) + (681.174560216509)*alpha(D,2) - (108)*alpha(C,2) + (6.30717185385656)*mu(D) - (1)*mu(C) =E= 0 ; (LHS = 0)
+     
+e4(3)..  - (136.94)*p(D) + (136.94)*p(C) - (6.82652043868395)*X(3,D) + (1)*X(3,C) + (1071.76370887338)*alpha(D,3) - (157)*alpha(C,3) + (6.82652043868395)*mu(D) - (1)*mu(C) =E= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- e5  =E=  
+
+e5(1)..  - (55)*w + (12.1)*p(D) + (42.9)*p(C) - (0.055)*N + (1)*X(1,D) + (1)*X(1,C) =E= 0 ; (LHS = 0)
+     
+e5(2)..  - (118)*w + (24.78)*p(D) + (93.22)*p(C) - (0.118)*N + (1)*X(2,D) + (1)*X(2,C) =E= 0 ; (LHS = 0)
+     
+e5(3)..  - (167)*w + (30.06)*p(D) + (136.94)*p(C) - (0.167)*N + (1)*X(3,D) + (1)*X(3,C) =E= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- e6  =E=  
+
+e6(D)..  - Y(D) + X(1,D) + X(2,D) + X(3,D) + X(4,D) + X(5,D) =E= 0 ; (LHS = 0)
+     
+
+---- e7  =E=  
+
+e7..  w =E= 1 ; (LHS = 1)
+     
+
+---- e8  =E=  
+
+e8..  (0)*w + (1)*L_G =E= 0 ; (LHS = 0)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE stone_geary Using CNS From line 194
+
+
+---- L  
+
+L(D)
+                (.LO, .L, .UP, .M = -INF, 177.12, +INF, 0)
+        1       e1(D)
+       (1)      e2(D)
+        1       e3
+
+L(C)
+                (.LO, .L, .UP, .M = -INF, 822.88, +INF, 0)
+        1       e1(C)
+       (1)      e2(C)
+        1       e3
+
+
+---- w  
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (177.12)   e2(D)
+     (822.88)   e2(C)
+     (-55)      e5(1)
+    (-118)      e5(2)
+    (-167)      e5(3)
+    (-229)      e5(4)
+    (-431)      e5(5)
+        1       e7
+       (0)      e8
+
+
+---- Y  
+
+Y(D)
+                (.LO, .L, .UP, .M = -INF, 177.12, +INF, 0)
+       -1       e1(D)
+      (-1)      e2(D)
+       -1       e6(D)
+
+Y(C)
+                (.LO, .L, .UP, .M = -INF, 822.88, +INF, 0)
+       -1       e1(C)
+      (-1)      e2(C)
+
+
+---- p  
+
+p(D)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-177.12)   e2(D)
+     (-42.9)    e4(1)
+     (-93.22)   e4(2)
+    (-136.94)   e4(3)
+    (-187.78)   e4(4)
+    (-362.04)   e4(5)
+      (12.1)    e5(1)
+      (24.78)   e5(2)
+      (30.06)   e5(3)
+      (41.22)   e5(4)
+      (68.96)   e5(5)
+
+p(C)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-822.88)   e2(C)
+      (42.9)    e4(1)
+      (93.22)   e4(2)
+     (136.94)   e4(3)
+     (187.78)   e4(4)
+     (362.04)   e4(5)
+      (42.9)    e5(1)
+      (93.22)   e5(2)
+     (136.94)   e5(3)
+     (187.78)   e5(4)
+     (362.04)   e5(5)
+
+
+---- N  
+
+N
+                (.LO, .L, .UP, .M = 1000, 1000, 1000, 0)
+       -1       e3
+      (-0.055)  e5(1)
+      (-0.118)  e5(2)
+      (-0.167)  e5(3)
+      (-0.229)  e5(4)
+      (-0.431)  e5(5)
+
+
+---- X  
+
+X(1,D)
+                (.LO, .L, .UP, .M = -INF, 12.1, +INF, 0)
+     (-20.4286) e4(1)
+       (1)      e5(1)
+        1       e6(D)
+
+X(1,C)
+                (.LO, .L, .UP, .M = -INF, 42.9, +INF, 0)
+       (1)      e4(1)
+       (1)      e5(1)
+
+X(2,D)
+                (.LO, .L, .UP, .M = -INF, 24.78, +INF, 0)
+      (-6.3072) e4(2)
+       (1)      e5(2)
+        1       e6(D)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- Y_G  
+
+Y_G
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+       -1       e11
+
+
+---- L_G  
+
+L_G
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       e11
+        1       e3
+       (1)      e8
+
+
+---- alpha  
+
+alpha(D,1)
+                (.LO, .L, .UP, .M = 0.0466666666666667, 0.0466666666666667, 0.0466666666666667, 0)
+     (919.2857) e4(1)
+
+alpha(D,2)
+                (.LO, .L, .UP, .M = 0.136851851851852, 0.136851851851852, 0.136851851851852, 0)
+     (681.1746) e4(2)
+
+alpha(D,3)
+                (.LO, .L, .UP, .M = 0.127770700636943, 0.127770700636943, 0.127770700636943, 0)
+    (1071.7637) e4(3)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- mu  
+
+mu(D)
+                (.LO, .L, .UP, .M = 10, 10, 10, 0)
+      (20.4286) e4(1)
+       (6.3072) e4(2)
+       (6.8265) e4(3)
+       (6.0147) e4(4)
+       (6.1404) e4(5)
+
+mu(C)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+      (-1)      e4(1)
+      (-1)      e4(2)
+      (-1)      e4(3)
+      (-1)      e4(4)
+      (-1)      e4(5)
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE stone_geary Using CNS From line 194
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           9     SINGLE EQUATIONS           19
+BLOCKS OF VARIABLES          10     SINGLE VARIABLES           32
+NON ZERO ELEMENTS            97     NON LINEAR N-Z             80
+DERIVATIVE POOL              20     CONSTANT POOL              21
+CODE LENGTH                 144
+SINGLE =E|X= EQUS            19     SINGLE UNFIXED VARS        19
+
+
+GENERATION TIME      =        0.011 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE stone_geary Using CNS From line 194
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   stone_geary         
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  194
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.020 10000000000.000
+ ITERATION COUNT, LIMIT         2    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   3
+                   Post-triangular equations:  0
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.016 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU e1  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e11                 .              .              .          
+
+---- EQU e2  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e3                  .              .              .          
+
+---- EQU e4  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+
+---- EQU e5  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+
+---- EQU e6  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e7                 1.0000         1.0000         1.0000      
+---- EQU e8                  .              .              .          
+
+---- VAR L  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          177.1200        +INF         
+C        -INF          822.8800        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+---- VAR Y  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          177.1200        +INF         
+C        -INF          822.8800        +INF         
+
+---- VAR p  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF            1.0000        +INF         
+C        -INF            1.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR N               1000.0000      1000.0000      1000.0000      
+
+---- VAR X  
+
+           LOWER          LEVEL          UPPER
+
+1.D        -INF           12.1000        +INF         
+1.C        -INF           42.9000        +INF         
+2.D        -INF           24.7800        +INF         
+2.C        -INF           93.2200        +INF         
+3.D        -INF           30.0600        +INF         
+3.C        -INF          136.9400        +INF         
+4.D        -INF           41.2200        +INF         
+4.C        -INF          187.7800        +INF         
+5.D        -INF           68.9600        +INF         
+5.C        -INF          362.0400        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR Y_G               -INF             .            +INF         
+---- VAR L_G               -INF             .            +INF         
+
+---- VAR alpha  
+
+           LOWER          LEVEL          UPPER
+
+D.1         0.0467         0.0467         0.0467      
+D.2         0.1369         0.1369         0.1369      
+D.3         0.1278         0.1278         0.1278      
+D.4         0.1426         0.1426         0.1426      
+D.5         0.1400         0.1400         0.1400      
+C.1         0.9533         0.9533         0.9533      
+C.2         0.8631         0.8631         0.8631      
+C.3         0.8722         0.8722         0.8722      
+C.4         0.8574         0.8574         0.8574      
+C.5         0.8600         0.8600         0.8600      
+
+---- VAR mu  
+
+         LOWER          LEVEL          UPPER
+
+D        10.0000        10.0000        10.0000      
+C          .              .              .          
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+                             1  PROJECTED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE stone_geary Using CNS From line 233
+
+
+---- e1  =E=  
+
+e1(D)..  L(D) - Y(D) =E= 0 ; (LHS = 0)
+     
+e1(C)..  L(C) - Y(C) =E= 0 ; (LHS = 0)
+     
+
+---- e11  =E=  
+
+e11..  - Y_G + L_G =E= 0 ; (LHS = 0)
+     
+
+---- e2  =E=  
+
+e2(D)..  (1)*L(D) + (177.12)*w - (1)*Y(D) - (177.12)*p(D) =E= 0 ; (LHS = 0)
+     
+e2(C)..  (1)*L(C) + (822.88)*w - (1)*Y(C) - (822.88)*p(C) =E= 0 ; (LHS = 0)
+     
+
+---- e3  =E=  
+
+e3..  L(D) + L(C) - N + L_G =E= 0 ; (LHS = 0)
+     
+
+---- e4  =E=  
+
+e4(1)..  - (42.9)*p(D) + (42.9)*p(C) - (20.4285714285714)*X(1,D) + (1)*X(1,C) + (919.285714285714)*alpha(D,1) - (45)*alpha(C,1) + (20.4285714285714)*mu(D) - (1)*mu(C) =E= 0 ; (LHS = 0)
+     
+e4(2)..  - (93.22)*p(D) + (93.22)*p(C) - (6.30717185385656)*X(2,D) + (1)*X(2,C) + (681.174560216509)*alpha(D,2) - (108)*alpha(C,2) + (6.30717185385656)*mu(D) - (1)*mu(C) =E= 0 ; (LHS = 0)
+     
+e4(3)..  - (136.94)*p(D) + (136.94)*p(C) - (6.82652043868395)*X(3,D) + (1)*X(3,C) + (1071.76370887338)*alpha(D,3) - (157)*alpha(C,3) + (6.82652043868395)*mu(D) - (1)*mu(C) =E= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- e5  =E=  
+
+e5(1)..  - (55)*w + (13.31)*p(D) + (42.9)*p(C) - (0.055)*N + (1.1)*X(1,D) + (1)*X(1,C) =E= 0 ; (LHS = 1.21, INFES = 1.21 ****)
+     
+e5(2)..  - (118)*w + (27.258)*p(D) + (93.22)*p(C) - (0.118)*N + (1.1)*X(2,D) + (1)*X(2,C) =E= 0 ; (LHS = 2.47799999999999, INFES = 2.47799999999999 ****)
+     
+e5(3)..  - (167)*w + (33.066)*p(D) + (136.94)*p(C) - (0.167)*N + (1.1)*X(3,D) + (1)*X(3,C) =E= 0 ; (LHS = 3.006, INFES = 3.006 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- e6  =E=  
+
+e6(D)..  - Y(D) + X(1,D) + X(2,D) + X(3,D) + X(4,D) + X(5,D) =E= 0 ; (LHS = 0)
+     
+
+---- e7  =E=  
+
+e7..  w =E= 1 ; (LHS = 1)
+     
+
+---- e8  =E=  
+
+e8..  (0)*w - 0.1*X(1,D) - 0.1*X(2,D) - 0.1*X(3,D) - 0.1*X(4,D) - 0.1*X(5,D) + (1)*L_G =E= 0 ; (LHS = -17.712, INFES = 17.712 ****)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE stone_geary Using CNS From line 233
+
+
+---- L  
+
+L(D)
+                (.LO, .L, .UP, .M = -INF, 177.12, +INF, 0)
+        1       e1(D)
+       (1)      e2(D)
+        1       e3
+
+L(C)
+                (.LO, .L, .UP, .M = -INF, 822.88, +INF, 0)
+        1       e1(C)
+       (1)      e2(C)
+        1       e3
+
+
+---- w  
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+     (177.12)   e2(D)
+     (822.88)   e2(C)
+     (-55)      e5(1)
+    (-118)      e5(2)
+    (-167)      e5(3)
+    (-229)      e5(4)
+    (-431)      e5(5)
+        1       e7
+       (0)      e8
+
+
+---- Y  
+
+Y(D)
+                (.LO, .L, .UP, .M = -INF, 177.12, +INF, 0)
+       -1       e1(D)
+      (-1)      e2(D)
+       -1       e6(D)
+
+Y(C)
+                (.LO, .L, .UP, .M = -INF, 822.88, +INF, 0)
+       -1       e1(C)
+      (-1)      e2(C)
+
+
+---- p  
+
+p(D)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-177.12)   e2(D)
+     (-42.9)    e4(1)
+     (-93.22)   e4(2)
+    (-136.94)   e4(3)
+    (-187.78)   e4(4)
+    (-362.04)   e4(5)
+      (13.31)   e5(1)
+      (27.258)  e5(2)
+      (33.066)  e5(3)
+      (45.342)  e5(4)
+      (75.856)  e5(5)
+
+p(C)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+    (-822.88)   e2(C)
+      (42.9)    e4(1)
+      (93.22)   e4(2)
+     (136.94)   e4(3)
+     (187.78)   e4(4)
+     (362.04)   e4(5)
+      (42.9)    e5(1)
+      (93.22)   e5(2)
+     (136.94)   e5(3)
+     (187.78)   e5(4)
+     (362.04)   e5(5)
+
+
+---- N  
+
+N
+                (.LO, .L, .UP, .M = 1000, 1000, 1000, 0)
+       -1       e3
+      (-0.055)  e5(1)
+      (-0.118)  e5(2)
+      (-0.167)  e5(3)
+      (-0.229)  e5(4)
+      (-0.431)  e5(5)
+
+
+---- X  
+
+X(1,D)
+                (.LO, .L, .UP, .M = -INF, 12.1, +INF, 0)
+     (-20.4286) e4(1)
+       (1.1)    e5(1)
+        1       e6(D)
+       -0.1     e8
+
+X(1,C)
+                (.LO, .L, .UP, .M = -INF, 42.9, +INF, 0)
+       (1)      e4(1)
+       (1)      e5(1)
+
+X(2,D)
+                (.LO, .L, .UP, .M = -INF, 24.78, +INF, 0)
+      (-6.3072) e4(2)
+       (1.1)    e5(2)
+        1       e6(D)
+       -0.1     e8
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- Y_G  
+
+Y_G
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+       -1       e11
+
+
+---- L_G  
+
+L_G
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       e11
+        1       e3
+       (1)      e8
+
+
+---- alpha  
+
+alpha(D,1)
+                (.LO, .L, .UP, .M = 0.0466666666666667, 0.0466666666666667, 0.0466666666666667, 0)
+     (919.2857) e4(1)
+
+alpha(D,2)
+                (.LO, .L, .UP, .M = 0.136851851851852, 0.136851851851852, 0.136851851851852, 0)
+     (681.1746) e4(2)
+
+alpha(D,3)
+                (.LO, .L, .UP, .M = 0.127770700636943, 0.127770700636943, 0.127770700636943, 0)
+    (1071.7637) e4(3)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- mu  
+
+mu(D)
+                (.LO, .L, .UP, .M = 10, 10, 10, 0)
+      (20.4286) e4(1)
+       (6.3072) e4(2)
+       (6.8265) e4(3)
+       (6.0147) e4(4)
+       (6.1404) e4(5)
+
+mu(C)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+      (-1)      e4(1)
+      (-1)      e4(2)
+      (-1)      e4(3)
+      (-1)      e4(4)
+      (-1)      e4(5)
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 8
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE stone_geary Using CNS From line 233
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           9     SINGLE EQUATIONS           19
+BLOCKS OF VARIABLES          10     SINGLE VARIABLES           32
+NON ZERO ELEMENTS           102     NON LINEAR N-Z             80
+DERIVATIVE POOL              20     CONSTANT POOL              22
+CODE LENGTH                 149
+SINGLE =E|X= EQUS            19     SINGLE UNFIXED VARS        19
+
+
+GENERATION TIME      =        0.003 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 9
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE stone_geary Using CNS From line 233
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   stone_geary         
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  233
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.002 10000000000.000
+ ITERATION COUNT, LIMIT         3    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  1
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.001 = 50.0%
+ 
+
+---- EQU e1  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e11                 .              .              .          
+
+---- EQU e2  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+C          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e3                  .              .              .          
+
+---- EQU e4  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+
+---- EQU e5  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+
+---- EQU e6  
+
+         LOWER          LEVEL          UPPER
+
+D          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU e7                 1.0000         1.0000         1.0000      
+---- EQU e8                  .              .              .          
+
+---- VAR L  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          174.8182        +INF         
+C        -INF          807.6999        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+---- VAR Y  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF          174.8182        +INF         
+C        -INF          807.6999        +INF         
+
+---- VAR p  
+
+         LOWER          LEVEL          UPPER
+
+D        -INF            1.0000        +INF         
+C        -INF            1.0000        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR N               1000.0000      1000.0000      1000.0000      
+
+---- VAR X  
+
+           LOWER          LEVEL          UPPER
+
+1.D        -INF           12.0438        +INF         
+1.C        -INF           41.7518        +INF         
+2.D        -INF           24.4455        +INF         
+2.C        -INF           91.1100        +INF         
+3.D        -INF           29.6808        +INF         
+3.C        -INF          134.3512        +INF         
+4.D        -INF           40.6406        +INF         
+4.C        -INF          184.2953        +INF         
+5.D        -INF           68.0076        +INF         
+5.C        -INF          356.1917        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR Y_G               -INF           17.4818        +INF         
+---- VAR L_G               -INF           17.4818        +INF         
+
+---- VAR alpha  
+
+           LOWER          LEVEL          UPPER
+
+D.1         0.0467         0.0467         0.0467      
+D.2         0.1369         0.1369         0.1369      
+D.3         0.1278         0.1278         0.1278      
+D.4         0.1426         0.1426         0.1426      
+D.5         0.1400         0.1400         0.1400      
+C.1         0.9533         0.9533         0.9533      
+C.2         0.8631         0.8631         0.8631      
+C.3         0.8722         0.8722         0.8722      
+C.4         0.8574         0.8574         0.8574      
+C.5         0.8600         0.8600         0.8600      
+
+---- VAR mu  
+
+         LOWER          LEVEL          UPPER
+
+D        10.0000        10.0000        10.0000      
+C          .              .              .          
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+                             5  PROJECTED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/18/21 10:07:36 Page 10
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.146 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h_simpelkali.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h_simpelkali.lst

@@ -1,0 +1,251 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 03/12/21 11:47:43 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  ********** Lille model med offentlig sektor (dvs ingen omfordeling) *************
+   2   
+   3   
+   4   
+   5  * sets
+   6  * Husholdninger
+   7  set HH /1*5/;
+   8   
+   9   
+  10  * Firmaer
+  11  set F /"D","C"/;
+  12  alias(F,FF);
+  13   
+  14   
+  15  *Variable
+  16  variables
+  17  L(F)
+  18  w
+  19  Y(F)
+  20  p(F)
+  21  p_C(hh)
+  22  N
+  23  X(HH,F)
+  24  G  "Offentlig produktions"
+  25  X_total(F)
+  26  EV(hh)
+  27  EV_p(hh)
+  28  EV_I(hh)
+  29  p_C_0(hh)
+  30  w_0
+  31  N_0
+  32  lumpsum(hh)
+  33  EV_pct(hh)
+  34  EV_p_pct(hh)
+  35  Y_G
+  36  L_G
+  37  p_G
+  38  X_D_rel(hh)
+  39  X_D_0(hh)
+  40  sub
+  41  alpha(F,HH)
+  42  mu(F)
+  43  ;
+  44   
+  45  parameters
+  46  rho(HH)  "produktivitets-parameter for HH"
+  47  tau(f)   "Forbrugsskat"
+  48  share(F,HH)
+  49  ;
+  50   
+  51  equations
+  52  e1
+  53  e11
+  54  e2
+  55  e3
+  56  e4
+  57  e44
+  58  e5
+  59  e6
+  60  e7
+  61  e8
+  62  ;
+  63   
+  64   
+  65  *Virksomehdernes efterspørgsel
+  66  e1(F)..       L(F) =e= Y(F);
+  67   
+  68  e11..         L_G =e= Y_G;
+  69   
+  70   
+  71  *Nukprofit for hver virksomhed
+  72  e2(F)..       w*L(F) =e= p(F)*Y(F);
+  73   
+  74   
+  75  *Arbejdsmarked
+  76  e3..          sum(F,L(F))+L_G =e= sum(HH,rho(HH)*N);
+  77   
+  78   
+  79  * Privat efterspørgsel  * vi skal ændre i denne!
+  80  *#e4(HH,F)..    X(HH,F) =e= gamma(F,HH)*((1+tau(f))*p(F)/p_C(hh))**(-E_x(HH))*((w*rho(HH)*N)/p_C(hh));
+  81   
+  82  *#e4(HH,F)..    X(HH,F) =e= mu(F) + alpha(F,HH)/((1+tau(F))*p(F))*(w*rho(hh)*N-sub);
+  83   
+  84  e4(HH)..      (w*rho(hh)*N-sum(F,p(F)*mu(F))) =e= ((X(HH,'D')-mu('D'))/(X(HH,'C')-mu('D'))*(alpha('C',HH)/alpha('D',HH))*((1+tau('D'))*p('D'))/((1+tau('C'))*p('C')))*(w*rho(hh)*N-sum(F,p(F)*mu(F))) ;
+  85   
+  86  e44..         sub =e= sum(F,p(F)*mu(F));
+  87   
+  88  * Budget restriktion
+  89  e5(HH)..      sum((f), (1+tau(F))*p(F)*X(HH,F)) =e= w*rho(HH)*N;
+  90   
+  91  * Varermarkedsligevægt (udeladt ligevægt for clean good)
+  92  e6('D')..       sum(HH,X(HH,'D')) =e= Y('D');
+  93   
+  94  * prisen er numeraire
+  95  e7..          w =e= 1;
+  96   
+  97  * Off sektor
+  98  e8..          w*L_G =e= sum(HH, tau('D')*X(HH,'D'));
+  99   
+ 100  Model stone_geary /e1,e11,e2, e3, e4, e5, e6, e7, e8/;
+ 101   
+ 102  * 25 lign
+ 103  * 20 var
+ 104   
+ 105  ********** Kalibrering *********
+ 106   
+ 107   
+ 108  rho('1') = 0.055;
+ 109  rho('2') = 0.118;
+ 110  rho('3') = 0.167;
+ 111  rho('4') = 0.229;
+ 112  rho('5') = 0.431;
+ 113   
+ 114  w.l = 1;
+ 115   
+ 116  p_C.l(hh) = 1;
+ 117   
+ 118  p.l(F) = 1;
+ 119   
+ 120  N.fx = 1000;
+ 121   
+ 122  mu.l('C') = 0;
+ 123  mu.l('D') = 8;
+ 124   
+ 125  *alpha er først budget andele og derefter marginale budgetandele.  Y og alpha er kalibreret til fødevarer, el, gas og brændsel, som andel af samlet forbrug
+ 126   
+ 127  sub.l = sum(F,p.l(F)*mu.l(F));
+ 128   
+ 129  share('D','1') = 0.22;
+ 130  share('D','2') = 0.21;
+ 131  share('D','3') = 0.18;
+ 132  share('D','4') = 0.18;
+ 133  share('D','5') = 0.16;
+ 134   
+ 135  share('C',hh) = 1 - share('D',hh) ;
+ 136   
+ 137  X.l(HH,F) = (share(F,HH)/p.l(F))*(w.l*rho(hh)*N.l);
+ 138   
+ 139  X.fx(HH,F) = X.l(HH,F);
+ 140  sub.fx = sub.l;
+ 141  p.fx(F) =1;
+ 142   
+ 143  tau('D')=0;
+ 144  tau('C')=0;
+ 145   
+ 146  w.fx =1;
+ 147   
+      equations
+      c1
+      c2;
+       
+      c1(f,hh).. alpha(F,HH) =e= (X(HH,F)-mu(F))*p(F)/(w*rho(hh)*N-sub);
+      c2(HH)..      sum((f), (1+tau(F))*p(F)*X(HH,F)) =e= w*rho(HH)*N;
+       
+      model kali /c1,c2/;
+       
+      solve kali using cns;
+ 160   
+ 161  alpha.fx(F,HH) = alpha.l(F,HH);
+****                         $141
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+ 162  mu.fx(F) = mu.l(F);
+ 163  X.l(HH,F) = X.l(HH,F);
+ 164  sub.l = sub.l;
+ 165  p.l(F) =1;
+ 166  w.l =1;
+ 167   
+ 168  Y.l('D') = sum(HH,X.l(HH,'D'));
+ 169  Y.l('C') = sum(HH,X.l(HH,'C'));
+ 170   
+ 171  L.l(F) = Y.l(F);
+ 172   
+ 173  G.l = tau('D')*sum(HH,X.l(HH,'D'));
+ 174   
+ 175  Y_G.l = 0;
+ 176  L_G.l =0;
+ 177  p_G.l=1;
+ 178   
+ 179  p_c_0.fx(hh) = p_c.l(hh);
+ 180  w_0.fx = w.l;
+ 181  N_0.fx = N.l;
+ 182  X_D_0.l(hh) = X.l(hh,'D');
+ 183  X_total.l(F) = sum(HH,X.l(HH,F));
+ 184   
+ 185   
+ 186   
+ 187  execute_unload 'Output\stone_geary_5h_kal';
+ 188   
+ 189   
+ 190  * Løser nulstød
+ 191  solve stone_geary using cns;
+****                             $257
+**** 257  Solve statement not checked because of previous errors
+ 192   
+ 193  X_total.l(F) = sum(HH,X.l(HH,F));
+ 194   
+ 195  EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh));
+ 196  EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l;
+ 197  EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 198  ev_pct.l(hh) = EV.l(hh)/(rho(hh)*N.l*w.l);
+ 199  ev_p_pct.l(hh) = Ev_p.l(hh)/(rho(hh)*N.l*w.l);
+ 200   
+ 201  execute_unload 'Output\stone_geary_5h_basis';
+ 202   
+ 203   
+ 204  ************* Stød: tau = 0.1 **********
+ 205  tau('D')=0.1;
+ 206  tau('C')=0;
+ 207   
+ 208  solve stone_geary using cns;
+****                             $257
+**** 257  Solve statement not checked because of previous errors
+ 209   
+ 210  X_total.l(F) = sum(HH,X.l(HH,F));
+ 211   
+ 212  EV_p.l(hh) = ((p_c_0.l(hh)-p_c.l(hh))/p_c.l(hh))*(w.l*N.l*rho(hh));
+ 213  EV_I.l(hh) = rho(hh)*w.l*N.l-rho(hh)*w_0.l*N_0.l;
+ 214  EV.l(hh) =EV_p.l(hh)+EV_I.l(hh);
+ 215  ev_pct.l(hh) = EV.l(hh)/(rho(hh)*N.l*w.l);
+ 216  ev_p_pct.l(hh) = Ev_p.l(hh)/(rho(hh)*N.l*w.l);
+ 217  X_D_rel.l(hh) = (X.l(hh,'D')-X_D_0.l(hh))/X_D_0.l(hh);
+ 218   
+ 219  execute_unload 'Output\stone_geary_5h_tau01';
+ 220   
+
+**** 3 ERROR(S)   0 WARNING(S)
+
+
+COMPILATION TIME     =        0.003 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/stone_geary_5h.lst
+
+**** USER ERROR(S) ENCOUNTERED
