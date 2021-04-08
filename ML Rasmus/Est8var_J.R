@@ -87,8 +87,10 @@ maxb = c(min(Faste.FOEDEVARER),
          min(Faste.TRANSPORT),
          min(Faste.RESTAURANTER.OG.HOTELLER))
 
-sol <- optim(par = c(-1,-2,-1,-2,-1,-2,-2,20000,2000,4000,40000,6000,2000,20000,6000), fn = loglik, 
-             phat=phat, w=w, method="L-BFGS-B", lower=c(0,0,0,0,0,0,0,0,0,0,0), upper=c(1,1,1,1,1,1,1,maxb[1],maxb[2],maxb[3],maxb[4],maxb[5],maxb[6],maxb[7],maxb[8]), control=list(maxit=5000))
+
+sol <- optim(par = c(-1,-2,-1,-2,-1,-2,-2,18000,1000,3000,30000,5000,1000,10000,5000), fn = loglik, 
+             phat=phat, w=w, method="L-BFGS-B", lower=c(0,0,0,0,0,0,0,0,0,0,0), upper=c(1,1,1,1,1,1,1,maxb[1],maxb[2],maxb[3],maxb[4],maxb[5],maxb[6],maxb[7],maxb[8]), 
+              control=list(maxit=5000))
 print(sol)
 sol_gamma <- c(sol$par[1:7],0)
 sol_b <- sol$par[8:15]
@@ -100,16 +102,16 @@ print(sol_b)
 
 
 
-bstart1 = seq(20000,maxb[1],by=1000)         
-bstart2 = seq(2500,maxb[2],by=500)
-bstart3 = seq(4000,maxb[3],by=500)
-bstart4 = seq(50000,maxb[4],by=1000)
-bstart5 = seq(20000,maxb[5],by=1000)         
-bstart6 = seq(2500,maxb[6],by=500)
-bstart7 = seq(4000,maxb[7],by=500)
-bstart8 = seq(50000,maxb[8],by=1000)
+bstart1 = seq(1000,maxb[1],by=10000)         
+bstart2 = seq(1000,maxb[2],by=2000)
+bstart3 = seq(1000,maxb[3],by=3000)
+bstart4 = seq(1000,maxb[4],by=20000)
+bstart5 = seq(1000,maxb[5],by=40000)         
+bstart6 = seq(1000,maxb[6],by=1500)
+bstart7 = seq(1000,maxb[7],by=10000)
+bstart8 = seq(1000,maxb[8],by=3000)
 
-Sol_table <- data.frame(Likeli=1,a1=1,a2=1,a3=1,a4=1, a5=1,a6=1,a7=1,b1=1,b2=1,b3=1,b4=1,b5=1,b6=1,b7=1,b8=1)
+Sol_table <- data.frame(Likeli=1,a1=1,a2=1,a3=1,a4=1, a5=1,a6=1,a7=1,a8=1,b1=1,b2=1,b3=1,b4=1,b5=1,b6=1,b7=1,b8=1)
 #j <- 5000
 #k <- 8000
 #l <- 70000
@@ -121,21 +123,21 @@ for (i in bstart1) {
           for (u in bstart6) {
             for (h in bstart7) {
               for (b in bstart8) {
-                tryCatch({sol <- optim(par = c(-1,-2,-2,i,j,k,l), fn = loglik,
-                                       phat=phat, w=w, method="L-BFGS-B", lower=c(0,0,0,20000,2500,4000,50000)
-                                       ,upper=c(1,1,1,36010,6540,11200,85470), control=list(maxit=5000))
-                print(sol)
-                sol_gamma <- c(sol$par[1:7],0)
-                sol_b <- sol$par[8:15]
-                sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
-                print(sol_alpha)
-                print(sol_b)
-                list <- list(Likeli=sol$value,a1=sol_alpha[1],
+                tryCatch({sol <- optim(par = c(-1,-2,-1,-2,-1,-2,-2,i,j,k,l,w,u,h,b), fn = loglik, 
+                                       phat=phat, w=w, method="L-BFGS-B", lower=c(0,0,0,0,0,0,0,0,0,0,0), upper=c(1,1,1,1,1,1,1,maxb[1],maxb[2],maxb[3],maxb[4],maxb[5],maxb[6],maxb[7],maxb[8]), 
+                                       control=list(maxit=5000))
+                  print(sol)
+                  sol_gamma <- c(sol$par[1:7],0)
+                  sol_b <- sol$par[8:15]
+                  sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
+                  print(sol_alpha)
+                  print(sol_b)
+                  list <- list(Likeli=sol$value,a1=sol_alpha[1],
                              a2=sol_alpha[2],a3=sol_alpha[3],
-                             a4=sol_alpha[4],a5=sol_aplha[5],a5=sol_aplha[6],a5=sol_aplha[7],
-                             a5=sol_aplha[8],b1=sol_b[1],b2=sol_b[2],
+                             a4=sol_alpha[4],a5=sol_aplha[5],a6=sol_aplha[6],a7=sol_aplha[7],
+                             a8=sol_aplha[8],b1=sol_b[1],b2=sol_b[2],
                              b3=sol_b[3],b4=sol_b[4],b4=sol_b[5],b4=sol_b[6],b4=sol_b[7],b4=sol_b[8])
-                Sol_table <- rbind(Sol_table, list)}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+                  Sol_table <- rbind(Sol_table, list)}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
               
               }
             }
