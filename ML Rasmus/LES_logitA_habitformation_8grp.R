@@ -3,44 +3,55 @@
 #no scientific numbers
 options(scipen=999)
 
-df<-read.csv("simpeldata4grup.csv",sep=';')
-attach(df)
-names(df)
-dim(df)
-View(df)
-
+df<-read.csv("simpeldata8grup.csv",sep=';')
 #make prices and shares
 df     <- transform( df,
-                     p1 = FØDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Faste.FØDEVARER,
+                     p1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Faste.FOEDEVARER,
                      p2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/Faste.ALKOHOL,
-                     p3 = BEKLÆDNING.OG.FODTØJ/Faste.BEKLÆDNING,
-                     p4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Faste.BOLIG.EL.OG.OPVARMNING
+                     p3 = BEKLAEDNING.OG.FODTOEJ/Faste.BEKLAEDNING,
+                     p4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Faste.BOLIG.EL.OG.OPVARMNING,
+                     p5 = MOEBLER/Faste.MOEBLER,
+                     p6 = SUNDHED/Faste.SUNDHED,
+                     p7 = TRANSPORT/Faste.TRANSPORT,
+                     p8 = RESTAURANTER.OG.HOTELLER/Faste.RESTAURANTER.OG.HOTELLER
 ) 
 df     <- transform( df,
-                     w1 = FØDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Sumloeb,
+                     w1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Sumloeb,
                      w2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/Sumloeb,
-                     w3 = BEKLÆDNING.OG.FODTØJ/Sumloeb,
-                     w4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Sumloeb
+                     w3 = BEKLAEDNING.OG.FODTOEJ/Sumloeb,
+                     w4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Sumloeb,
+                     w5 = MOEBLER/Sumloeb,
+                     w6 = SUNDHED/Sumloeb,
+                     w7 = TRANSPORT/Sumloeb,
+                     w8 = RESTAURANTER.OG.HOTELLER/Sumloeb
 ) 
+
 df     <- transform( df,
                      phat1=p1/Sumloeb,
                      phat2=p2/Sumloeb,
                      phat3=p3/Sumloeb,
-                     phat4=p4/Sumloeb
+                     phat4=p4/Sumloeb,
+                     phat5=p5/Sumloeb,
+                     phat6=p6/Sumloeb,
+                     phat7=p7/Sumloeb,
+                     phat8=p8/Sumloeb
 ) 
-View(df)
 
 #make the relevant data
-w = matrix(c(df$w1,df$w2,df$w3,df$w4),
-           nrow=26, ncol=4)
-phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4),
-              nrow=26, ncol=4)
-x = matrix(c(df$Faste.FØDEVARER,df$Faste.ALKOHOL,df$Faste.BEKLÆDNING,df$Faste.BOLIG.EL.OG.OPVARMNING)
-           ,nrow=26)
-
+w = matrix(c(df$w1,df$w2,df$w3,df$w4,df$w5,df$w6,df$w7,df$w8),
+           nrow=26, ncol=8)
+phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4,df$phat5,df$phat6,df$phat7,df$phat8),
+              nrow=26, ncol=8)
+x = matrix(c(df$Faste.FOEDEVARER,df$Faste.ALKOHOL,df$Faste.BEKLAEDNING,df$Faste.BOLIG.EL.OG.OPVARMNING,
+             df$Faste.MOEBLER, df$Faste.SUNDHED, df$Faste.TRANSPORT, df$Faste.TRANSPORT)
+           ,nrow=26, ncol=8)
 #scaling
 x <- x/10000
 phat <- phat*10000
+
+#making alpha start values
+alpha_start=w[26,]
+
 
 par=c(-1,-2,-2,1,0.1,0.2,1,0.6,0.6,0.6,0.6)
 
@@ -93,6 +104,9 @@ loglik <- function(par,w,phat,x,habitform) {
 # betaerne er habitformation-parametre
 # beta = c(0.6,0.6,0.6,0.6)
 
+# Starting values for gamma based on shares of total consumption
+s
+
 sol <-  optim(par = c(-1,-2,-2,   1, 0.1, 0.2, 1,   0.6,0.6,0.6,0.6), fn = loglik, 
         phat=phat, w=w, x=x, habitform=1, method="L-BFGS-B", 
         lower = c(-100,-100,-100,0,0,0,0,0,0,0,0), 
@@ -109,11 +123,16 @@ print(sol_bstar)
 print(sol_beta)
 
 #finder nogle plausible intervaller for minimumsværdierne
-maxb = c(min(Faste.FØDEVARER),
+maxb = c(min(Faste.FOEDEVARER),
          min(Faste.ALKOHOL),
-         min(Faste.BEKLÆDNING), 
-         min(Faste.BOLIG.EL.OG.OPVARMNING))
-minb = c(0,0,0,0)
+         min(Faste.BEKLAEDNING), 
+         min(Faste.BOLIG.EL.OG.OPVARMNING),
+         min(Faste.MOEBLER),
+         min(Faste.SUNDHED),
+         min(Faste.TRANSPORT),
+         min(Faste.RESTAURANTER.OG.HOTELLER))
+
+minb = c(0,0,0,0,0,0,0,0)
 
 bstart1 = seq(minb[1],maxb[1],by=8000)         
 bstart2 = seq(minb[2],maxb[2],by=2000)
