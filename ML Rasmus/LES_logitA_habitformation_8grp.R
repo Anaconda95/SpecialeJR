@@ -1,9 +1,10 @@
-
+rm(list=ls())
 # Indlæs data
 #no scientific numbers
 options(scipen=999)
 
 df<-read.csv("simpeldata8grup.csv",sep=';')
+# Julie: df<-read.csv("C:/specialeJR/ML Rasmus/simpeldata8grup.csv",sep=';')
 #make prices and shares
 df     <- transform( df,
                      p1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Faste.FOEDEVARER,
@@ -117,33 +118,38 @@ loglik <- function(par,w,phat,x,habitform) {
 # beta = c(0.6,0.6,0.6,0.6)
 
 # Starting values for gamma based on shares of total consumption
-start = c(3.9,	1.2,	2.4,	4.7,	3,	1.3,	3.9,  0,	0,	0, 0,	0,	0,	0,	0, 0.6, 0.6,0.6,0.6,0.6,0.6,0.6,0.6)
-
+lower = c(rep(-100,7),rep(0,8),rep(0,8))
+upper =c(rep(100,7),rep(12,8),rep(1,8))
+#start_bstar = c(rep(1,8))
+start_bstar=c(0.90025,	0.1635,	0.2802,	2.1368,	0.30205,	0.101475,	0.7151,	0.18055)
+start_beta = c(rep(0.6,8))
+start = c(gammasol$par[1:7],  start_bstar, start_beta)
+print(start)
 sol <-  optim(par = start, fn = loglik, 
-        phat=phat, w=w, x=x, habitform=1, method="L-BFGS-B", 
-        lower = c(-100,-100,-100,0,0,0,0,0,0,0,0), 
-        upper=c(100,100,100,100,100,100,100,1,1,1,1), 
+        phat=phat, w=w, x=x, habitform=0, method="L-BFGS-B", 
+        lower = lower , 
+        upper= upper , 
         control=list(maxit=5000))
+
+
 print(sol)
 
 sol_gamma <- c(sol$par[1:7],0)
 sol_bstar <- sol$par[8:15]
-sol_beta <-  c(sol$par[16:24])
+sol_beta <-  c(sol$par[16:23])
 sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
 sol_b <- c(w[,1]*sol_beta[1] + sol_bstar[1], w[,2]*sol_beta[2] + sol_bstar[2], w[,3]*sol_beta[3] + sol_bstar[3], w[,4]*sol_beta[4] + sol_bstar[4]
            ,w[,5]*sol_beta[5] + sol_bstar[5],w[,6]*sol_beta[6] + sol_bstar[6],w[,7]*sol_beta[7] + sol_bstar[7],w[,8]*sol_beta[8] + sol_bstar[8])
 print(sol_b)
-
-Sol_table <- data.frame(Likeli=1,a1=1,a2=1,a3=1,a4=1,b1=1,b2=1,b3=1,b4=1)
-list <- list(Likeli=sol$value,a1=sol_alpha[1],
-             a2=sol_alpha[2],a3=sol_alpha[3],
-             a4=sol_alpha[4], a4=sol_alpha[5], a4=sol_alpha[6], a4=sol_alpha[7], a4=sol_alpha[8] ,b1=sol_b[1],b2=sol_b[2],
-             b3=sol_b[3],b4=sol_b[4],b4=sol_b[5],b4=sol_b[6],b4=sol_b[7],b4=sol_b[8])
-Sol_table <- rbind(Sol_table, list)
-sol_b <- w*list(sol_beta) + list(sol_bstar)
 print(sol_alpha)
 print(sol_bstar)
 print(sol_beta)
+
+#sammenligner med data
+print(maxb)
+print(alpha_start)
+
+
 
 #finder nogle plausible intervaller for minimumsværdierne
 maxb = c(min(Faste.FOEDEVARER)/10000,
@@ -155,14 +161,61 @@ maxb = c(min(Faste.FOEDEVARER)/10000,
          min(Faste.TRANSPORT)/10000,
          min(Faste.RESTAURANTER.OG.HOTELLER)/10000)
 
+bstart1 = seq(1000,maxb[1],by=10000)         
+bstart2 = seq(1000,maxb[2],by=2000)
+bstart3 = seq(1000,maxb[3],by=3000)
+bstart4 = seq(1000,maxb[4],by=20000)
+bstart5 = seq(1000,maxb[5],by=40000)         
+bstart6 = seq(1000,maxb[6],by=1500)
+bstart7 = seq(1000,maxb[7],by=10000)
+bstart8 = seq(1000,maxb[8],by=3000)
 
-print(maxb)
-minb = c(0,0,0,0,0,0,0,0)
+Sol_table <- data.frame(Likeli=1,a1=1,a2=1,a3=1,a4=1, a5=1,a6=1,a7=1,a8=1,b1=1,b2=1,b3=1,b4=1,b5=1,b6=1,b7=1,b8=1)
 
-bstart1 = seq(minb[1],maxb[1],by=8000)         
-bstart2 = seq(minb[2],maxb[2],by=2000)
-bstart3 = seq(minb[3],maxb[3],by=2500)
-bstart4 = seq(minb[4],maxb[4],by=20000)
+for (i in bstart1) {
+  for (j in bstart2) {
+    for (k in bstart3) {
+      for (l in bstart4) {
+        for (w in bstart5) {
+          for (u in bstart6) {
+            for (h in bstart7) {
+              for (b in bstart8) {
+                tryCatch({sol <-  optim(par = start, fn = loglik, 
+                                        phat=phat, w=w, x=x, habitform=0, method="L-BFGS-B", 
+                                        lower = lower , 
+                                        upper= upper , 
+                                        control=list(maxit=5000)))
+                print(sol)
+                sol_gamma <- c(sol$par[1:7],0)
+                sol_b <- sol$par[8:15]
+                sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
+                print(sol_alpha)
+                print(sol_b)
+                list <- list(Likeli=sol$value,a1=sol_alpha[1],
+                             a2=sol_alpha[2],a3=sol_alpha[3],
+                             a4=sol_alpha[4],a5=sol_aplha[5],a6=sol_aplha[6],a7=sol_aplha[7],
+                             a8=sol_aplha[8],b1=sol_b[1],b2=sol_b[2],
+                             b3=sol_b[3],b4=sol_b[4],b4=sol_b[5],b4=sol_b[6],b4=sol_b[7],b4=sol_b[8])
+                Sol_table <- rbind(Sol_table, list)}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+                
+              }
+            }
+          }
+        }  
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
 
 Sol_table <- data.frame(Likeli=1,a1=1,a2=1,a3=1,a4=1,b1=1,b2=1,b3=1,b4=1)
 #j <- 5000
