@@ -225,10 +225,32 @@ for (i in bstart1) {
 Sol_over849 = Sol_table[Sol_table$Likeli < -849.000,]
 
 Sol_max = Sol_table[Sol_table$Likeli == min(Sol_table$Likeli),]
-a_max <- 
+a_max <- Sol_max[1,2:9]
+lik_max <- c(Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1])
+bstar_max <- Sol_max[,10:17]*10000
+beta_max <- Sol_max[,18:25]
+
+colnames(a_max) = c("Mad","Alko","Bekl", "Bolig", "Moebler", "Sundhed", "Transport", "Rest")
+colnames(lik_max) = c("Mad","Alko","Bekl", "Bolig", "Moebler", "Sundhed", "Transport", "Rest")
+colnames(bstar_max) = c("Mad","Alko","Bekl", "Bolig", "Moebler", "Sundhed", "Transport", "Rest")
+colnames(beta_max) = c("Mad","Alko","Bekl", "Bolig", "Moebler", "Sundhed", "Transport", "Rest")
+
+df1 <- data.frame()
+df1 <- rbind(a_max,bstar_max)
+df1 <- rbind(df1,beta_max)
+df1 <- rbind(df1,lik_max)
+
 
 sol_b <- c(w[,1]*sol_beta[1] + sol_bstar[1], w[,2]*sol_beta[2] + sol_bstar[2], w[,3]*sol_beta[3] + sol_bstar[3], w[,4]*sol_beta[4] + sol_bstar[4]
            ,w[,5]*sol_beta[5] + sol_bstar[5],w[,6]*sol_beta[6] + sol_bstar[6],w[,7]*sol_beta[7] + sol_bstar[7],w[,8]*sol_beta[8] + sol_bstar[8])
-write.table(Sol_over849,"C:/specialeJR/ML Rasmus/sol_table849ML.csv", row.names = FALSE, col.names = TRUE, sep=",")
+write.table(df1,"C:/specialeJR/ML Rasmus/tabel_ML.csv", row.names = c("alpha","bstar","beta","Likeli"), col.names = TRUE, sep=",")
 
+results <- matrix(c(a_max,bstar_max*10000,beta_max,lik_max),ncol=8,byrow=TRUE)
+colnames(results) <- c("Foedev","Alko","Beklaed","Boligel","Moebler","Sundhed","Transport", "RestogHotel")
+rownames(results) <- c("alpha","b_star","Beta", "Likeli")
+results <- as.table(results)
+results
 
+print(sol_alpha)
+print(a_max)
+print(a_max[1,])
