@@ -6,6 +6,7 @@ options(scipen=999)
 
 # Indl√¶s data
 df<-read.csv("simpeldata8grup.csv",sep=';')
+df<-read.csv("C:/specialeJR/ML Rasmus/simpeldata8grup.csv",sep=';')
 
 #make prices and shares
 df     <- transform( df,
@@ -129,11 +130,19 @@ beta_start <- c(rep(0.5,8))  #beta s√¶ttes til 0.5
 start = c(gamma_start[1:7],  bstar_start, beta_start)
 print(start)
 
+# startvÊrdier uden habit formation
+b_start <- 0.5*apply(x, 2, min)
+start_uhabit = c(gamma_start[1:7],  b_start)
+print(start_uhabit)
+
+
 # S√¶tter upper og lower bounds (ellers kan den godt stikke af)
 # gammaerne er (s√• godt som) frie, b'erne skal v√¶re >0 og beta'erne mellem 0 og 1.
 # bem√¶rk at b skal fortolkes som
 lower = c(rep(-100,7),rep(0,8),rep(0,8))
 upper =c(rep(100,7),rep(12,8),rep(1,8))
+
+
 
 #Optimerer likelihood.
 sol <-  optim(par = start, fn = loglik, 
@@ -149,10 +158,26 @@ sol_beta <-  c(sol$par[16:23])
 sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
 sol_b <- c(w[,1]*sol_beta[1] + sol_bstar[1], w[,2]*sol_beta[2] + sol_bstar[2], w[,3]*sol_beta[3] + sol_bstar[3], w[,4]*sol_beta[4] + sol_bstar[4]
            ,w[,5]*sol_beta[5] + sol_bstar[5],w[,6]*sol_beta[6] + sol_bstar[6],w[,7]*sol_beta[7] + sol_bstar[7],w[,8]*sol_beta[8] + sol_bstar[8])
+
 #print(sol_b)
 print(sol_alpha)
 print(sol_bstar)
 print(sol_beta)
+
+#Optimerer likelihood uden habotformation
+sol_uhabit <-  optim(par = start_uhabit, fn = loglik, 
+              phat=phat, w=w, x=x, habitform=0, method="L-BFGS-B", 
+              lower = lower , 
+              upper= upper , 
+              control=list(maxit=5000))
+print(sol_uhabit)
+sol_gamma_uhabit <- c(sol_uhabit$par[1:7],0)
+sol_alpha_uhabit <- exp(sol_gamma_uhabit)/sum(exp(sol_gamma_uhabit)) 
+sol_b <- sol_uhabit$par[8:15]
+
+print(sol_gamma_uhabit)
+print(sol_b)
+
 
 #sammenligner med data
 print(maxb)
@@ -229,14 +254,18 @@ for (i in bstart1) {
   }
 }
 
+# Kigger pÂ likelihood over 249
 Sol_over849 = Sol_table[Sol_table$Likeli < -849.000,]
 
+
+# Finder l¯sning med h¯jeste likelihood vÊrdi
 Sol_max = Sol_table[Sol_table$Likeli == min(Sol_table$Likeli),]
 a_max <- Sol_max[1,2:9]
 lik_max <- c(Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1],Sol_max[,1])
 bstar_max <- Sol_max[,10:17]*10000
 beta_max <- Sol_max[,18:25]
 
+# laver tabel med ahbitformation og max lik
 colnames(a_max) = c("Mad","Alko","Bekl", "Bolig", "Moebler", "Sundhed", "Transport", "Rest")
 colnames(lik_max) = c("Mad","Alko","Bekl", "Bolig", "Moebler", "Sundhed", "Transport", "Rest")
 colnames(bstar_max) = c("Mad","Alko","Bekl", "Bolig", "Moebler", "Sundhed", "Transport", "Rest")
@@ -246,18 +275,22 @@ df1 <- data.frame()
 df1 <- rbind(a_max,bstar_max)
 df1 <- rbind(df1,beta_max)
 df1 <- rbind(df1,lik_max)
-
-
-sol_b <- c(w[,1]*sol_beta[1] + sol_bstar[1], w[,2]*sol_beta[2] + sol_bstar[2], w[,3]*sol_beta[3] + sol_bstar[3], w[,4]*sol_beta[4] + sol_bstar[4]
-           ,w[,5]*sol_beta[5] + sol_bstar[5],w[,6]*sol_beta[6] + sol_bstar[6],w[,7]*sol_beta[7] + sol_bstar[7],w[,8]*sol_beta[8] + sol_bstar[8])
 write.table(df1,"C:/specialeJR/ML Rasmus/tabel_ML.csv", row.names = c("alpha","bstar","beta","Likeli"), col.names = TRUE, sep=",")
 
-results <- matrix(c(a_max,bstar_max*10000,beta_max,lik_max),ncol=8,byrow=TRUE)
+
+# laver atbel uden habitformation
+lik_max_uhabit <- c(rep(sol_uhabit$value,8))
+results <- matrix(c(sol_alpha_uhabit,sol_b,lik_max_uhabit),ncol=8,byrow=TRUE)
 colnames(results) <- c("Foedev","Alko","Beklaed","Boligel","Moebler","Sundhed","Transport", "RestogHotel")
-rownames(results) <- c("alpha","b_star","Beta", "Likeli")
+rownames(results) <- c("alpha","b","Likeliehood")
 results <- as.table(results)
 results
+write.table(results,"C:/specialeJR/ML Rasmus/tabel_ML_uhabit.csv", row.names = c("alpha","b","Likeli"), col.names = TRUE, sep=",")
 
-print(sol_alpha)
-print(a_max)
-print(a_max[1,])
+# Kigger pÂ b'erne som tidsserier
+sol_b <- c(w[,1]*sol_beta[1] + sol_bstar[1], w[,2]*sol_beta[2] + sol_bstar[2], w[,3]*sol_beta[3] + sol_bstar[3], w[,4]*sol_beta[4] + sol_bstar[4]
+           ,w[,5]*sol_beta[5] + sol_bstar[5],w[,6]*sol_beta[6] + sol_bstar[6],w[,7]*sol_beta[7] + sol_bstar[7],w[,8]*sol_beta[8] + sol_bstar[8])
+
+# Laver tabel med budgetandelene i data
+write.table(alpha_goal,"C:/specialeJR/ML Rasmus/alpha.csv", row.names = , col.names = TRUE, sep=",")
+
