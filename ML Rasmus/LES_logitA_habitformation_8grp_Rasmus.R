@@ -2,7 +2,7 @@ rm(list=ls())
 # Indlæs data
 #no scientific numbers
 options(scipen=999)
-
+options(digits=7)
 df<-read.csv("simpeldata8grup.csv",sep=';')
 # Julie: df<-read.csv("C:/specialeJR/ML Rasmus/simpeldata8grup.csv",sep=';')
 #make prices and shares
@@ -50,18 +50,7 @@ x = matrix(c(df$Faste.FOEDEVARER,df$Faste.ALKOHOL,df$Faste.BEKLAEDNING,df$Faste.
 x <- x/10000
 phat <- phat*10000
 
-#making alpha start values
-alpha_goal=w[26,]
-gammafn <- function(par,alpha_goal) {
-  return(  sum((alpha_goal - exp(par)/(1+sum(exp(par))) )^2)    )
-}
-gammasol <- optim(par=c(1,1,1,1,1,1,1),fn=gammafn, alpha_goal=w[26,1:7], method="BFGS", 
-                  control=list(maxit=5000))
-print(gammasol)
-gamma_start <- c(gammasol$par,0)
-alpha_start <- exp(gamma_start)/sum(exp(gamma_start))
-print(w[26,1:8])
-print(alpha_start)
+
 
 loglik <- function(par,w,phat,x,habitform) {
   dims=dim(w)
@@ -102,47 +91,58 @@ loglik <- function(par,w,phat,x,habitform) {
   } else
     print("Set habitform = 1 or =0 ")
 }
-
 #startværdier betyder meget.
-
+#making alpha start values
 # Starting values for gamma based on shares of total consumption
-lower <- c(rep(-100,7),rep(0,8),rep(0,8))
-upper <- c(rep(100,7),rep(100,8),rep(1,8))
-#start_bstar = c(rep(1,8))
 
-bstar_start <- c(0.90025,	0.1635,	0.2802,	2.1368,	0.30205,	0.101475,	0.7151,	0.18055)
-beta_start <- c(rep(0.5,8))
+alpha_goal=w[26,]
+gammafn <- function(par,alpha_goal) {
+  return(  sum((alpha_goal - exp(par)/(1+sum(exp(par))) )^2)    )
+}
+gammasol <- optim(par=c(1,1,1,1,1,1,1),fn=gammafn, alpha_goal=w[26,1:7], method="BFGS", 
+                  control=list(maxit=5000))
+print(gammasol)
+gamma_start <- c(gammasol$par,0)
+alpha_start <- exp(gamma_start)/sum(exp(gamma_start))
+print(w[26,1:8])
+print(alpha_start)
+
+#making other starting values. b_star should probably be less than minimum consumption
+bstar_start <- 0.7*apply(x, 2, min)
+beta_start <- c(rep(0.2,8))
 start = c(gamma_start[1:7],  bstar_start, beta_start)
 print(start)
 
+lower <- c(rep(-100,7),rep(0,8),rep(0,8))
+upper <- c(rep(100,7),rep(100,8),rep(1,8))
+
 sol <-  optim(par = start, fn = loglik, 
-        phat=phat, w=w, x=x, habitform=0, method="L-BFGS-B", 
+        phat=phat, w=w, x=x, habitform=1, method="L-BFGS-B", 
         lower = lower , 
         upper= upper , 
         control=list(maxit=5000))
-
-
 print(sol)
 
 sol_gamma <- c(sol$par[1:7],0)
 sol_bstar <- sol$par[8:15]
 sol_beta <-  c(sol$par[16:23])
 sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
-sol_b <- c(w[,1]*sol_beta[1] + sol_bstar[1], w[,2]*sol_beta[2] + sol_bstar[2], w[,3]*sol_beta[3] + sol_bstar[3], w[,4]*sol_beta[4] + sol_bstar[4]
-           ,w[,5]*sol_beta[5] + sol_bstar[5],w[,6]*sol_beta[6] + sol_bstar[6],w[,7]*sol_beta[7] + sol_bstar[7],w[,8]*sol_beta[8] + sol_bstar[8])
-print(sol_b)
-print(sol_alpha)
-print(sol_bstar)
-print(sol_beta)
+#sol_b <- c(w[,1]*sol_beta[1] + sol_bstar[1], w[,2]*sol_beta[2] + sol_bstar[2], w[,3]*sol_beta[3] + sol_bstar[3], w[,4]*sol_beta[4] + sol_bstar[4]
+#           ,w[,5]*sol_beta[5] + sol_bstar[5],w[,6]*sol_beta[6] + sol_bstar[6],w[,7]*sol_beta[7] + sol_bstar[7],w[,8]*sol_beta[8] + sol_bstar[8])
+#print(sol_b
+
+results <- matrix(c(sol_alpha,sol_bstar,sol_beta),ncol=8,byrow=TRUE)
+colnames(results) <- c("Foedev","Alko","Beklaed","Boligel","Moebler","Sundhed","Transport", "RestogHotel")
+rownames(results) <- c("alpha","b_star","Beta")
+results <- as.table(results)
+results
 
 #sammenligner med data
 print(maxb)
 print(alpha_start)
 
-
-
 #finder nogle plausible intervaller for minimumsværdierne
-maxb = c(min(Faste.FOEDEVARER)/10000,
+maxb = c(min(Faste.f)/10000,
          min(Faste.ALKOHOL)/10000,
          min(Faste.BEKLAEDNING)/10000, 
          min(Faste.BOLIG.EL.OG.OPVARMNING)/10000,
