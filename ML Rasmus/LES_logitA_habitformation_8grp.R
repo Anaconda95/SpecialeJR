@@ -1,10 +1,12 @@
+#clear workspace
 rm(list=ls())
-# Indlæs data
+
 #no scientific numbers
 options(scipen=999)
 
+# Indlæs data
 df<-read.csv("simpeldata8grup.csv",sep=';')
-df<-read.csv("C:/specialeJR/ML Rasmus/simpeldata8grup.csv",sep=';')
+
 #make prices and shares
 df     <- transform( df,
                      p1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Faste.FOEDEVARER,
@@ -16,6 +18,7 @@ df     <- transform( df,
                      p7 = TRANSPORT/Faste.TRANSPORT,
                      p8 = RESTAURANTER.OG.HOTELLER/Faste.RESTAURANTER.OG.HOTELLER
 ) 
+#shares findes som forbrug i løbende priser/samlet forbrug af de otte varer.
 df     <- transform( df,
                      w1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Sumloeb,
                      w2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/Sumloeb,
@@ -27,6 +30,7 @@ df     <- transform( df,
                      w8 = RESTAURANTER.OG.HOTELLER/Sumloeb
 ) 
 
+#phat findes som priser divideret med samlet forbrug
 df     <- transform( df,
                      phat1=p1/Sumloeb,
                      phat2=p2/Sumloeb,
@@ -38,7 +42,7 @@ df     <- transform( df,
                      phat8=p8/Sumloeb
 ) 
 
-#make the relevant data
+#Datasættet sættes op i 'pæne' matricer.
 w = matrix(c(df$w1,df$w2,df$w3,df$w4,df$w5,df$w6,df$w7,df$w8),
            nrow=26, ncol=8)
 phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4,df$phat5,df$phat6,df$phat7,df$phat8),
@@ -46,53 +50,43 @@ phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4,df$phat5,df$phat6,df$phat7,d
 x = matrix(c(df$Faste.FOEDEVARER,df$Faste.ALKOHOL,df$Faste.BEKLAEDNING,df$Faste.BOLIG.EL.OG.OPVARMNING,
              df$Faste.MOEBLER, df$Faste.SUNDHED, df$Faste.TRANSPORT, df$Faste.TRANSPORT)
            ,nrow=26, ncol=8)
-#scaling
+
+#x og phat skaleres. X er forbrug i faste priser. Det er for at få bedre konvergens når der optimeres
 x <- x/10000
 phat <- phat*10000
 
-#making alpha start values
-alpha_goal=w[26,]
-
-gammafn <- function(par,alpha_goal) {
-  return(  sum((alpha_goal - exp(par)/(1+sum(exp(par))) )^2)    )
-}
-gammasol <- optim(par=c(1,1,1,1,1,1,1),fn=gammafn, alpha_goal=w[26,1:7], method="BFGS", 
-                  control=list(maxit=5000))
-print(gammasol)
-gamma_start <- c(gammasol$par,0)
-alpha_start <- exp(gamma_start)/sum(exp(gamma_start))
-print(w[26,1:8])
-print(alpha_start)
-
-par=c(-1,-2,-2,1,0.1,0.2,1,0.6,0.6,0.6,0.6)
-
-
-
+#loglikelihood, der skal maksimeres, findes i følgende funktion
+# der er to muligheder: med og uden habitformation.
+#Habit formation: minimums forbrug b_t er defineret ved
+# b_t= b* + \beta x_{t-1}
 loglik <- function(par,w,phat,x,habitform) {
+  #sætter dimensioner
   dims=dim(w)
   T=dims[1]
   n=dims[2]
+  #med habitformation
   if (habitform==1){
-    gamma <- c(par[1:(n-1)],0) 
-    a <- exp(gamma)/sum(exp(gamma))  
-    bstar <- c(par[n:(2*n-1)])
-    beta <- c(par[(2*n):(3*n-1)])
-    b <- matrix(rep(bstar,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + x[1:(T-1),]%*%diag(beta)
-    supernum <- 1-rowSums(phat[2:T,] * b)
-    supernummat <- matrix(rep(supernum,n),ncol=n)
-    u <- w[2:T,] - phat[2:T,]*b - supernummat%*%diag(a)
-    #smid en variabel ud
+    gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
+    a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
+    bstar <- c(par[n:(2*n-1)]) # bstar: 8 parametre
+    beta <- c(par[(2*n):(3*n-1)]) #beta: 8 parametre
+    #Med habit formation må ét år fjernes fra estimeringen.
+    b <- matrix(rep(bstar,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + x[1:(T-1),]%*%diag(beta) #b defineres som matrix.
+    supernum <- 1-rowSums(phat[2:T,] * b) #supernumerary income i hver periode sættes
+    supernummat <- matrix(rep(supernum,n),ncol=n) # for at lette beregningen af u replikeres n gange til en matrixe
+    u <- w[2:T,] - phat[2:T,]*b - supernummat%*%diag(a) #u beregnes ud fra modellen
+    #En kolonne u'er smides ud, da matricen ellers er singulær
     uhat <- u[ , 1:(n-1)]
-    #find invers af cov(uhat) - jf. Peters note
+    #Følger Peters note og sætter A som inv(cov(uhat))
     A <- solve(cov(uhat))
-    #udregn u_t'Au_t for at kunne tage summen
+    #udregn u_t'Au_t for at kunne tage summen i Likelihood
     uhatAuhat <- apply(uhat,1,function(x) x %*% A %*% t(t(x)))
-    #likelihood fnctn
+    #Opskriver likelihood-fuktionen:
     return(   +(n-1)/2*T*log(2*pi) - T/2*log(det(A)) + 1/2*sum(uhatAuhat)     )
-  }else if (habitform == 0) {
+  }else if (habitform == 0) {  #uden habit formation
     gamma <- c(par[1:(n-1)],0)  
-    a <- exp(gamma)/sum(exp(gamma))  
-    b <- c(par[n:(2*n-1)])
+    a <- exp(gamma)/sum(exp(gamma))  #igen, a er en logit
+    b <- c(par[n:(2*n-1)])           # b er time-invariant
     supernum <- 1-rowSums(phat %*% diag(b))
     supernummat <- matrix(rep(supernum,n),ncol=n)
     u <- w - phat %*% diag(b) - supernummat%*%diag(a)
@@ -102,36 +96,51 @@ loglik <- function(par,w,phat,x,habitform) {
     A <- solve(cov(uhat))
     #udregn u_t'Au_t for at kunne tage summen
     uhatAuhat <- apply(uhat,1,function(x) x %*% A %*% t(t(x)))
-    #likelihood fnctn
+    #likelihood funktionen
     return(   +(n-1)/2*T*log(2*pi) - T/2*log(det(A)) + 1/2*sum(uhatAuhat)     )
   } else
     print("Set habitform = 1 or =0 ")
 }
 
-#startværdier betyder meget. Fx kunne man bruge følgende
-# a'erne er defineret ved logitfunktionen) par[1:3]
-# siden vi definerede a'erne ved logit har neldor-mead
-# ikke kunne løse, da matricen bliver singulær
-# bstar'erne er defineret ved nødvendigt forbrug, fx:
-# bstar=c(10000,1000,2000,30000)
-# betaerne er habitformation-parametre
-# beta = c(0.6,0.6,0.6,0.6)
+#startværdier betyder meget og skal vælges med omhu - eller prøve mange af.
 
-# Starting values for gamma based on shares of total consumption
+#Startværdier til gamma(alpha) findes. I første omgang sættes startværdierne
+#lig andelene i den sidste periode.
+alpha_goal=w[26,]
+
+#Løser ligningssystem, så gamma'erne afspejler de ønskede alphaer.
+#gamma_n er lig 0.
+gammafn <- function(par,alpha_goal) {
+  return(  sum((alpha_goal - exp(par)/(1+sum(exp(par))) )^2)    )
+}
+gammasol <- optim(par=c(1,1,1,1,1,1,1),fn=gammafn, alpha_goal=w[26,1:7], method="BFGS", 
+                  control=list(maxit=5000))
+print(gammasol)
+gamma_start <- c(gammasol$par,0)
+alpha_start <- exp(gamma_start)/sum(exp(gamma_start))
+
+#tjekker at det passer.
+print(w[26,1:8])
+print(alpha_start)
+
+#sætter startværdier for bstar: her 70 pct. af det mindste forbrug over årene af en given vare i fastepriser
+bstar_start <- 0.25*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+beta_start <- c(rep(0.5,8))  #beta sættes til 0.5
+start = c(gamma_start[1:7],  bstar_start, beta_start)
+print(start)
+
+# Sætter upper og lower bounds (ellers kan den godt stikke af)
+# gammaerne er (så godt som) frie, b'erne skal være >0 og beta'erne mellem 0 og 1.
+# bemærk at b skal fortolkes som
 lower = c(rep(-100,7),rep(0,8),rep(0,8))
 upper =c(rep(100,7),rep(12,8),rep(1,8))
-#start_bstar = c(rep(1,8))
-start_bstar=c(0.9,	0.16,	0.28,	2.13,	0.3,	0.1,	0.7,	0.18)
-start_beta = c(rep(0.6,8))
-start = c(gammasol$par[1:7],  start_bstar, start_beta)
-print(start)
+
+#Optimerer likelihood.
 sol <-  optim(par = start, fn = loglik, 
         phat=phat, w=w, x=x, habitform=1, method="L-BFGS-B", 
         lower = lower , 
         upper= upper , 
         control=list(maxit=5000))
-
-
 print(sol)
 
 sol_gamma <- c(sol$par[1:7],0)
@@ -148,8 +157,6 @@ print(sol_beta)
 #sammenligner med data
 print(maxb)
 print(alpha_start)
-
-
 
 #finder nogle plausible intervaller for minimumsværdierne
 maxb = c(min(Faste.FOEDEVARER)/10000,
