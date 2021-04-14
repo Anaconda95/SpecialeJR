@@ -91,6 +91,8 @@ habit=rep(0.2,3)
 starthabit = c(gamma_start[1:(n-1)], b_start, habit, covar_start)
 print(starthabit)
 par=starthabit
+
+#definerer funktionen - vigtigt
 loglik <- function(par,w,phat,x,habitform) {
   #sætter dimensioner
   dims=dim(w)
@@ -109,7 +111,6 @@ loglik <- function(par,w,phat,x,habitform) {
     u <- w[2:T,] - phat[2:T,]*b - supernummat%*%diag(a) #u beregnes ud fra modellen
     #En kolonne u'er smides ud, da matricen ellers er singulær
     uhat <- u[ , 1:(n-1)]
-    #Følger Peters note og sætter A som inv(cov(uhat))
     # omega skal være covariansmatricen for den normalfordeling
     # omega skal også estimeres som parameter.
     #find omega matrix()
@@ -118,9 +119,10 @@ loglik <- function(par,w,phat,x,habitform) {
     #udregn u_t'Au_t for at kunne tage summen
     uhatomegainvuhat <- apply(uhat,1,function(x) x %*% omegainv %*% x)
     #likelihood funktionen
-#    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
-#    return(   -sum(l1) )
-    return(   -( -(n-1)*(T-1)*log(2*pi)/2   -(T-1)/2*log(det(omega)) -1/2*sum(uhatomegainvuhat) )     )
+    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
+    return(   -sum(l1) )
+    #umiddelbart regner følgende rigtigt ud, men det går helt galt, når den skal optimere
+#    return(   -( -(n-1)*(T-1)*log(2*pi)/2   -(T-1)/2*log(det(omega)) -1/2*sum(uhatomegainvuhat) )     )  
   }else if (habitform == 0) {  #uden habit formation
     gamma <- c(par[1:(n-1)],0)  
     a <- exp(gamma)/sum(exp(gamma))  #igen, a er en logit
@@ -136,29 +138,34 @@ loglik <- function(par,w,phat,x,habitform) {
     #udregn u_t'Au_t for at kunne tage summen
     uhatomegainvuhat <- apply(uhat,1,function(x) x %*% omegainv %*% x)
     #likelihood funktionen
-    return(   -(- (n-1)/2*T*log(2*pi) -  T/2*log(det(omega)) - 1/2*sum(uhatomegainvuhat) )     )
+    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
+    return(   -sum(l1) )
+    #return(   -(- (n-1)/2*T*log(2*pi) -  T/2*log(det(omega)) - 1/2*sum(uhatomegainvuhat) )     )
   } else
     print("Set habitform = 1 or =0 ")
 }
 
+#upper og lower values
 lower = c(rep(-100,3),rep(0,3),rep(-100,3))
 upper =c(rep(100,3),rep(12,3),rep(100,3))
 
 #Maksimererlikelihood.
-#virker med BFGS
+#virker med BFGS, og konvergerer for forskellige startværdier.
 # og B'erne er sindssygt afhængige af startværdier.
 
-sol <-  optim(  par = starthabit, fn = loglik, gr=NULL, habitform=1,
-                phat=phat, w=w, x=x, method="BFGS", hessian=FALSE, 
+sol <-  optim(  par = start, fn = loglik, habitform=0,
+                phat=phat, w=w, x=x, method="BFGS",
  #                             lower = lower ,  upper= upper , 
                 control=list(maxit=5000,
                              trace=99,
-                             ndeps = rep(1e-8,11))    ) #ndeps=rep(1e-8,11))  )
+                             ndeps = rep(1e-10,8))    ) #ndeps=rep(1e-8,11))  )
+#bottomline: det virker med mvtnorm - men ikke ved at skrive den op i hånden. Umiddelbart
+#umiddelbart har det noget at gøre med at log(det(omega)) bliver NAN.
 
-sol8<-sol$par
-starthabit8 <- starthabit
+#Tjek for forskellige startværdier.
 
-sol4
-sol6
-sol7
+
+
+
+
 
