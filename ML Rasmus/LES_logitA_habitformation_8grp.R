@@ -79,6 +79,9 @@ loglik <- function(par,w,phat,x,habitform) {
     #En kolonne u'er smides ud, da matricen ellers er singulær
     uhat <- u[ , 1:(n-1)]
     #Følger Peters note og sætter A som inv(cov(uhat))
+    # omega skal være covariansmatricen for den normalfordeling
+    # omega skal også estimeres som parameter.
+    # Startværdier? Omega. Sæt som start. 
     A <- solve(cov(uhat))
     #udregn u_t'Au_t for at kunne tage summen i Likelihood
     uhatAuhat <- apply(uhat,1,function(x) x %*% A %*% t(t(x)))
