@@ -7,6 +7,7 @@ options(scipen=999)
 
 # Indlæs data
 df<-read.csv("simpeldata8grup.csv",sep=';')
+df<-read.csv("C:/specialeJR/ML Rasmus/simpeldata8grup.csv",sep=';')
 
 #make prices and shares
 df     <- transform( df,
@@ -68,7 +69,7 @@ print(alpha_start)
 b_start <- 0.8*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 #finder startværdier for kovariansmatricen
-par <- start
+
 a <- alpha_start  #igen, a er en logit
 b <- b_start         # b er time-invariant
 supernum <- 1-rowSums(phat %*% diag(b))
@@ -86,11 +87,17 @@ covar_start <- c(covar[1,1],covar[2,2],covar[1,2])
 start = c(gamma_start[1:(n-1)], b_start, covar_start)
 print(start)
 
+
+
 #sætter startværdier for habit formation
 habit=rep(0.2,3)
-starthabit = c(gamma_start[1:(n-1)], b_start, habit, covar_start)
-print(starthabit)
-par=starthabit
+start_habit = c(gamma_start[1:(n-1)], b_start, habit, covar_start)
+print(start_habit)
+par=start_habit
+
+# S�tter startv�rdier for uden habit formation 
+start_uhabit = c(gamma_start[1:(n-1)], b_start,covar_start)
+print(start_uhabit)
 
 #definerer funktionen - vigtigt
 loglik <- function(par,w,phat,x,habitform) {
@@ -122,7 +129,7 @@ loglik <- function(par,w,phat,x,habitform) {
     l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
     return(   -sum(l1) )
     #umiddelbart regner følgende rigtigt ud, men det går helt galt, når den skal optimere
-#    return(   -( -(n-1)*(T-1)*log(2*pi)/2   -(T-1)/2*log(det(omega)) -1/2*sum(uhatomegainvuhat) )     )  
+    #return(   -( -(n-1)*(T-1)*log(2*pi)/2   -(T-1)/2*(det(omega, log=TRUE)) -1/2*sum(uhatomegainvuhat) )     )  
   }else if (habitform == 0) {  #uden habit formation
     gamma <- c(par[1:(n-1)],0)  
     a <- exp(gamma)/sum(exp(gamma))  #igen, a er en logit
@@ -140,29 +147,143 @@ loglik <- function(par,w,phat,x,habitform) {
     #likelihood funktionen
     l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
     return(   -sum(l1) )
-    #return(   -(- (n-1)/2*T*log(2*pi) -  T/2*log(det(omega)) - 1/2*sum(uhatomegainvuhat) )     )
+    #return(   -(- (n-1)/2*T*log(2*pi) -  T/2*(log(det(omega))) - 1/2*sum(uhatomegainvuhat) )     )
   } else
     print("Set habitform = 1 or =0 ")
 }
 
+
+
+
 #upper og lower values
-lower = c(rep(-100,3),rep(0,3),rep(-100,3))
-upper =c(rep(100,3),rep(12,3),rep(100,3))
+lower = c(rep(-100,2),rep(0,3),rep(0,3))
+upper =c(rep(100,2),rep(12,3),rep(0,3))
 
 #Maksimererlikelihood.
 #virker med BFGS, og konvergerer for forskellige startværdier.
 # og B'erne er sindssygt afhængige af startværdier.
 
-sol <-  optim(  par = start, fn = loglik, habitform=0,
+sol_uhabit <-  optim(  par = start_uhabit, fn = loglik, habitform=0,
                 phat=phat, w=w, x=x, method="BFGS",
  #                             lower = lower ,  upper= upper , 
                 control=list(maxit=5000,
                              trace=99,
-                             ndeps = rep(1e-10,8))    ) #ndeps=rep(1e-8,11))  )
+                             ndeps = rep(1e-10,8))    )
+
+sol_habit <-  optim(  par = start_habit, fn = loglik, habitform=1,
+                       phat=phat, w=w, x=x, method="L-BFGS-B",
+                         #                           lower = lower ,  upper= upper , 
+                       control=list(maxit=5000,
+                                    trace=99,
+                                    ndeps = rep(1e-10,11))    )
+#Problem: den kan ikke l�se med L-BFGS-B
+sol_uhabit$par
+
 #bottomline: det virker med mvtnorm - men ikke ved at skrive den op i hånden. Umiddelbart
 #umiddelbart har det noget at gøre med at log(det(omega)) bliver NAN.
 
 #Tjek for forskellige startværdier.
+gamma_start
+b_start
+#  Uden habitformation 
+min(x[,3])
+gstart_1 = c(-1,-2)        
+gstart_2 = c(-2,-1)
+
+
+bstart_1 = c(1,2.5)         
+bstart_2 = c(0.2,0.8)
+bstart_3 = c(3,5)
+
+
+Solution_uhabit <- data.frame(Likeli=1,a1=1,a2=1,a3=1,b1=1,b2=1,b3=1,o1=1,o2=1,o3=1)
+Start_uhabit <- data.frame(a1=1,a2=1,a3=1,b1=1,b2=1,b3=1)
+
+for (i in bstart_1) {
+  for (j in bstart_2) {
+    for (k in bstart_3) {
+      for (l in gstart_1) {
+        for (q in gstart_2) {
+         tryCatch({sol <- optim(par = c(l,q,i,j,k,covar_start), fn = loglik, habitform=0,
+                                phat=phat, w=w, x=x, method="BFGS",
+                                #                             lower = lower ,  upper= upper , 
+                                control=list(maxit=5000,
+                                             trace=99,
+                                             ndeps = rep(1e-10,8))    )
+         print(sol)
+         sol_gamma <- c(sol$par[1:2],0)
+         sol_b <- sol$par[3:5]*10000
+         sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
+         list <- list(Likeli=sol$value,a1=sol_alpha[1],
+                      a2=sol_alpha[2],a3=sol_alpha[3],
+                      b1=sol_b[1],b2=sol_b[2],
+                      b3=sol_b[3],o1=sol$par[6],o2=sol$par[7],o3=sol$par[8])
+         gamma_ini <- c(l,q,0)
+         alpha_ini <- exp(gamma_ini)/sum(exp(gamma_ini)) 
+         b_ini <- c(i,j,k)
+         list1 <- list(a1=alpha_ini[1],
+                      a2=alpha_ini[2],a3=alpha_ini[3],
+                      b1=b_ini[1],b2=b_ini[2],
+                      b3=b_ini[3])
+         Solution_uhabit <- rbind(Solution_uhabit, list)
+         Start_uhabit <- rbind(Start_uhabit, list1)}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+        }
+      }
+    }
+  }
+}
+
+
+
+### Med habit formation
+Solution_habit <- data.frame(Likeli=1,a1=1,a2=1,a3=1,b1=1,b2=1,b3=1,h1=1, h2=1, h3=1,o1=1,o2=1,o3=1)
+Start_habit <- data.frame(a1=1,a2=1,a3=1,b1=1,b2=1,b3=1)
+
+for (i in bstart_1) {
+  for (j in bstart_2) {
+    for (k in bstart_3) {
+      for (l in gstart_1) {
+        for (q in gstart_2) {
+          tryCatch({sol <- optim(par = c(l,q,i,j,k,0.2,0.2,0.2,covar_start),  fn = loglik, habitform=1,
+                                 phat=phat, w=w, x=x, method="BFGS",
+                                                           # lower = lower , upper= upper , 
+                                 control=list(maxit=5000,
+                                              trace=99,
+                                              ndeps = rep(1e-10,11))    )
+          print(sol)
+          sol_gamma <- c(sol$par[1:2],0)
+          sol_b <- sol$par[3:5]*10000
+          sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
+          
+          list <- list(Likeli=sol$value,a1=sol_alpha[1],
+                       a2=sol_alpha[2],a3=sol_alpha[3],
+                       b1=sol_b[1],b2=sol_b[2],
+                       b3=sol_b[3], h1=sol$par[6], h2=sol$par[7], h3=sol$par[8], o1=sol$par[9],o2=sol$par[10],o3=sol$par[11])
+          
+          gamma_ini <- c(l,q,0)
+          alpha_ini <- exp(gamma_ini)/sum(exp(gamma_ini)) 
+          b_ini <- c(i,j,k)
+          list1 <- list(a1=alpha_ini[1],
+                        a2=alpha_ini[2],a3=alpha_ini[3],
+                        b1=b_ini[1],b2=b_ini[2],
+                        b3=b_ini[3])
+          Solution_habit <- rbind(Solution_habit, list)
+          Start_habit <- rbind(Start_habit, list1)}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+        }
+      }
+    }
+  }
+}
+
+
+## Problem: b3 bliver negativ
+Solution_uhabit <- apply(Solution_uhabit,2,as.character)
+Solution_habit <- apply(Solution_habit,2,as.character)
+write.csv(Solution_uhabit,"C:/specialeJR/Estimering/Solution_uhabit.csv", row.names = FALSE)
+write.csv(Solution_habit,"C:/specialeJR/Estimering/Solution_habit.csv", row.names = FALSE)
+
+
+
 
 
 
