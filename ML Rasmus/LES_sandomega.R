@@ -209,7 +209,7 @@ for (i in bstart_1) {
                                 #                             lower = lower ,  upper= upper , 
                                 control=list(maxit=5000,
                                              trace=99,
-                                             ndeps = rep(1e-10,8))    )
+                                             ndeps = rep(1e-11,8))    )
          print(sol)
          sol_gamma <- c(sol$par[1:2],0)
          sol_b <- sol$par[3:5]*10000
@@ -276,17 +276,11 @@ for (i in bstart_1) {
 }
 
 
-## Problem: b3 bliver negativ
+# hvad med det sidste element i covarians matricen?
+
 Solution_uhabit <- apply(Solution_uhabit,2,as.character)
 Solution_habit <- apply(Solution_habit,2,as.character)
 write.csv(Solution_uhabit,"C:/specialeJR/Estimering/Solution_uhabit.csv", row.names = FALSE)
 write.csv(Solution_habit,"C:/specialeJR/Estimering/Solution_habit.csv", row.names = FALSE)
-
-
-
-
-
-
-
 
 
