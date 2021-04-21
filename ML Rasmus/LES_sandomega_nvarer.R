@@ -12,35 +12,38 @@ df<-read.csv("C:/specialeJR/ML Rasmus/simpeldata8grup.csv",sep=';')
 #make prices and shares
 df     <- transform( df,
                      p1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Faste.FOEDEVARER,
-                     p2 = BEKLAEDNING.OG.FODTOEJ/Faste.BEKLAEDNING,
-                     p3 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Faste.BOLIG.EL.OG.OPVARMNING
+                     p2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/Faste.ALKOHOL,
+                     p3 = BEKLAEDNING.OG.FODTOEJ/Faste.BEKLAEDNING,
+                     p4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Faste.BOLIG.EL.OG.OPVARMNING
 ) 
 
 df     <- transform( df,
-                     TotalForb = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER +BEKLAEDNING.OG.FODTOEJ + BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING 
-                     
+                     TotalForb = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER +BEKLAEDNING.OG.FODTOEJ 
+                     + BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING + ALKOHOLISKE.DRIKKEVARER.OG.TOBAK
 ) 
 #shares findes som forbrug i løbende priser/samlet forbrug af de otte varer.
 df     <- transform( df,
                      w1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/TotalForb,
-                     w2 = BEKLAEDNING.OG.FODTOEJ/TotalForb,
-                     w3 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/TotalForb
+                     w2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/TotalForb,
+                     w3 = BEKLAEDNING.OG.FODTOEJ/TotalForb,
+                     w4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/TotalForb
 ) 
 
 #phat findes som priser divideret med samlet forbrug
 df     <- transform( df,
                      phat1=p1/TotalForb,
                      phat2=p2/TotalForb,
-                     phat3=p3/TotalForb
+                     phat3=p3/TotalForb,
+                     phat4=p4/TotalForb
 ) 
 
 #Datasættet sættes op i 'pæne' matricer.
-w = matrix(c(df$w1,df$w2,df$w3),
-           nrow=26, ncol=3)
-phat = matrix(c(df$phat1,df$phat2,df$phat3),
-              nrow=26, ncol=3)
-x = matrix(c(df$Faste.FOEDEVARER,df$Faste.BEKLAEDNING,df$Faste.BOLIG.EL.OG.OPVARMNING)
-           ,nrow=26, ncol=3)
+w = matrix(c(df$w1,df$w2,df$w3,df$w4),
+           nrow=26, ncol=4)
+phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4),
+              nrow=26, ncol=4)
+x = matrix(c(df$Faste.FOEDEVARER,df$ALKOHOLISKE.DRIKKEVARER.OG.TOBAK,df$Faste.BEKLAEDNING,df$Faste.BOLIG.EL.OG.OPVARMNING)
+           ,nrow=26, ncol=4)
 
 #x og phat skaleres. X er forbrug i faste priser. Det er for at få bedre konvergens når der optimeres
 x <- x/10000
@@ -50,23 +53,24 @@ dims=dim(w)
 T=dims[1]
 n=dims[2]
 
-#Løser ligningssystem, så gamma'erne afspejler de ønskede alphaer.
+#Løser ligningssystem, så gamma'erne afspejler de ønskede alphaer startværdier
+#Sæt ønskede alpha fx lig budgetandele i sidste periode.
 #gamma_n er lig 0.
 gammafn <- function(par,alpha_goal) {
   return(  sum((alpha_goal - exp(par)/(1+sum(exp(par))) )^2)    )
 }
-gammasol <- optim(par=rep(0,(n-1)),fn=gammafn, alpha_goal=w[10,1:(n-1)], method="BFGS", 
+gammasol <- optim(par=rep(0,(n-1)),fn=gammafn, alpha_goal=w[T,1:(n-1)], method="BFGS", 
                   control=list(maxit=5000))
 print(gammasol)
 gamma_start <- c(gammasol$par,0)
 alpha_start <- exp(gamma_start)/sum(exp(gamma_start))
 
 #tjekker at det passer.
-print(w[10,1:(n)])
+print(w[T,1:(n)])
 print(alpha_start)
 
-#sætter startværdier for bstar: her 70 pct. af det mindste forbrug over årene af en given vare i fastepriser
-b_start <- 0.8*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+#sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
+b_start <- 0.50*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 #finder startværdier for kovariansmatricen
 
@@ -82,22 +86,27 @@ covar <- cov(uhat)
 #covar=t(chol(covar))%*%chol(covar)
 #cholcovar <- chol(covar)
 #covar_start <- c(cholcovar)
-covar_start <- c(covar[1,1],covar[2,2],covar[1,2])
+covar_start <- covar[lower.tri(covar,diag=TRUE)]
 
-start = c(gamma_start[1:(n-1)], b_start, covar_start)
+start_uhabit = c(gamma_start[1:(n-1)], b_start, covar_start)
 print(start)
 
-
-
 #sætter startværdier for habit formation
-habit=rep(0.2,3)
-start_habit = c(gamma_start[1:(n-1)], b_start, habit, covar_start)
+habit=rep(0.5,n)
+autocorr <- 0.7
+start_habit = c(gamma_start[1:(n-1)], b_start, habit, covar_start,autocorr)
 print(start_habit)
 par=start_habit
 
 # S?tter startv?rdier for uden habit formation 
 start_uhabit = c(gamma_start[1:(n-1)], b_start,covar_start)
 print(start_uhabit)
+
+#funktion til at lave symmetrisk matrix
+makeSymm <- function(m) {
+  m[upper.tri(m)] <- t(m)[upper.tri(m)]
+  return(m)
+}
 
 #definerer funktionen - vigtigt
 loglik <- function(par,w,phat,x,habitform) {
@@ -109,8 +118,9 @@ loglik <- function(par,w,phat,x,habitform) {
   if (habitform==1){
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
-    bstar <- c(par[n:(2*n-1)]) # bstar: 8 parametre
-    beta <- c(par[(2*n):(3*n-1)]) #beta: 8 parametre
+    bstar <- c(par[n:(2*n-1)]) # bstar: n parametre
+    beta <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+  #  beta <- exp(beta)/(1+exp(beta)) #prøver at gøre det til logit
     #Med habit formation må ét år fjernes fra estimeringen.
     b <- matrix(rep(bstar,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + x[1:(T-1),]%*%diag(beta) #b defineres som matrix.
     supernum <- 1-rowSums(phat[2:T,] * b) #supernumerary income i hver periode sættes
@@ -118,15 +128,19 @@ loglik <- function(par,w,phat,x,habitform) {
     u <- w[2:T,] - phat[2:T,]*b - supernummat%*%diag(a) #u beregnes ud fra modellen
     #En kolonne u'er smides ud, da matricen ellers er singulær
     uhat <- u[ , 1:(n-1)]
+    #vi prøver lige at fixe noget autocorrelation
+    ehat <- uhat[2:25,]- par[((3*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:24,]
     # omega skal være covariansmatricen for den normalfordeling
     # omega skal også estimeres som parameter.
     #find omega matrix()
-    omega <- matrix(c(par[9],par[11],par[11],par[10]), nrow=2, ncol=2)
-    omegainv <- solve(omega)
+    omega <- matrix(NA,(n-1),(n-1))
+    omega[lower.tri(omega,diag=TRUE)] <- par[(3*n) : ((3*(n) + (n-1)*((n-1)+1)/2) - 1) ]
+    omega<-makeSymm(omega)
+    #omegainv <- solve(omega)
     #udregn u_t'Au_t for at kunne tage summen
-    uhatomegainvuhat <- apply(uhat,1,function(x) x %*% omegainv %*% x)
+    #uhatomegainvuhat <- apply(uhat,1,function(x) x %*% omegainv %*% x)
     #likelihood funktionen
-    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
+    l1 = dmvnorm(x=ehat, mean=rep(0,n-1), sigma=omega, log=TRUE)
     return(   -sum(l1) )
     #umiddelbart regner følgende rigtigt ud, men det går helt galt, når den skal optimere
     #return(   -( -(n-1)*(T-1)*log(2*pi)/2   -(T-1)/2*(det(omega, log=TRUE)) -1/2*sum(uhatomegainvuhat) )     )  
@@ -140,8 +154,10 @@ loglik <- function(par,w,phat,x,habitform) {
     #smid en variabel ud
     uhat <- u[ ,1:(n-1)]
     #find omega matrix()
-    omega <- matrix(c(par[6],par[8],par[8],par[7]), nrow=2, ncol=2)
-    omegainv <- solve(omega)
+    omega <- matrix(NA,(n-1),(n-1))
+    omega[lower.tri(omega,diag=TRUE)] <- par[(2*n) : ((2*(n) + (n-1)*((n-1)+1)/2) - 1) ]
+    omega<-makeSymm(omega)
+    #omegainv <- solve(omega)
     #udregn u_t'Au_t for at kunne tage summen
     uhatomegainvuhat <- apply(uhat,1,function(x) x %*% omegainv %*% x)
     #likelihood funktionen
@@ -152,13 +168,6 @@ loglik <- function(par,w,phat,x,habitform) {
     print("Set habitform = 1 or =0 ")
 }
 
-
-
-
-#upper og lower values
-lower = c(rep(-100,2),rep(0,3),rep(0,3))
-upper =c(rep(100,2),rep(12,3),rep(0,3))
-
 #Maksimererlikelihood.
 #virker med BFGS, og konvergerer for forskellige startværdier.
 # og B'erne er sindssygt afhængige af startværdier.
@@ -168,16 +177,44 @@ sol_uhabit <-  optim(  par = start_uhabit, fn = loglik, habitform=0,
  #                             lower = lower ,  upper= upper , 
                 control=list(maxit=5000,
                              trace=99,
-                             ndeps = rep(1e-10,8))    )
+                             ndeps = rep(1e-10,length(start_uhabit)))    )
+
+sol_gamma <- c(sol_uhabit$par[1:(n-1)],0)
+sol_b <- sol_uhabit$par[n:(2*n-1)]*10000
+sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma))
+print(sol_alpha)
+print(sol_b)
+sol_b_mat <- matrix(rep(sol_b,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) 
+matrix(c(sol_b_mat,10000*x[2:(T),]),nrow=25,ncol=8, byrow=FALSE)
+
 
 sol_habit <-  optim(  par = start_habit, fn = loglik, habitform=1,
-                       phat=phat, w=w, x=x, method="L-BFGS-B",
-                         #                           lower = lower ,  upper= upper , 
+                       phat=phat, w=w, x=x, method="BFGS",
+#                                                    lower = lower ,  upper= upper , 
                        control=list(maxit=5000,
-                                    trace=99,
-                                    ndeps = rep(1e-10,11))    )
-#Problem: den kan ikke l?se med L-BFGS-B
-sol_uhabit$par
+                                    trace=6,
+                                    ndeps = rep(1e-10,length(start_habit)))    )
+
+#Problem: den kan ikke l?se med L-BFGS-B. Lidt irriterende.
+
+sol_gamma <- c(sol_habit$par[1:(n-1)],0)
+sol_b <- sol_habit$par[n:(2*n-1)]*10000
+sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma))
+sol_beta <- sol_habit$par[(2*n):(3*n-1)]
+print(sol_alpha)
+print(sol_b)
+print(sol_beta)
+sol_b_mat <- matrix(rep(sol_b,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + 10000*x[1:(T-1),]%*%diag(sol_beta)
+matrix(c(sol_b_mat,10000*x[2:(T),]),nrow=25,ncol=8, byrow=FALSE)
+
+supernum <- 1-rowSums(phat[3:T,] * sol_b_mat/10000) #supernumerary income i hver periode sættes
+supernummat <- matrix(rep(supernum,n),ncol=n) 
+
+#umiddelbart temmeligt meget autocorrelation i error-terms:
+uhat <- w[2:T,] - phat[2:T,]*sol_b_mat/10000 - supernummat%*%diag(sol_alpha)
+
+#nu med autocorrelation - simpel udgave.
+ehat <- uhat[2:25,]- sol_habit$par[((3*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:24,]
 
 #bottomline: det virker med mvtnorm - men ikke ved at skrive den op i hånden. Umiddelbart
 #umiddelbart har det noget at gøre med at log(det(omega)) bliver NAN.
@@ -273,12 +310,61 @@ for (i in bstart_1) {
   }
 }
 
+### Med habit formation og autocorrelation - ret anderledes estimater.
+Solution_habit_acorr <- data.frame(Likeli=1,a1=1,a2=1,a3=1,a4=1,
+                                   b1=1,b2=1,b3=1,b4=1,
+                                   h1=1, h2=1, h3=1, h4=1,
+                                   o1=1,o2=1,o3=1,o4=1,o5=1,o6=1,
+                                   rho=1)
+Start_habit <- data.frame(a1=1,a2=1,a3=1,b1=1,b2=1,b3=1)
+
+for (i in bstart_1) {
+  for (j in bstart_2) {
+    for (k in bstart_3) {
+      for (l in gstart_1) {
+        for (q in gstart_2) {
+          tryCatch({sol <- optim(par = c(l,l,q,i,j,j,k,0.2,0.2,0.2,0.2,covar_start,autocorr),  fn = loglik, habitform=1,
+                                 phat=phat, w=w, x=x, method="BFGS",
+                                 # lower = lower , upper= upper , 
+                                 control=list(maxit=5000,
+                                              trace=99,
+                                              ndeps = rep(1e-10,18))    )
+          print(sol)
+          sol_gamma <- c(sol$par[1:3],0)
+          sol_b <- sol$par[4:7]*10000
+          sol_alpha <- exp(sol_gamma)/sum(exp(sol_gamma)) 
+          
+          list <- list(Likeli=sol$value,a1=sol_alpha[1],
+                       a2=sol_alpha[2],a3=sol_alpha[3],a4=sol_alpha[4],
+                       b1=sol_b[1],b2=sol_b[2],b3=sol_b[3], b4=sol_b[4],
+                       h1=sol$par[8], h2=sol$par[9], h3=sol$par[10], h4=sol$par[11],
+                       o1=sol$par[12],o2=sol$par[13],o3=sol$par[14], o4=sol$par[15], o5=sol$par[16], o6=sol$par[17],
+                       rho=sol$par[18])
+          
+          #gamma_ini <- c(l,q,0)
+         # alpha_ini <- exp(gamma_ini)/sum(exp(gamma_ini)) 
+          #b_ini <- c(i,j,k)
+          #list1 <- list(a1=alpha_ini[1],
+          #              a2=alpha_ini[2],a3=alpha_ini[3],
+          #              b1=b_ini[1],b2=b_ini[2],
+          #              b3=b_ini[3])
+          Solution_habit_acorr <- rbind(Solution_habit_acorr, list)
+          #Start_habit <- rbind(Start_habit, list1) 
+          }, 
+         error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+        }
+      }
+    }
+  }
+}
+
+
 ## Problem: b3 bliver negativ
 Solution_uhabit <- apply(Solution_uhabit,2,as.character)
 Solution_habit <- apply(Solution_habit,2,as.character)
 write.csv(Solution_uhabit,"C:/specialeJR/Estimering/Solution_uhabit.csv", row.names = FALSE)
 write.csv(Solution_habit,"C:/specialeJR/Estimering/Solution_habit.csv", row.names = FALSE)
-
+write.csv(Solution_habit_acorr,"Solution_habit_acorr.csv", row.names = FALSE)
 
 
 
