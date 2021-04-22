@@ -343,16 +343,22 @@ for (i in varegrupper) {
         rowSums())
 }
 
-form=sprintf('295v_decil_%s.csv', filenames[[j]])
+df_ny <- df_ny %>%
+  mutate(ialt = 
+           df_ny %>% 
+           select(!c('aar','01','02','03','04','05','06','07','08','09','10','11','12')) %>%  
+           rowSums())
+
+form=sprintf('v295_decil_%s.csv', filenames[[j]])
 #write.csv(df_ny, file=form)
 
-assign( paste("295v_decil", filenames[[j]], sep = "_") , df_ny)
+assign( paste("v295_decil", filenames[[j]], sep = "_") , df_ny)
 
 }
 
 # Definerer 8 varegrupper: ----------
 
-kod_fisk_mej = c (    "01121",      #Okse- og kalvekød
+kod_fisk_mej = c (     "01121",      #Okse- og kalvekød
                        "01122",      #Svinekød
                        "01123",      #Lamme- og gedekød
                        "01124",      #Fjerkræ
@@ -372,9 +378,9 @@ kod_fisk_mej = c (    "01121",      #Okse- og kalvekød
                        "01144",      #Yoghurt
                        "01145",      #Ost
                        "01146",      #Andre mejeriprodukter
-                       "01147",      #Æg
-                       "01151")      #Smør
-ovr_fode     =list ( "01111",      #Ris
+                       "01147")      #Æg
+                       
+ovr_fode     =c ( "01111",      #Ris
                   "01112",      #Mel og gryn
                   "01113",      #Brød
                   "01114",      #Andet bagværk
@@ -382,6 +388,7 @@ ovr_fode     =list ( "01111",      #Ris
                   "01116",      #Pastaprodukter og couscous
                   "01117",      #Morgenmadsprodukter
                   "01118",      #Andre kornprodukter
+                  "01151",      #Smør
                   "01152",      #Margarine og andre vegetabilske fedtstoffer
                   "01153",      #Olivenolie
                   "01154",      #Andre spiselige olier
@@ -413,7 +420,6 @@ ovr_fode     =list ( "01111",      #Ris
                   "01221",      #Mineralvand eller kildevand
                   "01222",      #Læskedrikke
                   "01223",      #Frugt- og grøntsagssaft samt koncentrater til saft
-                  "02"   ,      #ALKOHOLISKE DRIKKEVARER OG TOBAK
                   "02111",      #Spiritus og likør
                   "02112",      #Alkoholiske læskedrikke
                   "02121",      #Vin af druer
@@ -429,7 +435,7 @@ ovr_fode     =list ( "01111",      #Ris
                   "02203",      #Andre tobaksvarer
                   "02300")      #Euforiserende stoffer)
 
-bol   =list(       "04110",      #Faktisk husleje betalt af lejere
+bol   =c(          "04110",      #Faktisk husleje betalt af lejere
                    "04121",      #Lejernes faktiske husleje for fritidsbolig
                    "04210",      #Beregnet lejeværdi af egen bolig
                    "04220",      #Andre beregnede lejeværdier
@@ -446,7 +452,7 @@ bol   =list(       "04110",      #Faktisk husleje betalt af lejere
                    "04442",      #Sikkerhedstjenester
                    "04449")      #Andre tjenester i forbindelse med boliger
 
-ene_hje = list(    "04510",      #Elektricitet
+ene_hje = c(       "04510",      #Elektricitet
                    "04521",      #Natur- og bygas
                    "04522",      #Flydende kulbrinter
                    "04530",      #Flydende brændsel
@@ -454,12 +460,12 @@ ene_hje = list(    "04510",      #Elektricitet
                    "04549",      #Andet fast brændsel
                    "04550")      #Fjernvarme mv 
                    
-ene_tra = list (   "07221",      #Diesel
+ene_tra = c (      "07221",      #Diesel
                    "07222",      #Benzin
                    "07223",      #Andre brændstoffer til personlige transportmidler
                    "07224")      #Smøremidler
 
-tra =    list (    "07111",      #Nye biler
+tra =    c(        "07111",      #Nye biler
                    "07112",      #Brugte biler
                    "07120",      #Motorcykler
                    "07130",      #Cykler
@@ -479,9 +485,9 @@ tra =    list (    "07111",      #Nye biler
                    "07341",      #Personbefordring ad søvejen
                    "07350",      #Kombineret personbefordring
                    "07362",      #Flytning og opmagasinering
-                   "07369")      #Andre købte transporttjenester ol         )
+                   "07369")      #Andre købte transporttjenester ol         
 
-ovr_var = list(    "03110",      #Materialer til beklædning
+ovr_var = c(       "03110",      #Materialer til beklædning
                    "03121",      #Beklædning til mænd
                    "03122",      #Beklædning til kvinder
                    "03123",      #Beklædning til småbørn (0-2 år) og børn (3-13 år)
@@ -492,7 +498,7 @@ ovr_var = list(    "03110",      #Materialer til beklædning
                    "03211",      #Fodtøj til mænd
                    "03212",      #Fodtøj til kvinder
                    "03213",      #Fodtøj til børn under 14 år
-                   #"03220",      #Reparation af fodtøj)
+                   "03220",      #Reparation af fodtøj)
                    "05111",      #Boligmøbler
                    "05112",      #Havemøbler
                    "05113",      #Belysningsudstyr
@@ -588,7 +594,7 @@ ovr_var = list(    "03110",      #Materialer til beklædning
                    "12323",      #Reparation af andre personlige effekter
                    "12329")      #Andre personlige effekter
 
-ovr_tje =     list(    "03141",      #Vask og rensning af tøj
+ovr_tje =     c(       "03141",      #Vask og rensning af tøj
                        "03142",      #Reparation og leje af beklædning
                        "04420",      #Renovation
                        "05621",      #Hjælp til hjem og have
@@ -648,73 +654,37 @@ ovr_tje =     list(    "03141",      #Vask og rensning af tøj
                        "12703",      #Begravelsestjenester
                        "12704")      #Andre gebyrer og tjenester
                        
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                       
-                   
-                   
-
-                   
-
-
-
-
-
-
-
 
 # Konstruerer 8 varegrupper ---------------
+dataframes = list(v295_decil_h, v295_decil_1, v295_decil_2, v295_decil_3, v295_decil_4, v295_decil_5,
+               v295_decil_6, v295_decil_7, v295_decil_8, v295_decil_9, v295_decil_10)
 
-
-df_ny <- data.frame(aar=c(1994:2019))
-df_ny <- data.frame(aar=rep(0,26))
-df_nyny <- data.frame(aar=rep(0,26))
-df <- decil_1
-
-nam <- "kod_fisk_mej" #paste0(kod_fisk_mej)
-df_ny <- df_ny %>%
-  mutate(!!sym(nam) := 
-           df %>% 
-           select(kod_fisk_mej) %>%  
-           rowSums())
-
-df_nyny <- df_nyny %>%
-  mutate(kod_fisk_mejjo =
-           df %>% 
-           select(all_of(kod_fisk_mej)) %>%  
-           rowSums())
-
-df[kod_fisk_mej]
-rowSums(df[kod_fisk_mej])
-
-
-for (i in kod_fisk_mej) {
-  nam <- paste0(i)
+for (j in 1:length(dataframes) ) {
+  
+  df <- dataframes[[j]]  
+  
+  df_ny <- data.frame(aar=c(1994:2019),
+                       kod_fisk_mej=rowSums(df[kod_fisk_mej]),
+                       ovr_fode    =rowSums(df[ovr_fode]),
+                       bol         =rowSums(df[bol]),
+                       ene_hje     =rowSums(df[ene_hje]),
+                       ene_tra     =rowSums(df[ene_tra]),
+                       tra         =rowSums(df[tra]), 
+                       ovr_var     =rowSums(df[ovr_var]),
+                       ovr_tje     =rowSums(df[ovr_tje])
+  )
   df_ny <- df_ny %>%
-    mutate(!!sym(nam) := 
-             df %>% 
-             select(starts_with(toString(i)  )) %>%  
-             rowSums())
-  df_nyny <- df_nyny %>%
-    mutate(kod_fisk_mej = 
+    mutate(ialt = 
              df_ny %>% 
+             select(-aar) %>%  
              rowSums())
+  assign( paste("v8_decil", filenames[[j]], sep = "_") , df_ny)
 }
 
 
-ovr_fod
-bol   
-ene_hje
-ene_tra
-tra   
-ovr_var
-ovr_tje
+
+#tjek hvad der mangler - det var rep. af fodtøj
+
 
 
 
