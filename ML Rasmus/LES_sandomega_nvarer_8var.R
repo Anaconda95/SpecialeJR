@@ -1,7 +1,7 @@
 #clear workspace
 rm(list=ls())
 library(mvtnorm)
-
+setwd("~/Documents/GitHub/SpecialeJR /ML Rasmus")
 #no scientific numbers
 options(scipen=999)
 
@@ -14,36 +14,45 @@ df     <- transform( df,
                      p1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Faste.FOEDEVARER,
                      p2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/Faste.ALKOHOL,
                      p3 = BEKLAEDNING.OG.FODTOEJ/Faste.BEKLAEDNING,
-                     p4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Faste.BOLIG.EL.OG.OPVARMNING
-) 
-
-df     <- transform( df,
-                     TotalForb = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER +BEKLAEDNING.OG.FODTOEJ 
-                     + BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING + ALKOHOLISKE.DRIKKEVARER.OG.TOBAK
+                     p4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Faste.BOLIG.EL.OG.OPVARMNING,
+                     p5 = MOEBLER/Faste.MOEBLER,
+                     p6 = SUNDHED/Faste.SUNDHED,
+                     p7 = TRANSPORT/Faste.TRANSPORT,
+                     p8 = RESTAURANTER.OG.HOTELLER/Faste.RESTAURANTER.OG.HOTELLER
 ) 
 #shares findes som forbrug i løbende priser/samlet forbrug af de otte varer.
 df     <- transform( df,
-                     w1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/TotalForb,
-                     w2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/TotalForb,
-                     w3 = BEKLAEDNING.OG.FODTOEJ/TotalForb,
-                     w4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/TotalForb
+                     w1 = FOEDEVARER.OG.IKKE.ALKOHOLISKE.DRIKKEVARER/Sumloeb,
+                     w2 = ALKOHOLISKE.DRIKKEVARER.OG.TOBAK/Sumloeb,
+                     w3 = BEKLAEDNING.OG.FODTOEJ/Sumloeb,
+                     w4 = BOLIGBENYTTELSE..ELEKTRICITET.OG.OPVARMNING/Sumloeb,
+                     w5 = MOEBLER/Sumloeb,
+                     w6 = SUNDHED/Sumloeb,
+                     w7 = TRANSPORT/Sumloeb,
+                     w8 = RESTAURANTER.OG.HOTELLER/Sumloeb
 ) 
 
 #phat findes som priser divideret med samlet forbrug
 df     <- transform( df,
-                     phat1=p1/TotalForb,
-                     phat2=p2/TotalForb,
-                     phat3=p3/TotalForb,
-                     phat4=p4/TotalForb
+                     phat1=p1/Sumloeb,
+                     phat2=p2/Sumloeb,
+                     phat3=p3/Sumloeb,
+                     phat4=p4/Sumloeb,
+                     phat5=p5/Sumloeb,
+                     phat6=p6/Sumloeb,
+                     phat7=p7/Sumloeb,
+                     phat8=p8/Sumloeb
 ) 
 
+
 #Datasættet sættes op i 'pæne' matricer.
-w = matrix(c(df$w1,df$w2,df$w3,df$w4),
-           nrow=26, ncol=4)
-phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4),
-              nrow=26, ncol=4)
-x = matrix(c(df$Faste.FOEDEVARER,df$ALKOHOLISKE.DRIKKEVARER.OG.TOBAK,df$Faste.BEKLAEDNING,df$Faste.BOLIG.EL.OG.OPVARMNING)
-           ,nrow=26, ncol=4)
+w = matrix(c(df$w1,df$w2,df$w3,df$w4,df$w5,df$w6,df$w7,df$w8),
+           nrow=26, ncol=8)
+phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4,df$phat5,df$phat6,df$phat7,df$phat8),
+              nrow=26, ncol=8)
+x = matrix(c(df$Faste.FOEDEVARER,df$Faste.ALKOHOL,df$Faste.BEKLAEDNING,df$Faste.BOLIG.EL.OG.OPVARMNING,
+             df$Faste.MOEBLER, df$Faste.SUNDHED, df$Faste.TRANSPORT, df$Faste.TRANSPORT)
+           ,nrow=26, ncol=8)
 
 #x og phat skaleres. X er forbrug i faste priser. Det er for at få bedre konvergens når der optimeres
 x <- x/10000
@@ -70,7 +79,7 @@ print(w[T,1:(n)])
 print(alpha_start)
 
 #sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
-b_start <- 0.50*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+b_start <- 0.25*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 #finder startværdier for kovariansmatricen
 
@@ -91,10 +100,10 @@ covar_start <- covar[lower.tri(covar,diag=TRUE)]
 start_uhabit = c(gamma_start[1:(n-1)], b_start, covar_start)
 print(start)
 
-#sætter startværdier for habit formation
+#sætter startværdier for habit formation og autocorr
 habit=rep(0.5,n)
-autocorr <- 0.7
-start_habit = c(gamma_start[1:(n-1)], b_start, habit, covar_start,autocorr)
+autocorr <- 0.6
+start_habit = c(gamma_start[1:(n-1)], b_start, habit, covar_start, autocorr)
 print(start_habit)
 par=start_habit
 
@@ -129,7 +138,7 @@ loglik <- function(par,w,phat,x,habitform) {
     #En kolonne u'er smides ud, da matricen ellers er singulær
     uhat <- u[ , 1:(n-1)]
     #vi prøver lige at fixe noget autocorrelation
-    ehat <- uhat[2:25,]- par[((3*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:24,]
+    ehat <- uhat[2:(T-1),]- par[((3*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:(T-2),]
     # omega skal være covariansmatricen for den normalfordeling
     # omega skal også estimeres som parameter.
     #find omega matrix()
