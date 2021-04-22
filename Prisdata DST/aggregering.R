@@ -7,11 +7,28 @@ library("rlang")
 
 options(scipen=999)
 fu02 <- read_xlsx("fu02_loebpris.xlsx")
-df <- read_xlsx("decildata.xlsx")
+
+df_h <- read_xlsx("Forbrug loebende priser Hele landet.xlsx")
+df_1 <- read_xlsx("Forbrug loebende priser 1. decil.xlsx")
+df_2 <- read_xlsx("Forbrug loebende priser 2. decil.xlsx")
+df_3 <- read_xlsx("Forbrug loebende priser 3. decil.xlsx")
+df_4 <- read_xlsx("Forbrug loebende priser 4. decil.xlsx")
+df_5 <- read_xlsx("Forbrug loebende priser 5. decil.xlsx")
+df_6 <- read_xlsx("Forbrug loebende priser 6. decil.xlsx")
+df_7 <- read_xlsx("Forbrug loebende priser 7. decil.xlsx")
+df_8 <- read_xlsx("Forbrug loebende priser 8. decil.xlsx")
+df_9 <- read_xlsx("Forbrug loebende priser 9. decil.xlsx")
+df_10 <- read_xlsx("Forbrug loebende priser 10. decil.xlsx")
+
+dataframes = list(df_h, df_1, df_2, df_3, df_4, df_5,
+                  df_6, df_7, df_8, df_9, df_10)
+filenames = c("h","1","2","3","4","5","6",
+              "7","8","9","10")
+dataframenums = c("h",1,2,3,4,5,6,7,8,9,10)
 
 # DEFINERER VAREGRUPPER ---------------------------------
   varegrupper = list(
-    "01   ",      #FØDEVARER OG IKKE-ALKOHOLISKE DRIKKEVARER
+    "01",         #FØDEVARER OG IKKE-ALKOHOLISKE DRIKKEVARER
     "01111",      #Ris
     "01112",      #Mel og gryn
     "01113",      #Brød
@@ -73,7 +90,7 @@ df <- read_xlsx("decildata.xlsx")
     "01221",      #Mineralvand eller kildevand
     "01222",      #Læskedrikke
     "01223",      #Frugt- og grøntsagssaft samt koncentrater til saft
-    "02   ",      #ALKOHOLISKE DRIKKEVARER OG TOBAK
+    "02"   ,      #ALKOHOLISKE DRIKKEVARER OG TOBAK
     "02111",      #Spiritus og likør
     "02112",      #Alkoholiske læskedrikke
     "02121",      #Vin af druer
@@ -88,7 +105,7 @@ df <- read_xlsx("decildata.xlsx")
     "02202",      #Cigarer ol
     "02203",      #Andre tobaksvarer
     "02300",      #Euforiserende stoffer
-    "03   ",      #BEKLÆDNING OG FODTØJ
+    "03",         #BEKLÆDNING OG FODTØJ
     "03110",      #Materialer til beklædning
     "03121",      #Beklædning til mænd
     "03122",      #Beklædning til kvinder
@@ -101,7 +118,7 @@ df <- read_xlsx("decildata.xlsx")
     "03212",      #Fodtøj til kvinder
     "03213",      #Fodtøj til børn under 14 år
     "03220",      #Reparation af fodtøj
-    "04   ",      #BOLIGBENYTTELSE, ELEKTRICITET OG OPVARMNING
+    "04",         #BOLIGBENYTTELSE, ELEKTRICITET OG OPVARMNING
     "04110",      #Faktisk husleje betalt af lejere
     "04121",      #Lejernes faktiske husleje for fritidsbolig
     "04210",      #Beregnet lejeværdi af egen bolig
@@ -125,7 +142,7 @@ df <- read_xlsx("decildata.xlsx")
     "04541",      #Kul
     "04549",      #Andet fast brændsel
     "04550",      #Fjernvarme mv
-    "05   ",      #MØBLER, HUSHOLDNINGSUDSTYR OG HUSHOLDNINGSTJENESTER
+    "05",         #MØBLER, HUSHOLDNINGSUDSTYR OG HUSHOLDNINGSTJENESTER
     "05111",      #Boligmøbler
     "05112",      #Havemøbler
     "05113",      #Belysningsudstyr
@@ -164,7 +181,7 @@ df <- read_xlsx("decildata.xlsx")
     "05621",      #Hjælp til hjem og have
     "05623",      #Leje af møbler og boligudstyr
     "05629",      #Rengøring og vinduespudsning
-    "06   ",      #SUNDHED
+    "06",         #SUNDHED
     "06110",      #Farmaceutiske produkter
     "06121",      #Graviditetstest, kondomer mv
     "06129",      #Andre medicinske produkter ol
@@ -178,7 +195,7 @@ df <- read_xlsx("decildata.xlsx")
     "06231",      #Tjenesteydelser, laboratorier og røntgenklinikker
     "06239",      #Andre paramedicinske tjenesteydelser
     "06300",      #Hospitalstjenester
-    "07   ",      #TRANSPORT
+    "07",         #TRANSPORT
     "07111",      #Nye biler
     "07112",      #Brugte biler
     "07120",      #Motorcykler
@@ -204,7 +221,7 @@ df <- read_xlsx("decildata.xlsx")
     "07350",      #Kombineret personbefordring
     "07362",      #Flytning og opmagasinering
     "07369",      #Andre købte transporttjenester ol
-    "08   ",      #KOMMUNIKATION
+    "08",         #KOMMUNIKATION
     "08101",      #Posttjenester
     "08201",      #Fastnettelefon og udstyr
     "08202",      #Mobiltelefon og udstyr
@@ -213,7 +230,7 @@ df <- read_xlsx("decildata.xlsx")
     "08302",      #Mobiltelefon, tjenester
     "08303",      #Internet
     "08304",      #Kombinerede telekommunikationstjenester
-    "09   ",      #FRITID OG KULTUR
+    "09",         #FRITID OG KULTUR
     "09111",      #Musikanlæg, højttalere ol
     "09112",      #Tv, dvd-afspiller, videooptager ol
     "09119",      #Høretelefoner, digitale fotorammer, E-bogslæsere ol
@@ -263,19 +280,19 @@ df <- read_xlsx("decildata.xlsx")
     "09549",      #Andre papirvarer og tegnematerialer
     "09601",      #Indenlandske pakkerejser
     "09602",      #Udenlandske pakkerejser
-    "10   ",      #UDDANNELSE
+    "10",         #UDDANNELSE
     "10102",      #Grundskole
     "10200",      #Ungdomsuddannelse
     "10400",      #Videregående uddannelse
     "10500",      #Undervisning uden for niveau
-    "11   ",      #RESTAURANTER OG HOTELLER
+    "11",         #RESTAURANTER OG HOTELLER
     "11111",      #Restauranter, cafeer mv
     "11112",      #Fastfood, takeaway
     "11120",      #Kantiner
     "11201",      #Hoteller, moteller, kroer ol
     "11202",      #Feriecentre, campingpladser, vandrerhjem ol
     "11203",      #Anden indlogering
-    "12   ",      #ANDRE VARER OG TJENESTER
+    "12",         #ANDRE VARER OG TJENESTER
     "12111",      #Frisør til mænd og børn 0-13 år
     "12112",      #Frisør til kvinder
     "12113",      #Behandlinger inden for personlig pleje
@@ -309,10 +326,15 @@ df <- read_xlsx("decildata.xlsx")
 
 
 # LAVER NYT DATASÆT ------------------------------------
-df_ny <- data.frame(decil=c("Samlet",1,2,3,4,5,6,7,8,9,10))
+
+for (j in 1:length(dataframes) ) {
+  
+df <- dataframes[[j]]  
+  
+df_ny <- data.frame(aar=c(1994:2019))
       
 for (i in varegrupper) {
-  nam <- paste0("A_", i)
+  nam <- paste0(i)
   df_ny <- df_ny %>%
     mutate(!!sym(nam) := 
       df %>% 
@@ -320,5 +342,9 @@ for (i in varegrupper) {
         rowSums())
 }
 
+form=sprintf('decil_%s.csv', filenames[[j]])
+write.csv(df_ny, file=form)
+
+}
 
 
