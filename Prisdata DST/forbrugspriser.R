@@ -305,84 +305,84 @@ varegrupper = list(
 
 # Definerer 8 varegrupper: ----------
 
-kod_fisk_mej = c (    "01121",      #Okse- og kalvekød
-                      "01122",      #Svinekød
-                      "01123",      #Lamme- og gedekød
-                      "01124",      #Fjerkræ
-                      "01125",      #Andet kød
-                      "01126",      #Indmad ol
-                      "01127",      #Kød, tørret, saltet eller røget
-                      "01128",      #Andre tilberedninger af kød
-                      "01131",      #Fisk, fersk
-                      "01132",      #Fisk, frossen
-                      "01133",      #Skaldyr, fersk
-                      "01134",      #Skaldyr, frossen
-                      "01135",      #Fisk og skaldyr, tørrede, røgede eller saltede
-                      "01136",      #Fisk og skaldyr, konservede og forarbejdede
-                      "01141",      #Mælk, frisk
-                      "01142",      #Mælk med lavt fedtindhold, frisk
-                      "01143",      #Mælk, konserveret
-                      "01144",      #Yoghurt
-                      "01145",      #Ost
-                      "01146",      #Andre mejeriprodukter
-                      "01147",      #Æg
-                      "01151")      #Smør
-ovr_fode     = c ( "01111",      #Ris
-                     "01112",      #Mel og gryn
-                     "01113",      #Brød
-                     "01114",      #Andet bagværk
-                     "01115",      #Pizza og quiche
-                     "01116",      #Pastaprodukter og couscous
-                     "01117",      #Morgenmadsprodukter
-                     "01118",      #Andre kornprodukter
-                     "01152",      #Margarine og andre vegetabilske fedtstoffer
-                     "01153",      #Olivenolie
-                     "01154",      #Andre spiselige olier
-                     "01155",      #Andre spiselige animalske fedtstoffer
-                     "01161",      #Frugt, frisk
-                     "01162",      #Frugt, frossen
-                     "01163",      #Frugter og nødder, tørrede
-                     "01164",      #Frugter og frugtbaserede produkter, konservede
-                     "01171",      #Grøntsager ekskl kartofler, frisk
-                     "01172",      #Grøntsager, frosne
-                     "01173",      #Grøntsager, tørrede og forarbejdede
-                     "01174",      #Kartofler og kartoffelprodukter
-                     "01175",      #Chips mv
-                     "01176",      #Andre rod-og knoldgrøntsager
-                     "01181",      #Sukker ol
-                     "01182",      #Syltetøj, marmelade og honning
-                     "01183",      #Chokolade
-                     "01184",      #Slik og marcipan
-                     "01185",      #Konsumis
-                     "01186",      #Kunstige sukkererstatninger
-                     "01191",      #Sovs, smagspræparater
-                     "01192",      #Salt, krydderier og køkkenurter
-                     "01193",      #Babymad
-                     "01194",      #Færdigretter
-                     "01199",      #Andre fødevarer
-                     "01211",      #Kaffe
-                     "01212",      #Te
-                     "01213",      #Kakao og chokoladepulver
-                     "01221",      #Mineralvand eller kildevand
-                     "01222",      #Læskedrikke
-                     "01223",      #Frugt- og grøntsagssaft samt koncentrater til saft
-                     "02"   ,      #ALKOHOLISKE DRIKKEVARER OG TOBAK
-                     "02111",      #Spiritus og likør
-                     "02112",      #Alkoholiske læskedrikke
-                     "02121",      #Vin af druer
-                     "02122",      #Vin af andre frugter
-                     "02123",      #Hedvin
-                     "02124",      #Vinbaserede drikkevarer og alkoholfri vin
-                     "02131",      #Pilsnerøl, guldøl
-                     "02132",      #Andre alkoholholdige øl
-                     "02133",      #Øl med lavt alkoholindhold og alkoholfri øl
-                     "02134",      #Øl-baserede drikkevarer
-                     "02201",      #Cigaretter
-                     "02202",      #Cigarer ol
-                     "02203",      #Andre tobaksvarer
-                     "02300")      #Euforiserende stoffer)
+kod_fisk_mej = c (     "01121",      #Okse- og kalvekød
+                       "01122",      #Svinekød
+                       "01123",      #Lamme- og gedekød
+                       "01124",      #Fjerkræ
+                       "01125",      #Andet kød
+                       "01126",      #Indmad ol
+                       "01127",      #Kød, tørret, saltet eller røget
+                       "01128",      #Andre tilberedninger af kød
+                       "01131",      #Fisk, fersk
+                       "01132",      #Fisk, frossen
+                       "01133",      #Skaldyr, fersk
+                       "01134",      #Skaldyr, frossen
+                       "01135",      #Fisk og skaldyr, tørrede, røgede eller saltede
+                       "01136",      #Fisk og skaldyr, konservede og forarbejdede
+                       "01141",      #Mælk, frisk
+                       "01142",      #Mælk med lavt fedtindhold, frisk
+                       "01143",      #Mælk, konserveret
+                       "01144",      #Yoghurt
+                       "01145",      #Ost
+                       "01146",      #Andre mejeriprodukter
+                       "01147")      #Æg
 
-bol   = c(       "04110",      #Faktisk husleje betalt af lejere
+ovr_fode     =c ( "01111",      #Ris
+                  "01112",      #Mel og gryn
+                  "01113",      #Brød
+                  "01114",      #Andet bagværk
+                  "01115",      #Pizza og quiche
+                  "01116",      #Pastaprodukter og couscous
+                  "01117",      #Morgenmadsprodukter
+                  "01118",      #Andre kornprodukter
+                  "01151",      #Smør
+                  "01152",      #Margarine og andre vegetabilske fedtstoffer
+                  "01153",      #Olivenolie
+                  "01154",      #Andre spiselige olier
+                  "01155",      #Andre spiselige animalske fedtstoffer
+                  "01161",      #Frugt, frisk
+                  "01162",      #Frugt, frossen
+                  "01163",      #Frugter og nødder, tørrede
+                  "01164",      #Frugter og frugtbaserede produkter, konservede
+                  "01171",      #Grøntsager ekskl kartofler, frisk
+                  "01172",      #Grøntsager, frosne
+                  "01173",      #Grøntsager, tørrede og forarbejdede
+                  "01174",      #Kartofler og kartoffelprodukter
+                  "01175",      #Chips mv
+                  "01176",      #Andre rod-og knoldgrøntsager
+                  "01181",      #Sukker ol
+                  "01182",      #Syltetøj, marmelade og honning
+                  "01183",      #Chokolade
+                  "01184",      #Slik og marcipan
+                  "01185",      #Konsumis
+                  "01186",      #Kunstige sukkererstatninger
+                  "01191",      #Sovs, smagspræparater
+                  "01192",      #Salt, krydderier og køkkenurter
+                  "01193",      #Babymad
+                  "01194",      #Færdigretter
+                  "01199",      #Andre fødevarer
+                  "01211",      #Kaffe
+                  "01212",      #Te
+                  "01213",      #Kakao og chokoladepulver
+                  "01221",      #Mineralvand eller kildevand
+                  "01222",      #Læskedrikke
+                  "01223",      #Frugt- og grøntsagssaft samt koncentrater til saft
+                  "02111",      #Spiritus og likør
+                  "02112",      #Alkoholiske læskedrikke
+                  "02121",      #Vin af druer
+                  "02122",      #Vin af andre frugter
+                  "02123",      #Hedvin
+                  "02124",      #Vinbaserede drikkevarer og alkoholfri vin
+                  "02131",      #Pilsnerøl, guldøl
+                  "02132",      #Andre alkoholholdige øl
+                  "02133",      #Øl med lavt alkoholindhold og alkoholfri øl
+                  "02134",      #Øl-baserede drikkevarer
+                  "02201",      #Cigaretter
+                  "02202",      #Cigarer ol
+                  "02203",      #Andre tobaksvarer
+                  "02300")      #Euforiserende stoffer)
+
+bol   =c(          "04110",      #Faktisk husleje betalt af lejere
                    "04121",      #Lejernes faktiske husleje for fritidsbolig
                    "04210",      #Beregnet lejeværdi af egen bolig
                    "04220",      #Andre beregnede lejeværdier
@@ -399,7 +399,7 @@ bol   = c(       "04110",      #Faktisk husleje betalt af lejere
                    "04442",      #Sikkerhedstjenester
                    "04449")      #Andre tjenester i forbindelse med boliger
 
-ene_hje = c(    "04510",      #Elektricitet
+ene_hje = c(       "04510",      #Elektricitet
                    "04521",      #Natur- og bygas
                    "04522",      #Flydende kulbrinter
                    "04530",      #Flydende brændsel
@@ -407,12 +407,12 @@ ene_hje = c(    "04510",      #Elektricitet
                    "04549",      #Andet fast brændsel
                    "04550")      #Fjernvarme mv 
 
-ene_tra = c(   "07221",      #Diesel
+ene_tra = c (      "07221",      #Diesel
                    "07222",      #Benzin
                    "07223",      #Andre brændstoffer til personlige transportmidler
                    "07224")      #Smøremidler
 
-tra =    c (    "07111",      #Nye biler
+tra =    c(        "07111",      #Nye biler
                    "07112",      #Brugte biler
                    "07120",      #Motorcykler
                    "07130",      #Cykler
@@ -432,9 +432,9 @@ tra =    c (    "07111",      #Nye biler
                    "07341",      #Personbefordring ad søvejen
                    "07350",      #Kombineret personbefordring
                    "07362",      #Flytning og opmagasinering
-                   "07369")      #Andre købte transporttjenester ol         )
+                   "07369")      #Andre købte transporttjenester ol         
 
-ovr_var = c(    "03110",      #Materialer til beklædning
+ovr_var = c(       "03110",      #Materialer til beklædning
                    "03121",      #Beklædning til mænd
                    "03122",      #Beklædning til kvinder
                    "03123",      #Beklædning til småbørn (0-2 år) og børn (3-13 år)
@@ -445,7 +445,7 @@ ovr_var = c(    "03110",      #Materialer til beklædning
                    "03211",      #Fodtøj til mænd
                    "03212",      #Fodtøj til kvinder
                    "03213",      #Fodtøj til børn under 14 år
-                   #"03220",      #Reparation af fodtøj)
+                   "03220",      #Reparation af fodtøj)
                    "05111",      #Boligmøbler
                    "05112",      #Havemøbler
                    "05113",      #Belysningsudstyr
@@ -541,7 +541,7 @@ ovr_var = c(    "03110",      #Materialer til beklædning
                    "12323",      #Reparation af andre personlige effekter
                    "12329")      #Andre personlige effekter
 
-ovr_tje =     c(    "03141",      #Vask og rensning af tøj
+ovr_tje =     c(       "03141",      #Vask og rensning af tøj
                        "03142",      #Reparation og leje af beklædning
                        "04420",      #Renovation
                        "05621",      #Hjælp til hjem og have
@@ -600,7 +600,6 @@ ovr_tje =     c(    "03141",      #Vask og rensning af tøj
                        "12702",      #Juridiske tjenesteydelser
                        "12703",      #Begravelsestjenester
                        "12704")      #Andre gebyrer og tjenester
-
 
 
 fu02_l <- read_xlsx("C:/specialeJR/Prisdata DST/fu02_loeb_og_faste.xlsx", sheet="Loebende priser")
