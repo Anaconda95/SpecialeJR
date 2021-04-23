@@ -326,6 +326,7 @@ dataframenums = c("h",1,2,3,4,5,6,7,8,9,10)
 
 
 
+
 # LAVER NYT DATASÆT ------------------------------------
 
 for (j in 1:length(dataframes) ) {
@@ -355,6 +356,7 @@ form=sprintf('v295_decil_%s.csv', filenames[[j]])
 assign( paste("v295_decil", filenames[[j]], sep = "_") , df_ny)
 
 }
+
 
 # Definerer 8 varegrupper: ----------
 
@@ -655,6 +657,7 @@ ovr_tje =     c(       "03141",      #Vask og rensning af tøj
                        "12704")      #Andre gebyrer og tjenester
                        
 
+
 # Konstruerer 8 varegrupper ---------------
 dataframes = list(v295_decil_h, v295_decil_1, v295_decil_2, v295_decil_3, v295_decil_4, v295_decil_5,
                v295_decil_6, v295_decil_7, v295_decil_8, v295_decil_9, v295_decil_10)
@@ -679,7 +682,11 @@ for (j in 1:length(dataframes) ) {
              select(-aar) %>%  
              rowSums())
   assign( paste("v8_decil", filenames[[j]], sep = "_") , df_ny)
+  form=sprintf('v8_decil_%s.csv', filenames[[j]])
+  write.csv(df_ny, file=form)
 }
+
+
 
 
 
