@@ -107,8 +107,11 @@ for gruppe in grupper:
     
     data_tidsserie[gruppe][2019].loc[0:1092,"Forbrug1"] = "0"+ data_tidsserie[gruppe][2019].loc[0:1092,"Forbrug"]
     data_tidsserie[gruppe][2019].loc[1092:len(data_tidsserie[gruppe][2019]),"Forbrug1"] =  data_tidsserie[gruppe][2019].loc[1092:len(data_tidsserie[gruppe][2019]),"Forbrug"]
-    
-    
+
+for gruppe in grupper:
+    for year in years:    
+        del data_tidsserie[gruppe][year]["Forbrug"]
+        data_tidsserie[gruppe][year] = data_tidsserie[gruppe][year].rename(columns={"Forbrug1": "Forbrug"})  
         
         
         #data_tidsserie[gruppe][year]["Aar"]=year
@@ -124,8 +127,7 @@ for gruppe in grupper:
         panel[gruppe] = panel[gruppe].merge(data_tidsserie[gruppe][year],on="Forbrug", how="outer", sort=True)
         panel[gruppe] = panel[gruppe].fillna(0)
 
-   # del panel[gruppe]["Forbrug"]
-   # panel[gruppe] = panel[gruppe].rename(columns={"Forbrug1": "Forbrug"})
+
 
 
     
@@ -144,6 +146,7 @@ for gruppe in grupper:
     disp_grup[gruppe] = disp_grup[gruppe].pivot(index="Hejj",columns="Aar",values=gruppe)
     disp_grup[gruppe]["Forbrug"] = "Disponibel indkomst"
     panel[gruppe] = panel[gruppe].append(disp_grup[gruppe], ignore_index=True)
+
     
 #%%
 
