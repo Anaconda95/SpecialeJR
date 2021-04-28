@@ -1,6 +1,7 @@
 ################### Fil til at aggregere indkomstgrupperne ####################
 rm(list=ls())
 library("dplyr")
+library("read")
 ## kvintiler:
 # læg 2 og 2 sammen
 df_1 <-read.csv("C:/specialeJR/Prisdata DST/v8_decil_1.csv",sep=',')
@@ -46,3 +47,13 @@ for (j in varergrupper) {
 } 
 
 ############# Skriv dem ud ################
+
+write.csv(kvint1, "C:/specialeJR/Forbrugsdata/kvint1.csv", row.names = FALSE)
+write.csv(kvint2, "C:/specialeJR/Forbrugsdata/kvint2.csv", row.names = FALSE)
+write.csv(kvint3, "C:/specialeJR/Forbrugsdata/kvint3.csv", row.names = FALSE)
+write.csv(kvint4, "C:/specialeJR/Forbrugsdata/kvint4.csv", row.names = FALSE)
+write.csv(kvint5, "C:/specialeJR/Forbrugsdata/kvint5.csv", row.names = FALSE)
+
+write.csv(lav, "C:/specialeJR/Forbrugsdata/lav.csv", row.names = FALSE)
+write.csv(middel, "C:/specialeJR/Forbrugsdata/middel.csv", row.names = FALSE)
+write.csv(hoj, "C:/specialeJR/Forbrugsdata/hoj.csv", row.names = FALSE)

@@ -121,6 +121,7 @@ aidsResultElasCovObs <- elas( aidsResult, observedShares = TRUE )
 print(aidsResultElasCovObs)
 
 
+############################################################# Det rigtige data ##################################################################
 
 ########## Nu vil vi gerne tjekke om elasticiterne er forskellige på tværs af indkomstgrupper! ############
 ########### Esimerer nl AIDS for hver indkomstgrupper og printe relasticiterer ############################
