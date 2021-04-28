@@ -9,17 +9,17 @@ library("rlang")
 options(scipen=999)
 fu02 <- read_xlsx("fu02_loebpris.xlsx")
 
-df_h <- read_xlsx("Forbrug loebende priser Hele landet.xlsx")
-df_1 <- read_xlsx("Forbrug loebende priser 1. decil.xlsx")
-df_2 <- read_xlsx("Forbrug loebende priser 2. decil.xlsx")
-df_3 <- read_xlsx("Forbrug loebende priser 3. decil.xlsx")
-df_4 <- read_xlsx("Forbrug loebende priser 4. decil.xlsx")
-df_5 <- read_xlsx("Forbrug loebende priser 5. decil.xlsx")
-df_6 <- read_xlsx("Forbrug loebende priser 6. decil.xlsx")
-df_7 <- read_xlsx("Forbrug loebende priser 7. decil.xlsx")
-df_8 <- read_xlsx("Forbrug loebende priser 8. decil.xlsx")
-df_9 <- read_xlsx("Forbrug loebende priser 9. decil.xlsx")
-df_10 <- read_xlsx("Forbrug loebende priser 10. decil.xlsx")
+df_h <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser Hele landet.xlsx")
+df_1 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 1. decil.xlsx")
+df_2 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 2. decil.xlsx")
+df_3 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 3. decil.xlsx")
+df_4 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 4. decil.xlsx")
+df_5 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 5. decil.xlsx")
+df_6 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 6. decil.xlsx")
+df_7 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 7. decil.xlsx")
+df_8 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 8. decil.xlsx")
+df_9 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 9. decil.xlsx")
+df_10 <- read_xlsx("C:/specialeJR/Prisdata DST/Forbrug loebende priser 10. decil.xlsx")
 
 dataframes = list(df_h, df_1, df_2, df_3, df_4, df_5,
                   df_6, df_7, df_8, df_9, df_10)
@@ -692,6 +692,18 @@ for (j in 1:length(dataframes) ) {
 
 #tjek hvad der mangler - det var rep. af fodtøj
 
+
+write.csv(v8_decil_1, "C:/specialeJR/Input output/v8_decil_1.csv", row.names = FALSE)
+write.csv(v8_decil_2, "C:/specialeJR/Input output/v8_decil_2.csv", row.names = FALSE)
+write.csv(v8_decil_3, "C:/specialeJR/Input output/v8_decil_3.csv", row.names = FALSE)
+write.csv(v8_decil_4, "C:/specialeJR/Input output/v8_decil_4.csv", row.names = FALSE)
+write.csv(v8_decil_5, "C:/specialeJR/Input output/v8_decil_5.csv", row.names = FALSE)
+write.csv(v8_decil_6, "C:/specialeJR/Input output/v8_decil_6.csv", row.names = FALSE)
+write.csv(v8_decil_7, "C:/specialeJR/Input output/v8_decil_7.csv", row.names = FALSE)
+write.csv(v8_decil_8, "C:/specialeJR/Input output/v8_decil_8.csv", row.names = FALSE)
+write.csv(v8_decil_9, "C:/specialeJR/Input output/v8_decil_9.csv", row.names = FALSE)
+write.csv(v8_decil_10, "C:/specialeJR/Input output/v8_decil_10.csv", row.names = FALSE)
+write.csv(v8_decil_h, "C:/specialeJR/Input output/v8_decil_h.csv", row.names = FALSE)
 
 
 

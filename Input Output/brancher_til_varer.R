@@ -51,6 +51,30 @@ brancher[,"ovr_tje"] = rowSums(gruppe8)
 sum1 = sum(subset(brancher, select = -c(Brancher)))
 sum2 = sum(subset(IO2017, select = -c(Brancher)) )
 
+varer_prod <- brancher %>%
+  adorn_totals("row")
+varer_prod <- varer_prod[70,]
+varer_prod <- subset(varer_prod, select = -c(Brancher))
+
+write.csv(varer_prod, "C:/specialeJR/Input output/varer_prod.csv", row.names = FALSE)
+
+### Skal vel laves om til nogle koefficienter ###
+brancher[,"sum"] = rowSums(subset(brancher, select = -c(Brancher)))
+
+brancher[,"kod_fisk_mej"] = brancher[,"kod_fisk_mej"]/brancher[,"sum"]
+brancher[,"ovr_fode"] = brancher[,"ovr_fode"]/brancher[,"sum"]
+brancher[,"bol"] = brancher[,"bol"]/brancher[,"sum"]
+brancher[,"ene_hje"] = brancher[,"ene_hje"]/brancher[,"sum"]
+brancher[,"ene_tra"] = brancher[,"ene_tra"]/brancher[,"sum"]
+brancher[,"tra"] = brancher[,"tra"]/brancher[,"sum"]
+brancher[,"ovr_var"] = brancher[,"ovr_var"]/brancher[,"sum"]
+brancher[,"ovr_tje"] = brancher[,"ovr_tje"]/brancher[,"sum"]
+
+
+
 
 write.csv(brancher, "C:/specialeJR/Input output/Brancher_til_8grup.csv", row.names = FALSE)
+
+
+
 
