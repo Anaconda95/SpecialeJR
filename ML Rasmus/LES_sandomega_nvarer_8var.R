@@ -46,15 +46,12 @@ df     <- transform( df,
 
 
 #Datasættet sættes op i 'pæne' matricer.
-w = matrix(c(df$w1,df$w2,df$w3,df$w4,df$w5,df$w6,df$w7,df$w8),
-           nrow=26, ncol=8)
-phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4,df$phat5,df$phat6,df$phat7,df$phat8),
-              nrow=26, ncol=8)
-x = matrix(c(df$Faste.FOEDEVARER,df$Faste.ALKOHOL,df$Faste.BEKLAEDNING,df$Faste.BOLIG.EL.OG.OPVARMNING,
-             df$Faste.MOEBLER, df$Faste.SUNDHED, df$Faste.TRANSPORT, df$Faste.TRANSPORT)
-           ,nrow=26, ncol=8)
+w = matrix(c(df$w1,df$w2,df$w3,df$w4,df$w5,df$w6,df$w7,df$w8),  nrow=26, ncol=8)
+phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4,df$phat5,df$phat6,df$phat7,df$phat8), nrow=26, ncol=8)
+x = matrix(c(df$x1,df$x2,df$x3,df$x4,df$x5,df$x6,df$x7,df$x8), nrow=26, ncol=8)
 
-#x og phat skaleres. X er forbrug i faste priser. Det er for at få bedre konvergens når der optimeres
+#x og phat skaleres. X er forbrug i faste priser. Det er for at få bedre konvergens når der optimeres. Uklart
+# om det stadig er et problem
 x <- x/10000
 phat <- phat*10000
 
@@ -79,7 +76,7 @@ print(w[T,1:(n)])
 print(alpha_start)
 
 #sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
-b_start <- 0.25*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+b_start <- 0.4*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 #finder startværdier for kovariansmatricen
 
@@ -101,7 +98,7 @@ start_uhabit = c(gamma_start[1:(n-1)], b_start, covar_start)
 print(start)
 
 #sætter startværdier for habit formation og autocorr
-habit=rep(0.5,n)
+habit=rep(0.4,n)
 autocorr <- 0.6
 start_habit = c(gamma_start[1:(n-1)], b_start, habit, covar_start, autocorr)
 print(start_habit)
