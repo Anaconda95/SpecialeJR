@@ -35,7 +35,7 @@ write.xlsx(df_h,"8var.xlsx", sheetName="Gennemsnit",col.names = TRUE, row.names 
 #Skal køres samtidig
 dataframes = list(df_h, df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10)
 
-#definerer funktionen - vigtigt
+#definerer funktionen - vigtigt-----------------------
 loglik <- function(par,w,phat,x,habitform) {
   #sætter dimensioner
   dims=dim(w)
@@ -79,9 +79,9 @@ loglik <- function(par,w,phat,x,habitform) {
     supernummat <- matrix(rep(supernum,n),ncol=n)
     u <- w - phat %*% diag(b) - supernummat%*%diag(a)
     #smid en variabel ud
-    uhat <- u[ ,1:(n-1)]
+    uhat <- u[ (2:T),1:(n-1)]
     #autocorrelation
-    ehat <- uhat[2:(T),]- par[((2*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:(T-1),]
+    ehat <- uhat[2:(T-1),]- par[((2*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:(T-2),]
     #find omega matrix()
     omega <- matrix(NA,(n-1),(n-1))
     omega[lower.tri(omega,diag=TRUE)] <- par[(2*n) : ((2*(n) + (n-1)*((n-1)+1)/2) - 1) ]
@@ -96,6 +96,7 @@ loglik <- function(par,w,phat,x,habitform) {
   } else
     print("Set habitform = 1 or =0 ")
 }
+
 n=8
 vareagg = c("kod_fisk_mej","ovr_fode","bol","ene_hje","ene_tra","tra","ovr_var","ovr_tje")
 
@@ -435,8 +436,8 @@ write.xlsx(resul_el, "8var_elast.xlsx", sheetName = "Uden habitform, acorr",
 ####################### UDEN AUTOCORRELATION #######################################
 
 
-#definerer funktionen - vigtigt
-loglik <- function(par,w,phat,x,habitform) {
+#definerer funktionen - vigtigt----
+loglikNEJ <- function(par,w,phat,x,habitform) {
   #sætter dimensioner
   dims=dim(w)
   T=dims[1]
@@ -497,12 +498,74 @@ loglik <- function(par,w,phat,x,habitform) {
     print("Set habitform = 1 or =0 ")
 }
 
+#definerer funktionen for T-2 for sammenlignelighed i AIC-kriterier
+loglik <- function(par,w,phat,x,habitform) {
+  #sætter dimensioner
+  dims=dim(w)
+  T=dims[1]
+  n=dims[2]
+  #med habitformation
+  if (habitform==1){
+    gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
+    a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
+    bstar <- c(par[n:(2*n-1)]) # bstar: n parametre
+    beta <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    #  beta <- exp(beta)/(1+exp(beta)) #prøver at gøre det til logit
+    #Med habit formation må ét år fjernes fra estimeringen.
+    b <- matrix(rep(bstar,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + x[1:(T-1),]%*%diag(beta) #b defineres som matrix.
+    supernum <- 1-rowSums(phat[2:T,] * b) #supernumerary income i hver periode sættes
+    supernummat <- matrix(rep(supernum,n),ncol=n) # for at lette beregningen af u replikeres n gange til en matrixe
+    u <- w[2:T,] - phat[2:T,]*b - supernummat%*%diag(a) #u beregnes ud fra modellen
+    #En kolonne u'er smides ud, da matricen ellers er singulær
+    #her smider vi en observation til for at kunne sammenligne med autocorr
+    uhat <- u[ 2:(T-1), 1:(n-1)]
+    #vi prøver lige at fixe noget autocorrelation
+    #ehat <- uhat[2:(T-1),]- par[((3*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:(T-2),]
+    # omega skal være covariansmatricen for den normalfordeling
+    # omega skal også estimeres som parameter.
+    #find omega matrix()
+    omega <- matrix(NA,(n-1),(n-1))
+    omega[lower.tri(omega,diag=TRUE)] <- par[(3*n) : ((3*(n) + (n-1)*((n-1)+1)/2) - 1) ]
+    omega<-makeSymm(omega)
+    #omegainv <- solve(omega)
+    #udregn u_t'Au_t for at kunne tage summen
+    #uhatomegainvuhat <- apply(uhat,1,function(x) x %*% omegainv %*% x)
+    #likelihood funktionen
+    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
+    return(   -sum(l1) )
+    #umiddelbart regner følgende rigtigt ud, men det går helt galt, når den skal optimere
+    #return(   -( -(n-1)*(T-1)*log(2*pi)/2   -(T-1)/2*(det(omega, log=TRUE)) -1/2*sum(uhatomegainvuhat) )     )  
+  }else if (habitform == 0) {  #uden habit formation
+    gamma <- c(par[1:(n-1)],0)  
+    a <- exp(gamma)/sum(exp(gamma))  #igen, a er en logit
+    b <- c(par[n:(2*n-1)])           # b er time-invariant
+    supernum <- 1-rowSums(phat %*% diag(b))
+    supernummat <- matrix(rep(supernum,n),ncol=n)
+    u <- w - phat %*% diag(b) - supernummat%*%diag(a)
+    #smid en variabel ud
+    uhat <- u[ 2:(T),1:(n-1)]
+    #autocorrelation
+    #ehat <- uhat[2:(T),]- par[((2*(n) + (n-1)*((n-1)+1)/2))]*uhat[1:(T-1),]
+    #find omega matrix()
+    omega <- matrix(NA,(n-1),(n-1))
+    omega[lower.tri(omega,diag=TRUE)] <- par[(2*n) : ((2*(n) + (n-1)*((n-1)+1)/2) - 1) ]
+    omega<-makeSymm(omega)
+    #omegainv <- solve(omega)
+    #udregn u_t'Au_t for at kunne tage summen
+    # uhatomegainvuhat <- apply(uhat,1,function(x) x %*% omegainv %*% x)
+    #likelihood funktionen
+    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
+    return(   -sum(l1) )
+    #return(   -(- (n-1)/2*T*log(2*pi) -  T/2*(log(det(omega))) - 1/2*sum(uhatomegainvuhat) )     )
+  } else
+    print("Set habitform = 1 or =0 ")
+}
 
 # Med habitform uden acorr -------------
 resul <- rep(NA,n)
 resul_el <- rep(NA,n)
 for (j in 1:length(dataframes) ) {
-  
+  ### dataindlæsning --------
   df <- dataframes[[j]]  
   
   #make prices and shares
@@ -566,6 +629,7 @@ for (j in 1:length(dataframes) ) {
   T=dims[1]
   n=dims[2]
   
+  #Startværdier -----------------
   #Løser ligningssystem, så gamma'erne afspejler de ønskede alphaer startværdier
   #Sæt ønskede alpha fx lig budgetandele i sidste periode.
   #gamma_n er lig 0.
@@ -614,8 +678,7 @@ for (j in 1:length(dataframes) ) {
   # S?tter startv?rdier for uden habit formation 
   start_uhabit = c(gamma_start[1:(n-1)], b_start,covar_start)
   #print(start_uhabit)
-  
-  ##--- Med habit formation ------
+  #Maksimerer likelihood -----------
   sol_habit <-  optim(  par = start_habit, fn = loglik, habitform=1,
                         phat=phat, w=w, x=x, method="BFGS",
                         #                                                    lower = lower ,  upper= upper , 
@@ -623,8 +686,7 @@ for (j in 1:length(dataframes) ) {
                                      trace=6,
                                      ndeps = rep(1e-10,length(start_habit)))    )
   
-  #Problem: den kan ikke l?se med L-BFGS-B. Lidt irriterende.
-  
+  #Printer resultater----------
   sol_gamma <- c(sol_habit$par[1:(n-1)],0)
   bstar_sol <- sol_habit$par[n:(2*n-1)]*10000
   alpha_sol <- exp(sol_gamma)/sum(exp(sol_gamma))
@@ -645,7 +707,7 @@ for (j in 1:length(dataframes) ) {
   AIC = 2*length(sol_habit$par) + 2*sol_habit$value
   aic_mat <- rbind(aic_mat,AIC)
 }
-
+#Printer til excel -------
 vareagg = c("kod_fisk_mej","ovr_fode","bol","ene_hje","ene_tra","tra","ovr_var","ovr_tje")
 
 resul_2 <- resul[-1,]
@@ -658,10 +720,13 @@ write.xlsx(resul_el, "8var_elast.xlsx", sheetName = "Habitform, uden acorr",
            col.names = TRUE, row.names = TRUE, append = TRUE)
 
 
+
 # Uden habitform uden acorr -------------
 resul <- rep(NA,n)
 resul_el <- rep(NA,n)
 for (j in 1:length(dataframes) ) {
+  
+  #Indlæser data------
   
   df <- dataframes[[j]]  
   
@@ -726,6 +791,7 @@ for (j in 1:length(dataframes) ) {
   T=dims[1]
   n=dims[2]
   
+  #Startværdier ------
   #Løser ligningssystem, så gamma'erne afspejler de ønskede alphaer startværdier
   #Sæt ønskede alpha fx lig budgetandele i sidste periode.
   #gamma_n er lig 0.
@@ -776,7 +842,7 @@ for (j in 1:length(dataframes) ) {
   
   #Maksimererlikelihood.
   
-  #--- Uden habit formation ------
+  #Maksimerer likelihood ------
   sol_uhabit <-  optim(  par = start_uhabit, fn = loglik, habitform=0,
                          phat=phat, w=w, x=x, method="BFGS",
                          #                             lower = lower ,  upper= upper ,
@@ -784,6 +850,7 @@ for (j in 1:length(dataframes) ) {
                                       trace=99,
                                       ndeps = rep(1e-10,length(start_uhabit)))    )
   
+  #Printer resultater-----
   sol_gamma <- c(sol_uhabit$par[1:(n-1)],0)
   b_sol <- sol_uhabit$par[n:(2*n-1)]*10000
   alpha_sol <- exp(sol_gamma)/sum(exp(sol_gamma))
@@ -801,6 +868,7 @@ for (j in 1:length(dataframes) ) {
   aic_mat <- rbind(aic_mat,AIC)
   
 }
+# Printer til excel----
 resul_2 <- resul[-1,]
 colnames(resul_2) <- vareagg
 write.xlsx(resul_2, "8var_est_res.xlsx", sheetName = "Uden habitform, uden acorr", 
@@ -811,6 +879,11 @@ resul_el <- resul_el[-1,]
 write.xlsx(resul_el, "8var_elast.xlsx", sheetName = "Uden habitform, uden acorr", 
            col.names = TRUE, row.names = TRUE, append = TRUE)
 
-# Laver AIC-tabel
+# Laver AIC-tabel----
 aic_mat2 <- aic_mat[-1]
-matrix(aic_mat[-1],nrow=11, ncol=4,byrow=FALSE)
+AIC_matrix <- matrix(aic_mat[-1],nrow=11, ncol=4,byrow=FALSE)
+#Foreløbig koklusion: Acorr er klart bedre når der ikke er habitformation
+#Der er ikke en klar konklusion, når det kommer til habitformation, stort set
+#samme AIC.
+write.xlsx(AIC_matrix, "AIC.xlsx", sheetName = "AIC", 
+           col.names = TRUE, row.names = TRUE, append = TRUE)
