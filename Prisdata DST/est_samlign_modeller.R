@@ -22,6 +22,14 @@ df_8 <-read.csv("v8_decil_8.csv",sep=',')
 df_9 <-read.csv("v8_decil_9.csv",sep=',')
 df_10<-read.csv("v8_decil_10.csv",sep=',')
 
+#Lav kvintiler
+kvint_1 <- (df_1+df_2)/2
+kvint_2 <- (df_3+df_4)/2
+kvint_3 <- (df_5+df_6)/2
+kvint_4 <- (df_7+df_8)/2
+kvint_5 <- (df_9+df_10)/2
+
+
 ## Laver modellen ----
 
 #funktion til at lave symmetrisk matrix
@@ -171,11 +179,12 @@ n=dims[2]
 
 
 dataframes = list(df_h, df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10)
+dataframes_kvint= list(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5)
 aic_matstor = c(0:6)
 
-for (dfdf in 1:length(dataframes) ) {
+for (dfdf in 1:length(dataframes_kvint) ) {
 # Dataindlæsning  ---------
-df <- dataframes[[dfdf]]
+df <- dataframes_kvint[[dfdf]]
 
 # Datamanipulation -----
 df     <- transform( df,
@@ -250,7 +259,7 @@ gammasol <- optim(par=rep(0,(n-1)),fn=gammafn, alpha_goal=w[T,1:(n-1)], method="
 gamma_start <- c(gammasol$par,0)
 
 #sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
-b_start <- 0.25*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+b_start <- 0.5*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 a <- alpha_start  #igen, a er en logit
 b <- b_start         # b er time-invariant
@@ -266,9 +275,9 @@ covar <- cov(uhat)
 #covar_start <- c(cholcovar)
 covar_start <- covar[lower.tri(covar,diag=TRUE)]
 
-habit=rep(0.5,n)
+habit=rep(0.1,n)
 timetrend=rep(0.01,n)
-autocorr <- 0.3
+autocorr <- 0.2
 
 start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
 start_2 = c(gamma_start[1:(n-1)], b_start, covar_start, autocorr)
@@ -306,6 +315,7 @@ if (j==4){sol_b_mat_4 <- matrix(rep(bstar_sol,(T-1)),nrow=(T-1),ncol=n, byrow=TR
 if (j==5){sol_b_mat_5 <- matrix(rep(bstar_sol,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + 10000*x[1:(T-1),]%*%diag(beta_sol)}
 if (j==6){sol_b_mat_6 <- matrix(rep(bstar_sol,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + 10000*x[1:(T-1),]%*%diag(beta_sol)}
 }
+#Sammenligning på tværs af deciler loop
 aic_matstor <- cbind(aic_matstor,aic_mat)
 }
 
@@ -326,3 +336,5 @@ for (i in 1:8) {
   lines(sol_b_mat_6[,i], type = "l", col = "bisque4")
 }
 
+write.xlsx(aic_matstor, "aic_samlign.xlsx", sheetName = "AIC_kvintiler", 
+           col.names = TRUE, row.names = TRUE, append = TRUE)

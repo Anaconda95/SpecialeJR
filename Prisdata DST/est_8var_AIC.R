@@ -29,6 +29,8 @@ df_8 <-read.csv("v8_decil_8.csv",sep=',')
 df_9 <-read.csv("v8_decil_9.csv",sep=',')
 df_10<-read.csv("v8_decil_10.csv",sep=',')
 
+
+
 write.xlsx(df_10,"8var.xlsx", sheetName="10 decil",col.names = TRUE, row.names = TRUE, append = FALSE)
 write.xlsx(df_1,"8var.xlsx", sheetName="1 decil",col.names = TRUE, row.names = TRUE, append = TRUE)
 write.xlsx(df_h,"8var.xlsx", sheetName="Gennemsnit",col.names = TRUE, row.names = TRUE, append = TRUE)
