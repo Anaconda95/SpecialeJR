@@ -185,7 +185,7 @@ aic_matstor = c(0:6)
 for (dfdf in 1:length(dataframes_kvint) ) {
 # Dataindlæsning  ---------
 df <- dataframes_kvint[[dfdf]]
-
+df<-df_h
 # Datamanipulation -----
 df     <- transform( df,
                      p1 = priser$Pris.kod_fisk_mej,
@@ -259,7 +259,7 @@ gammasol <- optim(par=rep(0,(n-1)),fn=gammafn, alpha_goal=w[T,1:(n-1)], method="
 gamma_start <- c(gammasol$par,0)
 
 #sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
-b_start <- 0.5*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+b_start <- 0.8*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 a <- alpha_start  #igen, a er en logit
 b <- b_start         # b er time-invariant
@@ -275,9 +275,9 @@ covar <- cov(uhat)
 #covar_start <- c(cholcovar)
 covar_start <- covar[lower.tri(covar,diag=TRUE)]
 
-habit=rep(0.1,n)
-timetrend=rep(0.01,n)
-autocorr <- 0.2
+habit=rep(0.9,n)
+timetrend=rep(0.05,n)
+autocorr <- 0.9
 
 start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
 start_2 = c(gamma_start[1:(n-1)], b_start, covar_start, autocorr)
@@ -307,6 +307,7 @@ sol_gamma <- c(sol$par[1:(n-1)],0)
 bstar_sol <- sol$par[n:(2*n-1)]*10000
 alpha_sol <- exp(sol_gamma)/sum(exp(sol_gamma))
 beta_sol <- sol$par[(2*n):(3*n-1)]
+ac_const <- sol$par[((2*(n) + (n-1)*((n-1)+1)/2))]
 
 if (j==1){sol_b_mat_1 <- matrix(rep(bstar_sol,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE)}
 if (j==2){sol_b_mat_2 <- matrix(rep(bstar_sol,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE)}
@@ -355,24 +356,6 @@ for (i in 1:8) {
     geom_line(aes(y = HabitAC), color="bisque4")
 }
 
-v<-matrix(data=c(tid[-1],x[-1,i]*10000,sol_b_mat_1[,i]),nrow=(T-1),ncol=3,byrow=FALSE)
-matrix(rep(bstar_sol,(T-1)), nrow=(T-1),ncol=n, byrow=TRUE)
-qplot(v,geom="path")
-vframe<-data.frame(v)
-
-
-p[[1]] <- ggplot(vframe, aes(x=X1)) + 
-  geom_line(aes(y = X2), color = "darkred") + 
-  geom_line(aes(y = X3), color="steelblue", linetype="twodash")
-p[[2]] <- ggplot(vframe, aes(x=X1)) + 
-  geom_line(aes(y = X2), color = "darkred") + 
-  geom_line(aes(y = X3), color="steelblue", linetype="twodash")
-
-library(gridExtra)
-
-for(i in 1:4){
-  p[[i]] <- qplot(1:10,10:1,main=i)
-}
 do.call(grid.arrange,p)
 
 
