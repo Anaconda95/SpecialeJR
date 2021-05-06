@@ -323,18 +323,58 @@ aic_matstor <- cbind(aic_matstor,aic_mat)
 
 ##Laver figurer for b'erne ------
 vareagg = c("kod_fisk_mej","ovr_fode","bol","ene_hje","ene_tra","tra","ovr_var","ovr_tje")
+#Model==1: Standard uden autocorrelation
+#Model==2: Standard med autocorrelation
+#Model==3: Time trend uden autocorrelation
+#Model==4: Time trend med autocorrelation
+#Model==5: Habit-formation uden autocorrelation
+#Model==6: Habit-formation med autocorrelation
+v=data.frame(Year=c(1995:2019),Consumption=x[-1,i]*10000,Const=sol_b_mat_1[,i],ConstAC=sol_b_mat_2[,i],
+           Trend=sol_b_mat_3[,i], TrendAC=sol_b_mat_4[,i], Habit=sol_b_mat_5[,i], HabitAC=sol_b_mat_6[,i])
 
+v <- v %>%
+  select(Year, Consumption, Const, ConstAC,Trend,TrendAC,Habit,HabitAC) %>%
+  gather(key = "variable", value = "value", -Year)
+head(v)
+#If you want a legend:
+ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
+  geom_line(aes(color = variable, linetype = variable)) + 
+  scale_color_manual(values = c("steelblue", "steelblue","darkred","darkorange3","darkorange3","bisque4","bisque4"))
+
+p <- list()
 for (i in 1:8) {
-  v=x[-1,i]*10000
-  plot(v,type = "l",col = "red", xlab = "Time", ylab = "Minimum consumption", 
-       main = vareagg[i], ylim=c(0,max(v)) ) 
-  lines(sol_b_mat_1[,i], type = "l", col = "blue1")
-  lines(sol_b_mat_2[,i], type = "l", col = "darkblue")
-  lines(sol_b_mat_3[,i], type = "l", col = "orange")
-  lines(sol_b_mat_4[,i], type = "l", col = "darkorange3")
-  lines(sol_b_mat_5[,i], type = "l", col = "bisque3")
-  lines(sol_b_mat_6[,i], type = "l", col = "bisque4")
+  v=data.frame(Year=c(1995:2019),Consumption=x[-1,i]*10000,Const=sol_b_mat_1[,i],ConstAC=sol_b_mat_2[,i],
+               Trend=sol_b_mat_3[,i], TrendAC=sol_b_mat_4[,i], Habit=sol_b_mat_5[,i], HabitAC=sol_b_mat_6[,i])
+  p[[i]] <- ggplot(v, aes(x=Year,) ) + ggtitle(vareagg[i]) +
+    geom_line(aes(y = Consumption), color = "darkred") + 
+    geom_line(aes(y = Const), color="steelblue", linetype="twodash")+
+    geom_line(aes(y = ConstAC), color="steelblue")+
+    geom_line(aes(y = Trend), color="darkorange3", linetype="twodash")+
+    geom_line(aes(y = TrendAC), color="darkorange3")+
+    geom_line(aes(y = Habit), color="bisque4", linetype="twodash")+
+    geom_line(aes(y = HabitAC), color="bisque4")
 }
+
+v<-matrix(data=c(tid[-1],x[-1,i]*10000,sol_b_mat_1[,i]),nrow=(T-1),ncol=3,byrow=FALSE)
+matrix(rep(bstar_sol,(T-1)), nrow=(T-1),ncol=n, byrow=TRUE)
+qplot(v,geom="path")
+vframe<-data.frame(v)
+
+
+p[[1]] <- ggplot(vframe, aes(x=X1)) + 
+  geom_line(aes(y = X2), color = "darkred") + 
+  geom_line(aes(y = X3), color="steelblue", linetype="twodash")
+p[[2]] <- ggplot(vframe, aes(x=X1)) + 
+  geom_line(aes(y = X2), color = "darkred") + 
+  geom_line(aes(y = X3), color="steelblue", linetype="twodash")
+
+library(gridExtra)
+
+for(i in 1:4){
+  p[[i]] <- qplot(1:10,10:1,main=i)
+}
+do.call(grid.arrange,p)
+
 
 write.xlsx(aic_matstor, "aic_samlign.xlsx", sheetName = "AIC_kvintiler", 
            col.names = TRUE, row.names = TRUE, append = TRUE)
