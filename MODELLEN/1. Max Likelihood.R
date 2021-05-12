@@ -10,28 +10,6 @@
 
 
 
-############################ First of all: load usefull packages ###########################################
-
-#clear workspace
-rm(list=ls())
-library(mvtnorm)
-library("xlsx")
-#install.packages("grid")
-library("grid")
-#install.packages("ggplot")
-#install.packages("tidyr")
-library("ggplot")
-library("dplyr")
-library("tidyr")
-library("ggplot2")
-#install.packages("gridExtra")
-library(gridExtra)
-library(grid)
-library(ggplot2)
-library(lattice)
-#no scientific numbers
-options(scipen=999)
-options(digits=3)
 
 
 
@@ -48,6 +26,8 @@ options(digits=3)
 #Model==7: Habit-formation med AR(1) med frie parametre uden autokorrelation
 #Model==8: Habit-formation med AR(1) med frie parametre med autokorrelation
 
+### S�t start v�rdier for AR process:
+AR_p_start = c(0.5,0.5,0.7,0.6,0.6,0.6,0.7,0.5)
 
 #funktion til at lave symmetrisk matrix
 makeSymm <- function(m) {
@@ -141,7 +121,8 @@ loglik <- function(par,w,phat,x,model) {
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
     bstar <- c(par[n:(2*n-1)]) # bstar: n parametre
-    beta <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    z <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    beta <- z**2
     #Med habit formation må ét år fjernes fra estimeringen.
     b <- matrix(rep(bstar,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + x[1:(T-1),]%*%diag(beta) #b defineres som matrix.
     supernum <- 1-rowSums(phat[2:T,] * b) #supernumerary income i hver periode sættes
@@ -160,7 +141,8 @@ loglik <- function(par,w,phat,x,model) {
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
     bstar <- c(par[n:(2*n-1)]) # bstar: n parametre
-    beta <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    z <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    beta <- z**2
     #Med habit formation må ét år fjernes fra estimeringen.
     b <- matrix(rep(bstar,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE) + x[1:(T-1),]%*%diag(beta) #b defineres som matrix.
     supernum <- 1-rowSums(phat[2:T,] * b) #supernumerary income i hver periode sættes
@@ -180,14 +162,18 @@ loglik <- function(par,w,phat,x,model) {
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
     beta2 <- c(par[n:(2*n-1)]) # bstar: n parametre
-    beta <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    z <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    beta <- z**2
+
     #Med habit formation må ét år fjernes fra estimeringen.
     
     ############ i denne model er de to parametre ikke restrikteret til at give 1. 
     
     b <- matrix(rep(0,(T-2)),nrow=(T-2),ncol=n, byrow=TRUE)
-    #bb <- x[1:(T-(T-1)),]%*%diag(0.6)
-    b[(T-(T-1)),] <- x[2:(T-(T-2)),]%*%diag(beta) + (x[1,]%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6)))%*%diag(beta2)
+    b[1,] <- x[2,]*(beta) + (x[1,]*(AR_p_start))*(beta2)
+    #for (z in c(1:T-3)) {
+    #  b[z+1,] <- c(x[z+2,]*beta + b[z,]*beta2)}
+    # +b[(z-1),]*(beta2)} b[z,]*+ (beta2) 
     b[(T-(T-2)),] <- x[3:(T-(T-3)),]%*%diag(beta) + b[(T-(T-1)),]%*%diag(beta2)
     b[(T-(T-3)),] <- x[4:(T-(T-4)),]%*%diag(beta) + b[(T-(T-2)),]%*%diag(beta2)
     b[(T-(T-4)),] <- x[5:(T-(T-5)),]%*%diag(beta) + b[(T-(T-3)),]%*%diag(beta2)
@@ -203,14 +189,50 @@ loglik <- function(par,w,phat,x,model) {
     b[(T-(T-14)),] <- x[15:(T-(T-15)),]%*%diag(beta) + b[(T-(T-13)),]%*%diag(beta2)
     b[(T-(T-15)),] <- x[16:(T-(T-16)),]%*%diag(beta) + b[(T-(T-14)),]%*%diag(beta2)
     b[(T-(T-16)),] <- x[17:(T-(T-17)),]%*%diag(beta) + b[(T-(T-15)),]%*%diag(beta2)
-    b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
-    b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
-    b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
-    b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
-    b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
-    b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)
-    b[(T-(T-23)),] <- x[24:(T-(T-24)),]%*%diag(beta) + b[(T-(T-22)),]%*%diag(beta2)
-    b[(T-(T-24)),] <- x[25:(T-(T-25)),]%*%diag(beta) + b[(T-(T-23)),]%*%diag(beta2)
+    if (T==19) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)}
+    if (T==20) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)}
+    if (T==21) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)}
+    if (T==22) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)}
+    if (T==23){
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)}
+    if (T==24) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
+      b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)}
+    if (T==25) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
+      b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)
+      b[(T-(T-23)),] <- x[24:(T-(T-24)),]%*%diag(beta) + b[(T-(T-22)),]%*%diag(beta2)}
+    if (T==26) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
+      b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)
+      b[(T-(T-23)),] <- x[24:(T-(T-24)),]%*%diag(beta) + b[(T-(T-22)),]%*%diag(beta2)
+      b[(T-(T-24)),] <- x[25:(T-(T-25)),]%*%diag(beta) + b[(T-(T-23)),]%*%diag(beta2)}
     
     supernum <- 1-rowSums(phat[3:T,] * b) #supernumerary income i hver periode sættes
     supernummat <- matrix(rep(supernum,n),ncol=n) # for at lette beregningen af u replikeres n gange til en matrixe
@@ -229,14 +251,15 @@ loglik <- function(par,w,phat,x,model) {
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
     beta2 <- c(par[n:(2*n-1)]) # bstar: n parametre
-    beta <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    z <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    beta <- z**2
     #Med habit formation må ét år fjernes fra estimeringen.
     
     ############ i denne model er de to parametre ikke restrikteret til at give 1. 
     
     b <- matrix(rep(0,(T-2)),nrow=(T-2),ncol=n, byrow=TRUE)
     #bb <- x[1:(T-(T-1)),]%*%diag(0.6)
-    b[(T-(T-1)),] <- x[2:(T-(T-2)),]%*%diag(beta) + (x[1,]%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6)))%*%diag(beta2)
+    b[(T-(T-1)),] <- x[2:(T-(T-2)),]%*%diag(beta) + (x[1,]%*%diag(AR_p_start))%*%diag(beta2)
     b[(T-(T-2)),] <- x[3:(T-(T-3)),]%*%diag(beta) + b[(T-(T-1)),]%*%diag(beta2)
     b[(T-(T-3)),] <- x[4:(T-(T-4)),]%*%diag(beta) + b[(T-(T-2)),]%*%diag(beta2)
     b[(T-(T-4)),] <- x[5:(T-(T-5)),]%*%diag(beta) + b[(T-(T-3)),]%*%diag(beta2)
@@ -252,14 +275,50 @@ loglik <- function(par,w,phat,x,model) {
     b[(T-(T-14)),] <- x[15:(T-(T-15)),]%*%diag(beta) + b[(T-(T-13)),]%*%diag(beta2)
     b[(T-(T-15)),] <- x[16:(T-(T-16)),]%*%diag(beta) + b[(T-(T-14)),]%*%diag(beta2)
     b[(T-(T-16)),] <- x[17:(T-(T-17)),]%*%diag(beta) + b[(T-(T-15)),]%*%diag(beta2)
-    b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
-    b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
-    b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
-    b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
-    b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
-    b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)
-    b[(T-(T-23)),] <- x[24:(T-(T-24)),]%*%diag(beta) + b[(T-(T-22)),]%*%diag(beta2)
-    b[(T-(T-24)),] <- x[25:(T-(T-25)),]%*%diag(beta) + b[(T-(T-23)),]%*%diag(beta2)
+    if (T==19) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)}
+    if (T==20){
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)}
+    if (T==21) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)}
+    if (T==22) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)}
+    if (T==23) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)}
+    if (T==24) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
+      b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)}
+    if (T==25) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
+      b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)
+      b[(T-(T-23)),] <- x[24:(T-(T-24)),]%*%diag(beta) + b[(T-(T-22)),]%*%diag(beta2)}
+    if (T==26) {
+      b[(T-(T-17)),] <- x[18:(T-(T-18)),]%*%diag(beta) + b[(T-(T-16)),]%*%diag(beta2)
+      b[(T-(T-18)),] <- x[19:(T-(T-19)),]%*%diag(beta) + b[(T-(T-17)),]%*%diag(beta2)
+      b[(T-(T-19)),] <- x[20:(T-(T-20)),]%*%diag(beta) + b[(T-(T-18)),]%*%diag(beta2)
+      b[(T-(T-20)),] <- x[21:(T-(T-21)),]%*%diag(beta) + b[(T-(T-19)),]%*%diag(beta2)
+      b[(T-(T-21)),] <- x[22:(T-(T-22)),]%*%diag(beta) + b[(T-(T-20)),]%*%diag(beta2)
+      b[(T-(T-22)),] <- x[23:(T-(T-23)),]%*%diag(beta) + b[(T-(T-21)),]%*%diag(beta2)
+      b[(T-(T-23)),] <- x[24:(T-(T-24)),]%*%diag(beta) + b[(T-(T-22)),]%*%diag(beta2)
+      b[(T-(T-24)),] <- x[25:(T-(T-25)),]%*%diag(beta) + b[(T-(T-23)),]%*%diag(beta2)}
     
     supernum <- 1-rowSums(phat[3:T,] * b) #supernumerary income i hver periode sættes
     supernummat <- matrix(rep(supernum,n),ncol=n) # for at lette beregningen af u replikeres n gange til en matrixe

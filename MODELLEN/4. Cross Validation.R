@@ -6,11 +6,11 @@
 
 
 
-###### Regner med at vi har defineret modellerne i et andet program ###################
 
-df_h <-read.csv("C:/specialeJR/Prisdata DST/v8_decil_h.csv",sep=',')
-df <- df_h
 
+################ Ændre datasættet ########################
+df <- kvint_5  ### <<<<=============== 
+###########################################################
 
 ################ Laver databehandling for gennemsnitshusstanden #######################
 
@@ -105,7 +105,7 @@ covar <- cov(uhat)
 #covar_start <- c(cholcovar)
 covar_start <- covar[lower.tri(covar,diag=TRUE)]
 
-habit=rep(0.5,n)
+habit=rep(0.7,n)
 AR = rep(0.5,n)
 timetrend=rep(0.05,n)
 autocorr <- 0.9
@@ -130,20 +130,17 @@ start_8 = c(gamma_start[1:(n-1)], AR, habit, covar_start, autocorr)
 
 
 ### Vi tager 20 obs med, derefter 21, derefter 22, derefter 23, 24 og så 25 
-endperiod1_4 = 26
-endperiod5_6 = 25
-endperiod7_8 = 24
-endtrain = 19
-error5 = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
-error6 = error5
-error2 = error5
-error4 = error5
-error7 = error5
-error1 = error5
-error3 = error5
-error8=error5
+endperiod = 26
+endtrain = 20
+
+# Tomme dataframes for 1 til 4
+error1 = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
+error2 = error1
+error3 = error1
+error4 = error1
+
 ################################## Model 1 til 4 ###############################################
-for(i in 1:(endperiod1_4-endtrain)){
+for(i in 1:(endperiod-endtrain)){
   # Først definere vi train-data og test-obs
   wtrain <- window(w, end=endtrain-1 + i) 
   wnext <- window(w, start=endtrain + i, end=endtrain + i) 
@@ -223,9 +220,11 @@ for(i in 1:(endperiod1_4-endtrain)){
 }
 
 
-
+## Tomme dataframes for 5 til 6
+error5 = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
+error6 = error5
 ################################## Model 5 og 6 ################################################
-for(i in 1:(endperiod5_6-endtrain)){
+for(i in 1:(endperiod-endtrain)){
   # Først definere vi train-data og test-obs
   wtrain <- window(w, end=endtrain-1 + i) 
   wnext <- window(w, start=endtrain + i, end=endtrain + i) 
@@ -241,7 +240,8 @@ for(i in 1:(endperiod5_6-endtrain)){
                 control=list(maxit=5000,
                              trace=6,
                              ndeps = rep(1e-10,length(start_5))) )
-  sol6 <-  optim(par = start_6, fn = loglik, model=5, 
+  
+  sol6 <-  optim(par = start_6, fn = loglik, model=6, 
                  phat=phattrain, w=wtrain, x=xtrain, method="BFGS",
                  control=list(maxit=5000,
                               trace=6,
@@ -249,12 +249,18 @@ for(i in 1:(endperiod5_6-endtrain)){
   sol_gamma5 <- c(sol5$par[1:(n-1)],0)
   bstar_sol5 <- sol5$par[n:(2*n-1)]
   alpha_sol5 <- exp(sol_gamma5)/sum(exp(sol_gamma5))
-  beta_sol5 <- sol6$par[(2*n):(3*n-1)]
+  z_sol5 <- sol6$par[(2*n):(3*n-1)]
+  beta_sol5 <- z_sol5**2
+  
   sol_gamma6 <- c(sol6$par[1:(n-1)],0)
   bstar_sol6 <- sol6$par[n:(2*n-1)]
   alpha_sol6 <- exp(sol_gamma6)/sum(exp(sol_gamma6))
-  beta_sol6 <- sol6$par[(2*n):(3*n-1)]
+  z_sol6 <- sol6$par[(2*n):(3*n-1)]
+  beta_sol6 <- z_sol6**2
   ac_const6 <- sol6$par[((2*(n) + (n-1)*((n-1)+1)/2))]
+  
+  #beta_sol6[beta_sol6<0] <- 0
+  #beta_sol5[beta_sol5<0] <- 0
   
   # Predicter næste observation af w
   ## For model 5
@@ -274,9 +280,11 @@ for(i in 1:(endperiod5_6-endtrain)){
 }
 
 
-
+## Tomme dataframes for 7 til 8
+error7 = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
+error8 = error7
 ################################## Model 7 og 8 ################################################
-for(i in 1:(endperiod7_8-endtrain)){
+for(i in 1:(endperiod-endtrain)){
   # Først definere vi train-data og test-obs
   wtrain <- window(w, end=endtrain-1 + i) 
   wnext <- window(w, start=endtrain + i, end=endtrain + i) 
@@ -292,7 +300,8 @@ for(i in 1:(endperiod7_8-endtrain)){
                  control=list(maxit=5000,
                               trace=6,
                               ndeps = rep(1e-10,length(start_7))) )
-  
+ 
+### 
   sol8 <-  optim(par = start_8, fn = loglik, model=8, 
                  phat=phattrain, w=wtrain, x=xtrain, method="BFGS",
                  control=list(maxit=5000,
@@ -302,23 +311,85 @@ for(i in 1:(endperiod7_8-endtrain)){
   sol_gamma7 <- c(sol7$par[1:(n-1)],0)
   beta2_sol7 <- sol7$par[n:(2*n-1)]
   alpha_sol7 <- exp(sol_gamma7)/sum(exp(sol_gamma7))
-  beta1_sol7 <- sol7$par[(2*n):(3*n-1)]
+  z_sol7 <- sol7$par[(2*n):(3*n-1)]
+  beta1_sol7 <- z_sol7**2
   
   sol_gamma8 <- c(sol8$par[1:(n-1)],0)
   beta2_sol8 <- sol8$par[n:(2*n-1)]
   alpha_sol8 <- exp(sol_gamma8)/sum(exp(sol_gamma8))
-  beta1_sol8 <- sol8$par[(2*n):(3*n-1)]
-  
+  z_sol8 <- sol8$par[(2*n):(3*n-1)]
+  beta1_sol8 <- z_sol8**2
   
   
   # Predicter næste observation af w
   # For model 7
   ## Hvad er b- end of sample? 
   sol_b_mat_7 = matrix(rep(0,endtrain-1 + i),nrow=endtrain-1 + i,ncol=n)
-  sol_b_mat_7[1,] = c(rep(NA,n))
-  sol_b_mat_7[2,] =  (x[2,])%*%diag(beta1_sol7) + (x[1,])%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6))%*%diag(beta2_sol_7)
-  for (tal in c(3:endtrain-1 + i)) {
-    sol_b_mat_7[tal,] = (x[tal-1,])%*%diag(beta1_sol7) + sol_b_mat_7[tal-1,]%*%diag(beta2_sol_7)}
+  #sol_b_mat_7[1,] = c(rep(NA,n))
+  #sol_b_mat_7[2,] = c(rep(NA,n))
+  sol_b_mat_7[3,] =  (x[2,])%*%diag(beta1_sol7) + (x[1,])%*%diag(AR_p_start)%*%diag(beta2_sol7)
+  sol_b_mat_7[4,] = x[3,]%*%diag(beta1_sol7) + sol_b_mat_7[3,]%*%diag(beta2_sol7)
+  sol_b_mat_7[5,] = x[4,]%*%diag(beta1_sol7) + sol_b_mat_7[4,]%*%diag(beta2_sol7)
+  sol_b_mat_7[6,] = x[5,]%*%diag(beta1_sol7) + sol_b_mat_7[5,]%*%diag(beta2_sol7)
+  sol_b_mat_7[7,] = x[6,]%*%diag(beta1_sol7) + sol_b_mat_7[6,]%*%diag(beta2_sol7)
+  sol_b_mat_7[8,] = x[7,]%*%diag(beta1_sol7) + sol_b_mat_7[7,]%*%diag(beta2_sol7)
+  sol_b_mat_7[9,] = x[8,]%*%diag(beta1_sol7) + sol_b_mat_7[8,]%*%diag(beta2_sol7)
+  sol_b_mat_7[10,] = x[9,]%*%diag(beta1_sol7) + sol_b_mat_7[9,]%*%diag(beta2_sol7)
+  sol_b_mat_7[11,] = x[10,]%*%diag(beta1_sol7) + sol_b_mat_7[10,]%*%diag(beta2_sol7)
+  sol_b_mat_7[12,] = x[11,]%*%diag(beta1_sol7) + sol_b_mat_7[11,]%*%diag(beta2_sol7)
+  sol_b_mat_7[13,] = x[12,]%*%diag(beta1_sol7) + sol_b_mat_7[12,]%*%diag(beta2_sol7)
+  sol_b_mat_7[14,] = x[13,]%*%diag(beta1_sol7) + sol_b_mat_7[13,]%*%diag(beta2_sol7)
+  sol_b_mat_7[15,] = x[14,]%*%diag(beta1_sol7) + sol_b_mat_7[14,]%*%diag(beta2_sol7)
+  sol_b_mat_7[16,] = x[15,]%*%diag(beta1_sol7) + sol_b_mat_7[15,]%*%diag(beta2_sol7)
+  sol_b_mat_7[17,] = x[16,]%*%diag(beta1_sol7) + sol_b_mat_7[16,]%*%diag(beta2_sol7)
+  sol_b_mat_7[18,] = x[17,]%*%diag(beta1_sol7) + sol_b_mat_7[17,]%*%diag(beta2_sol7)
+  if (endtrain-1+i==19){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    }
+  if (endtrain-1+i==20){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)}
+  if (endtrain-1+i==21){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+    sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)}
+  if (endtrain-1+i==22){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+    sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
+    sol_b_mat_7[22,] = x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)}
+  if (endtrain-1+i==23){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+    sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
+    sol_b_mat_7[22,] = x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)
+    sol_b_mat_7[23,] = x[22,]%*%diag(beta1_sol7) + sol_b_mat_7[22,]%*%diag(beta2_sol7)}
+  if (endtrain-1+i==24){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+    sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
+    sol_b_mat_7[22,] = x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)
+    sol_b_mat_7[23,] = x[22,]%*%diag(beta1_sol7) + sol_b_mat_7[22,]%*%diag(beta2_sol7)
+    sol_b_mat_7[24,] = x[23,]%*%diag(beta1_sol7) + sol_b_mat_7[23,]%*%diag(beta2_sol7)}
+  if (endtrain-1+i==25){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+    sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
+    sol_b_mat_7[22,] = x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)
+    sol_b_mat_7[23,] = x[22,]%*%diag(beta1_sol7) + sol_b_mat_7[22,]%*%diag(beta2_sol7)
+    sol_b_mat_7[24,] = x[23,]%*%diag(beta1_sol7) + sol_b_mat_7[23,]%*%diag(beta2_sol7)
+    sol_b_mat_7[25,] = x[24,]%*%diag(beta1_sol7) + sol_b_mat_7[24,]%*%diag(beta2_sol7)}
+  if (endtrain-1+i==26){
+    sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+    sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+    sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
+    sol_b_mat_7[22,] = x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)
+    sol_b_mat_7[23,] = x[22,]%*%diag(beta1_sol7) + sol_b_mat_7[22,]%*%diag(beta2_sol7)
+    sol_b_mat_7[24,] = x[23,]%*%diag(beta1_sol7) + sol_b_mat_7[23,]%*%diag(beta2_sol7)
+    sol_b_mat_7[25,] = x[24,]%*%diag(beta1_sol7) + sol_b_mat_7[24,]%*%diag(beta2_sol7)
+    sol_b_mat_7[26,] = x[25,]%*%diag(beta1_sol7) + sol_b_mat_7[25,]%*%diag(beta2_sol7)}
+
+  
   
   b7 <- xnext[,]%*%diag(beta1_sol7) + sol_b_mat_7[endtrain-1 + i,]%*%diag(beta2_sol_7)
   supernum7 <- 1-rowSums(phatnext[,]*b7) 
@@ -326,11 +397,77 @@ for(i in 1:(endperiod7_8-endtrain)){
   fejl7 <- list( phatnext[,]*b7 + supernummat7%*%diag(alpha_sol7)-wnext[,])
   error7 <- rbind(error7,fejl7[[1]])
   
+  
+  ############ model 8 #################
   sol_b_mat_8 = matrix(rep(0,endtrain-1 + i),nrow=endtrain-1 + i,ncol=n)
-  sol_b_mat_8[1,] = c(rep(NA,n))
-  sol_b_mat_8[2,] =  (x[2,])%*%diag(beta1_sol8) + (x[1,])%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6))%*%diag(beta2_sol_8)
-  for (tal in c(3:endtrain-1 + i)) {
-    sol_b_mat_8[tal,] = (x[tal-1,])%*%diag(beta1_sol8) + sol_b_mat_8[tal-1,]%*%diag(beta2_sol_8)}
+  #sol_b_mat_8[1,] = c(rep(NA,n))
+  #sol_b_mat_8[2,] = c(rep(NA,n))
+  sol_b_mat_8[3,] =  (x[2,])%*%diag(beta1_sol8) + (x[1,])%*%diag(AR_p_start)%*%diag(beta2_sol8)
+  sol_b_mat_8[4,] = x[3,]%*%diag(beta1_sol8) + sol_b_mat_8[3,]%*%diag(beta2_sol8)
+  sol_b_mat_8[5,] = x[4,]%*%diag(beta1_sol8) + sol_b_mat_8[4,]%*%diag(beta2_sol8)
+  sol_b_mat_8[6,] = x[5,]%*%diag(beta1_sol8) + sol_b_mat_8[5,]%*%diag(beta2_sol8)
+  sol_b_mat_8[8,] = x[6,]%*%diag(beta1_sol8) + sol_b_mat_8[6,]%*%diag(beta2_sol8)
+  sol_b_mat_8[8,] = x[8,]%*%diag(beta1_sol8) + sol_b_mat_8[7,]%*%diag(beta2_sol8)
+  sol_b_mat_8[9,] = x[8,]%*%diag(beta1_sol8) + sol_b_mat_8[8,]%*%diag(beta2_sol8)
+  sol_b_mat_8[10,] = x[9,]%*%diag(beta1_sol8) + sol_b_mat_8[9,]%*%diag(beta2_sol8)
+  sol_b_mat_8[11,] = x[10,]%*%diag(beta1_sol8) + sol_b_mat_8[10,]%*%diag(beta2_sol8)
+  sol_b_mat_8[12,] = x[11,]%*%diag(beta1_sol8) + sol_b_mat_8[11,]%*%diag(beta2_sol8)
+  sol_b_mat_8[13,] = x[12,]%*%diag(beta1_sol8) + sol_b_mat_8[12,]%*%diag(beta2_sol8)
+  sol_b_mat_8[14,] = x[13,]%*%diag(beta1_sol8) + sol_b_mat_8[13,]%*%diag(beta2_sol8)
+  sol_b_mat_8[15,] = x[14,]%*%diag(beta1_sol8) + sol_b_mat_8[14,]%*%diag(beta2_sol8)
+  sol_b_mat_8[16,] = x[15,]%*%diag(beta1_sol8) + sol_b_mat_8[15,]%*%diag(beta2_sol8)
+  sol_b_mat_8[17,] = x[16,]%*%diag(beta1_sol8) + sol_b_mat_8[16,]%*%diag(beta2_sol8)
+  sol_b_mat_8[18,] = x[17,]%*%diag(beta1_sol8) + sol_b_mat_8[17,]%*%diag(beta2_sol8)
+  if (endtrain-1+i==19){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+  }
+  if (endtrain-1+i==20){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+    sol_b_mat_8[20,] = x[19,]%*%diag(beta1_sol8) + sol_b_mat_8[19,]%*%diag(beta2_sol8)}
+  if (endtrain-1+i==21){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+    sol_b_mat_8[20,] = x[19,]%*%diag(beta1_sol8) + sol_b_mat_8[19,]%*%diag(beta2_sol8)
+    sol_b_mat_8[21,] = x[20,]%*%diag(beta1_sol8) + sol_b_mat_8[20,]%*%diag(beta2_sol8)}
+  if (endtrain-1+i==22){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+    sol_b_mat_8[20,] = x[19,]%*%diag(beta1_sol8) + sol_b_mat_8[19,]%*%diag(beta2_sol8)
+    sol_b_mat_8[21,] = x[20,]%*%diag(beta1_sol8) + sol_b_mat_8[20,]%*%diag(beta2_sol8)
+    sol_b_mat_8[22,] = x[21,]%*%diag(beta1_sol8) + sol_b_mat_8[21,]%*%diag(beta2_sol8)}
+  if (endtrain-1+i==23){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+    sol_b_mat_8[20,] = x[19,]%*%diag(beta1_sol8) + sol_b_mat_8[19,]%*%diag(beta2_sol8)
+    sol_b_mat_8[21,] = x[20,]%*%diag(beta1_sol8) + sol_b_mat_8[20,]%*%diag(beta2_sol8)
+    sol_b_mat_8[22,] = x[21,]%*%diag(beta1_sol8) + sol_b_mat_8[21,]%*%diag(beta2_sol8)
+    sol_b_mat_8[23,] = x[22,]%*%diag(beta1_sol8) + sol_b_mat_8[22,]%*%diag(beta2_sol8)}
+  if (endtrain-1+i==24){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+    sol_b_mat_8[20,] = x[19,]%*%diag(beta1_sol8) + sol_b_mat_8[19,]%*%diag(beta2_sol8)
+    sol_b_mat_8[21,] = x[20,]%*%diag(beta1_sol8) + sol_b_mat_8[20,]%*%diag(beta2_sol8)
+    sol_b_mat_8[22,] = x[21,]%*%diag(beta1_sol8) + sol_b_mat_8[21,]%*%diag(beta2_sol8)
+    sol_b_mat_8[23,] = x[22,]%*%diag(beta1_sol8) + sol_b_mat_8[22,]%*%diag(beta2_sol8)
+    sol_b_mat_8[24,] = x[23,]%*%diag(beta1_sol8) + sol_b_mat_8[23,]%*%diag(beta2_sol8)}
+  if (endtrain-1+i==25){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+    sol_b_mat_8[20,] = x[19,]%*%diag(beta1_sol8) + sol_b_mat_8[19,]%*%diag(beta2_sol8)
+    sol_b_mat_8[21,] = x[20,]%*%diag(beta1_sol8) + sol_b_mat_8[20,]%*%diag(beta2_sol8)
+    sol_b_mat_8[22,] = x[21,]%*%diag(beta1_sol8) + sol_b_mat_8[21,]%*%diag(beta2_sol8)
+    sol_b_mat_8[23,] = x[22,]%*%diag(beta1_sol8) + sol_b_mat_8[22,]%*%diag(beta2_sol8)
+    sol_b_mat_8[24,] = x[23,]%*%diag(beta1_sol8) + sol_b_mat_8[23,]%*%diag(beta2_sol8)
+    sol_b_mat_8[25,] = x[24,]%*%diag(beta1_sol8) + sol_b_mat_8[24,]%*%diag(beta2_sol8)}
+  if (endtrain-1+i==26){
+    sol_b_mat_8[19,] = x[18,]%*%diag(beta1_sol8) + sol_b_mat_8[18,]%*%diag(beta2_sol8)
+    sol_b_mat_8[20,] = x[19,]%*%diag(beta1_sol8) + sol_b_mat_8[19,]%*%diag(beta2_sol8)
+    sol_b_mat_8[21,] = x[20,]%*%diag(beta1_sol8) + sol_b_mat_8[20,]%*%diag(beta2_sol8)
+    sol_b_mat_8[22,] = x[21,]%*%diag(beta1_sol8) + sol_b_mat_8[21,]%*%diag(beta2_sol8)
+    sol_b_mat_8[23,] = x[22,]%*%diag(beta1_sol8) + sol_b_mat_8[22,]%*%diag(beta2_sol8)
+    sol_b_mat_8[24,] = x[23,]%*%diag(beta1_sol8) + sol_b_mat_8[23,]%*%diag(beta2_sol8)
+    sol_b_mat_8[25,] = x[24,]%*%diag(beta1_sol8) + sol_b_mat_8[24,]%*%diag(beta2_sol8)
+    sol_b_mat_8[26,] = x[25,]%*%diag(beta1_sol8) + sol_b_mat_8[25,]%*%diag(beta2_sol8)}
+  #sol_b_mat_8 = matrix(rep(0,endtrain-1 + i),nrow=endtrain-1 + i,ncol=n)
+  #sol_b_mat_8[1,] = c(rep(NA,n))
+  #sol_b_mat_8[2,] =  (x[2,])%*%diag(beta1_sol8) + (x[1,])%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6))%*%diag(beta2_sol8)
+  #for (tal in c(3:endtrain-1 + i)) {
+  #  sol_b_mat_8[tal,] = (x[tal+1,])%*%diag(beta1_sol8) + sol_b_mat_8[tal-1,]%*%diag(beta2_sol_8)}
   
   b8 <- xnext[,]%*%diag(beta1_sol8) + sol_b_mat_8[endtrain-1 + i,]%*%diag(beta2_sol_8)
   supernum8 <- 1-rowSums(phatnext[,]*b8) 
@@ -342,16 +479,17 @@ for(i in 1:(endperiod7_8-endtrain)){
 }
 
 
-vareagg = c("Meat and diary","Other foods","Housing","Energy for housing","Energy for transport","Transport","Other goods","Other services")
 
-mean_error1_varer = data.frame(sqrt((colSums(error1**2)/5)))
-mean_error2_varer = data.frame(sqrt((colSums(error2**2)/5)))
-mean_error3_varer = data.frame(sqrt((colSums(error3**2)/5)))
-mean_error4_varer = data.frame(sqrt((colSums(error4**2)/5)))
-mean_error5_varer = data.frame(sqrt((colSums(error5**2)/5)))
-mean_error6_varer = data.frame(sqrt((colSums(error6**2)/5)))
-mean_error7_varer = data.frame(sqrt((colSums(error6**2)/5)))
-mean_error8_varer = data.frame(sqrt((colSums(error6**2)/5)))
+
+
+mean_error1_varer = data.frame(sqrt((colSums(error1**2)/(endperiod-endtrain))))
+mean_error2_varer = data.frame(sqrt((colSums(error2**2)/(endperiod-endtrain))))
+mean_error3_varer = data.frame(sqrt((colSums(error3**2)/(endperiod-endtrain))))
+mean_error4_varer = data.frame(sqrt((colSums(error4**2)/(endperiod-endtrain))))
+mean_error5_varer = data.frame(sqrt((colSums(error5**2)/(endperiod-endtrain))))
+mean_error6_varer = data.frame(sqrt((colSums(error6**2)/(endperiod-endtrain))))
+mean_error7_varer = data.frame(sqrt((colSums(error7**2)/(endperiod-endtrain))))
+mean_error8_varer = data.frame(sqrt((colSums(error8**2)/(endperiod-endtrain))))
 
 RMSE = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
 RMSE = rbind(RMSE,mean_error1_varer)
@@ -360,9 +498,61 @@ RMSE = cbind(RMSE,mean_error3_varer)
 RMSE = cbind(RMSE,mean_error4_varer)
 RMSE = cbind(RMSE,mean_error5_varer)
 RMSE = cbind(RMSE,mean_error6_varer)
+RMSE = cbind(RMSE,mean_error7_varer)
+RMSE = cbind(RMSE,mean_error8_varer)
+
+modeller = c("Constant","Constant, AC","Trend","Trend, AC","Habit","Habit, AC","Habit and AR","Habit and AR, AC")
+names(RMSE) = modeller
+
+mean = t(c(colSums(RMSE)/8))
+
+RMSE=rbind(RMSE,mean)
 
 
-########## Får fejl ved model 7 og 8 i likelihood funktionen #######
-# Må se på det søndag #
+write.csv(RMSE, "C:/specialeJR/Model Fit/RMSE_kvint4.csv")
 
 
+RMSE_total=data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
+RMSE_total = rbind(RMSE_total,mean)
+
+
+############# Gem løsninger for de bedste modeller for at lave tabeller ##############
+
+
+########## Model 6 vinder ###########
+
+sol6 <-  optim(par = start_6, fn = loglik, model=6, 
+               phat=phat, w=w, x=x, method="BFGS",
+               control=list(maxit=5000,
+                            trace=6,
+                            ndeps = rep(1e-10,length(start_6))) )
+sol_gamma6 <- c(sol6$par[1:(n-1)],0)
+bstar_sol6 <- sol6$par[n:(2*n-1)]
+alpha_sol6 <- exp(sol_gamma6)/sum(exp(sol_gamma6))
+z_sol6 <- sol6$par[(2*n):(3*n-1)]
+beta_sol6 = z_sol6**2
+ac_const6 <- sol6$par[((2*(n) + (n-1)*((n-1)+1)/2))]
+
+print(bstar_sol6)
+print(alpha_sol6)
+print(beta_sol6)
+print(ac_const6)
+
+
+### Der er dog mange betaerne der er negative, så lad os lige se på 7'eren:
+
+sol7 <-  optim(par = start_7, fn = loglik, model=7, 
+               phat=phat, w=w, x=x, method="BFGS",
+               control=list(maxit=5000,
+                            trace=6,
+                            ndeps = rep(1e-10,length(start_7))) )
+
+sol_gamma7 <- c(sol7$par[1:(n-1)],0)
+beta2_sol7 <- sol7$par[n:(2*n-1)]
+alpha_sol7 <- exp(sol_gamma7)/sum(exp(sol_gamma7))
+z_sol7 <- sol7$par[(2*n):(3*n-1)]
+beta1_sol7 <- (z_sol7)**2
+
+print(beta1_sol7)
+print(beta2_sol7)
+print(alpha_sol7)
