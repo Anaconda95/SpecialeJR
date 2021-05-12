@@ -6,13 +6,13 @@
 
 
 ############# Vælg dataframe ########################
-dataframe <- kvint_1  ### <<<<<<<<<<<<<==============
+dataframe <- df_h  ### <<<<<<<<<<<<<==============
 #####################################################
 
 ##### Sætter startværdier
-startbstar = c(0.5,0.6,0.8)
-starthabit = c(0.5,0.6,0.8)
-startar = c(0.5,0.6,0.8)
+startbstar = c(0.4,0.5,0.7)
+starthabit = c(0.4,0.5,0.7)
+startar = c(0.4,0.5,0.7)
 
 #### Definér tomme vektorer
 # For LV, startværdier og BIC
@@ -159,7 +159,7 @@ sol <-  optim(par = startval, fn = loglik, model=j,
                       phat=phat, w=w, x=x, method="BFGS",
                       control=list(maxit=5000,
                                    trace=6,
-                                   ndeps = rep(1e-10,length(startval))) )
+                                   ndeps = rep(1e-09,length(startval))) )
 
 AIC = 2*length(sol$par) + 2*sol$value
 if (j==1) {BIC = length(sol$par)*log(T)+2*sol$value}

@@ -9,7 +9,7 @@
 
 
 ################ Ændre datasættet ########################
-df <- kvint_5  ### <<<<=============== 
+df <- df_h  ### <<<<=============== 
 ###########################################################
 
 ################ Laver databehandling for gennemsnitshusstanden #######################
@@ -89,7 +89,7 @@ gamma_start <- c(gammasol$par,0)
 
 #sÃ¦tter startvÃ¦rdier for bstar: her z pct. af det mindste forbrug over Ã¥rene af en given vare i fastepriser
 
-b_start <- 0.5*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+b_start <- 0.7*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 a <- w[T,1:(n)]  #igen, a er en logit
 b <- b_start         # b er time-invariant
@@ -105,9 +105,9 @@ covar <- cov(uhat)
 #covar_start <- c(cholcovar)
 covar_start <- covar[lower.tri(covar,diag=TRUE)]
 
-habit=rep(0.7,n)
-AR = rep(0.5,n)
-timetrend=rep(0.05,n)
+habit=rep(0.5,n)
+AR = rep(0.4,n)
+timetrend=rep(0.01,n)
 autocorr <- 0.9
 
 start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
@@ -223,6 +223,7 @@ for(i in 1:(endperiod-endtrain)){
 ## Tomme dataframes for 5 til 6
 error5 = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
 error6 = error5
+
 ################################## Model 5 og 6 ################################################
 for(i in 1:(endperiod-endtrain)){
   # Først definere vi train-data og test-obs
@@ -480,7 +481,7 @@ for(i in 1:(endperiod-endtrain)){
 
 
 
-
+####### Tjek lige her ###########
 
 mean_error1_varer = data.frame(sqrt((colSums(error1**2)/(endperiod-endtrain))))
 mean_error2_varer = data.frame(sqrt((colSums(error2**2)/(endperiod-endtrain))))
@@ -493,66 +494,71 @@ mean_error8_varer = data.frame(sqrt((colSums(error8**2)/(endperiod-endtrain))))
 
 RMSE = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
 RMSE = rbind(RMSE,mean_error1_varer)
-RMSE = cbind(RMSE,mean_error2_varer)
-RMSE = cbind(RMSE,mean_error3_varer)
-RMSE = cbind(RMSE,mean_error4_varer)
-RMSE = cbind(RMSE,mean_error5_varer)
-RMSE = cbind(RMSE,mean_error6_varer)
-RMSE = cbind(RMSE,mean_error7_varer)
-RMSE = cbind(RMSE,mean_error8_varer)
+RMSE = rbind(RMSE,mean_error2_varer)
+RMSE = rbind(RMSE,mean_error3_varer)
+RMSE = rbind(RMSE,mean_error4_varer)
+RMSE = rbind(RMSE,mean_error5_varer)
+RMSE = rbind(RMSE,mean_error6_varer)
+RMSE = rbind(RMSE,mean_error7_varer)
+RMSE = rbind(RMSE,mean_error8_varer)
+
+RMSE = t(RMSE)
 
 modeller = c("Constant","Constant, AC","Trend","Trend, AC","Habit","Habit, AC","Habit and AR","Habit and AR, AC")
 names(RMSE) = modeller
 
-mean = t(c(colSums(RMSE)/8))
-
-RMSE=rbind(RMSE,mean)
-
-
-write.csv(RMSE, "C:/specialeJR/Model Fit/RMSE_kvint4.csv")
+#mean = c(rowSums(RMSE)/8)
+#mean = t(c(colSums(RMSE)/8))
+#RMSE=rbind(RMSE,mean)
 
 
-RMSE_total=data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
-RMSE_total = rbind(RMSE_total,mean)
+write.csv(RMSE, "C:/specialeJR/Model Fit/RMSE_GNS_ny.csv")
 
 
-############# Gem løsninger for de bedste modeller for at lave tabeller ##############
+######### Skal vi lave en figur der illustrerer det måske ??? #######
 
 
-########## Model 6 vinder ###########
-
-sol6 <-  optim(par = start_6, fn = loglik, model=6, 
-               phat=phat, w=w, x=x, method="BFGS",
-               control=list(maxit=5000,
-                            trace=6,
-                            ndeps = rep(1e-10,length(start_6))) )
-sol_gamma6 <- c(sol6$par[1:(n-1)],0)
-bstar_sol6 <- sol6$par[n:(2*n-1)]
-alpha_sol6 <- exp(sol_gamma6)/sum(exp(sol_gamma6))
-z_sol6 <- sol6$par[(2*n):(3*n-1)]
-beta_sol6 = z_sol6**2
-ac_const6 <- sol6$par[((2*(n) + (n-1)*((n-1)+1)/2))]
-
-print(bstar_sol6)
-print(alpha_sol6)
-print(beta_sol6)
-print(ac_const6)
+faktisk_w = w[21:26,]
+model1_w = w[21:26,]+(error1)
+model2_w = w[21:26,]+(error2)
+model3_w = w[21:26,]+(error3)
+model4_w = w[21:26,]+(error4)
+model5_w = w[21:26,]+(error5)
+model6_w = w[21:26,]+(error6)
+model7_w = w[21:26,]+(error7)
+model8_w = w[21:26,]+(error8)
 
 
-### Der er dog mange betaerne der er negative, så lad os lige se på 7'eren:
 
-sol7 <-  optim(par = start_7, fn = loglik, model=7, 
-               phat=phat, w=w, x=x, method="BFGS",
-               control=list(maxit=5000,
-                            trace=6,
-                            ndeps = rep(1e-10,length(start_7))) )
+p <- list()
+for (i in 1:8) {
+  v=data.frame(Year=c(2014:2019),Consumption=faktisk_w[,i],Const=model1_w[,i],ConstAC=model2_w[,i],
+               Trend=model3_w[,i], TrendAC=model4_w[,i], Habit=model5_w[,i], HabitAC=model6_w[,i], HabitAR=model7_w[,i], HabitARAC=model8_w[,i])
+  p[[i]] <- ggplot(v, aes(x=Year,) ) + ggtitle(vareagg[i])  + theme(plot.title = element_text(size=10)) +
+    geom_line(aes(y = Consumption), color = "darkred", size=1) + 
+    geom_line(aes(y = Const), color="steelblue", linetype="twodash")+
+    geom_line(aes(y = ConstAC), color="steelblue")+
+    geom_line(aes(y = Trend), color="darkorange3", linetype="twodash")+
+    geom_line(aes(y = TrendAC), color="darkorange3")+
+    geom_line(aes(y = Habit), color="bisque4", linetype="twodash")+
+    geom_line(aes(y = HabitAC), color="bisque4")+
+    geom_line(aes(y = HabitARAC), color="darkgreen", linetype="twodash")+
+    geom_line(aes(y = HabitAR), color="darkgreen")+ 
+    labs(x = "Year",
+         y = "Consumption",
+         color = "Legend") +
+    scale_color_manual(values = colors)
+}
 
-sol_gamma7 <- c(sol7$par[1:(n-1)],0)
-beta2_sol7 <- sol7$par[n:(2*n-1)]
-alpha_sol7 <- exp(sol_gamma7)/sum(exp(sol_gamma7))
-z_sol7 <- sol7$par[(2*n):(3*n-1)]
-beta1_sol7 <- (z_sol7)**2
 
-print(beta1_sol7)
-print(beta2_sol7)
-print(alpha_sol7)
+
+do.call(grid.arrange,p)
+
+
+
+
+
+
+
+
+

@@ -40,6 +40,7 @@ makeSymm <- function(m) {
 #Model==8: Habit-formation med AR(1) med frie parametre med autokorrelation
 #Model==9: Habit-formation med AR(1) som vægtet gennemsnit uden konstantled med autokorrelation
 
+
 loglik <- function(par,w,phat,x,model) {
   #sÃ¦tter dimensioner
   dims=dim(w)
@@ -267,10 +268,8 @@ loglik <- function(par,w,phat,x,model) {
     
     #Med habit formation mÃ¥ Ã©t Ã¥r fjernes fra estimeringen.
     b <- matrix(rep(0,(T-2)),nrow=(T-2),ncol=n, byrow=TRUE)
-    bb <-  x[1:(T-(T-1)),]%*%diag(beta)    ############## Dette er startværdien for b; skal den ændres?
-    b[(T-(T-1)),] <- x[2:(T-(T-2)),]%*%diag(beta) + bb[,]%*%diag(1-beta)
-    #for (bbb in c(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24)) {
-    #  b[(T-(T-bbb)),] <- x[bbb+1:(T-(T-bbb-1)),]%*%diag(beta) + b[(T-(T-bbb+1)),]%*%diag(1-beta)}
+    #bb <-  x[1:(T-(T-1)),]%*%diag(beta)    ############## Dette er startværdien for b; skal den ændres?
+    b[(T-(T-1)),] <- x[2:(T-(T-2)),]%*%diag(beta) + (x[1,]%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6)))%*%diag(1-beta)
     b[(T-(T-2)),] <- x[3:(T-(T-3)),]%*%diag(beta) + b[(T-(T-1)),]%*%diag(1-beta)
     b[(T-(T-3)),] <- x[4:(T-(T-4)),]%*%diag(beta) + b[(T-(T-2)),]%*%diag(1-beta)
     b[(T-(T-4)),] <- x[5:(T-(T-5)),]%*%diag(beta) + b[(T-(T-3)),]%*%diag(1-beta)
@@ -300,13 +299,13 @@ loglik <- function(par,w,phat,x,model) {
     u <- w[3:T,] - phat[3:T,]*b - supernummat%*%diag(a) #u beregnes ud fra modellen
     #En kolonne u'er smides ud, da matricen ellers er singulÃ¦r
     uhat <- u[ , 1:(n-1)]
-    ehat <- uhat[-1,]- par[44]*uhat[1:(T-3),] #Korrigerer for autocorrelation
+    #ehat <- uhat[-1,]- par[44]*uhat[1:(T-3),] #Korrigerer for autocorrelation
     #find omega matrix()
     omega <- matrix(NA,(n-1),(n-1))
     omega[lower.tri(omega,diag=TRUE)] <- par[16 : 43]
     omega<-makeSymm(omega)
     #likelihood funktionen
-    l1 = dmvnorm(x=ehat, mean=rep(0,n-1), sigma=omega, log=TRUE)
+    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
     return(   -sum(l1) )
   }else
     print("Choose right model ")
@@ -335,7 +334,7 @@ df     <- transform( df,
                      p5 = priser$Pris.ene_tra,
                      p6 = priser$Pris.tra,
                      p7 = priser$Pris.ovr_var,
-                     p8 = priser$Pris.tra
+                     p8 = priser$Pris.ovr_tje
 ) 
 #shares findes som forbrug i lÃ¸bende priser/samlet forbrug af de otte varer.
 df     <- transform( df,
@@ -370,7 +369,7 @@ df     <- transform( df,
                      x5 = df$ene_tra      /priser$Pris.ene_tra,
                      x6 = df$tra          /priser$Pris.tra,
                      x7 = df$ovr_var      /priser$Pris.ovr_var,
-                     x8 = df$ovr_tje      /priser$Pris.tra 
+                     x8 = df$ovr_tje      /priser$Pris.ovr_tje
 )
 
 #DatasÃ¦ttet sÃ¦ttes op i 'pÃ¦ne' matricer.
@@ -418,10 +417,10 @@ covar <- cov(uhat)
 #covar_start <- c(cholcovar)
 covar_start <- covar[lower.tri(covar,diag=TRUE)]
 
-habit=rep(0.3,n)
-AR = rep(0.1,n)
+habit=rep(0.8,n)
+AR = rep(0.2,n)
 timetrend=rep(0.01,n)
-autocorr <- 0.3
+autocorr <- 0.4
 
 start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
 start_2 = c(gamma_start[1:(n-1)], b_start, covar_start, autocorr)
@@ -431,7 +430,7 @@ start_5 = c(gamma_start[1:(n-1)], b_start, habit, covar_start)
 start_6 = c(gamma_start[1:(n-1)], b_start, habit, covar_start, autocorr)
 start_7 = c(gamma_start[1:(n-1)], AR, habit, covar_start, autocorr)
 start_8 = c(gamma_start[1:(n-1)], AR, habit, covar_start, autocorr)
-start_9 = c(gamma_start[1:(n-1)], habit, covar_start, autocorr)
+start_9 = c(gamma_start[1:(n-1)], habit, covar_start)
 
 
 ## Maksimerer likelihood -----
@@ -487,10 +486,11 @@ if (j+4==9){
   sol_gamma_9 <- c(sol$par[1:(n-1)],0)
   beta_sol_9 <- sol$par[n:(2*n-1)]
   alpha_sol_9 <- exp(sol_gamma)/sum(exp(sol_gamma))
-  sol_b_mat_9 = matrix(rep(0,24),nrow=24,ncol=8)
-  sol_b_mat_9[1,] =(x[1,]*10000)%*%diag(beta_sol_9)
-  for (tal in c(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24)) {
-    sol_b_mat_9[tal,] = (x[tal,]*10000)%*%diag(beta_sol_9) + sol_b_mat_9[tal-1,]%*%diag(1-beta_sol_9)}
+  sol_b_mat_9 = matrix(rep(0,25),nrow=25,ncol=8)
+  sol_b_mat_9[1,] = c(rep(NA,n))
+  sol_b_mat_9[2,] =  (x[2,]*10000)%*%diag(beta_sol_9) + (x[1,]*10000)%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6))%*%diag(1-beta_sol_9)
+  for (tal in c(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25)) {
+    sol_b_mat_9[tal,] = (x[tal-1,]*10000)%*%diag(beta_sol_9) + sol_b_mat_9[tal-1,]%*%diag(1-beta_sol_9)}
 }
 
 if (j+4==5){sol_beta_5 <- beta_sol
@@ -523,7 +523,7 @@ for (i in 1:8) {
   lines(sol_b_mat_6[,i], type = "l", col = "bisque4")
   lines(sol_b_mat_7[,i], type = "l", col = "green")
   lines(sol_b_mat_8[,i], type = "l", col = "brown3")
-  #lines(sol_b_mat_9[,i], type = "l", col = "darkorchid1")
+  lines(sol_b_mat_9[,i], type = "l", col = "darkorchid1")
 }
 
 #############
