@@ -184,62 +184,7 @@ vareagg = c("Meat and dairy","Other foods","Housing","Energy for housing","Energ
 #Model==4: Time trend med autocorrelation
 #Model==5: Habit-formation uden autocorrelation
 #Model==6: Habit-formation med autocorrelation
-for (i in 1:8) {
-  v=data.frame(Year=c(1995:2019),Consumption=x[-1,i]*10000,Const=sol_b_mat_1[,i],ConstAC=sol_b_mat_2[,i],
-               Trend=sol_b_mat_3[,i], TrendAC=sol_b_mat_4[,i], Habit=sol_b_mat_5[,i], HabitAC=sol_b_mat_6[,i], HabitAR=sol_b_mat_7[,i], HabitARAC=sol_b_mat_8[,i])
-}
 
-
-
-v <- v %>%
-  select(Year, Consumption, Const, ConstAC,Trend,TrendAC,Habit,HabitAC, HabitAR, HabitARAC) %>%
-  gather(key = "variable", value = "value", -Year)
-head(v)
-#If you want a legend:
-ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
-  geom_line(aes(color = variable, linetype = variable)) + 
-  scale_color_manual(values = c("steelblue", "steelblue","darkred","darkorange3","darkorange3","bisque4","bisque4","green","darkgreen"))
-
-
-colors = c("Actual consumption" = "darkred", "Constant b" = "steelblue", "Constant b, AC" = "steelblue","Trend" = "darkorange3","Trend AC"= "darkorange3","Habit"= "bisque4","Habit, AC" = "bisque4", "Habit and AR" = "darkgreen", "Habit and AR, AC" = "darkgreen")
-p <- list()
-for (i in 1:8) {
-  v=data.frame(Year=c(1995:2019),ConsumptionDKK=x[-1,i]*10000,Const=sol_b_mat_1[,i],ConstAC=sol_b_mat_2[,i],
-               Trend=sol_b_mat_3[,i], TrendAC=sol_b_mat_4[,i], Habit=sol_b_mat_5[,i], HabitAC=sol_b_mat_6[,i], HabitAR=sol_b_mat_7[,i], HabitARAC=sol_b_mat_8[,i])
-  p[[i]] <- ggplot(v, aes(x=Year,) ) + ggtitle(vareagg[i])  + theme(plot.title = element_text(size=10)) +
-    geom_line(aes(y = ConsumptionDKK), color = "darkred") + 
-    geom_line(aes(y = Const), color="steelblue", linetype="twodash")+
-    geom_line(aes(y = ConstAC), color="steelblue")+
-    geom_line(aes(y = Trend), color="darkorange3", linetype="twodash")+
-    geom_line(aes(y = TrendAC), color="darkorange3")+
-    geom_line(aes(y = Habit), color="bisque4", linetype="twodash")+
-    geom_line(aes(y = HabitAC), color="bisque4")+
-    geom_line(aes(y = HabitARAC), color="darkgreen", linetype="twodash")+
-    geom_line(aes(y = HabitAR), color="darkgreen")+ 
-    labs(x = "Year",
-         y = "Consumption",
-         color = "Legend") +
-    scale_color_manual(values = colors)
-}
-
-colors = c("Actual consumption" = "darkred", 
-           "1: Constant b" = "steelblue", 
-           "2: Constant b, AC" = "steelblue",
-           "3: Trend" = "darkorange3",
-           "4: Trend, AC"= "darkorange3",
-           "5: Habit"= "bisque4",
-           "6: Habit, AC" = "bisque4", 
-           "7: Habit and AR" = "darkgreen", 
-           "8: Habit and AR, AC" = "darkgreen")
-linetypes = c("Actual consumption" = "solid", 
-           "1: Constant b" = "twodash", 
-           "2: Constant b, AC" = "solid",
-           "3: Trend" = "twodash",
-           "4: Trend, AC"= "solid",
-           "5: Habit"= "twodash",
-           "6: Habit, AC" = "solid", 
-           "7: Habit and AR" = "twodash", 
-           "8: Habit and AR, AC" = "solid")
 p <- list()
 for (i in 1:8) {
   v=data.frame(Year=c(1995:2019),Consumption=x[-1,i]*10000,M1=sol_b_mat_1[,i],M2=sol_b_mat_2[,i],
@@ -255,8 +200,7 @@ for (i in 1:8) {
     scale_size_manual(values=c(0.7,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
     labs(y = "DKK (2015 Prices)")
   }
-p[1]
 ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")
 
 
-
+##Sammenlign modeller: Hele samplet. Predicted forbrugsandele.
