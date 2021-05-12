@@ -1,7 +1,7 @@
 #############################################################################################################
 #############################################################################################################
 ################### This piece of fine script codes the likelihood function #################################
-##############################    ¤¤¤ of our 8 models ¤¤¤    ################################################
+##############################    ??? of our 8 models ???    ################################################
 #############################################################################################################
 #############################################################################################################
 
@@ -26,7 +26,7 @@
 #Model==7: Habit-formation med AR(1) med frie parametre uden autokorrelation
 #Model==8: Habit-formation med AR(1) med frie parametre med autokorrelation
 
-### Sæt start værdier for AR process:
+### S?t start v?rdier for AR process:
 AR_p_start = c(0.5,0.5,0.7,0.6,0.6,0.6,0.7,0.5)
 
 #funktion til at lave symmetrisk matrix
@@ -246,8 +246,8 @@ loglik <- function(par,w,phat,x,model) {
     #likelihood funktionen
     l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
     return(   -sum(l1) )
-  }else if (model==8){          ############ Prøver at lave en 7ende model, hvor b er smoothet - da mister vi vel en observation mere.
-    ########## Vi bliver vel nødt til at have en startværdi for b baseret på bstar og x, og så derefter en proces for b. 
+  }else if (model==8){          ############ Pr?ver at lave en 7ende model, hvor b er smoothet - da mister vi vel en observation mere.
+    ########## Vi bliver vel n?dt til at have en startv?rdi for b baseret p? bstar og x, og s? derefter en proces for b. 
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de fÃ¸rste n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
     beta2 <- c(par[n:(2*n-1)]) # bstar: n parametre
