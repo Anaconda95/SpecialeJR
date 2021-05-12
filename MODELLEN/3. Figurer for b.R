@@ -200,7 +200,6 @@ for (i in 1:8) {
     scale_size_manual(values=c(0.7,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
     labs(y = "DKK (2015 Prices)")
   }
-p[1]
 ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")
 
 
