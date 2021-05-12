@@ -184,22 +184,6 @@ vareagg = c("Meat and dairy","Other foods","Housing","Energy for housing","Energ
 #Model==4: Time trend med autocorrelation
 #Model==5: Habit-formation uden autocorrelation
 #Model==6: Habit-formation med autocorrelation
-for (i in 1:8) {
-  v=data.frame(Year=c(1995:2019),Consumption=x[-1,i]*10000,Const=sol_b_mat_1[,i],ConstAC=sol_b_mat_2[,i],
-               Trend=sol_b_mat_3[,i], TrendAC=sol_b_mat_4[,i], Habit=sol_b_mat_5[,i], HabitAC=sol_b_mat_6[,i], HabitAR=sol_b_mat_7[,i], HabitARAC=sol_b_mat_8[,i])
-}
-
-
-
-v <- v %>%
-  select(Year, Consumption, Const, ConstAC,Trend,TrendAC,Habit,HabitAC, HabitAR, HabitARAC) %>%
-  gather(key = "variable", value = "value", -Year)
-head(v)
-#If you want a legend:
-ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
-  geom_line(aes(color = variable, linetype = variable)) + 
-  scale_color_manual(values = c("steelblue", "steelblue","darkred","darkorange3","darkorange3","bisque4","bisque4","green","darkgreen"))
-
 
 colors = c("Actual consumption" = "darkred", "Constant b" = "steelblue", "Constant b, AC" = "steelblue","Trend" = "darkorange3","Trend AC"= "darkorange3","Habit"= "bisque4","Habit, AC" = "bisque4", "Habit and AR" = "darkgreen", "Habit and AR, AC" = "darkgreen")
 p <- list()
@@ -259,4 +243,4 @@ p[1]
 ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")
 
 
-
+##Sammenlign modeller: Hele samplet. Predicted forbrugsandele.
