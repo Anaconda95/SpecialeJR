@@ -6,12 +6,15 @@
 
 
 ################ �ndre datas�ttet #############################
-df_kvintiler <- c(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5)  ###
+df_kvintiler <- list(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5)  ###
 ###############################################################
 
-solution <- list()
+solutions <- list()
 
-for (df in df_kvintiler) {
+for (dfdf in 1:length(df_kvintiler) ) {
+  
+  # Dataindlæsning  ---------
+  df <- df_kvintiler[[dfdf]]
     
     ################ Laver databehandling for gennemsnitshusstanden #######################
     
@@ -90,7 +93,7 @@ for (df in df_kvintiler) {
   
   #sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
   
-  b_start <- 0.5*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+  b_start <- 0.7*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
   
   a <- w[T,1:(n)]  #igen, a er en logit
   b <- b_start         # b er time-invariant
@@ -106,8 +109,8 @@ for (df in df_kvintiler) {
   #covar_start <- c(cholcovar)
   covar_start <- covar[lower.tri(covar,diag=TRUE)]
   
-  habit=rep(0.7,n)
-  AR = rep(0.5,n)
+  habit=rep(0.5,n)
+  AR = rep(0.4,n)
   timetrend=rep(0.05,n)
   autocorr <- 0.9
   
@@ -132,3 +135,35 @@ for (df in df_kvintiler) {
   solutions = rbind(solutions,sol)
 
 }
+
+########## For kvintil 1 
+#Udregner minimumsforbruget for alle perioder.
+sol_kvint1 = solutions[[1]]
+sol_kvint2 = solutions[[2]]
+sol_kvint3 = solutions[[3]]
+sol_kvint4 = solutions[[4]]
+sol_kvint5 = solutions[[5]]
+
+sol_gamma_1 <- c(sol_kvint1[1:(n-1)],0)
+sol_gamma_2 <- c(sol_kvint2[1:(n-1)],0)
+sol_gamma_3 <- c(sol_kvint3[1:(n-1)],0)
+sol_gamma_4 <- c(sol_kvint4[1:(n-1)],0)
+sol_gamma_5 <- c(sol_kvint5[1:(n-1)],0)
+
+bstar_sol_1 <- sol_kvint1[n:(2*n-1)]*10000
+bstar_sol_2 <- sol_kvint1[n:(2*n-1)]*10000
+bstar_sol_3 <- sol_kvint1[n:(2*n-1)]*10000
+bstar_sol_4 <- sol_kvint1[n:(2*n-1)]*10000
+bstar_sol_5 <- sol_kvint1[n:(2*n-1)]*10000
+  
+alpha_sol_1 <- exp(sol_gamma_1)/sum(exp(sol_gamma_1))
+alpha_sol_2 <- exp(sol_gamma_1)/sum(exp(sol_gamma_2))
+alpha_sol_3 <- exp(sol_gamma_1)/sum(exp(sol_gamma_3))
+alpha_sol_4 <- exp(sol_gamma_1)/sum(exp(sol_gamma_4))
+alpha_sol_5 <- exp(sol_gamma_1)/sum(exp(sol_gamma_5))
+
+beta_sol_1 <- sol_kvint1[(2*n):(3*n-1)]
+beta_sol_2 <- sol_kvint2[(2*n):(3*n-1)]
+beta_sol_3 <- sol_kvint3[(2*n):(3*n-1)]
+beta_sol_4 <- sol_kvint4[(2*n):(3*n-1)]
+beta_sol_5 <- sol_kvint5[(2*n):(3*n-1)]

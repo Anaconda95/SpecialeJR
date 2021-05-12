@@ -530,32 +530,44 @@ model8_w = w[21:26,]+(error8)
 
 
 
+
+colors = c("Actual consumption" = "darkred", 
+           "1: Constant b" = "steelblue", 
+           "2: Constant b, AC" = "steelblue",
+           "3: Trend" = "darkorange3",
+           "4: Trend, AC"= "darkorange3",
+           "5: Habit"= "bisque4",
+           "6: Habit, AC" = "bisque4", 
+           "7: Habit and AR" = "darkgreen", 
+           "8: Habit and AR, AC" = "darkgreen")
+linetypes = c("Actual consumption" = "solid", 
+              "1: Constant b" = "twodash", 
+              "2: Constant b, AC" = "solid",
+              "3: Trend" = "twodash",
+              "4: Trend, AC"= "solid",
+              "5: Habit"= "twodash",
+              "6: Habit, AC" = "solid", 
+              "7: Habit and AR" = "twodash", 
+              "8: Habit and AR, AC" = "solid")
+
 p <- list()
 for (i in 1:8) {
-  v=data.frame(Year=c(2014:2019),Consumption=faktisk_w[,i],Const=model1_w[,i],ConstAC=model2_w[,i],
-               Trend=model3_w[,i], TrendAC=model4_w[,i], Habit=model5_w[,i], HabitAC=model6_w[,i], HabitAR=model7_w[,i], HabitARAC=model8_w[,i])
-  p[[i]] <- ggplot(v, aes(x=Year,) ) + ggtitle(vareagg[i])  + theme(plot.title = element_text(size=10)) +
-    geom_line(aes(y = Consumption), color = "darkred", size=1) + 
-    geom_line(aes(y = Const), color="steelblue", linetype="twodash")+
-    geom_line(aes(y = ConstAC), color="steelblue")+
-    geom_line(aes(y = Trend), color="darkorange3", linetype="twodash")+
-    geom_line(aes(y = TrendAC), color="darkorange3")+
-    geom_line(aes(y = Habit), color="bisque4", linetype="twodash")+
-    geom_line(aes(y = HabitAC), color="bisque4")+
-    geom_line(aes(y = HabitARAC), color="darkgreen", linetype="twodash")+
-    geom_line(aes(y = HabitAR), color="darkgreen")+ 
-    labs(x = "Year",
-         y = "Consumption",
-         color = "Legend") +
-    scale_color_manual(values = colors)
+  v=data.frame(Year=c(2014:2019),Consumption=faktisk_w[,i],M1=model1_w[,i],M2=model2_w[,i],
+               M3=model3_w[,i], M4=model4_w[,i], M5=model5_w[,i], M6=model6_w[,i], M7=model7_w[,i], M8=model8_w[,i])
+  v <- v %>%
+    select(Year, Consumption, M1, M2, M3, M4, M5, M6, M7, M8) %>%
+    gather(key = "Model", value = "value", -Year)
+  #If you want a legend:
+  p[[i]] <- ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
+    geom_line(aes(color = Model, linetype = Model, size=Model)) + 
+    scale_color_manual(values = c("darkred","steelblue", "steelblue","darkorange3","darkorange3","deeppink1","deeppink1","darkgreen","darkgreen"),)+
+    scale_linetype_manual(values = c("solid","twodash", "solid", "twodash","solid","twodash","solid","twodash","solid"))+
+    scale_size_manual(values=c(1,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
+    labs(y = "DKK (2015 Prices)")
 }
-
-
-
-do.call(grid.arrange,p)
-
-
-
+p[1]
+library(ggarrange)
+ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")
 
 
 

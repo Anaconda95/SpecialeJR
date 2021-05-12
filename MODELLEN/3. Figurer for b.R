@@ -2,19 +2,15 @@
 ################## Script til at lave figurer #############################
 ###########################################################################
 
-
-
 dataframes = list(df_h, df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8, df_9, df_10)
 dataframes_kvint= list(kvint_1,kvint_2,kvint_3, kvint_3, kvint_4)
 
 ##################### select data ########################
-dataframe = kvint_5 ### <<<<<<===============
+dataframe = df_h ### <<<<<<===============
 ##########################################################
 
 #Tomme vektorer
 bic_matrice = data.frame(BIC=integer())
-
-
 
 
 ############## Datamanipulation #############
@@ -91,7 +87,7 @@ gammasol <- optim(par=rep(0,(n-1)),fn=gammafn, alpha_goal=w[T,1:(n-1)], method="
 gamma_start <- c(gammasol$par,0)
 
 #sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
-b_start <- 0.5*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
+b_start <- 0.7*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
 
 a <- w[T,1:(n)]  #igen, a er en logit
 b <- b_start         # b er time-invariant
@@ -107,9 +103,9 @@ covar <- cov(uhat)
 #covar_start <- c(cholcovar)
 covar_start <- covar[lower.tri(covar,diag=TRUE)]
 
-habit=rep(0.7,n)
-AR = rep(0.5,n)
-timetrend=rep(0.05,n)
+habit=rep(0.5,n)
+AR = rep(0.4,n)
+timetrend=rep(0.01,n)
 autocorr <- 0.9
 
 start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
@@ -181,7 +177,7 @@ for (j in 1:length(startvals) ) {
 
 
 ##Laver figurer for b'erne ------
-vareagg = c("Meat and diary","Other foods","Housing","Energy for housing","Energy for transport","Transport","Other goods","Other services")
+vareagg = c("Meat and dairy","Other foods","Housing","Energy for housing","Energy for transport","Transport","Other goods","Other services")
 #Model==1: Standard uden autocorrelation
 #Model==2: Standard med autocorrelation
 #Model==3: Time trend uden autocorrelation
@@ -208,10 +204,10 @@ ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
 colors = c("Actual consumption" = "darkred", "Constant b" = "steelblue", "Constant b, AC" = "steelblue","Trend" = "darkorange3","Trend AC"= "darkorange3","Habit"= "bisque4","Habit, AC" = "bisque4", "Habit and AR" = "darkgreen", "Habit and AR, AC" = "darkgreen")
 p <- list()
 for (i in 1:8) {
-  v=data.frame(Year=c(1995:2019),Consumption=x[-1,i]*10000,Const=sol_b_mat_1[,i],ConstAC=sol_b_mat_2[,i],
+  v=data.frame(Year=c(1995:2019),ConsumptionDKK=x[-1,i]*10000,Const=sol_b_mat_1[,i],ConstAC=sol_b_mat_2[,i],
                Trend=sol_b_mat_3[,i], TrendAC=sol_b_mat_4[,i], Habit=sol_b_mat_5[,i], HabitAC=sol_b_mat_6[,i], HabitAR=sol_b_mat_7[,i], HabitARAC=sol_b_mat_8[,i])
   p[[i]] <- ggplot(v, aes(x=Year,) ) + ggtitle(vareagg[i])  + theme(plot.title = element_text(size=10)) +
-    geom_line(aes(y = Consumption), color = "darkred") + 
+    geom_line(aes(y = ConsumptionDKK), color = "darkred") + 
     geom_line(aes(y = Const), color="steelblue", linetype="twodash")+
     geom_line(aes(y = ConstAC), color="steelblue")+
     geom_line(aes(y = Trend), color="darkorange3", linetype="twodash")+
@@ -226,8 +222,41 @@ for (i in 1:8) {
     scale_color_manual(values = colors)
 }
 
+colors = c("Actual consumption" = "darkred", 
+           "1: Constant b" = "steelblue", 
+           "2: Constant b, AC" = "steelblue",
+           "3: Trend" = "darkorange3",
+           "4: Trend, AC"= "darkorange3",
+           "5: Habit"= "bisque4",
+           "6: Habit, AC" = "bisque4", 
+           "7: Habit and AR" = "darkgreen", 
+           "8: Habit and AR, AC" = "darkgreen")
+linetypes = c("Actual consumption" = "solid", 
+           "1: Constant b" = "twodash", 
+           "2: Constant b, AC" = "solid",
+           "3: Trend" = "twodash",
+           "4: Trend, AC"= "solid",
+           "5: Habit"= "twodash",
+           "6: Habit, AC" = "solid", 
+           "7: Habit and AR" = "twodash", 
+           "8: Habit and AR, AC" = "solid")
+p <- list()
+for (i in 1:8) {
+  v=data.frame(Year=c(1995:2019),Consumption=x[-1,i]*10000,M1=sol_b_mat_1[,i],M2=sol_b_mat_2[,i],
+               M3=sol_b_mat_3[,i], M4=sol_b_mat_4[,i], M5=sol_b_mat_5[,i], M6=sol_b_mat_6[,i], M7=sol_b_mat_7[,i], M8=sol_b_mat_8[,i])
+  v <- v %>%
+    select(Year, Consumption, M1, M2, M3, M4, M5, M6, M7, M8) %>%
+    gather(key = "Model", value = "value", -Year)
+  #If you want a legend:
+  p[[i]] <- ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
+    geom_line(aes(color = Model, linetype = Model, size=Model)) + 
+    scale_color_manual(values = c("darkred","steelblue", "steelblue","darkorange3","darkorange3","deeppink1","deeppink1","darkgreen","darkgreen"),)+
+    scale_linetype_manual(values = c("solid","twodash", "solid", "twodash","solid","twodash","solid","twodash","solid"))+
+    scale_size_manual(values=c(0.7,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
+    labs(y = "DKK (2015 Prices)")
+  }
+p[1]
+ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")
 
-
-do.call(grid.arrange,p)
 
 

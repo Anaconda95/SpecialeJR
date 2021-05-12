@@ -38,7 +38,7 @@ makeSymm <- function(m) {
 #Model==6: Habit-formation med autocorrelation
 #Model==7: Habit-formation med AR(1) med frie parametre uden autokorrelation
 #Model==8: Habit-formation med AR(1) med frie parametre med autokorrelation
-#Model==9: Habit-formation med AR(1) som vægtet gennemsnit uden konstantled med autokorrelation
+#Model==9: Habit-formation med AR(1) som v?gtet gennemsnit uden konstantled med autokorrelation
 
 
 loglik <- function(par,w,phat,x,model) {
@@ -165,7 +165,7 @@ loglik <- function(par,w,phat,x,model) {
   }else if (model==7){
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de fÃ¸rste n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
-    beta2 <- c(par[n:(2*n-1)]) # bstar: n parametre
+    beta2 <- c(par[n:(2*n-1)]) # AR N parametre
     beta <- c(par[(2*n):(3*n-1)]) #beta: n parametre
     #Med habit formation mÃ¥ Ã©t Ã¥r fjernes fra estimeringen.
     
@@ -210,8 +210,8 @@ loglik <- function(par,w,phat,x,model) {
     #likelihood funktionen
     l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
     return(   -sum(l1) )
-  }else if (model==8){          ############ Prøver at lave en 7ende model, hvor b er smoothet - da mister vi vel en observation mere.
-                                ########## Vi bliver vel nødt til at have en startværdi for b baseret på bstar og x, og så derefter en proces for b. 
+  }else if (model==8){          ############ Pr?ver at lave en 7ende model, hvor b er smoothet - da mister vi vel en observation mere.
+                                ########## Vi bliver vel n?dt til at have en startv?rdi for b baseret p? bstar og x, og s? derefter en proces for b. 
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de fÃ¸rste n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
     beta2 <- c(par[n:(2*n-1)]) # bstar: n parametre
@@ -260,16 +260,25 @@ loglik <- function(par,w,phat,x,model) {
     #likelihood funktionen
     l1 = dmvnorm(x=ehat, mean=rep(0,n-1), sigma=omega, log=TRUE)
     return(   -sum(l1) )
-  }else if (model==9){          ############ Prøver at lave en 9ende model, hvor b er smoothet, uden konsantled.
-    ########## Vi bliver vel nødt til at have en startværdi for b baseret på bstar og x, og så derefter en proces for b. 
+  }else if (model==9){          ############ Pr?ver at lave en 9ende model, hvor b er smoothet, uden konsantled.
+    ########## Vi bliver vel n?dt til at have en startv?rdi for b baseret p? bstar og x, og s? derefter en proces for b. 
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de fÃ¸rste n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
     beta <- c(par[n:(2*n-1)]) # bstar: n parametre
     
     #Med habit formation mÃ¥ Ã©t Ã¥r fjernes fra estimeringen.
     b <- matrix(rep(0,(T-2)),nrow=(T-2),ncol=n, byrow=TRUE)
-    #bb <-  x[1:(T-(T-1)),]%*%diag(beta)    ############## Dette er startværdien for b; skal den ændres?
+<<<<<<< .mine
+    #bb <-  x[1:(T-(T-1)),]%*%diag(beta)    ############## Dette er startvÃ¦rdien for b; skal den Ã¦ndres?
     b[(T-(T-1)),] <- x[2:(T-(T-2)),]%*%diag(beta) + (x[1,]%*%diag(c(0.6,0.5,0.7,0.7,0.7,0.7,0.6,0.6)))%*%diag(1-beta)
+
+
+=======
+    bb <-  x[1:(T-(T-1)),]%*%diag(beta)    ############## Dette er startv?rdien for b; skal den ?ndres?
+    b[(T-(T-1)),] <- x[2:(T-(T-2)),]%*%diag(beta) + bb[,]%*%diag(1-beta)
+    #for (bbb in c(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24)) {
+    #  b[(T-(T-bbb)),] <- x[bbb+1:(T-(T-bbb-1)),]%*%diag(beta) + b[(T-(T-bbb+1)),]%*%diag(1-beta)}
+>>>>>>> .theirs
     b[(T-(T-2)),] <- x[3:(T-(T-3)),]%*%diag(beta) + b[(T-(T-1)),]%*%diag(1-beta)
     b[(T-(T-3)),] <- x[4:(T-(T-4)),]%*%diag(beta) + b[(T-(T-2)),]%*%diag(1-beta)
     b[(T-(T-4)),] <- x[5:(T-(T-5)),]%*%diag(beta) + b[(T-(T-3)),]%*%diag(1-beta)
@@ -527,8 +536,8 @@ for (i in 1:8) {
 }
 
 #############
-########### Øv de konvergerer ikke  - men 8'erne er ellers skide god ############
-############ Vi bliver nok nødt til at pille en vare ud ######
+########### ?v de konvergerer ikke  - men 8'erne er ellers skide god ############
+############ Vi bliver nok n?dt til at pille en vare ud ######
 
 print(sol_beta_5)
 print(sol_beta_6)
