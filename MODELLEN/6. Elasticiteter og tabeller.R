@@ -6,6 +6,7 @@
 
 
 ########################### FORMLER ###############################
+###### Fra Annabi #######
 ## E_p = b(1-alpha)/C -1
 
 ## E_ex = alpha*C_total/(p*C)
@@ -77,4 +78,5 @@ Exelas = rbind(Exelas,E_ex4)
 Exelas = rbind(Exelas,E_ex5)
 
 
-
+write.csv(Priselas, "C:/specialeJR/MODELLEN/Priselasticiteter_model6.csv")
+write.csv(Exelas, "C:/specialeJR/MODELLEN/Expenditureelasticiteter_model6.csv")

@@ -23,7 +23,7 @@ df     <- transform( df,
                      p5 = priser$Pris.ene_tra,
                      p6 = priser$Pris.tra,
                      p7 = priser$Pris.ovr_var,
-                     p8 = priser$Pris.tra
+                     p8 = priser$Pris.ovr_tje
 ) 
 #shares findes som forbrug i løbende priser/samlet forbrug af de otte varer.
 df     <- transform( df,
@@ -58,7 +58,7 @@ df     <- transform( df,
                      x5 = df$ene_tra      /priser$Pris.ene_tra,
                      x6 = df$tra          /priser$Pris.tra,
                      x7 = df$ovr_var      /priser$Pris.ovr_var,
-                     x8 = df$ovr_tje      /priser$Pris.tra 
+                     x8 = df$ovr_tje      /priser$Pris.ovr_tje
 )
 
 #Datasættet sættes op i 'pæne' matricer.
@@ -197,7 +197,7 @@ for (i in 1:8) {
     geom_line(aes(color = Model, linetype = Model, size=Model)) + 
     scale_color_manual(values = c("darkred","steelblue", "steelblue","darkorange3","darkorange3","deeppink1","deeppink1","darkgreen","darkgreen"),)+
     scale_linetype_manual(values = c("solid","twodash", "solid", "twodash","solid","twodash","solid","twodash","solid"))+
-    scale_size_manual(values=c(0.7,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
+    scale_size_manual(values=c(0.8,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
     labs(y = "DKK (2015 Prices)")
   }
 ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")

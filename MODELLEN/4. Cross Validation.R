@@ -392,7 +392,7 @@ for(i in 1:(endperiod-endtrain)){
 
   
   
-  b7 <- xnext[,]%*%diag(beta1_sol7) + sol_b_mat_7[endtrain-1 + i,]%*%diag(beta2_sol_7)
+  b7 <- xnext[,]%*%diag(beta1_sol7) + sol_b_mat_7[endtrain-1 + i,]%*%diag(beta2_sol7)
   supernum7 <- 1-rowSums(phatnext[,]*b7) 
   supernummat7 <- matrix(rep(supernum7,n),ncol=n)
   fejl7 <- list( phatnext[,]*b7 + supernummat7%*%diag(alpha_sol7)-wnext[,])
@@ -470,7 +470,7 @@ for(i in 1:(endperiod-endtrain)){
   #for (tal in c(3:endtrain-1 + i)) {
   #  sol_b_mat_8[tal,] = (x[tal+1,])%*%diag(beta1_sol8) + sol_b_mat_8[tal-1,]%*%diag(beta2_sol_8)}
   
-  b8 <- xnext[,]%*%diag(beta1_sol8) + sol_b_mat_8[endtrain-1 + i,]%*%diag(beta2_sol_8)
+  b8 <- xnext[,]%*%diag(beta1_sol8) + sol_b_mat_8[endtrain-1 + i,]%*%diag(beta2_sol8)
   supernum8 <- 1-rowSums(phatnext[,]*b8) 
   supernummat8 <- matrix(rep(supernum8,n),ncol=n)
   fejl8 <- list( phatnext[,]*b8 + supernummat8%*%diag(alpha_sol8)-wnext[,])
@@ -492,27 +492,27 @@ mean_error6_varer = data.frame(sqrt((colSums(error6**2)/(endperiod-endtrain))))
 mean_error7_varer = data.frame(sqrt((colSums(error7**2)/(endperiod-endtrain))))
 mean_error8_varer = data.frame(sqrt((colSums(error8**2)/(endperiod-endtrain))))
 
-RMSE = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
-RMSE = rbind(RMSE,mean_error1_varer)
-RMSE = rbind(RMSE,mean_error2_varer)
-RMSE = rbind(RMSE,mean_error3_varer)
-RMSE = rbind(RMSE,mean_error4_varer)
-RMSE = rbind(RMSE,mean_error5_varer)
-RMSE = rbind(RMSE,mean_error6_varer)
-RMSE = rbind(RMSE,mean_error7_varer)
-RMSE = rbind(RMSE,mean_error8_varer)
+#RMSE = data.frame(V1=integer(),V2=integer(),V3=integer(),V4=integer(),V5=integer(),V6=integer(),V7=integer(),V8=integer())
+RMSE = mean_error1_varer
+RMSE = cbind(RMSE,mean_error2_varer)
+RMSE = cbind(RMSE,mean_error3_varer)
+RMSE = cbind(RMSE,mean_error4_varer)
+RMSE = cbind(RMSE,mean_error5_varer)
+RMSE = cbind(RMSE,mean_error6_varer)
+RMSE = cbind(RMSE,mean_error7_varer)
+RMSE = cbind(RMSE,mean_error8_varer)
 
-RMSE = t(RMSE)
 
 modeller = c("Constant","Constant, AC","Trend","Trend, AC","Habit","Habit, AC","Habit and AR","Habit and AR, AC")
 names(RMSE) = modeller
 
-#mean = c(rowSums(RMSE)/8)
-#mean = t(c(colSums(RMSE)/8))
-#RMSE=rbind(RMSE,mean)
+mean = apply(RMSE,2,mean)
+RMSE=rbind(RMSE,mean)
 
 
 write.csv(RMSE, "C:/specialeJR/Model Fit/RMSE_GNS_ny.csv")
+
+
 
 
 ######### Skal vi lave en figur der illustrerer det måske ??? #######

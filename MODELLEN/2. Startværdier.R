@@ -142,9 +142,7 @@ start_8 = c(gamma_start[1:(n-1)], AR, habit, covar_start, autocorr)
 
 startvals = list(start_1,start_2,start_3, start_4, start_5, start_6, start_7, start_8)
       
-a1_mat <- NA
-a3_mat <- NA
-a6_mat <- NA
+aic_mat <- NA
 bic_mat <- NA
 LI <- NA
 start_mat <- c(l,k,m)

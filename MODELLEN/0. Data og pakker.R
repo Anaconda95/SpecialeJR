@@ -22,6 +22,8 @@ library(gridExtra)
 library(grid)
 library(ggplot2)
 library(lattice)
+#install.packages("ggpubr")
+library(ggpubr)
 #no scientific numbers
 options(scipen=999)
 options(digits=3)

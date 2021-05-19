@@ -16,7 +16,8 @@ for (dfdf in 1:length(df_kvintiler) ) {
   # Dataindl√¶sning  ---------
   df <- df_kvintiler[[dfdf]]
     
-    ################ Laver databehandling for gennemsnitshusstanden #######################
+
+################ Laver databehandling for gennemsnitshusstanden #######################
     
   df     <- transform( df,
                        p1 = priser$Pris.kod_fisk_mej,
@@ -127,11 +128,11 @@ for (dfdf in 1:length(df_kvintiler) ) {
   
   
   ##############  K¯r den foretrukne model ##########
-  sol <-  optim(par = start_6, fn = loglik, model=6, 
+  sol <-  optim(par = start_7, fn = loglik, model=7, 
                  phat=phat, w=w, x=x, method="BFGS",
                  control=list(maxit=5000,
                               trace=6,
-                              ndeps = rep(1e-10,length(start_6))) )
+                              ndeps = rep(1e-10,length(start_7))) )
   solutions = rbind(solutions,sol)
 
 }
@@ -150,11 +151,11 @@ sol_gamma_3 <- c(sol_kvint3[1:(n-1)],0)
 sol_gamma_4 <- c(sol_kvint4[1:(n-1)],0)
 sol_gamma_5 <- c(sol_kvint5[1:(n-1)],0)
 
-bstar_sol_1 <- sol_kvint1[n:(2*n-1)]*10000
-bstar_sol_2 <- sol_kvint1[n:(2*n-1)]*10000
-bstar_sol_3 <- sol_kvint1[n:(2*n-1)]*10000
-bstar_sol_4 <- sol_kvint1[n:(2*n-1)]*10000
-bstar_sol_5 <- sol_kvint1[n:(2*n-1)]*10000
+beta2_sol_1 <- sol_kvint1[n:(2*n-1)]**2
+beta2_sol_2 <- sol_kvint2[n:(2*n-1)]**2
+beta2_sol_3 <- sol_kvint3[n:(2*n-1)]**2
+beta2_sol_4 <- sol_kvint4[n:(2*n-1)]**2
+beta2_sol_5 <- sol_kvint5[n:(2*n-1)]**2
   
 alpha_sol_1 <- exp(sol_gamma_1)/sum(exp(sol_gamma_1))
 alpha_sol_2 <- exp(sol_gamma_1)/sum(exp(sol_gamma_2))
@@ -162,8 +163,10 @@ alpha_sol_3 <- exp(sol_gamma_1)/sum(exp(sol_gamma_3))
 alpha_sol_4 <- exp(sol_gamma_1)/sum(exp(sol_gamma_4))
 alpha_sol_5 <- exp(sol_gamma_1)/sum(exp(sol_gamma_5))
 
-beta_sol_1 <- sol_kvint1[(2*n):(3*n-1)]
-beta_sol_2 <- sol_kvint2[(2*n):(3*n-1)]
-beta_sol_3 <- sol_kvint3[(2*n):(3*n-1)]
-beta_sol_4 <- sol_kvint4[(2*n):(3*n-1)]
-beta_sol_5 <- sol_kvint5[(2*n):(3*n-1)]
+beta_sol_1 <- sol_kvint1[(2*n):(3*n-1)]**2
+beta_sol_2 <- sol_kvint2[(2*n):(3*n-1)]**2
+beta_sol_3 <- sol_kvint3[(2*n):(3*n-1)]**2
+beta_sol_4 <- sol_kvint4[(2*n):(3*n-1)]**2
+beta_sol_5 <- sol_kvint5[(2*n):(3*n-1)]**2
+
+
