@@ -149,7 +149,13 @@ for (j in 1:length(startvals) ) {
   alpha_sol <- exp(sol_gamma)/sum(exp(sol_gamma))
   z_sol <- sol$par[(2*n):(3*n-1)]
   beta_sol = z_sol**2
-  ac_const <- sol$par[((2*(n) + (n-1)*((n-1)+1)/2))]
+  ac_const <- sol$par[((3*(n) + (n-1)*((n-1)+1)/2))]
+  
+  b1 <- c(bstar_sol1)   
+  supernum1 <- 1-rowSums(phatnext %*% diag(b1))
+  supernummat1 <- matrix(rep(supernum1,n),ncol=n)
+  fejl1 <- list(phatnext[,]*b1 + supernummat1%*%diag(alpha_sol1)-wnext[,])
+  error1 <- rbind(error1,fejl1[[1]])
   
   if (j==1){sol_b_mat_1 <- matrix(rep(bstar_sol,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE)}
   if (j==2){sol_b_mat_2 <- matrix(rep(bstar_sol,(T-1)),nrow=(T-1),ncol=n, byrow=TRUE)}
@@ -178,12 +184,6 @@ for (j in 1:length(startvals) ) {
 
 ##Laver figurer for b'erne ------
 vareagg = c("Meat and dairy","Other foods","Housing","Energy for housing","Energy for transport","Transport","Other goods","Other services")
-#Model==1: Standard uden autocorrelation
-#Model==2: Standard med autocorrelation
-#Model==3: Time trend uden autocorrelation
-#Model==4: Time trend med autocorrelation
-#Model==5: Habit-formation uden autocorrelation
-#Model==6: Habit-formation med autocorrelation
 
 p <- list()
 for (i in 1:8) {
@@ -204,3 +204,55 @@ ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")
 
 
 ##Sammenlign modeller: Hele samplet. Predicted forbrugsandele.
+#laver forbrugsandele
+w_pred_1 <- (phat[-1,]*sol_b_mat_1/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_1/10000)), n), ncol = n)%*%diag(alpha_sol)
+w_pred_2 <- (phat[-1,]*sol_b_mat_2/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_2/10000)), n), ncol = n)%*%diag(alpha_sol)
+w_pred_3 <- (phat[-1,]*sol_b_mat_3/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_3/10000)), n), ncol = n)%*%diag(alpha_sol)
+w_pred_4 <- (phat[-1,]*sol_b_mat_4/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_4/10000)), n), ncol = n)%*%diag(alpha_sol)
+w_pred_5 <- (phat[-1,]*sol_b_mat_5/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_5/10000)), n), ncol = n)%*%diag(alpha_sol)
+w_pred_6 <- (phat[-1,]*sol_b_mat_6/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_6/10000)), n), ncol = n)%*%diag(alpha_sol)
+w_pred_7 <- (phat[-1,]*sol_b_mat_7/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_7/10000)), n), ncol = n)%*%diag(alpha_sol)
+w_pred_8 <- (phat[-1,]*sol_b_mat_8/10000) +  matrix(rep((1-rowSums(phat[-1,]*sol_b_mat_8/10000)), n), ncol = n)%*%diag(alpha_sol)
+
+p_w <- list()
+for (i in 1:8) {
+  v=data.frame(Year=c(1995:2019),ActualShare=w[-1,i],
+               M1=w_pred_1[,i], M2=w_pred_2[,i],
+               M3=w_pred_3[,i], M4=w_pred_4[,i],
+               M5=w_pred_5[,i], M6=w_pred_6[,i], 
+               M7=w_pred_7[,i], M8=w_pred_8[,i])
+  v <- v %>%
+    select(Year, ActualShare, M1, M2, M3, M4, M5, M6, M7, M8) %>%
+    gather(key = "Model", value = "value", -Year)
+  #If you want a legend:
+  p_w[[i]] <- ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
+    geom_line(aes(color = Model, linetype = Model, size=Model)) + 
+    scale_color_manual(values = c("darkred","steelblue", "steelblue","darkorange3","darkorange3","deeppink1","deeppink1","darkgreen","darkgreen"),)+
+    scale_linetype_manual(values = c("solid","twodash", "solid", "twodash","solid","twodash","solid","twodash","solid"))+
+    scale_size_manual(values=c(1,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
+    labs(y = "Share of consumpion")
+}
+ggarrange(plotlist=p_w, ncol=2, nrow=4, common.legend = TRUE, legend="right")
+
+
+#Autcorrelation testing
+u_6 = w[-1,] - w_pred_6
+#tjek at det er den rigtige ac_const
+e_6 = u_6[-1,] - ac_const*u_6[-25,] 
+
+resplot<- list()
+for (i in 1:8) {
+v=data.frame(Year=c(1996:2019), M6=e_6[,i], 
+             M7=u_7[-1,i])
+v <- v %>%
+  select(Year, M6, M7) %>%
+  gather(key = "Model", value = "value", -Year)
+resplot[i] <- ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+
+  geom_line(aes(color = Model, linetype = Model, size=Model)) + 
+  scale_color_manual(values = c("darkred","steelblue", "steelblue","darkorange3","darkorange3","deeppink1","deeppink1","darkgreen","darkgreen"),)+
+  scale_linetype_manual(values = c("solid","twodash", "solid", "twodash","solid","twodash","solid","twodash","solid"))+
+  scale_size_manual(values=c(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5))+
+  labs(y = "Share of consumption")
+}
+ggarrange(plotlist=resplot, ncol=2, nrow=4, common.legend = TRUE, legend="right")
+

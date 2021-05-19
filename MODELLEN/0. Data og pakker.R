@@ -21,12 +21,14 @@ library("ggplot2")
 library(gridExtra)
 library(grid)
 library(ggplot2)
+#install.packages("ggpubr")
+library(ggpubr)
 library(lattice)
 #install.packages("ggpubr")
 library(ggpubr)
 #no scientific numbers
 options(scipen=999)
-options(digits=3)
+options(digits=5)
 
 
 ###### Indl?s data ###################
