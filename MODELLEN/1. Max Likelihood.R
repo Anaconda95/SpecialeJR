@@ -155,12 +155,12 @@ loglik <- function(par,w,phat,x,model) {
   }else if (model==7){
     gamma <- c(par[1:(n-1)],0) #gamma definereres - kun for de første n-1 parametre. gamma_n=0.
     a <- exp(gamma)/sum(exp(gamma))  # a som en logit (sikrer mellem 0 og 1)
-    beta2 <- c(par[n:(2*n-1)]) # bstar: n parametre
-    z <- c(par[(2*n):(3*n-1)]) #beta: n parametre
+    z2 <- c(par[n:(2*n-1)])
+    beta2 <- z2**2 # beta2: n parametre - afhængighed af b i sidste periode
+    z <- c(par[(2*n):(3*n-1)]) #beta: n parametre, afhængighed af x i sidste periode
     beta <- z**2
 
     #Med habit formation må ét år fjernes fra estimeringen.
-    
     ############ i denne model er de to parametre ikke restrikteret til at give 1. 
     
     b <- matrix(rep(0,(T-2)),nrow=(T-2),ncol=n, byrow=TRUE)

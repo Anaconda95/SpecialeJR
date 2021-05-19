@@ -26,7 +26,7 @@ library(ggpubr)
 library(lattice)
 #no scientific numbers
 options(scipen=999)
-options(digits=3)
+options(digits=5)
 
 
 ###### Indl?s data ###################
