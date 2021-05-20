@@ -8,7 +8,7 @@
 ################ Ændre datasættet #############################
 df_kvintiler <- list(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5)  ###
 ###############################################################
-
+b_min <- c()
 solutions <- list()
 
 for (dfdf in 1:length(df_kvintiler) ) {
@@ -133,12 +133,54 @@ for (dfdf in 1:length(df_kvintiler) ) {
                  control=list(maxit=5000,
                               trace=6,
                               ndeps = rep(1e-10,length(start_7))) )
+  
+  ######## gemmer solution ########
+  
   solutions = rbind(solutions,sol)
+  
+  
+  ######
+  beta1_sol7 = sol$par[(2*n):(3*n-1)]**2
+  beta2_sol7 = sol$par[n:(2*n-1)]
+  sol_b_mat_7 = matrix(rep(0,26),nrow=26,ncol=n)
+  #sol_b_mat_7[1,] = c(rep(NA,n))
+  #sol_b_mat_7[2,] = c(rep(NA,n))
+  sol_b_mat_7[3,] =  (x[2,])%*%diag(beta1_sol7) + (x[1,])%*%diag(AR_p_start)%*%diag(beta2_sol7)
+  sol_b_mat_7[4,] = x[3,]%*%diag(beta1_sol7) + sol_b_mat_7[3,]%*%diag(beta2_sol7)
+  sol_b_mat_7[5,] = x[4,]%*%diag(beta1_sol7) + sol_b_mat_7[4,]%*%diag(beta2_sol7)
+  sol_b_mat_7[6,] = x[5,]%*%diag(beta1_sol7) + sol_b_mat_7[5,]%*%diag(beta2_sol7)
+  sol_b_mat_7[7,] = x[6,]%*%diag(beta1_sol7) + sol_b_mat_7[6,]%*%diag(beta2_sol7)
+  sol_b_mat_7[8,] = x[7,]%*%diag(beta1_sol7) + sol_b_mat_7[7,]%*%diag(beta2_sol7)
+  sol_b_mat_7[9,] = x[8,]%*%diag(beta1_sol7) + sol_b_mat_7[8,]%*%diag(beta2_sol7)
+  sol_b_mat_7[10,] = x[9,]%*%diag(beta1_sol7) + sol_b_mat_7[9,]%*%diag(beta2_sol7)
+  sol_b_mat_7[11,] = x[10,]%*%diag(beta1_sol7) + sol_b_mat_7[10,]%*%diag(beta2_sol7)
+  sol_b_mat_7[12,] = x[11,]%*%diag(beta1_sol7) + sol_b_mat_7[11,]%*%diag(beta2_sol7)
+  sol_b_mat_7[13,] = x[12,]%*%diag(beta1_sol7) + sol_b_mat_7[12,]%*%diag(beta2_sol7)
+  sol_b_mat_7[14,] = x[13,]%*%diag(beta1_sol7) + sol_b_mat_7[13,]%*%diag(beta2_sol7)
+  sol_b_mat_7[15,] = x[14,]%*%diag(beta1_sol7) + sol_b_mat_7[14,]%*%diag(beta2_sol7)
+  sol_b_mat_7[16,] = x[15,]%*%diag(beta1_sol7) + sol_b_mat_7[15,]%*%diag(beta2_sol7)
+  sol_b_mat_7[17,] = x[16,]%*%diag(beta1_sol7) + sol_b_mat_7[16,]%*%diag(beta2_sol7)
+  sol_b_mat_7[18,] = x[17,]%*%diag(beta1_sol7) + sol_b_mat_7[17,]%*%diag(beta2_sol7)
+  sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+  sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+  sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
+  sol_b_mat_7[22,] = x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)
+  sol_b_mat_7[23,] = x[22,]%*%diag(beta1_sol7) + sol_b_mat_7[22,]%*%diag(beta2_sol7)
+  sol_b_mat_7[24,] = x[23,]%*%diag(beta1_sol7) + sol_b_mat_7[23,]%*%diag(beta2_sol7)
+  sol_b_mat_7[25,] = x[24,]%*%diag(beta1_sol7) + sol_b_mat_7[24,]%*%diag(beta2_sol7)
+  sol_b_mat_7[26,] = x[25,]%*%diag(beta1_sol7) + sol_b_mat_7[25,]%*%diag(beta2_sol7)
+  
+  b_min[[dfdf]] = sol_b_mat_7
 
 }
 
-########## For kvintil 1 
-#Udregner minimumsforbruget for alle perioder.
+b_min1 = b_min[[1]]
+b_min2 = b_min[[2]]
+b_min3 = b_min[[3]]
+b_min4 = b_min[[4]]
+b_min5 = b_min[[5]]
+
+
 sol_kvint1 = solutions[[1]]
 sol_kvint2 = solutions[[2]]
 sol_kvint3 = solutions[[3]]
@@ -151,11 +193,11 @@ sol_gamma_3 <- c(sol_kvint3[1:(n-1)],0)
 sol_gamma_4 <- c(sol_kvint4[1:(n-1)],0)
 sol_gamma_5 <- c(sol_kvint5[1:(n-1)],0)
 
-beta2_sol_1 <- sol_kvint1[n:(2*n-1)]**2
-beta2_sol_2 <- sol_kvint2[n:(2*n-1)]**2
-beta2_sol_3 <- sol_kvint3[n:(2*n-1)]**2
-beta2_sol_4 <- sol_kvint4[n:(2*n-1)]**2
-beta2_sol_5 <- sol_kvint5[n:(2*n-1)]**2
+beta2_sol_1 <- sol_kvint1[n:(2*n-1)]
+beta2_sol_2 <- sol_kvint2[n:(2*n-1)]
+beta2_sol_3 <- sol_kvint3[n:(2*n-1)]
+beta2_sol_4 <- sol_kvint4[n:(2*n-1)]
+beta2_sol_5 <- sol_kvint5[n:(2*n-1)]
   
 alpha_sol_1 <- exp(sol_gamma_1)/sum(exp(sol_gamma_1))
 alpha_sol_2 <- exp(sol_gamma_1)/sum(exp(sol_gamma_2))
