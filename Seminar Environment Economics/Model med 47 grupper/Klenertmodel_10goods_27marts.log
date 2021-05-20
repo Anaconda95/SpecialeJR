@@ -1,0 +1,29 @@
+--- Job Klenertmodel_10goods_27marts.gms Start 04/03/20 12:18:27 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_10goods_27marts.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225b/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_10goods_27marts.gms(392) 3 Mb
+--- Starting execution: elapsed 0:00:00.005
+--- Klenertmodel_10goods_27marts.gms(323) 4 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_10goods_27marts.gms(294) 6 Mb
+*** Error at line 294: rPower: FUNC DOMAIN: x**y, x < 0
+--- Klenertmodel_10goods_27marts.gms(338) 4 Mb 1 Error
+*** SOLVE aborted
+--- Klenertmodel_10goods_27marts.gms(338) 4 Mb 1 Error
+*** Status: Execution error(s)
+--- Job Klenertmodel_10goods_27marts.gms Stop 04/03/20 12:18:27 elapsed 0:00:00.014
+

@@ -1,0 +1,179 @@
+--- Job Klenertmodel_2goods.gms Start 04/03/20 11:33:36 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_2goods.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225b/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_2goods.gms(333) 3 Mb
+--- Starting execution: elapsed 0:00:00.005
+--- Klenertmodel_2goods.gms(264) 4 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_2goods.gms(279) 6 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_2goods.gms(279) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.014
+*** Error at line 279: Could not find ShortName for International Characters
+--- Klenertmodel_2goods.gms(279) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.0000000339E+09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        1.1250000082E+10 (After pre-processing)
+      2   0        2.4722540307E+01 (After scaling)
+     10   0     7  1.1449869129E+01               1.0E+00      F  T
+     20   0     9  1.2097180404E+01               0.0E+00      T  T
+     26   1    11  1.2096298381E+01 2.4E+09     7 1.6E-04    3 F  F
+     31   1    10  1.2076123694E+01 1.1E+00     8 1.1E-03      F  F
+     36   2    10  1.1177375455E+01 7.1E+07     9 1.0E+00    1 T  T
+     41   2    10  1.1120884064E+01 9.3E+05     9 1.0E+00    1 T  T
+     46   1    10  1.0216554594E+01 6.4E+02     8 4.2E-11      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     51   2     7  9.9334895760E+00 1.8E+03     8 2.6E+04      T  T
+     60   0     8  6.4002998427E+00               1.0E+00      F  T
+     70   0     8  6.0658037762E+00               1.0E+00      F  T
+     80   0     8  5.9032740812E+00               4.0E-01      T  T
+     90   0     8  6.0350523482E+00               1.0E+00      F  T
+    100   0     8  5.1672382556E+00               0.0E+00      F  F
+    110   0    11  5.6758202560E+00               0.0E+00      T  T
+    121   2    17  4.8704342336E+00 3.1E+07    12 0.0E+00      T  T
+    131   2    16  4.6213093553E+00 1.7E+03     8 1.0E+00    1 T  T
+    136   2    14  4.6094329155E+00 2.9E+01     5 1.0E+00    1 T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+    141   2     8  3.9393579885E+00 7.7E+00     7 1.0E+00    3 T  T
+    151   1    10  3.9393347224E+00 2.0E+00     6 0.0E+00      T  T
+    161   2     9  3.2731098692E+00 1.4E+00     4 3.0E+01      T  T
+    171   1     5  2.6159859819E+00 3.4E+00     4 1.1E-08      F  T
+    180   0     6  2.6159858809E+00               0.0E+00      F  F
+    191   1     7  2.3638164587E+00 2.8E+02     4 4.8E-14      F  F
+    201   1     4  1.0000146237E+00 2.0E+02     1 1.8E-12      T  T
+    206   1     3  1.0000146104E+00 8.6E-01     5 1.0E-07    3 F  F
+    211   1     3  1.0000080892E+00 6.1E-01     3 0.0E+00    1 F  T
+    221   1     2  9.9860951377E-01 6.2E-01     4 8.9E-10      F  F
+ 
+ ** Feasible solution. Value of objective =    7.88180745486
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+    231   3        7.8818074549E+00 2.2E+00     6 0.0E+00      T  T
+    241   3        8.1198028227E+00 5.9E-01     3 1.2E-01      F  F
+    251   3        9.0544886425E+00 6.0E-02     2 5.1E-01      F  F
+    261   4        9.0694913227E+00 1.2E-08     1
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_2goods.gms(279) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.225
+--- Klenertmodel_2goods.gms(264) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_2goods.gms(280) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_2goods.gms(280) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.230
+*** Error at line 280: Could not find ShortName for International Characters
+--- Klenertmodel_2goods.gms(280) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.0325196867E-08 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        8.4272801071E-09 (After pre-processing)
+      2   0        5.9793913266E-09 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.06949133733
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      8   4        9.0694913227E+00 4.5E-09     1
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_2goods.gms(280) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.317
+--- Klenertmodel_2goods.gms(264) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_2goods.gms(281) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_2goods.gms(281) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.330
+*** Error at line 281: Could not find ShortName for International Characters
+--- Klenertmodel_2goods.gms(281) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.0218374572E-08 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        8.2789815080E-09 (After pre-processing)
+      2   0        5.8969441282E-09 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.06949130794
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     11   4        9.0694913227E+00 2.3E-08     1
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_2goods.gms(281) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.427
+--- Klenertmodel_2goods.gms(264) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial.gdx
+--- Klenertmodel_2goods.gms(289) 3 Mb
+*** Status: Normal completion
+--- Job Klenertmodel_2goods.gms Stop 04/03/20 11:33:37 elapsed 0:00:00.430
+

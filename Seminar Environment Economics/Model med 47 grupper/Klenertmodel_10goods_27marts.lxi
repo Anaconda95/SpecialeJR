@@ -1,0 +1,36 @@
+B 3 C o m p i l a t i o n
+B 404 Equation Listing    SOLVE SG_SP Using NLP From line 338
+D 407 totalT
+D 413 FirmProd
+D 424 FirmFOC1
+D 435 FirmFOC2
+D 446 Copeland
+D 457 HHFOC1
+D 468 HHFOC2
+D 479 HHFOC3
+D 496 GenEq
+D 507 numeraire
+D 512 Tax
+D 520 Inc_constraint
+D 541 Utility
+D 558 Utility_NE
+D 575 Welfare_NE
+D 580 Welfare
+B 586 Column Listing      SOLVE SG_SP Using NLP From line 338
+E 589 T
+E 617 Z
+E 645 Z_total
+E 661 wage
+E 694 F
+E 722 pr
+E 799 T_total
+E 824 X
+E 857 lei
+E 891 U
+E 912 U_NE
+E 931 L
+E 947 W
+E 954 W_NE
+E 961 tau_P
+E 978 tau_w
+B 1004 Model Statistics    SOLVE SG_SP Using NLP From line 338

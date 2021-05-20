@@ -1,0 +1,146 @@
+--- Job Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms Start 03/27/20 15:35:24 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225b/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(333) 3 Mb
+--- Starting execution: elapsed 0:00:00.008
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(264) 4 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial.gdx
+--- Generating NLP model SG_SP
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(279) 6 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(279) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.018
+*** Error at line 279: Could not find ShortName for International Characters
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(279) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.9503738582E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        9.9503738582E-14 (After pre-processing)
+      2   0        5.0653925499E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.24384540856
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        9.2438454086E+00 1.2E-08     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(279) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.117
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(264) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(280) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(280) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.127
+*** Error at line 280: Could not find ShortName for International Characters
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(280) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.9503738582E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        9.9503738582E-14 (After pre-processing)
+      2   0        5.0653925499E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.24384540856
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        9.2438454086E+00 1.2E-08     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(280) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.235
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(264) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(281) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(281) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.244
+*** Error at line 281: Could not find ShortName for International Characters
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(281) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.9503738582E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        9.9503738582E-14 (After pre-processing)
+      2   0        5.0653925499E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.24384540856
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        9.2438454086E+00 1.2E-08     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(281) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.328
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(264) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial.gdx
+--- Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms(289) 3 Mb
+*** Status: Normal completion
+--- Job Klenertmodel_47goods_julie-Rasmuss MacBook Pro (2).gms Stop 03/27/20 15:35:25 elapsed 0:00:00.333
+

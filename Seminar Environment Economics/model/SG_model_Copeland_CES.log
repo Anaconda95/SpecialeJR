@@ -1,0 +1,246 @@
+--- Job SG_model_Copeland_CES.gms Start 03/26/20 15:25:12 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/225a/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- SG_model_Copeland_CES.gms(201) 3 Mb 2 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error  36 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    '=' or '..' or ':=' or '$=' operator expected
+    rest of statement ignored
+--- SG_model_Copeland_CES.gms(203) 3 Mb 9 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error   7 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    '(' expected
+*** Error 203 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Too few arguments for function
+*** Error   8 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    ')' expected
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(208) 3 Mb 11 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Domain violation for set
+--- SG_model_Copeland_CES.gms(213) 3 Mb 12 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(215) 3 Mb 13 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(218) 3 Mb 16 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Domain violation for set
+--- SG_model_Copeland_CES.gms(220) 3 Mb 21 Errors
+*** Error 148 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error   7 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    '(' expected
+*** Error 203 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Too few arguments for function
+*** Error 408 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Too many ),] or }
+*** Error 409 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unrecognizable item - skip to find a new statement
+      looking for a ';' or a key word to get started again
+--- SG_model_Copeland_CES.gms(222) 3 Mb 25 Errors
+*** Error 148 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error   7 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    '(' expected
+*** Error 203 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Too few arguments for function
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(224) 3 Mb 28 Errors
+*** Error 148 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error   7 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    '(' expected
+*** Error 203 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Too few arguments for function
+--- SG_model_Copeland_CES.gms(230) 3 Mb 29 Errors
+*** Error 148 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+--- SG_model_Copeland_CES.gms(232) 3 Mb 37 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(240) 3 Mb 38 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(241) 3 Mb 39 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(242) 3 Mb 40 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Domain violation for set
+--- SG_model_Copeland_CES.gms(259) 3 Mb 41 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(262) 3 Mb 42 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Solve statement not checked because of previous errors
+--- SG_model_Copeland_CES.gms(263) 3 Mb 43 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Solve statement not checked because of previous errors
+--- SG_model_Copeland_CES.gms(264) 3 Mb 44 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Solve statement not checked because of previous errors
+--- SG_model_Copeland_CES.gms(267) 3 Mb
+--- . SG_calculate_ginis_etc.inc(4) 3 Mb 45 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Unknown symbol
+--- . SG_calculate_ginis_etc.inc(5) 3 Mb 46 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Unknown symbol
+--- . SG_calculate_ginis_etc.inc(6) 3 Mb 48 Errors
+*** Error 141 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 142 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    No suffix allowed here - suffix ignored
+--- . SG_calculate_ginis_etc.inc(8) 3 Mb 49 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Unknown symbol
+--- . SG_calculate_ginis_etc.inc(9) 3 Mb 50 Errors
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Unknown symbol
+--- . SG_calculate_ginis_etc.inc(10) 3 Mb 52 Errors
+*** Error 142 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    No suffix allowed here - suffix ignored
+*** Error 142 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    No suffix allowed here - suffix ignored
+--- . SG_calculate_ginis_etc.inc(18) 3 Mb 54 Errors
+*** Error 141 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 141 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+--- . SG_calculate_ginis_etc.inc(26) 3 Mb 56 Errors
+*** Error 141 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 141 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+--- . SG_calculate_ginis_etc.inc(38) 3 Mb 57 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(40) 3 Mb 58 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(48) 3 Mb 59 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(51) 3 Mb 60 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(54) 3 Mb
+--- SG_model_Copeland_CES.gms(286) 3 Mb 61 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Solve statement not checked because of previous errors
+--- SG_model_Copeland_CES.gms(287) 3 Mb 62 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Solve statement not checked because of previous errors
+--- SG_model_Copeland_CES.gms(288) 3 Mb 63 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Solve statement not checked because of previous errors
+--- SG_model_Copeland_CES.gms(290) 3 Mb
+--- . SG_calculate_ginis_etc.inc(6) 3 Mb 64 Errors
+*** Error 142 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    No suffix allowed here - suffix ignored
+--- . SG_calculate_ginis_etc.inc(10) 3 Mb 66 Errors
+*** Error 142 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    No suffix allowed here - suffix ignored
+*** Error 142 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    No suffix allowed here - suffix ignored
+--- . SG_calculate_ginis_etc.inc(38) 3 Mb 67 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(40) 3 Mb 68 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(48) 3 Mb 69 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(51) 3 Mb 70 Errors
+*** Error 171 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+    Domain violation for set
+--- . SG_calculate_ginis_etc.inc(54) 3 Mb
+--- SG_model_Copeland_CES.gms(306) 3 Mb 75 Errors
+*** Error 148 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error 148 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+*** Error 170 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Domain violation for element
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+*** Error 140 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    Unknown symbol
+--- SG_model_Copeland_CES.gms(307) 3 Mb 76 Errors
+*** Error 567 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+    No suffix for SET, PARAMETER, or ACRONYM allowed
+--- SG_model_Copeland_CES.gms(316) 3 Mb 76 Errors
+*** Status: Compilation error(s)
+--- Job SG_model_Copeland_CES.gms Stop 03/26/20 15:25:12 elapsed 0:00:00.022
+

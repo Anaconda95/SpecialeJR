@@ -1,0 +1,137 @@
+--- Job Klenert_precalibratedtax_9april.gms Start 04/13/20 10:02:46 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenert_precalibratedtax_9april.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225b/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenert_precalibratedtax_9april.gms(575) 3 Mb
+--- Starting execution: elapsed 0:00:00.006
+--- Klenert_precalibratedtax_9april.gms(411) 4 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial_precali_41g_test.gdx
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_9april.gms(426) 6 Mb
+---   440 rows  406 columns  3,293 non-zeroes
+---   7,387 nl-code  2,711 nl-non-zeroes
+--- Klenert_precalibratedtax_9april.gms(426) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.032
+*** Error at line 426: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_9april.gms(426) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.9321296817E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        2.8462634261E+00 (After pre-processing)
+      2   0        9.9967608837E-01 (After scaling)
+     10   0     7  9.9967608837E-01               0.0E+00      F  F
+     20   0    13  6.9102031222E-01               1.0E+00      F  T
+     21   1    10  4.9133414569E-01 1.1E+00    11 1.0E+00    3 T  T
+     24   1     3  4.6208613623E-01 0.0E+00     0
+ 
+ ** Infeasible solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_9april.gms(426) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.136
+--- Klenert_precalibratedtax_9april.gms(411) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_9april.gms(427) 5 Mb
+---   440 rows  406 columns  3,293 non-zeroes
+---   7,387 nl-code  2,711 nl-non-zeroes
+--- Klenert_precalibratedtax_9april.gms(427) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.147
+*** Error at line 427: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_9april.gms(427) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.3757001797E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        2.3757001797E+00 (After pre-processing)
+      2   0        4.6208613623E-01 (After scaling)
+      6   1     3  4.6208613623E-01 0.0E+00     0
+ 
+ ** Infeasible solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_9april.gms(427) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.219
+--- Klenert_precalibratedtax_9april.gms(411) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_9april.gms(428) 5 Mb
+---   440 rows  406 columns  3,293 non-zeroes
+---   7,387 nl-code  2,711 nl-non-zeroes
+--- Klenert_precalibratedtax_9april.gms(428) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.236
+*** Error at line 428: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_9april.gms(428) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.3757001797E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        2.3757001797E+00 (After pre-processing)
+      2   0        4.6208613623E-01 (After scaling)
+      6   1     3  4.6208613623E-01 0.0E+00     0
+ 
+ ** Infeasible solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_9april.gms(428) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.330
+--- Klenert_precalibratedtax_9april.gms(411) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial_precali_41g_test4.gdx
+--- Klenert_precalibratedtax_9april.gms(529) 3 Mb
+*** Status: Normal completion
+--- Job Klenert_precalibratedtax_9april.gms Stop 04/13/20 10:02:46 elapsed 0:00:00.336
+

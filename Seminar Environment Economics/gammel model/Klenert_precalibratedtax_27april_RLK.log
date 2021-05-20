@@ -1,0 +1,291 @@
+--- Job Klenert_precalibratedtax_27april_RLK.gms Start 04/30/20 09:21:06 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model_final/Klenert_precalibratedtax_27april_RLK.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model_final/225a/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenert_precalibratedtax_27april_RLK.gms(564) 3 Mb
+--- call gdxmerge precali_before_ny.gdx precal_after_noredist.gdx precali_after_lump.gdx precali_after_unif.gdx precali_after_diff.gdx
+Output file: merged.gdx
+Reading file: precali_before_ny.gdx
+Reading file: precal_after_noredist.gdx
+Reading file: precali_after_lump.gdx
+Reading file: precali_after_unif.gdx
+Reading file: precali_after_diff.gdx
+Merge complete, 5 input files merged
+--- Klenert_precalibratedtax_27april_RLK.gms(597) 3 Mb
+--- Starting execution: elapsed 0:00:00.046
+--- Klenert_precalibratedtax_27april_RLK.gms(406) 4 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model_final/precali_before_L0.gdx
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_27april_RLK.gms(425) 6 Mb
+---   442 rows  409 columns  3,460 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Klenert_precalibratedtax_27april_RLK.gms(425) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.070
+*** Error at line 425: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_27april_RLK.gms(425) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.9990210919E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  10
+                   Definitional equations:     45
+ 
+      1   0        3.1228200949E+01 (After pre-processing)
+      2   0        6.8164555671E+00 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.13175906937
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      6   3        1.1317590694E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_27april_RLK.gms(425) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.192
+--- Klenert_precalibratedtax_27april_RLK.gms(406) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_27april_RLK.gms(426) 5 Mb
+---   442 rows  409 columns  3,460 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Klenert_precalibratedtax_27april_RLK.gms(426) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.208
+*** Error at line 426: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_27april_RLK.gms(426) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.1986910710E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  10
+                   Definitional equations:     45
+ 
+      1   0        9.3499589581E-14 (After pre-processing)
+      2   0        8.4661823992E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.13175906937
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1317590694E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_27april_RLK.gms(426) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.273
+--- Klenert_precalibratedtax_27april_RLK.gms(406) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_27april_RLK.gms(427) 5 Mb
+---   442 rows  409 columns  3,460 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Klenert_precalibratedtax_27april_RLK.gms(427) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.289
+*** Error at line 427: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_27april_RLK.gms(427) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.3499589581E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  10
+                   Definitional equations:     45
+ 
+      1   0        9.3499589581E-14 (After pre-processing)
+      2   0        8.4661823992E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.13175906937
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1317590694E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_27april_RLK.gms(427) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.363
+--- Klenert_precalibratedtax_27april_RLK.gms(406) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model_final/precali_before_ny.gdx
+--- Klenert_precalibratedtax_27april_RLK.gms(537) 3 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model_final/precali_before_ny.gdx
+--- Klenert_precalibratedtax_27april_RLK.gms(537) 4 Mb
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_27april_RLK.gms(555) 6 Mb
+---   442 rows  409 columns  3,460 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Klenert_precalibratedtax_27april_RLK.gms(555) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.379
+*** Error at line 555: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_27april_RLK.gms(555) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.0959389961E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  10
+                   Definitional equations:     45
+ 
+      1   0        1.0959389961E+01 (After pre-processing)
+      2   0        8.1508463195E+00 (After scaling)
+     10   0     7  8.1508463195E+00               0.0E+00      F  F
+     20   0    17  8.1508463195E+00               0.0E+00      F  F
+     30   0    27  8.1508463195E+00               0.0E+00      F  F
+     40   0    37  8.1508463195E+00               0.0E+00      F  F
+     51   1    46  6.5691146354E+00 2.2E+01    45 4.5E-01    4 F  F
+     56   1    42  5.2040235612E+00 5.3E+00    41 6.7E-01    5 F  F
+     61   1    31  3.9405495859E+00 4.6E+00    33 1.0E+00    3 T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     66   1    22  3.3139990455E+00 1.6E+00    24 1.0E+00    3 T  T
+     71   1    19  2.8316240868E+00 4.6E+00    19 2.5E-04      T  T
+     81   1     9  1.5547494729E+00 1.2E+00     9 2.9E-04      T  T
+     86   1     3  1.7778961084E-01 1.2E+00     3 1.0E+00    1 T  T
+ 
+ ** Feasible solution. Value of objective =    1.02429851015
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     88   3        1.0242985095E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_27april_RLK.gms(555) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.716
+--- Klenert_precalibratedtax_27april_RLK.gms(537) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_27april_RLK.gms(556) 5 Mb
+---   442 rows  409 columns  3,460 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Klenert_precalibratedtax_27april_RLK.gms(556) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.739
+*** Error at line 556: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_27april_RLK.gms(556) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.1227329710E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  10
+                   Definitional equations:     45
+ 
+      1   0        4.1384755865E-14 (After pre-processing)
+      2   0        3.1259174936E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.02429850955
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.0242985095E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_27april_RLK.gms(556) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.810
+--- Klenert_precalibratedtax_27april_RLK.gms(537) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenert_precalibratedtax_27april_RLK.gms(557) 5 Mb
+---   442 rows  409 columns  3,460 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Klenert_precalibratedtax_27april_RLK.gms(557) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.827
+*** Error at line 557: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_27april_RLK.gms(557) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.1384755865E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  10
+                   Definitional equations:     45
+ 
+      1   0        4.1384755865E-14 (After pre-processing)
+      2   0        3.1259174936E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.02429850955
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.0242985095E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_27april_RLK.gms(557) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.906
+--- Klenert_precalibratedtax_27april_RLK.gms(537) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model_final/precal_after_noredist.gdx
+*** Status: Normal completion
+--- Job Klenert_precalibratedtax_27april_RLK.gms Stop 04/30/20 09:21:07 elapsed 0:00:00.909
+

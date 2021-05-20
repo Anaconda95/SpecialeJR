@@ -1,0 +1,619 @@
+GAMS 30.1.0  re01a340 Released Jan 10, 2020 DEX-DEG x86 64bit/Mac OS X - 03/26/20 15:29:09 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   2  ********************************************************************************
+   3  * Model for assessing the distributional impacts of different revenue recycling*
+   4  *  schemes when accounting for pollution-intensive subsistence consumption     *
+   5  *  with Stone-Geary utility functions.                                         *                 *
+   6  *                                                                              *
+   7  * David Klenert, 2014-2015,  Potsdam Institute for Climate Impact Research     *
+   8  ********************************************************************************
+   9   
+  10  * Pure optimal taxation version
+  11   
+  12  SETS
+  13  i              income quintiles                           / 1*5/
+  14  g              type of good                               /C, D/;
+  15   
+  16  Alias(g,h);
+  17   
+  18  Variables
+  19  * firm
+  20  T(g)           labor time in production of good g
+  21  Z(g)           pollution in production of good g
+  22  Ztotal         total pollution
+  23  wage           rental price labor
+  24   
+  25  F(g)           production of good g
+  26   
+  27  pr(g)          price of good g
+  28   
+  29  T_total(i)           total time endowment of agents
+  30  P              total pollution
+  31   
+  32  * households
+  33  a              help param
+  34  X(i,g)         amount of good g consumed by hh i
+  35  E(i)           generic consumption good
+  36  lei(i)         leisure of hh i
+  37  inc            gross income
+  38   
+  39  * government
+  40  !!gC Not used
+  41  !!gD Not used
+  42  U(i)           Utility (with environmental component)
+  43  U_NE(i)           Non-environmental utility
+  44  L              Lump-sum transfers
+  45  Rev            Tax revenue government
+  46  W              Welfare
+  47  W_NE           Non-environmental welfare
+  48  Gov(g)         Government consumption clean
+  49  tau(g)          tax on polluting output
+  50  tau_P          pollution tax
+  51  tau_w(i)       non-linear income tax
+  52  tau_w_flat     flat income tax rebate
+  53  * tau_w_preex(i) temporary as a variable    !! comment this when not calculating the optimal pre-existing income tax
+  54  * gov_share      government share of output   !! comment this when not calculating the optimal pre-existing government consumption share
+  55  GovRev_pol     Government revenue from pollution taxes
+  56  GovRev_LS      Government revenue from lump-sum taxes
+  57  GovRev_inc     Government revenue from income taxes
+  58   
+  59   
+  60  * post processing
+  61  Xtotal(g)      Total consumption of good g
+  62  GDP            Sum of all goods multiplied by the prices
+  63  CbyD           Ratio clean to polluting consumption
+  64  ConsPor(i,g)   Consumption share of good g of household i
+  65  ConsPor_total(i) Total consumption share
+  66  UtilPor(i)     Utility share
+  67  UtilPor_NE     Utility share non-environmental
+  68  gini_C         Gini coefficient consumption
+  69  gini_u         Gini coefficient utility
+  70  Gini_U_NE      Gini coefficient non-environmental utility
+  71  rel_cons       Relative share of consumption of hh i
+  72  rel_burden     Relative income tax burden of hh i
+  73  suits_help     helping variable when calculating suits index
+  74  suits          Suits index of income tax system
+  75  inc_tax_total_burden total tax burden for calculating suits index
+  76   
+  77  Z              Dummy variable for market solution
+  78  ;
+  79   
+  80  Parameters
+  81  * firm
+  82  epsilon(g)     labor intensity in production of good g
+  83  s              elasticity of substitution btw. labor and pollution
+  84  r              CES Parameter
+  85  !! A_(g)       TFP in production
+  86  abate              parameter for labor intensity of pollution in production
+  87  !!omega          factor in production before pollution
+  88   
+  89  * households
+  90  alpha(g)       share of consumption of good g in utility
+  91  gamma          leisure exponent in utility
+  92  X0(g)          subsistence level consumption of of good g
+  93   
+  94  * government
+  95  xi             environmental preference parameter
+  96  min            minimum value of variables
+  97  theta          exponent of damage function
+  98  p_helper       scan parameter for communication with R
+  99  gov_spdg       government spending requirement
+ 100   
+ 101   
+ 102  * model operation
+ 103  SWITCH_Diff    activate differentiated income tax cuts
+ 104  SWITCH_Unif    activate uniform income tax cuts
+ 105  SWITCH_ULS     activate uniform lump-sum transfers
+ 106  SWITCH_UnifULS activate uniform income tax cuts plus ULS
+ 107  SWITCH_Bench
+ 108  SWITCH_opttax  activate social planner solution and the determination of optimal carbon taxes
+ 109  SWITCH_optInctax calculate optimal preexisting income tax
+ 110  SWITCH_optGovBud calculate optimal government budget for a given pre-existing income tax system
+ 111  SWITCH_DetL0   determine the L0 for the actual system
+ 112  SWITCH_opttaxsys determine optimal preexisting tax system
+ 113  SWITCH_OUT     activate output tax instead of pollution tax
+ 114  ;
+ 115   
+ 116  ********************************************************************************
+ 117  *****                     Set model parameters                             *****
+ 118  ********************************************************************************
+ 119   
+ 120  *New Benchmark with priv cost
+ 121  !!A_C     = 1;     A_D         = 1;    !!epsilon     = 0.92;
+ 122  gamma   = 0.2;   gov_spdg    = 5;
+ 123  min         = 1e-9;     xi      = 0.1;   theta      = 1.0;    !!xi      = 0.05; for 2nd best
+ 124  s         = 0.5;     abate           = 1;
+ 125  r         = 1-1/s;   !!omega       = 1;
+ 126   
+ 127  *Benchmark standard model
+ 128  *gamma     = 0.95;    epsilon     = 0.5;      A_C     = 1;     A_D         = 1;
+ 129  *alpha     = 0.7;     beta        = 0.2;      delta   = 0.2;   gov_spdg    = 8.696;
+ 130  *D0        = 0.5;     min         = 1e-9;     xi      = 0.02;  damexp      = 1.1;
+ 131  *s         = 0.9;     x           = 0.08;
+ 132   
+ 133  *Benchmark with priv cost
+ 134  *gamma     = 0.95;    epsilon     = 0.5;      A_C     = 1;     A_D         = 1;
+ 135  *alpha     = 0.6;     beta        = 0.25;      delta   = 0.2;  gov_spdg    = 1;!!8.696;
+ 136  *D0        = 0.25;     min         = 1e-9;     xi      = 0.2;  damexp      = 1.1;
+ 137  *s         = 0.9;     x           = 0.08;
+ 138  *r         = 1-1/s;
+ 139   
+ 140  ********************************************************************************
+ 141  *****                      Set model switches                              *****
+ 142  ********************************************************************************
+ 143  Switch_Bench     =       1; !! after environmental tax reform
+ 144  SWITCH_DetL0     =       0; !! before environmental tax reform
+ 145   
+ 146  ********************************************************************************
+ 147  *****                     Set model parameters                             *****
+ 148  ********************************************************************************
+ 149   
+ 150  p_helper=0.1;
+ 151   
+ 152  Parameter epsilon(g) /C 0.995, D 0.92/;
+ 153   
+ 154  Parameter alpha(g)   /C 0.7, D 0.2/;
+ 155   
+ 156  Parameter X0(g)      /C 0, D 0.5/;
+ 157   
+ 158  Parameter phi(i)          productivity of individual households
+ 159                  /1 0.03,
+ 160                   2 0.0825,
+ 161                   3 0.141,
+ 162                   4 0.229,
+ 163                   5 0.511/;
+ 164  Parameter tau_w_preex(i);
+ 165  tau_w_preex(i) = 0;
+ 166   
+ 167  ********************************************************************************
+ 168  *****                 Set limits and starting values                       *****
+ 169  ********************************************************************************
+ 170  * Limits
+ 171  L.lo     =       min;    T.lo(g)   =       min;    Z.lo(g)   =       min;
+ 172  F.lo(g)   =       min;   pr.lo(g)  =       min;    wage.lo  =       min;
+ 173  lei.lo(i)=       min;   lei.up(i)=       24-1e-9;
+ 174  X.lo(i,g)  =     min;     tau_w.up(i)=     0;
+ 175   
+ 176  *Starting values
+ 177  X.l(i,g)=0.4;
+ 178  *tau_w.l(i)=-0.4;
+ 179   
+ 180  Equations
+ 181   
+ 182  FirmProd(g),totalT,FirmFOC1(g),FirmFOC2(g),Copeland(g),HHFOC1(i,g),HHFOC2(i),HHFOC3(i),numeraire,
+ 183  GenEq_C,GenEq_D,Utility,Welfare,Tax,Inc_constraint,Dummy,Utility_NE,Welfare_NE
+ 184  ;
+ 185  **********************************Firms*****************************************
+ 186  FirmProd(g)..
+ 187                           F(g)                  =e=    (epsilon(g)*T(G)**r + (1-epsilon(g)*Z(g)**r)**(1/r));      !!A_D*T_D**epsilon*Z_D**(1-epsilon);
+ 188  FirmFOC1(g)..
+ 189                           wage                  =e=     epsilon(g)    *T(g)**(r-1)*F(g)**(1-r)*pr(g);
+ 190  FirmFOC2(g)..
+ 191                           tau_P                 =e=     (1-epsilon(g))*Z(g)**(r-1)*F(g)**(1-r)*pr(g);
+ 192  totalT..
+ 193                           0                     =e=     sum(g,T(g)) -sum(i,phi(i)*(T_total(i)-lei(i)));
+ 194  Copeland(g)..
+ 195                           Z(g)                  =l=     abate*T(g);
+ 196   
+ 197  ********************************Households**************************************
+ 198  HHFOC1(i,g)..
+ 199                           pr(g)*(X(i,g)-X0(g))  =e= alpha(g)/gamma*lei(i)*( (1-tau_w(i))*phi(i)*wage );
+ 200   
+ 201                           pr_C*C(i)             =e= alpha/beta*(D(i)-D0)*pr_D;
+****                              $140,36
+****  36  '=' or '..' or ':=' or '$=' operator expected
+****      rest of statement ignored
+**** 140  Unknown symbol
+ 202  HHFOC2(i)..
+ 203                           pr_D*(D(i)-D0)        =e= beta/delta*lei(i)*( (1-tau_w(i))*phi(i)*wage );
+****                              $140,140 $140              $7,203,8,140
+****   7  '(' expected
+****   8  ')' expected
+**** 140  Unknown symbol
+**** 203  Too few arguments for function
+ 204   
+ 205   
+ 206   
+ 207  HHFOC3(i)..
+ 208                           C(i)*pr_C + D(i)*pr_D =e= (1-tau_w(i))*phi(i)*wage*(T(i)-lei(i)) + L;
+****                           $140                                                   $171
+**** 140  Unknown symbol
+**** 171  Domain violation for set
+ 209  ******************************Market clearing***********************************
+ 210  numeraire..
+ 211                           wage      =e=     1;
+ 212  GenEq_C..
+ 213                           F_C       =e=     sum(i,C(i))+gov_spdg/(pr_C*2);!!*sum(i,C(i))/(sum(i,C(i))+sum(i,D(i)));!! F_C; !!
+****                             $140
+**** 140  Unknown symbol
+ 214  GenEq_D..
+ 215                           F_D       =e=     sum(i,D(i))+gov_spdg/(pr_D*2);!!*sum(i,D(i))/(sum(i,C(i))+sum(i,D(i)));!!  *F_D; !!
+****                             $140
+**** 140  Unknown symbol
+ 216  ********************************Government**************************************
+ 217  Tax..
+ 218                           Gov_spdg =e=     (tau_p)*(Z_C+Z_D) + wage*sum(i,tau_w(i)*phi(i)*(T(i)-lei(i))) - 5*L; !!
+****                                                       $140$140                                $171
+**** 140  Unknown symbol
+**** 171  Domain violation for set
+ 219  Inc_constraint(i)$(ord(i) lt 5)..
+ 220                           U(i+1)    =g=     C(i)**alpha*(D(i)-D0)**beta*( T(i)-( C(i)*pr_C + D(i)*pr_D  -L )/( (1-tau_w(i))*phi(i+1)*wage ) )**delta-xi*(Z_C+Z_D)**damexp;!! Gregor approach
+****                                                        $148            $7    $203                                                           $408,409
+****   7  '(' expected
+**** 148  Dimension different - The symbol is referenced with more/less
+****         indices as declared
+**** 203  Too few arguments for function
+**** 408  Too many ),] or }
+**** 409  Unrecognizable item - skip to find a new statement
+****        looking for a ';' or a key word to get started again
+ 221  Utility(i)..
+ 222                           U(i)      =e=     C(i)**alpha*(D(i)-D0)**beta*lei(i)**delta - xi*(Z_C+Z_D)**damexp;
+****                                                        $148            $7    $203                          $140
+****   7  '(' expected
+**** 140  Unknown symbol
+**** 148  Dimension different - The symbol is referenced with more/less
+****         indices as declared
+**** 203  Too few arguments for function
+ 223  Utility_NE(i)..
+ 224                           U_NE(i)   =e=     C(i)**alpha*(D(i)-D0)**beta*lei(i)**delta;
+****                                                        $148            $7    $203
+****   7  '(' expected
+**** 148  Dimension different - The symbol is referenced with more/less
+****         indices as declared
+**** 203  Too few arguments for function
+ 225  Welfare..
+ 226                           W         =e=     sum(i, U(i));      !!U('1')*0.92+U('2')*0.94+U('3')*0.96+U('4')*0.98+U('5')-xi*(Z_C+Z_D)**damexp;!!
+ 227  Welfare_NE..
+ 228                           W_NE      =e=     sum(i, U_NE(i));
+ 229  Dummy..
+ 230                           Z         =e=     0;
+****                                       $148
+**** 148  Dimension different - The symbol is referenced with more/less
+****         indices as declared
+ 231   
+ 232  model SG_MM /totalT,FirmProd1,FirmProd2,Firm1FOC1,Firm1FOC2,Firm2FOC1,Firm2FOC2,Copeland1,Copeland2,HHFOC1,HHFOC2,HHFOC3,GenEq_C,GenEq_D,numeraire,Tax,Inc_constraint,Utility,Utility_NE,Welfare_NE,Welfare,Dummy/;
+****                              $140      $140      $140      $140      $140      $140      $140      $140
+**** 140  Unknown symbol
+ 233  model SG_SP /totalT,FirmProd1,FirmProd2,Firm1FOC1,Firm1FOC2,Firm2FOC1,Firm2FOC2,Copeland1,Copeland2,HHFOC1,HHFOC2,HHFOC3,GenEq_C,GenEq_D,numeraire,Tax,Inc_constraint,Utility,Utility_NE,Welfare_NE,Welfare/;
+ 234  option nlp=conopt;
+ 235   
+ 236  ********************************************************************************
+ 237  *****                    Set additional variables                          *****
+ 238  ********************************************************************************
+ 239   
+ 240  gov_C.fx  = 1;
+****         $140
+**** 140  Unknown symbol
+ 241  gov_D.fx  = 1;
+****         $140
+**** 140  Unknown symbol
+ 242  T.fx(i)   =        24;         !! time endowment to each worker
+****        $171
+**** 171  Domain violation for set
+ 243  tau_P.fx  =        0;!!0.043;        !! fixed pre-existing carbon price (extraction cost or such)
+ 244   
+ 245   
+ 246   
+ 247  if (SWITCH_DetL0 eq 1,
+ 248   
+ 249           Execute_loadpoint 'sg-results_4_diff_and_L_opt_LOAD3.gdx';
+ 250   
+ 251   
+ 252           tau_P.lo       =     -10;
+ 253           tau_P.up       =     10;
+ 254           L.lo           =    -1e2;
+ 255           L.up           =     1e2;
+ 256           tau_w.lo(i)    =     -20;
+ 257           tau_w.up(i)    =     20;
+ 258   
+ 259           tau_D.fx       =      0;
+****                  $140
+**** 140  Unknown symbol
+ 260           tau_w_flat.fx=0;
+ 261   
+ 262           Solve SG_SP      maximizing w_NE using nlp;
+****                                                     $257
+**** 257  Solve statement not checked because of previous errors
+ 263           Solve SG_SP      maximizing w_NE using nlp;
+****                                                     $257
+**** 257  Solve statement not checked because of previous errors
+ 264           Solve SG_SP      maximizing w_NE using nlp;
+****                                                     $257
+**** 257  Solve statement not checked because of previous errors
+ 265   
+ 266   
+INCLUDE    /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+ 268  *************************** Calculate Parameters  ******************************
+ 269   
+ 270  Ztotal.l       = Z_C.l+Z_D.l;
+ 271  C_total.l      = sum(i,C.l(i));
+****          $140
+**** LINE      4 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 140  Unknown symbol
+ 272  D_total.l      = sum(i,D.l(i));
+****          $140
+**** LINE      5 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 140  Unknown symbol
+ 273  GDP.l           = F_C.l*pr_C.l + F_D.l*pr_D.l;
+****                               $141,142
+**** LINE      6 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+**** 142  No suffix allowed here - suffix ignored
+ 274  CbyD.l         = C_total.lo/D_total.lo;
+ 275  ConsPor_C.l(i) = C.l(i)/C_total.l;
+****            $140
+**** LINE      8 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 140  Unknown symbol
+ 276  ConsPor_D.l(i) = D.l(i)/D_total.l;
+****            $140
+**** LINE      9 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 140  Unknown symbol
+ 277  ConsPor_total.l(i) = (pr_C.l*C.l(i)+pr_D.l*D.l(i))/(pr_C.l*C_total.l+pr_D.l*D_total.l);
+****                             $142                          $142
+**** LINE     10 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 142  No suffix allowed here - suffix ignored
+ 278  Gini_C.l       = (1 - 2* ( 0.5*0.2*ConsPor_total.l('1')
+ 279                           + 0.5*0.2*ConsPor_total.l('2') + 0.2* ConsPor_total.l('1')
+ 280                           + 0.5*0.2*ConsPor_total.l('3') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2'))
+ 281                           + 0.5*0.2*ConsPor_total.l('4') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3'))
+ 282                           + 0.5*0.2*ConsPor_total.l('5') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3')+ ConsPor_total.l('4'))
+ 283  ))/0.8;
+ 284  ********************************************************************************
+ 285  UtilPor.l(i)   = U.l(i)/W.l;
+****                     $141   $141
+**** LINE     18 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+ 286  Gini_U.l       = (1 - 2* ( 0.5*0.2*UtilPor.l('1')
+ 287                           + 0.5*0.2*UtilPor.l('2') + 0.2* UtilPor.l('1')
+ 288                           + 0.5*0.2*UtilPor.l('3') + 0.2*(UtilPor.l('1')+ UtilPor.l('2'))
+ 289                           + 0.5*0.2*UtilPor.l('4') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3'))
+ 290                           + 0.5*0.2*UtilPor.l('5') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3')+ UtilPor.l('4'))
+ 291  ))/0.8;
+ 292  ********************************************************************************
+ 293  UtilPor_NE.l(i)   = U_NE.l(i)/W_NE.l;
+****                           $141      $141
+**** LINE     26 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+ 294  Gini_U_NE.l       = (1 - 2* ( 0.5*0.2*UtilPor_NE.l('1')
+ 295                           + 0.5*0.2*UtilPor_NE.l('2') + 0.2* UtilPor_NE.l('1')
+ 296                           + 0.5*0.2*UtilPor_NE.l('3') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2'))
+ 297                           + 0.5*0.2*UtilPor_NE.l('4') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3'))
+ 298                           + 0.5*0.2*UtilPor_NE.l('5') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3')+ UtilPor_NE.l('4'))
+ 299  ))/0.8;
+ 300  ********************************************************************************
+ 301  GovRev_pol.l$(tau_D.l eq 0) =  Ztotal.l*tau_p.l;   !!for pollution tax
+ 302  GovRev_pol.l$(tau_p.l eq 0) =  tau_D.l*pr_D.l*sum(i,D.l(i));   !!for output tax
+ 303   
+ 304  GovRev_LS.l          =  (-5)*L.l;
+ 305  GovRev_inc.l         =  wage.l*sum(i,(tau_w_preex(i)+tau_w_flat.l+tau_w.l(i))*phi(i)*(T.l(i)-lei.l(i)));
+****                                                                                             $171
+**** LINE     38 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 306   
+ 307  inc.l(i)         = phi(i)*wage.l*(T.l(i)-lei.l(i));
+****                                         $171
+**** LINE     40 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 308  ********************************************************************************
+ 309  ***** Suits index
+ 310   
+ 311  *suits_help.l(i)  = tau_w.l(i);  !! suits_help is set to zero if the hh receives subsidies (because burden is zero). it is set to its tax rate if the hh pays taxes.
+ 312   
+ 313  *loop(i,if((suits_help.l(i) lt 0), suits_help.l(i)=0*suits_help.l(i)));
+ 314   
+ 315  inc_tax_total_burden.l =  sum(i,wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) );
+****                                                                                                $171
+**** LINE     48 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 316   
+ 317  rel_cons.l(i)    =      ConsPor_total.l(i);    !! ( pr_C.l*C.l(i) + pr_D.l*D.l(i) )/(pr_C.l*C_total.l + pr_D.l*D_total.l);
+ 318  rel_burden.l(i)  =      (wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) )/( inc_tax_total_burden.l ) ;
+****                                                                                         $171
+**** LINE     51 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    267 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 319   
+ 320  suits.l            =    1-2*sum(i,rel_cons.l(i)*( rel_burden.l(i-1)+rel_burden.l(i)/2 ));!! 1 - 0.5*sum(i,( rel_cons.l(i)-rel_cons.l(i-1) ) + ( rel_burden.l(i) + rel_burden.l(i-1) ) )/5000;
+ 321  ********************************************************************************
+ 322           execute_unload 'sg-initial.gdx';
+ 323  )
+ 324   
+ 325  ************   Solution for both diff. and lump-sum  ********************
+ 326  if (SWITCH_Bench eq 1,
+ 327           Execute_loadpoint 'sg-results_4_diff_and_L_opt_LOAD3.gdx';
+ 328   
+ 329           xi             =     0.1;!!p_helper;
+ 330   
+ 331           L.lo           =     -1e1;
+ 332           L.up           =      1e1;
+ 333           tau_w.lo(i)    =     -20;
+ 334           tau_w.up(i)    =      20;
+ 335           tau_P.lo       =     -10;
+ 336           tau_P.up       =      10;
+ 337           tau_D.fx       =      0;
+ 338           tau_w_flat.fx=0;
+ 339   
+ 340           Solve SG_SP      maximizing w using nlp;
+****                                                  $257
+**** LINE    286 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 257  Solve statement not checked because of previous errors
+ 341           Solve SG_SP      maximizing w using nlp;
+****                                                  $257
+**** LINE    287 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 257  Solve statement not checked because of previous errors
+ 342           Solve SG_SP      maximizing w using nlp;
+****                                                  $257
+**** LINE    288 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 257  Solve statement not checked because of previous errors
+ 343   
+INCLUDE    /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+ 345  *************************** Calculate Parameters  ******************************
+ 346   
+ 347  Ztotal.l       = Z_C.l+Z_D.l;
+ 348  C_total.l      = sum(i,C.l(i));
+ 349  D_total.l      = sum(i,D.l(i));
+ 350  GDP.l           = F_C.l*pr_C.l + F_D.l*pr_D.l;
+****                               $142
+**** LINE      6 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    290 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 142  No suffix allowed here - suffix ignored
+ 351  CbyD.l         = C_total.lo/D_total.lo;
+ 352  ConsPor_C.l(i) = C.l(i)/C_total.l;
+ 353  ConsPor_D.l(i) = D.l(i)/D_total.l;
+ 354  ConsPor_total.l(i) = (pr_C.l*C.l(i)+pr_D.l*D.l(i))/(pr_C.l*C_total.l+pr_D.l*D_total.l);
+****                             $142                          $142
+**** LINE     10 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    290 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 142  No suffix allowed here - suffix ignored
+ 355  Gini_C.l       = (1 - 2* ( 0.5*0.2*ConsPor_total.l('1')
+ 356                           + 0.5*0.2*ConsPor_total.l('2') + 0.2* ConsPor_total.l('1')
+ 357                           + 0.5*0.2*ConsPor_total.l('3') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2'))
+ 358                           + 0.5*0.2*ConsPor_total.l('4') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3'))
+ 359                           + 0.5*0.2*ConsPor_total.l('5') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3')+ ConsPor_total.l('4'))
+ 360  ))/0.8;
+ 361  ********************************************************************************
+ 362  UtilPor.l(i)   = U.l(i)/W.l;
+ 363  Gini_U.l       = (1 - 2* ( 0.5*0.2*UtilPor.l('1')
+ 364                           + 0.5*0.2*UtilPor.l('2') + 0.2* UtilPor.l('1')
+ 365                           + 0.5*0.2*UtilPor.l('3') + 0.2*(UtilPor.l('1')+ UtilPor.l('2'))
+ 366                           + 0.5*0.2*UtilPor.l('4') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3'))
+ 367                           + 0.5*0.2*UtilPor.l('5') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3')+ UtilPor.l('4'))
+ 368  ))/0.8;
+ 369  ********************************************************************************
+ 370  UtilPor_NE.l(i)   = U_NE.l(i)/W_NE.l;
+ 371  Gini_U_NE.l       = (1 - 2* ( 0.5*0.2*UtilPor_NE.l('1')
+ 372                           + 0.5*0.2*UtilPor_NE.l('2') + 0.2* UtilPor_NE.l('1')
+ 373                           + 0.5*0.2*UtilPor_NE.l('3') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2'))
+ 374                           + 0.5*0.2*UtilPor_NE.l('4') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3'))
+ 375                           + 0.5*0.2*UtilPor_NE.l('5') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3')+ UtilPor_NE.l('4'))
+ 376  ))/0.8;
+ 377  ********************************************************************************
+ 378  GovRev_pol.l$(tau_D.l eq 0) =  Ztotal.l*tau_p.l;   !!for pollution tax
+ 379  GovRev_pol.l$(tau_p.l eq 0) =  tau_D.l*pr_D.l*sum(i,D.l(i));   !!for output tax
+ 380   
+ 381  GovRev_LS.l          =  (-5)*L.l;
+ 382  GovRev_inc.l         =  wage.l*sum(i,(tau_w_preex(i)+tau_w_flat.l+tau_w.l(i))*phi(i)*(T.l(i)-lei.l(i)));
+****                                                                                             $171
+**** LINE     38 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    290 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 383   
+ 384  inc.l(i)         = phi(i)*wage.l*(T.l(i)-lei.l(i));
+****                                         $171
+**** LINE     40 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    290 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 385  ********************************************************************************
+ 386  ***** Suits index
+ 387   
+ 388  *suits_help.l(i)  = tau_w.l(i);  !! suits_help is set to zero if the hh receives subsidies (because burden is zero). it is set to its tax rate if the hh pays taxes.
+ 389   
+ 390  *loop(i,if((suits_help.l(i) lt 0), suits_help.l(i)=0*suits_help.l(i)));
+ 391   
+ 392  inc_tax_total_burden.l =  sum(i,wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) );
+****                                                                                                $171
+**** LINE     48 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    290 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 393   
+ 394  rel_cons.l(i)    =      ConsPor_total.l(i);    !! ( pr_C.l*C.l(i) + pr_D.l*D.l(i) )/(pr_C.l*C_total.l + pr_D.l*D_total.l);
+ 395  rel_burden.l(i)  =      (wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) )/( inc_tax_total_burden.l ) ;
+****                                                                                         $171
+**** LINE     51 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    290 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 171  Domain violation for set
+ 396   
+ 397  suits.l            =    1-2*sum(i,rel_cons.l(i)*( rel_burden.l(i-1)+rel_burden.l(i)/2 ));!! 1 - 0.5*sum(i,( rel_cons.l(i)-rel_cons.l(i-1) ) + ( rel_burden.l(i) + rel_burden.l(i-1) ) )/5000;
+ 398  ********************************************************************************
+ 399           execute_unload 'sg-results_4_diff_and_L_opt.gdx';
+ 400  );
+ 401   
+ 402   
+ 403   
+ 404  *$ontext
+ 405  FILE out / 'output.put'/ ;
+ 406  !! file for differentiated labor tax cut
+ 407  out.pw = 4000;
+ 408  PUT out;
+ 409  PUT 'F_C',',','F_D',',','tau_p',',','L',',','gamma',',','epsilon',',','alpha',',','delta',',','xi',',','damexp',',','D0',',','T',',','T_C',',','T_D',',','Z_C',',','Z_D',',','Z_total',',','pr_C',',','pr_D',',','wage',',','C1',',','C2',',','C3',',','C
+      4',',','C5',',','D1',',','D2',',','D3',',','D4',',','D5',',','C_total',',','D_total',',','ConsPor_C1',',','ConsPor_C2',',','ConsPor_C3',',','ConsPor_C4',',','ConsPor_C5',',','ConsPor_D1',',','ConsPor_D2',',','ConsPor_D3',',','ConsPor_D4',',','ConsPo
+      r_D5',',','ConsPor_total1',',','ConsPor_total2',',','ConsPor_total3'
+ 410  ,',','ConsPor_total4',',','ConsPor_total5',',','UtilPor1',',','UtilPor2',',','UtilPor3',',','UtilPor4',',','UtilPor5',',','UtilPor1_NE',',','UtilPor2_NE',',','UtilPor3_NE',',','UtilPor4_NE',',','UtilPor5_NE',',','Gini_C',',','Gini_U',',','Gini_U_NE'
+      ,',','Welfare_E',',','Welfare_NE',',',
+ 411  'lei1',',','lei2',',','lei3',',','lei4',',','lei5',',','tau_w_1',',','tau_w_2',',','tau_w_3',',','tau_w_4',',','tau_w_5',',','U1',',','U2',',','U3',',','U4',',','U5',',','U1_NE',',','U2_NE',',','U3_NE',',','U4_NE',',','U5_NE';
+ 412  put /;
+ 413  PUT F_C.l:0:6,',',F_D.l:0:6,',',tau_p.l:0:12,',',L.l:0:6
+ 414  ,',',gamma:0:4,',',epsilon:0:4,',',alpha:0:4,',',delta:0:4,',',xi:0:4,',',damexp:0:4,',',D0:0:4,',',T.l('1'):0:4,',',T_C.l:0:4,',',T_D.l:0:4,',',Z_C.l:0:4,',',Z_D.l:0:4,',',Ztotal.l:0:4
+****                            $148          $148                                                              $170           $140          $140
+**** LINE    306 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 140  Unknown symbol
+**** 148  Dimension different - The symbol is referenced with more/less
+****         indices as declared
+**** 170  Domain violation for element
+ 415  ,',',pr_C.l:0:4,',',pr_D.l:0:4,',',wage.l:0:4,',',C.l('1'):0:4,',',C.l('2'):0:4,',',C.l('3'):0:4,',',C.l('4'):0:4,',',C.l('5'):0:4
+****            $567
+**** LINE    307 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+**** 567  No suffix for SET, PARAMETER, or ACRONYM allowed
+ 416  ,',',D.l('1'):0:4,',',D.l('2'):0:4,',',D.l('3'):0:4,',',D.l('4'):0:4,',',D.l('5'):0:4,',',C_total.l:0:4,',',D_total.l:0:4,',',ConsPor_C.l('1'):0:6,',',ConsPor_C.l('2'):0:6,',',ConsPor_C.l('3'):0:6,',',
+ 417  ConsPor_C.l('4'):0:6,',',ConsPor_C.l('5'):0:6,',',ConsPor_D.l('1'):0:6,',',ConsPor_D.l('2'):0:6,',',ConsPor_D.l('3'):0:6,',',ConsPor_D.l('4'):0:6,',',ConsPor_D.l('5'):0:6,',',ConsPor_total.l('1'):0:6,',',ConsPor_total.l('2'):0:6,',',ConsPor_total.l(
+      '3'):0:6,',',
+ 418  ConsPor_total.l('4'):0:6,',',ConsPor_total.l('5'):0:6,',',UtilPor.l('1'):0:6,',',UtilPor.l('2'):0:6,',',UtilPor.l('3'):0:6,',',UtilPor.l('4'):0:6,',',UtilPor.l('5'):0:6
+ 419  ,',',UtilPor_NE.l('1'):0:6,',',UtilPor_NE.l('2'):0:6,',',UtilPor_NE.l('3'):0:6,',',UtilPor_NE.l('4'):0:6,',',UtilPor_NE.l('5'):0:6
+ 420  ,',',gini_c.l:0:6,',',gini_u.l:0:6,',',gini_u_NE.l:0:6,',',W.l:0:6,',',W_NE.l:0:6,',',lei.l('1'):0:4,',',lei.l('2'):0:4,',',lei.l('3'):0:4,',',lei.l('4'):0:4,',',lei.l('5'):0:4,',',tau_w.l('1'):0:4
+ 421  ,',',tau_w.l('2'):0:4,',',tau_w.l('3'):0:4,',',tau_w.l('4'):0:4,',',tau_w.l('5'):0:4,',',U.l('1'):0:4,',',U.l('2'):0:4,',',U.l('3'):0:4,',',U.l('4'):0:4,',',U.l('5'):0:4
+ 422  ,',',U_NE.l('1'):0:4,',',U_NE.l('2'):0:4,',',U_NE.l('3'):0:4,',',U_NE.l('4'):0:4,',',U_NE.l('5'):0:4;
+ 423  PUTCLOSE out;
+ 424  *$offtext
+
+**** 76 ERROR(S)   0 WARNING(S)
+GAMS 30.1.0  re01a340 Released Jan 10, 2020 DEX-DEG x86 64bit/Mac OS X - 03/26/20 15:29:09 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+     2      267 INCLUDE        1     267  ./Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+     3      344 INCLUDE        1     290  ./Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+
+
+COMPILATION TIME     =        0.018 SECONDS      3 MB  30.1.0 re01a340 DEX-DEG
+
+
+USER: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+      University of Copenhagen, Denmark                        DL001455
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.gms
+Output     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_47goods.lst
+
+**** USER ERROR(S) ENCOUNTERED

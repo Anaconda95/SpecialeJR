@@ -1,0 +1,33 @@
+--- Job Klenert_precalibratedtax_13april_G_�ndret.gms Start 04/24/20 15:50:26 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenert_precalibratedtax_13april_G_�ndret.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\225b\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenert_precalibratedtax_13april_G_�ndret.gms(545) 3 Mb 1 Error
+*** Error 142 in C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenert_precalibratedtax_13april_G_�ndret.gms
+    No suffix allowed here - suffix ignored
+--- Klenert_precalibratedtax_13april_G_�ndret.gms(548) 3 Mb 2 Errors
+*** Error 257 in C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenert_precalibratedtax_13april_G_�ndret.gms
+    Solve statement not checked because of previous errors
+--- Klenert_precalibratedtax_13april_G_�ndret.gms(549) 3 Mb 3 Errors
+*** Error 257 in C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenert_precalibratedtax_13april_G_�ndret.gms
+    Solve statement not checked because of previous errors
+--- Klenert_precalibratedtax_13april_G_�ndret.gms(550) 3 Mb 4 Errors
+*** Error 257 in C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenert_precalibratedtax_13april_G_�ndret.gms
+    Solve statement not checked because of previous errors
+--- Klenert_precalibratedtax_13april_G_�ndret.gms(578) 3 Mb 4 Errors
+*** Status: Compilation error(s)
+--- Job Klenert_precalibratedtax_13april_G_�ndret.gms Stop 04/24/20 15:50:26 elapsed 0:00:00.098
+

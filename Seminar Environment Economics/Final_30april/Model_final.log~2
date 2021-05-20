@@ -1,0 +1,808 @@
+--- Job Model_final.gms Start 05/03/20 11:02:46 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\Model_final.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\225a\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Model_final.gms(566) 3 Mb
+--- call gdxmerge precali_before_ny.gdx precali_after_lumpanddiff.gdx precal_after_noredist.gdx precali_after_lump.gdx precali_after_unif.gdx precali_after_diff.gdx
+Output file: merged.gdx
+Reading file: precali_before_ny.gdx
+Reading file: precali_after_lumpanddiff.gdx
+Reading file: precal_after_noredist.gdx
+Reading file: precali_after_lump.gdx
+Reading file: precali_after_unif.gdx
+Reading file: precali_after_diff.gdx
+Merge complete, 6 input files merged
+--- Model_final.gms(567) 3 Mb
+--- Model_final.gms(599) 3 Mb
+--- Starting execution: elapsed 0:00:00.397
+--- Model_final.gms(408) 4 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_L0.gdx
+--- Generating NLP model SG_SP
+--- Model_final.gms(424) 6 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final.gms(424) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.506
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.2053592710E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        2.4069606985E-12 (After pre-processing)
+      2   0        2.2588569470E-12 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.21833436138
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2183343614E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(424) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:01.246
+--- Model_final.gms(408) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(425) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final.gms(425) 3 Mb
+--- Executing CONOPT: elapsed 0:00:01.339
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.4069606985E-12 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        2.4069606985E-12 (After pre-processing)
+      2   0        2.2588569470E-12 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.21833436138
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2183343614E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(425) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:01.596
+--- Model_final.gms(408) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(426) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final.gms(426) 3 Mb
+--- Executing CONOPT: elapsed 0:00:01.636
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.4069606985E-12 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        2.4069606985E-12 (After pre-processing)
+      2   0        2.2588569470E-12 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.21833436138
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2183343614E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(426) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:01.902
+--- Model_final.gms(408) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
+--- Model_final.gms(437) 3 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
+--- Model_final.gms(437) 4 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(454) 6 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(454) 4 Mb
+--- Executing CONOPT: elapsed 0:00:02.056
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2236221348E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        1.2199567358E+01 (After pre-processing)
+      2   0        1.1054593885E+01 (After scaling)
+     10   0     7  1.1054593885E+01               0.0E+00      F  F
+     20   0    17  1.1054593885E+01               0.0E+00      F  F
+     30   0    27  1.1054593885E+01               0.0E+00      F  F
+     40   0    37  1.1054593885E+01               0.0E+00      F  F
+     51   1    42  9.6282450509E+00 9.5E+00    45 2.3E-01    5 F  F
+     61   1    35  7.3178384398E+00 1.3E+01    39 5.1E-04      T  T
+     71   1    28  4.9372409574E+00 1.1E+01    31 3.7E-01    3 F  F
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     76   1    21  3.1198517458E+00 1.0E+00    26 1.0E+00    2 T  T
+     81   1    14  1.6610944151E+00 6.3E+00    17 2.9E-04      T  T
+     86   1     8  8.9287411354E-01 3.5E+00    11 3.0E-01    8 F  F
+     91   1     4  5.6069661515E-01 1.0E+00     8 1.7E-02      T  T
+ 
+ ** Feasible solution. Value of objective =    1.20334141681
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+    101   3        1.2111782705E+00 1.6E-02     1 1.0E+00    1 T  T
+    103   3        1.2111782708E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(454) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:02.484
+--- Model_final.gms(437) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(455) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(455) 3 Mb
+--- Executing CONOPT: elapsed 0:00:02.556
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.6514983705E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        4.6348883932E-14 (After pre-processing)
+      2   0        4.0062246055E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.21117827077
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2111782708E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(455) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:02.773
+--- Model_final.gms(437) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(456) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(456) 3 Mb
+--- Executing CONOPT: elapsed 0:00:02.928
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.6348883932E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        4.6348883932E-14 (After pre-processing)
+      2   0        4.0062246055E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.21117827077
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2111782708E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(456) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:03.153
+--- Model_final.gms(437) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_lumpanddiff.gdx
+GDX2XLS          30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+Output file: C:\Users\Dedin\K�benhavns Universit
+Output file: C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_lumpanddiff.xlsx
+(Created backup file)
+--- Model_final.gms(463) 3 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
+--- Model_final.gms(463) 4 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(476) 6 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(476) 4 Mb
+--- Executing CONOPT: elapsed 0:00:19.323
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2236221348E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        1.2199567358E+01 (After pre-processing)
+      2   0        1.1054593885E+01 (After scaling)
+     10   0     7  1.1054593885E+01               0.0E+00      F  F
+     20   0    17  1.1054593885E+01               0.0E+00      F  F
+     30   0    27  1.1054593885E+01               0.0E+00      F  F
+     40   0    37  1.1054593885E+01               0.0E+00      F  F
+     51   1    43  8.9968267552E+00 3.9E+01    46 3.2E-01    5 F  F
+     56   1    39  7.9089603503E+00 1.4E+01    42 5.9E-01    3 F  F
+     61   1    35  6.8044886799E+00 1.6E+01    39 2.7E-04      T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     71   1    30  5.0785091193E+00 5.6E+00    33 2.7E-01    6 F  F
+     81   1    22  3.2556055843E+00 1.0E+00    25 3.8E-01    7 F  F
+     86   1    12  1.4155823399E+00 3.3E+00    15 7.6E-01    4 T  T
+     91   1     5  3.5305405818E-02 9.5E-01     8 9.4E-01    9 F  F
+ 
+ ** Feasible solution. Value of objective =    1.21105892186
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     94   3        1.2111782708E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(476) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:19.973
+--- Model_final.gms(463) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(477) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(477) 3 Mb
+--- Executing CONOPT: elapsed 0:00:20.039
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.2972160158E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        3.2056226163E-14 (After pre-processing)
+      2   0        2.4298542779E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.21117827077
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2111782708E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(477) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:20.247
+--- Model_final.gms(463) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(478) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(478) 3 Mb
+--- Executing CONOPT: elapsed 0:00:20.303
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.2056226163E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        3.2056226163E-14 (After pre-processing)
+      2   0        2.4298542779E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.21117827077
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2111782708E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(478) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:20.547
+--- Model_final.gms(463) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_diff.gdx
+--- Model_final.gms(485) 3 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
+--- Model_final.gms(485) 4 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(500) 6 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(500) 4 Mb
+--- Executing CONOPT: elapsed 0:00:20.642
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2236221348E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        1.2199567358E+01 (After pre-processing)
+      2   0        1.1054593885E+01 (After scaling)
+     10   0     7  1.1054593885E+01               0.0E+00      F  F
+     20   0    17  1.1054593885E+01               0.0E+00      F  F
+     30   0    27  1.1054593885E+01               0.0E+00      F  F
+     40   0    37  1.1054593885E+01               0.0E+00      F  F
+     46   1    41  9.2800626894E+00 2.7E+00    40 6.4E-01    3 T  T
+     51   1    38  8.0172624315E+00 2.9E+01    37 2.3E-05      T  T
+     61   1    31  6.0210507208E+00 6.2E+00    29 3.1E-01    3 F  F
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     71   1    22  3.7075699286E+00 3.8E+00    23 1.0E+00    3 T  T
+     81   1    13  1.2723575064E+00 3.5E+00    11 7.4E-01    6 F  F
+     91   1     4  3.4182941786E-01 1.0E+00     3 6.0E-01    3 T  T
+ 
+ ** Feasible solution. Value of objective =    1.20432556191
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     94   3        1.2043255620E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(500) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:21.041
+--- Model_final.gms(485) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(501) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(501) 3 Mb
+--- Executing CONOPT: elapsed 0:00:21.103
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.6971917498E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        4.0517692283E-14 (After pre-processing)
+      2   0        2.9762406732E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.20432556195
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2043255620E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(501) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:21.316
+--- Model_final.gms(485) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(502) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(502) 3 Mb
+--- Executing CONOPT: elapsed 0:00:21.389
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.0517692283E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        4.0517692283E-14 (After pre-processing)
+      2   0        2.9762406732E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.20432556195
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2043255620E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(502) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:21.620
+--- Model_final.gms(485) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_unif.gdx
+--- Model_final.gms(509) 3 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
+--- Model_final.gms(509) 4 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(526) 6 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(526) 4 Mb
+--- Executing CONOPT: elapsed 0:00:21.738
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2236221348E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        1.2199567358E+01 (After pre-processing)
+      2   0        1.1054577422E+01 (After scaling)
+     10   0     6  1.0985666330E+01               0.0E+00      F  F
+     20   0    16  1.0985666330E+01               0.0E+00      F  F
+     30   0    26  1.0985666330E+01               0.0E+00      F  F
+     40   0    36  1.0985666330E+01               0.0E+00      F  F
+     51   1    38  6.4786346392E+00 1.1E+01    36 3.8E-01    4 F  F
+     61   1    31  4.0782817224E+00 3.1E+00    29 3.4E-01    6 F  F
+     66   1    15  2.6804614923E+00 1.0E+00    24 1.0E+00   11 T  T
+ 
+ ** Feasible solution. Value of objective =    1.20410841009
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     71   3        1.2041084099E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(526) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:22.234
+--- Model_final.gms(509) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(527) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(527) 3 Mb
+--- Executing CONOPT: elapsed 0:00:22.316
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.6882606344E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        3.5723811062E-14 (After pre-processing)
+      2   0        2.8174294495E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.20410840995
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2041084099E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(527) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:22.551
+--- Model_final.gms(509) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(528) 5 Mb
+---   447 rows  414 columns  3,679 non-zeroes
+---   7,598 nl-code  2,843 nl-non-zeroes
+--- Model_final.gms(528) 3 Mb
+--- Executing CONOPT: elapsed 0:00:22.664
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.5723811062E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        3.5723811062E-14 (After pre-processing)
+      2   0        2.8174294495E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.20410840995
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2041084099E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(528) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:23.009
+--- Model_final.gms(509) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_lump.gdx
+--- Model_final.gms(537) 3 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
+--- Model_final.gms(537) 4 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(557) 6 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final.gms(557) 4 Mb
+--- Executing CONOPT: elapsed 0:00:23.131
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2202457604E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        1.2202457604E+01 (After pre-processing)
+      2   0        1.1055733520E+01 (After scaling)
+     10   0     6  1.1055733520E+01               0.0E+00      F  F
+     20   0    16  1.1055733520E+01               0.0E+00      F  F
+     30   0    26  1.1055733520E+01               0.0E+00      F  F
+     40   0    36  1.1055733520E+01               0.0E+00      F  F
+     51   1    40  8.3386978192E+00 1.4E+01    39 7.0E-01    1 T  T
+     56   1    36  6.3759258411E+00 9.0E+00    35 6.2E-01    2 T  T
+     61   1    28  4.4112687255E+00 9.3E+00    30 1.0E+00    4 T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     71   1    23  3.0681860482E+00 5.2E+00    21 7.2E-01    2 F  F
+     81   1    11  1.4789114350E+00 1.5E+00    10 4.5E-01    8 T  T
+ 
+ ** Feasible solution. Value of objective =    1.17667318016
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     86   3        1.1766731797E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(557) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:23.652
+--- Model_final.gms(537) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(558) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final.gms(558) 3 Mb
+--- Executing CONOPT: elapsed 0:00:23.784
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.8442803588E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        4.8956281737E-14 (After pre-processing)
+      2   0        3.5585033184E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.17667317970
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1766731797E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(558) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:24.124
+--- Model_final.gms(537) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final.gms(559) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final.gms(559) 3 Mb
+--- Executing CONOPT: elapsed 0:00:24.223
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.8956281737E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        4.8956281737E-14 (After pre-processing)
+      2   0        3.5585033184E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.17667317970
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1766731797E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final.gms(559) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:24.462
+--- Model_final.gms(537) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precal_after_noredist.gdx
+--- Model_final.gms(568) 3 Mb
+GDX2XLS          30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+Output file: C:\Users\Dedin\K�benhavns Universit
+Output file: C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\merged.xlsx
+(Created backup file)
+gdx2xls error: Metoden
+gdx2xls error: Metoden SaveAs for klassen Workbook mislykkedes
+*** Status: Normal completion
+--- Job Model_final.gms Stop 05/03/20 11:03:26 elapsed 0:00:39.521
+

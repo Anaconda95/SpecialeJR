@@ -1,0 +1,152 @@
+--- Job SG_model_Copeland_CES.gms Start 04/09/20 12:23:14 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\GAMS code from Klenert\model\SG_model_Copeland_CES.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\GAMS code from Klenert\model\225a\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- SG_model_Copeland_CES.gms(15) 3 Mb
+--- . SG_variables_params.inc(134) 3 Mb
+--- SG_model_Copeland_CES.gms(139) 3 Mb
+--- . SG_calculate_ginis_etc.inc(54) 3 Mb
+--- SG_model_Copeland_CES.gms(162) 3 Mb
+--- . SG_calculate_ginis_etc.inc(54) 3 Mb
+--- SG_model_Copeland_CES.gms(188) 3 Mb
+--- Starting execution: elapsed 0:00:00.064
+--- SG_model_Copeland_CES.gms(253) 4 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\GAMS code from Klenert\model\sg-results_4_diff_and_L_opt_LOAD3.gdx
+--- Generating NLP model SG_SP
+--- SG_model_Copeland_CES.gms(268) 6 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- SG_model_Copeland_CES.gms(268) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.124
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.1277044327E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     6
+ 
+      1   0        4.0465861988E+00 (After pre-processing)
+      2   0        1.8434448239E+00 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    8.27554325189
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     11   3        8.3290137146E+00 1.1E+00     6 1.2E-01    1 F  F
+     21   3        8.6725996227E+00 8.0E+00     6 5.5E-05      F  F
+     31   3        9.1187419729E+00 9.4E-02     4 9.7E-02      F  F
+     41   3        9.1477251802E+00 3.0E+00     4 1.8E-04      F  F
+     46   3        9.2438450264E+00 2.9E-03     1 6.4E-03    1 F  T
+     50   4        9.2438454086E+00 3.5E-10     1
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- SG_model_Copeland_CES.gms(268) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.366
+--- SG_model_Copeland_CES.gms(253) 3 Mb
+--- Generating NLP model SG_SP
+--- SG_model_Copeland_CES.gms(269) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- SG_model_Copeland_CES.gms(269) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.400
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.1934897515E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     6
+ 
+      1   0        1.2434497876E-14 (After pre-processing)
+      2   0        3.8857805862E-15 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.24384540856
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        9.2438454086E+00 3.5E-10     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- SG_model_Copeland_CES.gms(269) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.621
+--- SG_model_Copeland_CES.gms(253) 3 Mb
+--- Generating NLP model SG_SP
+--- SG_model_Copeland_CES.gms(270) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- SG_model_Copeland_CES.gms(270) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.735
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.3322676296E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     6
+ 
+      1   0        1.2434497876E-14 (After pre-processing)
+      2   0        3.8857805862E-15 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.24384540856
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        9.2438454086E+00 3.5E-10     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- SG_model_Copeland_CES.gms(270) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:01.015
+--- SG_model_Copeland_CES.gms(253) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\GAMS code from Klenert\model\sg-initial.gdx
+--- SG_model_Copeland_CES.gms(429) 3 Mb
+--- Putfile out C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\GAMS code from Klenert\model\output.put
+*** Status: Normal completion
+--- Job SG_model_Copeland_CES.gms Stop 04/09/20 12:23:15 elapsed 0:00:01.062
+

@@ -1,0 +1,145 @@
+--- Job Klenertmodel_41goods_7april.gms Start 04/09/20 11:52:20 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenertmodel_41goods_7april.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\225b\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_41goods_7april.gms(471) 3 Mb
+--- Starting execution: elapsed 0:00:00.026
+--- Klenertmodel_41goods_7april.gms(393) 4 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\sg-initial_41goods_danish.gdx
+--- Generating NLP model SG_SP
+--- Klenertmodel_41goods_7april.gms(415) 6 Mb
+---   440 rows  405 columns  3,287 non-zeroes
+---   7,331 nl-code  2,705 nl-non-zeroes
+--- Klenertmodel_41goods_7april.gms(415) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.124
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4737999775E-12 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        1.4737444663E-12 (After pre-processing)
+      2   0        5.2933325041E-13 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.26833672395
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2683367240E+00 2.5E-08     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_41goods_7april.gms(415) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.346
+--- Klenertmodel_41goods_7april.gms(393) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_41goods_7april.gms(416) 5 Mb
+---   440 rows  405 columns  3,287 non-zeroes
+---   7,331 nl-code  2,705 nl-non-zeroes
+--- Klenertmodel_41goods_7april.gms(416) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.406
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4737444663E-12 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        1.4737444663E-12 (After pre-processing)
+      2   0        5.2933325041E-13 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.26833672395
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2683367240E+00 2.5E-08     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_41goods_7april.gms(416) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.732
+--- Klenertmodel_41goods_7april.gms(393) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_41goods_7april.gms(417) 5 Mb
+---   440 rows  405 columns  3,287 non-zeroes
+---   7,331 nl-code  2,705 nl-non-zeroes
+--- Klenertmodel_41goods_7april.gms(417) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.796
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4737444663E-12 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        1.4737444663E-12 (After pre-processing)
+      2   0        5.2933325041E-13 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.26833672395
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.2683367240E+00 2.5E-08     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_41goods_7april.gms(417) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:01.083
+--- Klenertmodel_41goods_7april.gms(393) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\sg-initial_41goods_danish2.gdx
+GDX2XLS          30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+Output file: C:\Users\Dedin\K�benhavns Universit
+Output file: C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\sg-initial_41goods_danish2.xlsx
+Shell Execute    30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+Den angivne fil blev ikke fundet
+--- Klenertmodel_41goods_7april.gms(427) 3 Mb
+*** Status: Normal completion
+--- Job Klenertmodel_41goods_7april.gms Stop 04/09/20 11:52:39 elapsed 0:00:19.089
+

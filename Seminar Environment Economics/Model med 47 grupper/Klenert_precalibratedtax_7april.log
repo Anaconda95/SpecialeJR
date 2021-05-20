@@ -1,0 +1,151 @@
+--- Job Klenert_precalibratedtax_7april.gms Start 04/09/20 12:26:34 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenert_precalibratedtax_7april.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225b/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenert_precalibratedtax_7april.gms(578) 3 Mb
+--- Starting execution: elapsed 0:00:00.011
+--- Klenert_precalibratedtax_7april.gms(532) 4 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial_precali_41g_test4.gdx
+--- Generating NLP model SG_ALTTAX
+--- Klenert_precalibratedtax_7april.gms(547) 6 Mb
+---   440 rows  406 columns  3,251 non-zeroes
+---   7,343 nl-code  2,669 nl-non-zeroes
+--- Klenert_precalibratedtax_7april.gms(547) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.028
+*** Error at line 547: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_7april.gms(547) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        8.5428866549E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        8.5428866549E+01 (After pre-processing)
+      2   0        4.1118379405E+01 (After scaling)
+     10   0     9  4.1108502286E+01               0.0E+00      F  F
+     20   0    19  4.1108502286E+01               0.0E+00      F  F
+     30   0    29  4.1108502286E+01               0.0E+00      F  F
+     40   0    39  4.1108502286E+01               0.0E+00      F  F
+     51   1    42  3.8382146745E+01 4.0E+01    39 4.4E-01    3 F  F
+     61   1    37  2.9876375382E+01 1.2E+01    35 9.2E-04      T  T
+     71   1    33  2.3673353776E+01 1.3E+01    31 6.5E-04      T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     76   1    28  1.8994523050E+01 3.0E+00    27 1.0E+00    2 T  T
+     81   1    26  1.3839988115E+01 1.0E+00    23 3.8E-01    2 F  F
+     91   1    16  1.2100561318E+01 1.0E+00    14 3.7E-02      T  T
+    101   1     8  5.4528329133E+00 1.1E+00     7 1.0E+00    2 T  T
+    111   1     2  1.1092400489E+00 1.0E+00     1 1.8E-01      T  T
+    113   1     2  1.1092400489E+00 0.0E+00     0
+ 
+ ** Infeasible solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_7april.gms(547) 2 Mb
+--- Reading solution for model SG_ALTTAX
+--- Executing after solve: elapsed 0:00:00.571
+--- Klenert_precalibratedtax_7april.gms(532) 3 Mb
+--- Generating NLP model SG_ALTTAX
+--- Klenert_precalibratedtax_7april.gms(548) 5 Mb
+---   440 rows  406 columns  3,251 non-zeroes
+---   7,343 nl-code  2,669 nl-non-zeroes
+--- Klenert_precalibratedtax_7april.gms(548) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.587
+*** Error at line 548: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_7april.gms(548) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.4737642711E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        6.4737642711E+00 (After pre-processing)
+      2   0        1.1092400489E+00 (After scaling)
+      3   1     2  1.1092400489E+00 0.0E+00     0
+ 
+ ** Infeasible solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_7april.gms(548) 2 Mb
+--- Reading solution for model SG_ALTTAX
+--- Executing after solve: elapsed 0:00:00.656
+--- Klenert_precalibratedtax_7april.gms(532) 3 Mb
+--- Generating NLP model SG_ALTTAX
+--- Klenert_precalibratedtax_7april.gms(549) 5 Mb
+---   440 rows  406 columns  3,251 non-zeroes
+---   7,343 nl-code  2,669 nl-non-zeroes
+--- Klenert_precalibratedtax_7april.gms(549) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.671
+*** Error at line 549: Could not find ShortName for International Characters
+--- Klenert_precalibratedtax_7april.gms(549) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.4737642711E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     45
+ 
+      1   0        6.4737642711E+00 (After pre-processing)
+      2   0        1.1092400489E+00 (After scaling)
+      3   1     2  1.1092400489E+00 0.0E+00     0
+ 
+ ** Infeasible solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Klenert_precalibratedtax_7april.gms(549) 2 Mb
+--- Reading solution for model SG_ALTTAX
+--- Executing after solve: elapsed 0:00:00.757
+--- Klenert_precalibratedtax_7april.gms(532) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-precal_noredist_test4.gdx
+*** Error at line 553: Execute has nonzero return code RC=1
+--- Klenert_precalibratedtax_7april.gms(532) 3 Mb 1 Error
+*** Error at line 554: Execute has nonzero return code RC=1
+--- Klenert_precalibratedtax_7april.gms(532) 3 Mb 2 Errors
+*** Status: Execution error(s)
+--- Job Klenert_precalibratedtax_7april.gms Stop 04/09/20 12:26:35 elapsed 0:00:00.770
+

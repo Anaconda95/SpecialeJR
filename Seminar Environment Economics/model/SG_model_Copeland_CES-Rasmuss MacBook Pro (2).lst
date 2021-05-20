@@ -1,0 +1,522 @@
+GAMS 30.1.0  re01a340 Released Jan 10, 2020 DEX-DEG x86 64bit/Mac OS X - 03/16/20 15:02:28 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   2  ********************************************************************************
+   3  * Model for assessing the distributional impacts of different revenue recycling*
+   4  *  schemes when accounting for pollution-intensive subsistence consumption     *
+   5  *  with Stone-Geary utility functions.                                         *                 *
+   6  *                                                                              *
+   7  * David Klenert, 2014-2015,  Potsdam Institute for Climate Impact Research     *
+   8  ********************************************************************************
+   9   
+  10  * Pure optimal taxation version
+  11   
+  12  SETS
+  13  i              income quintiles                           / 1*5/
+  14   
+INCLUDE    /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_variables_params.inc
+  16  Variables
+  17  * firm
+  18  T_C            labor time in clean production
+  19  T_D            labor time in dirty production
+  20  T_Z            private (labor) costs of pollution
+  21  Z_C            pollution in clean production
+  22  Z_D            pollution in dirty production
+  23  Ztotal         total pollution
+  24  wage           rental price labor
+  25   
+  26  F_C            clean production
+  27  F_D            dirty production
+  28   
+  29  pr_C           price of clean good
+  30  pr_D           price of dirty good
+  31   
+  32  T(i)           total time endowment of agents
+  33  P              total pollution
+  34   
+  35  * households
+  36  a              help param
+  37  C(i)           amount of clean good consumed by hh i
+  38  D(i)           amount of dirty good consumed by hh i
+  39  E(i)           generic consumption good
+  40  lei(i)         leisure of hh i
+  41  inc            gross income
+  42   
+  43  * government
+  44  gC
+  45  gD
+  46  U(i)           Utility (with environmental component)
+  47  U_NE           Non-environmental utility
+  48  L              Lump-sum transfers
+  49  Rev            Tax revenue government
+  50  W              Welfare
+  51  W_NE           Non-environmental welfare
+  52  Gov_C          Government consumption clean
+  53  Gov_D          Government consumption polluting
+  54  tau_D          tax on polluting output
+  55  tau_P          pollution tax
+  56  tau_w(i)       non-linear income tax
+  57  tau_w_flat     flat income tax rebate
+  58  * tau_w_preex(i) temporary as a variable    !! comment this when not calculating the optimal pre-existing income tax
+  59  * gov_share      government share of output   !! comment this when not calculating the optimal pre-existing government consumption share
+  60  GovRev_pol     Government revenue from pollution taxes
+  61  GovRev_LS      Government revenue from lump-sum taxes
+  62  GovRev_inc     Government revenue from income taxes
+  63   
+  64   
+  65  * post processing
+  66  C_total        Total clean consumption
+  67  D_total        Total polluting consumption
+  68  GDP            Sum of all goods multiplied by the prices
+  69  CbyD           Ratio clean to polluting consumption
+  70  ConsPor_C(i)   Clean consumption share
+  71  ConsPor_D(i)   Polluting consumption share
+  72  ConsPor_total(i) Total consumption share
+  73  UtilPor(i)     Utility share
+  74  UtilPor_NE     Utility share non-environmental
+  75  gini_C         Gini coefficient consumption
+  76  gini_u         Gini coefficient utility
+  77  Gini_U_NE      Gini coefficient non-environmental utility
+  78  rel_cons       Relative share of consumption of hh i
+  79  rel_burden     Relative income tax burden of hh i
+  80  suits_help     helping variable when calculating suits index
+  81  suits          Suits index of income tax system
+  82  inc_tax_total_burden total tax burden for calculating suits index
+  83   
+  84  Z              Dummy variable for market solution
+  85  ;
+  86   
+  87  Parameters
+  88  * firm
+  89  gamma          labor intensity clean production
+  90  epsilon        labor intensity dirty production
+  91  s              elasticity of substitution btw. labor and pollution
+  92  r              CES Parameter
+  93  A_C            technical change clean production
+  94  A_D            technical change dirty production
+  95  x              parameter for labor intensity of pollution in production
+  96  omega          factor in production before pollution
+  97   
+  98  * households
+  99  alpha          share of clean consumption in utility
+ 100  beta           share of dirty consumption in utility
+ 101  delta          leisure exponent in utility
+ 102  D0             subsistence level of dirty good consumption
+ 103  C0
+ 104   
+ 105  * government
+ 106  xi             damage parameter
+ 107  min            minimum value of variables
+ 108  damexp         exponent of damage function
+ 109  p_helper       scan parameter for communication with R
+ 110  gov_spdg       government spending requirement
+ 111   
+ 112   
+ 113  * model operation
+ 114  SWITCH_Diff    activate differentiated income tax cuts
+ 115  SWITCH_Unif    activate uniform income tax cuts
+ 116  SWITCH_ULS     activate uniform lump-sum transfers
+ 117  SWITCH_UnifULS activate uniform income tax cuts plus ULS
+ 118  SWITCH_Bench
+ 119  SWITCH_opttax  activate social planner solution and the determination of optimal carbon taxes
+ 120  SWITCH_optInctax calculate optimal preexisting income tax
+ 121  SWITCH_optGovBud calculate optimal government budget for a given pre-existing income tax system
+ 122  SWITCH_DetL0   determine the L0 for the actual system
+ 123  SWITCH_opttaxsys determine optimal preexisting tax system
+ 124  SWITCH_OUT     activate output tax instead of pollution tax
+ 125  ;
+ 126   
+ 127  ********************************************************************************
+ 128  *****                     Set model parameters                             *****
+ 129  ********************************************************************************
+ 130   
+ 131  *New Benchmark with priv cost
+ 132  gamma     = 0.995;    epsilon     = 0.92;      A_C     = 1;     A_D         = 1;    !!epsilon     = 0.92;
+ 133  alpha     = 0.7;     beta        = 0.2;      delta   = 0.2;   gov_spdg    = 5;
+ 134  D0        = 0.5;     min         = 1e-9;     xi      = 0.1;  damexp      = 1.0;    !!xi      = 0.05; for 2nd best
+ 135  s         = 0.5;     x           = 1;
+ 136  r         = 1-1/s;   omega       = 1;
+ 137   
+ 138  *Benchmark standard model
+ 139  *gamma     = 0.95;    epsilon     = 0.5;      A_C     = 1;     A_D         = 1;
+ 140  *alpha     = 0.7;     beta        = 0.2;      delta   = 0.2;   gov_spdg    = 8.696;
+ 141  *D0        = 0.5;     min         = 1e-9;     xi      = 0.02;  damexp      = 1.1;
+ 142  *s         = 0.9;     x           = 0.08;
+ 143   
+ 144  *Benchmark with priv cost
+ 145  *gamma     = 0.95;    epsilon     = 0.5;      A_C     = 1;     A_D         = 1;
+ 146  *alpha     = 0.6;     beta        = 0.25;      delta   = 0.2;  gov_spdg    = 1;!!8.696;
+ 147  *D0        = 0.25;     min         = 1e-9;     xi      = 0.2;  damexp      = 1.1;
+ 148  *s         = 0.9;     x           = 0.08;
+ 149  *r         = 1-1/s;
+ 150  ********************************************************************************
+ 151  *****                      Set model switches                              *****
+ 152  ********************************************************************************
+ 153  Switch_Bench     =       1; !! after environmental tax reform
+ 154  SWITCH_DetL0     =       0; !! before environmental tax reform
+ 155   
+ 156  ********************************************************************************
+ 157  *****                     Set model parameters                             *****
+ 158  ********************************************************************************
+ 159   
+ 160  p_helper=0.1;
+ 161   
+ 162  Parameter phi(i)          productivity of individual households
+ 163                  /1 0.03,
+ 164                   2 0.0825,
+ 165                   3 0.141,
+ 166                   4 0.229,
+ 167                   5 0.511/;
+ 168  Parameter tau_w_preex(i);
+ 169  tau_w_preex(i) = 0;
+ 170   
+ 171  Set
+ 172    j 'good' /CLEAN, DIRT/;
+ 173   
+ 174  ********************************************************************************
+ 175  *****                 Set limits and starting values                       *****
+ 176  ********************************************************************************
+ 177  * Limits
+ 178  L.lo     =       min;    T_C.lo   =       min;   T_D.lo   =       min;   Z_C.lo   =       min;   Z_D.lo   =       min;
+ 179  F.lo(j)   =       min;    pr_C.lo  =       min;   pr_D.lo  =       min;   wage.lo  =       min;
+****     $140
+**** LINE     45 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 140  Unknown symbol
+ 180  lei.lo(i)=       min;   lei.up(i)=       24-1e-9;                       C.lo(i)  =       min;
+ 181  D.lo(i)  =       D0+min;     tau_w.up(i)=     0;
+ 182  *Starting values
+ 183  C.l(i)=0.4;
+ 184  *tau_w.l(i)=-0.4;
+ 185   
+ 186  * Setting lower bounds to avoid division by zero
+ 187  !!X.lo(i)   = 0.001;
+ 188  !!F.lo(h,j) = 0.001;
+ 189  !!Z.lo(j)   = 0.001;
+ 190  !!px.lo(i)  = 0.001;
+ 191  !!pz.lo(j)  = 0.001;
+ 192  !!pf.lo(h)  = 0.001;
+ 193   
+ 194   
+ 195  Equations
+ 196   
+ 197  FirmProd1,FirmProd2,totalT,Firm1FOC1,Firm1FOC2,Firm2FOC1,Firm2FOC2,Copeland1,Copeland2,HHFOC1(i),HHFOC2(i),HHFOC3(i),numeraire,
+ 198  GenEq_C,GenEq_D,Utility,Welfare,Tax,Inc_constraint,Dummy,Utility_NE,Welfare_NE
+ 199  ;
+ 200  **********************************Firms*****************************************
+ 201  FirmProd1..
+ 202                           F_C                   =e=     A_C * (gamma*T_C**r   + (1-gamma)  *Z_C**r)**(1/r);    !!A_C*T_C**gamma*Z_C**(1-gamma);
+ 203  FirmProd2..
+ 204                           F_D                   =e=     A_D * (epsilon*T_D**r + (1-epsilon)*Z_D**r)**(1/r);      !!A_D*T_D**epsilon*Z_D**(1-epsilon);
+ 205  Firm1FOC1..
+ 206                           wage                  =e=     gamma      *T_C**(r-1)*F_C**(1-r)*pr_C;
+ 207  Firm1FOC2..
+ 208                           tau_P                 =e=     (1-gamma)  *Z_C**(r-1)*F_C**(1-r)*pr_C;
+ 209  Firm2FOC1..
+ 210                           wage                  =e=     epsilon    *T_D**(r-1)*F_D**(1-r)*pr_D;
+ 211  Firm2FOC2..
+ 212                           tau_P                 =e=     (1-epsilon)*Z_D**(r-1)*F_D**(1-r)*pr_D;
+ 213  totalT..
+ 214                           0                     =e=     T_C + T_D -sum(i,phi(i)*(T(i)-lei(i)));
+ 215  Copeland1..
+ 216                           Z_C                   =l=     x*T_C ;
+ 217  Copeland2..
+ 218                           Z_D                   =l=     x*T_D ;
+ 219  ********************************Households**************************************
+ 220  HHFOC1(i)..
+ 221                           pr_C*C(i)             =e= alpha/beta*(D(i)-D0)*pr_D;
+ 222  HHFOC2(i)..
+ 223                           pr_D*(D(i)-D0)        =e= beta/delta*lei(i)*( (1-tau_w(i))*phi(i)*wage );
+ 224  HHFOC3(i)..
+ 225                           C(i)*pr_C + D(i)*pr_D =e= (1-tau_w(i))*phi(i)*wage*(T(i)-lei(i)) + L;
+ 226  ******************************Market clearing***********************************
+ 227  numeraire..
+ 228                           wage      =e=     1;
+ 229  GenEq_C..
+ 230                           F_C       =e=     sum(i,C(i))+gov_spdg/(pr_C*2);!!*sum(i,C(i))/(sum(i,C(i))+sum(i,D(i)));!! F_C; !!
+ 231  GenEq_D..
+ 232                           F_D       =e=     sum(i,D(i))+gov_spdg/(pr_D*2);!!*sum(i,D(i))/(sum(i,C(i))+sum(i,D(i)));!!  *F_D; !!
+ 233  ********************************Government**************************************
+ 234  Tax..
+ 235                           Gov_spdg =e=     (tau_p)*(Z_C+Z_D) + wage*sum(i,tau_w(i)*phi(i)*(T(i)-lei(i))) - 5*L; !!
+ 236  Inc_constraint(i)$(ord(i) lt 5)..
+ 237                           U(i+1)    =g=     C(i)**alpha*(D(i)-D0)**beta*( T(i)-( C(i)*pr_C + D(i)*pr_D  -L )/( (1-tau_w(i))*phi(i+1)*wage ) )**delta-xi*(Z_C+Z_D)**damexp;!! Gregor approach
+ 238  Utility(i)..
+ 239                           U(i)      =e=     C(i)**alpha*(D(i)-D0)**beta*lei(i)**delta - xi*(Z_C+Z_D)**damexp;
+ 240  Utility_NE(i)..
+ 241                           U_NE(i)   =e=     C(i)**alpha*(D(i)-D0)**beta*lei(i)**delta;
+ 242  Welfare..
+ 243                           W         =e=     sum(i, U(i));      !!U('1')*0.92+U('2')*0.94+U('3')*0.96+U('4')*0.98+U('5')-xi*(Z_C+Z_D)**damexp;!!
+ 244  Welfare_NE..
+ 245                           W_NE      =e=     sum(i, U_NE(i));
+ 246  Dummy..
+ 247                           Z         =e=     0;
+ 248   
+ 249  model SG_MM /totalT,FirmProd1,FirmProd2,Firm1FOC1,Firm1FOC2,Firm2FOC1,Firm2FOC2,Copeland1,Copeland2,HHFOC1,HHFOC2,HHFOC3,GenEq_C,GenEq_D,numeraire,Tax,Inc_constraint,Utility,Utility_NE,Welfare_NE,Welfare,Dummy/;
+ 250  model SG_SP /totalT,FirmProd1,FirmProd2,Firm1FOC1,Firm1FOC2,Firm2FOC1,Firm2FOC2,Copeland1,Copeland2,HHFOC1,HHFOC2,HHFOC3,GenEq_C,GenEq_D,numeraire,Tax,Inc_constraint,Utility,Utility_NE,Welfare_NE,Welfare/;
+ 251  option nlp=conopt;
+ 252   
+ 253  ********************************************************************************
+ 254  *****                    Set additional variables                          *****
+ 255  ********************************************************************************
+ 256   
+ 257  gov_C.fx  = 1;
+ 258  gov_D.fx  = 1;
+ 259  T.fx(i)   =        24;         !! time endowment to each worker
+ 260  tau_P.fx  =        0;!!0.043;        !! fixed pre-existing carbon price (extraction cost or such)
+ 261   
+ 262   
+ 263   
+ 264  if (SWITCH_DetL0 eq 1,
+ 265   
+ 266           Execute_loadpoint 'sg-results_4_diff_and_L_opt_LOAD3.gdx';
+ 267   
+ 268   
+ 269           tau_P.lo       =     -10;
+ 270           tau_P.up       =     10;
+ 271           L.lo           =    -1e2;
+ 272           L.up           =     1e2;
+ 273           tau_w.lo(i)    =     -20;
+ 274           tau_w.up(i)    =     20;
+ 275   
+ 276           tau_D.fx       =      0;
+ 277           tau_w_flat.fx=0;
+ 278   
+ 279           Solve SG_SP      maximizing w_NE using nlp;
+****                                                     $257
+**** LINE    145 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 257  Solve statement not checked because of previous errors
+ 280           Solve SG_SP      maximizing w_NE using nlp;
+****                                                     $257
+**** LINE    146 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 257  Solve statement not checked because of previous errors
+ 281           Solve SG_SP      maximizing w_NE using nlp;
+****                                                     $257
+**** LINE    147 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 257  Solve statement not checked because of previous errors
+ 282   
+ 283   
+INCLUDE    /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+ 285  *************************** Calculate Parameters  ******************************
+ 286   
+ 287  Ztotal.l       = Z_C.l+Z_D.l;
+ 288  C_total.l      = sum(i,C.l(i));
+ 289  D_total.l      = sum(i,D.l(i));
+ 290  GDP.l           = F_C.l*pr_C.l + F_D.l*pr_D.l;
+****                        $141           $141
+**** LINE      6 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    150 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+ 291  CbyD.l         = C_total.lo/D_total.lo;
+ 292  ConsPor_C.l(i) = C.l(i)/C_total.l;
+ 293  ConsPor_D.l(i) = D.l(i)/D_total.l;
+ 294  ConsPor_total.l(i) = (pr_C.l*C.l(i)+pr_D.l*D.l(i))/(pr_C.l*C_total.l+pr_D.l*D_total.l);
+ 295  Gini_C.l       = (1 - 2* ( 0.5*0.2*ConsPor_total.l('1')
+ 296                           + 0.5*0.2*ConsPor_total.l('2') + 0.2* ConsPor_total.l('1')
+ 297                           + 0.5*0.2*ConsPor_total.l('3') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2'))
+ 298                           + 0.5*0.2*ConsPor_total.l('4') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3'))
+ 299                           + 0.5*0.2*ConsPor_total.l('5') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3')+ ConsPor_total.l('4'))
+ 300  ))/0.8;
+ 301  ********************************************************************************
+ 302  UtilPor.l(i)   = U.l(i)/W.l;
+****                     $141   $141
+**** LINE     18 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    150 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+ 303  Gini_U.l       = (1 - 2* ( 0.5*0.2*UtilPor.l('1')
+ 304                           + 0.5*0.2*UtilPor.l('2') + 0.2* UtilPor.l('1')
+ 305                           + 0.5*0.2*UtilPor.l('3') + 0.2*(UtilPor.l('1')+ UtilPor.l('2'))
+ 306                           + 0.5*0.2*UtilPor.l('4') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3'))
+ 307                           + 0.5*0.2*UtilPor.l('5') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3')+ UtilPor.l('4'))
+ 308  ))/0.8;
+ 309  ********************************************************************************
+ 310  UtilPor_NE.l(i)   = U_NE.l(i)/W_NE.l;
+****                           $141      $141
+**** LINE     26 INCLUDE     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+**** LINE    150 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 141  Symbol declared but no values have been assigned. Check for missing
+****         data definition, assignment, data loading or implicit assignment
+****         via a solve statement.
+****         A wild shot: You may have spurious commas in the explanatory
+****         text of a declaration. Check symbol reference list.
+ 311  Gini_U_NE.l       = (1 - 2* ( 0.5*0.2*UtilPor_NE.l('1')
+ 312                           + 0.5*0.2*UtilPor_NE.l('2') + 0.2* UtilPor_NE.l('1')
+ 313                           + 0.5*0.2*UtilPor_NE.l('3') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2'))
+ 314                           + 0.5*0.2*UtilPor_NE.l('4') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3'))
+ 315                           + 0.5*0.2*UtilPor_NE.l('5') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3')+ UtilPor_NE.l('4'))
+ 316  ))/0.8;
+ 317  ********************************************************************************
+ 318  GovRev_pol.l$(tau_D.l eq 0) =  Ztotal.l*tau_p.l;   !!for pollution tax
+ 319  GovRev_pol.l$(tau_p.l eq 0) =  tau_D.l*pr_D.l*sum(i,D.l(i));   !!for output tax
+ 320   
+ 321  GovRev_LS.l          =  (-5)*L.l;
+ 322  GovRev_inc.l         =  wage.l*sum(i,(tau_w_preex(i)+tau_w_flat.l+tau_w.l(i))*phi(i)*(T.l(i)-lei.l(i)));
+ 323   
+ 324  inc.l(i)         = phi(i)*wage.l*(T.l(i)-lei.l(i));
+ 325  ********************************************************************************
+ 326  ***** Suits index
+ 327   
+ 328  *suits_help.l(i)  = tau_w.l(i);  !! suits_help is set to zero if the hh receives subsidies (because burden is zero). it is set to its tax rate if the hh pays taxes.
+ 329   
+ 330  *loop(i,if((suits_help.l(i) lt 0), suits_help.l(i)=0*suits_help.l(i)));
+ 331   
+ 332  inc_tax_total_burden.l =  sum(i,wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) );
+ 333   
+ 334  rel_cons.l(i)    =      ConsPor_total.l(i);    !! ( pr_C.l*C.l(i) + pr_D.l*D.l(i) )/(pr_C.l*C_total.l + pr_D.l*D_total.l);
+ 335  rel_burden.l(i)  =      (wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) )/( inc_tax_total_burden.l ) ;
+ 336   
+ 337  suits.l            =    1-2*sum(i,rel_cons.l(i)*( rel_burden.l(i-1)+rel_burden.l(i)/2 ));!! 1 - 0.5*sum(i,( rel_cons.l(i)-rel_cons.l(i-1) ) + ( rel_burden.l(i) + rel_burden.l(i-1) ) )/5000;
+ 338  ********************************************************************************
+ 339           execute_unload 'sg-initial.gdx';
+ 340  )
+ 341   
+ 342  ************   Solution for both diff. and lump-sum  ********************
+ 343  if (SWITCH_Bench eq 1,
+ 344           Execute_loadpoint 'sg-results_4_diff_and_L_opt_LOAD3.gdx';
+ 345   
+ 346           xi             =     0.1;!!p_helper;
+ 347   
+ 348           L.lo           =     -1e1;
+ 349           L.up           =      1e1;
+ 350           tau_w.lo(i)    =     -20;
+ 351           tau_w.up(i)    =      20;
+ 352           tau_P.lo       =     -10;
+ 353           tau_P.up       =      10;
+ 354           tau_D.fx       =      0;
+ 355           tau_w_flat.fx=0;
+ 356   
+ 357           Solve SG_SP      maximizing w using nlp;
+****                                                  $257
+**** LINE    169 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 257  Solve statement not checked because of previous errors
+ 358           Solve SG_SP      maximizing w using nlp;
+****                                                  $257
+**** LINE    170 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 257  Solve statement not checked because of previous errors
+ 359           Solve SG_SP      maximizing w using nlp;
+****                                                  $257
+**** LINE    171 INPUT       /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+**** 257  Solve statement not checked because of previous errors
+ 360   
+INCLUDE    /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+ 362  *************************** Calculate Parameters  ******************************
+ 363   
+ 364  Ztotal.l       = Z_C.l+Z_D.l;
+ 365  C_total.l      = sum(i,C.l(i));
+ 366  D_total.l      = sum(i,D.l(i));
+ 367  GDP.l           = F_C.l*pr_C.l + F_D.l*pr_D.l;
+ 368  CbyD.l         = C_total.lo/D_total.lo;
+ 369  ConsPor_C.l(i) = C.l(i)/C_total.l;
+ 370  ConsPor_D.l(i) = D.l(i)/D_total.l;
+ 371  ConsPor_total.l(i) = (pr_C.l*C.l(i)+pr_D.l*D.l(i))/(pr_C.l*C_total.l+pr_D.l*D_total.l);
+ 372  Gini_C.l       = (1 - 2* ( 0.5*0.2*ConsPor_total.l('1')
+ 373                           + 0.5*0.2*ConsPor_total.l('2') + 0.2* ConsPor_total.l('1')
+ 374                           + 0.5*0.2*ConsPor_total.l('3') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2'))
+ 375                           + 0.5*0.2*ConsPor_total.l('4') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3'))
+ 376                           + 0.5*0.2*ConsPor_total.l('5') + 0.2*(ConsPor_total.l('1')+ ConsPor_total.l('2')+ ConsPor_total.l('3')+ ConsPor_total.l('4'))
+ 377  ))/0.8;
+ 378  ********************************************************************************
+ 379  UtilPor.l(i)   = U.l(i)/W.l;
+ 380  Gini_U.l       = (1 - 2* ( 0.5*0.2*UtilPor.l('1')
+ 381                           + 0.5*0.2*UtilPor.l('2') + 0.2* UtilPor.l('1')
+ 382                           + 0.5*0.2*UtilPor.l('3') + 0.2*(UtilPor.l('1')+ UtilPor.l('2'))
+ 383                           + 0.5*0.2*UtilPor.l('4') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3'))
+ 384                           + 0.5*0.2*UtilPor.l('5') + 0.2*(UtilPor.l('1')+ UtilPor.l('2')+ UtilPor.l('3')+ UtilPor.l('4'))
+ 385  ))/0.8;
+ 386  ********************************************************************************
+ 387  UtilPor_NE.l(i)   = U_NE.l(i)/W_NE.l;
+ 388  Gini_U_NE.l       = (1 - 2* ( 0.5*0.2*UtilPor_NE.l('1')
+ 389                           + 0.5*0.2*UtilPor_NE.l('2') + 0.2* UtilPor_NE.l('1')
+ 390                           + 0.5*0.2*UtilPor_NE.l('3') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2'))
+ 391                           + 0.5*0.2*UtilPor_NE.l('4') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3'))
+ 392                           + 0.5*0.2*UtilPor_NE.l('5') + 0.2*(UtilPor_NE.l('1')+ UtilPor_NE.l('2')+ UtilPor_NE.l('3')+ UtilPor_NE.l('4'))
+ 393  ))/0.8;
+ 394  ********************************************************************************
+ 395  GovRev_pol.l$(tau_D.l eq 0) =  Ztotal.l*tau_p.l;   !!for pollution tax
+ 396  GovRev_pol.l$(tau_p.l eq 0) =  tau_D.l*pr_D.l*sum(i,D.l(i));   !!for output tax
+ 397   
+ 398  GovRev_LS.l          =  (-5)*L.l;
+ 399  GovRev_inc.l         =  wage.l*sum(i,(tau_w_preex(i)+tau_w_flat.l+tau_w.l(i))*phi(i)*(T.l(i)-lei.l(i)));
+ 400   
+ 401  inc.l(i)         = phi(i)*wage.l*(T.l(i)-lei.l(i));
+ 402  ********************************************************************************
+ 403  ***** Suits index
+ 404   
+ 405  *suits_help.l(i)  = tau_w.l(i);  !! suits_help is set to zero if the hh receives subsidies (because burden is zero). it is set to its tax rate if the hh pays taxes.
+ 406   
+ 407  *loop(i,if((suits_help.l(i) lt 0), suits_help.l(i)=0*suits_help.l(i)));
+ 408   
+ 409  inc_tax_total_burden.l =  sum(i,wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) );
+ 410   
+ 411  rel_cons.l(i)    =      ConsPor_total.l(i);    !! ( pr_C.l*C.l(i) + pr_D.l*D.l(i) )/(pr_C.l*C_total.l + pr_D.l*D_total.l);
+ 412  rel_burden.l(i)  =      (wage.l*(tau_w_preex(i)+tau_w.l(i)+tau_w_flat.l)*phi(i)*( T.l(i)-lei.l(i) ) )/( inc_tax_total_burden.l ) ;
+ 413   
+ 414  suits.l            =    1-2*sum(i,rel_cons.l(i)*( rel_burden.l(i-1)+rel_burden.l(i)/2 ));!! 1 - 0.5*sum(i,( rel_cons.l(i)-rel_cons.l(i-1) ) + ( rel_burden.l(i) + rel_burden.l(i-1) ) )/5000;
+ 415  ********************************************************************************
+ 416           execute_unload 'sg-results_4_diff_and_L_opt.gdx';
+ 417  );
+ 418   
+ 419   
+ 420   
+ 421  *$ontext
+ 422  FILE out / 'output.put'/ ;
+ 423  !! file for differentiated labor tax cut
+ 424  out.pw = 4000;
+ 425  PUT out;
+ 426  PUT 'F_C',',','F_D',',','tau_p',',','L',',','gamma',',','epsilon',',','alpha',',','delta',',','xi',',','damexp',',','D0',',','T',',','T_C',',','T_D',',','Z_C',',','Z_D',',','Z_total',',','pr_C',',','pr_D',',','wage',',','C1',',','C2',',','C3',',','C
+      4',',','C5',',','D1',',','D2',',','D3',',','D4',',','D5',',','C_total',',','D_total',',','ConsPor_C1',',','ConsPor_C2',',','ConsPor_C3',',','ConsPor_C4',',','ConsPor_C5',',','ConsPor_D1',',','ConsPor_D2',',','ConsPor_D3',',','ConsPor_D4',',','ConsPo
+      r_D5',',','ConsPor_total1',',','ConsPor_total2',',','ConsPor_total3'
+ 427  ,',','ConsPor_total4',',','ConsPor_total5',',','UtilPor1',',','UtilPor2',',','UtilPor3',',','UtilPor4',',','UtilPor5',',','UtilPor1_NE',',','UtilPor2_NE',',','UtilPor3_NE',',','UtilPor4_NE',',','UtilPor5_NE',',','Gini_C',',','Gini_U',',','Gini_U_NE'
+      ,',','Welfare_E',',','Welfare_NE',',',
+ 428  'lei1',',','lei2',',','lei3',',','lei4',',','lei5',',','tau_w_1',',','tau_w_2',',','tau_w_3',',','tau_w_4',',','tau_w_5',',','U1',',','U2',',','U3',',','U4',',','U5',',','U1_NE',',','U2_NE',',','U3_NE',',','U4_NE',',','U5_NE';
+ 429  put /;
+ 430  PUT F_C.l:0:6,',',F_D.l:0:6,',',tau_p.l:0:12,',',L.l:0:6
+ 431  ,',',gamma:0:4,',',epsilon:0:4,',',alpha:0:4,',',delta:0:4,',',xi:0:4,',',damexp:0:4,',',D0:0:4,',',T.l('1'):0:4,',',T_C.l:0:4,',',T_D.l:0:4,',',Z_C.l:0:4,',',Z_D.l:0:4,',',Ztotal.l:0:4
+ 432  ,',',pr_C.l:0:4,',',pr_D.l:0:4,',',wage.l:0:4,',',C.l('1'):0:4,',',C.l('2'):0:4,',',C.l('3'):0:4,',',C.l('4'):0:4,',',C.l('5'):0:4
+ 433  ,',',D.l('1'):0:4,',',D.l('2'):0:4,',',D.l('3'):0:4,',',D.l('4'):0:4,',',D.l('5'):0:4,',',C_total.l:0:4,',',D_total.l:0:4,',',ConsPor_C.l('1'):0:6,',',ConsPor_C.l('2'):0:6,',',ConsPor_C.l('3'):0:6,',',
+ 434  ConsPor_C.l('4'):0:6,',',ConsPor_C.l('5'):0:6,',',ConsPor_D.l('1'):0:6,',',ConsPor_D.l('2'):0:6,',',ConsPor_D.l('3'):0:6,',',ConsPor_D.l('4'):0:6,',',ConsPor_D.l('5'):0:6,',',ConsPor_total.l('1'):0:6,',',ConsPor_total.l('2'):0:6,',',ConsPor_total.l(
+      '3'):0:6,',',
+ 435  ConsPor_total.l('4'):0:6,',',ConsPor_total.l('5'):0:6,',',UtilPor.l('1'):0:6,',',UtilPor.l('2'):0:6,',',UtilPor.l('3'):0:6,',',UtilPor.l('4'):0:6,',',UtilPor.l('5'):0:6
+ 436  ,',',UtilPor_NE.l('1'):0:6,',',UtilPor_NE.l('2'):0:6,',',UtilPor_NE.l('3'):0:6,',',UtilPor_NE.l('4'):0:6,',',UtilPor_NE.l('5'):0:6
+ 437  ,',',gini_c.l:0:6,',',gini_u.l:0:6,',',gini_u_NE.l:0:6,',',W.l:0:6,',',W_NE.l:0:6,',',lei.l('1'):0:4,',',lei.l('2'):0:4,',',lei.l('3'):0:4,',',lei.l('4'):0:4,',',lei.l('5'):0:4,',',tau_w.l('1'):0:4
+ 438  ,',',tau_w.l('2'):0:4,',',tau_w.l('3'):0:4,',',tau_w.l('4'):0:4,',',tau_w.l('5'):0:4,',',U.l('1'):0:4,',',U.l('2'):0:4,',',U.l('3'):0:4,',',U.l('4'):0:4,',',U.l('5'):0:4
+ 439  ,',',U_NE.l('1'):0:4,',',U_NE.l('2'):0:4,',',U_NE.l('3'):0:4,',',U_NE.l('4'):0:4,',',U_NE.l('5'):0:4;
+ 440  PUTCLOSE out;
+ 441  *$offtext
+
+**** 13 ERROR(S)   0 WARNING(S)
+GAMS 30.1.0  re01a340 Released Jan 10, 2020 DEX-DEG x86 64bit/Mac OS X - 03/16/20 15:02:28 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+     2       15 INCLUDE        1      15  ./Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_variables_params.inc
+     3      284 INCLUDE        1     150  ./Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+     4      361 INCLUDE        1     173  ./Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_calculate_ginis_etc.inc
+
+
+COMPILATION TIME     =        0.006 SECONDS      3 MB  30.1.0 re01a340 DEX-DEG
+
+
+USER: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+      University of Copenhagen, Denmark                        DL001455
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.gms
+Output     /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/model/SG_model_Copeland_CES.lst
+
+**** USER ERROR(S) ENCOUNTERED

@@ -1,0 +1,166 @@
+--- Job Klenertmodel_2goods.gms Start 04/03/20 11:33:50 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_2goods.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225b/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_2goods.gms(333) 3 Mb
+--- Starting execution: elapsed 0:00:00.005
+--- Klenertmodel_2goods.gms(264) 4 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_2goods.gms(279) 6 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_2goods.gms(279) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.015
+*** Error at line 279: Could not find ShortName for International Characters
+--- Klenertmodel_2goods.gms(279) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.0000000341E+09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        1.1250000082E+10 (After pre-processing)
+      2   0        2.4722540313E+01 (After scaling)
+     10   0     7  1.1449869131E+01               1.0E+00      F  T
+     20   0     8  9.4429402705E+00               0.0E+00      T  T
+     30   0     9  8.4765647773E+00               1.0E+00      T  T
+     40   0     9  9.9571660039E+00               0.0E+00      T  T
+     50   0     9  9.7212401771E+00               0.0E+00      T  T
+     60   0     9  7.4697274302E+00               7.8E-01      T  T
+     70   0     9  8.8982820202E+00               1.0E+00      F  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     80   0     9  1.1901992506E+01               0.0E+00      F  F
+     90   0    11  1.1013732479E+01               1.0E+00      F  T
+    101   1     9  1.1011976749E+01 2.0E+01    11 1.1E-07      F  F
+    111   1     9  1.1004993838E+01 1.8E+00    11 5.3E-04      F  F
+    121   1     6  1.0559439487E+01 1.4E+03     9 1.6E-02    6 F  F
+    131   1     3  4.1514333340E+00 2.7E+03     5 9.4E-01    3 F  F
+ 
+ ** Feasible solution. Value of objective =    8.41864600807
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+    141   3        8.4639248696E+00 3.9E-01     2 1.3E-01      F  F
+    151   3        8.7252932371E+00 1.3E+00     6 3.6E-03      F  F
+    161   3        8.7881445823E+00 2.1E-01     1 3.1E-04    1 F  F
+    171   4        8.8959020825E+00 2.2E+00     2 6.2E-02      F  F
+    176   4        8.9580581085E+00 6.1E+00     2 6.2E-02    2 F  F
+    181   4        9.0371830242E+00 4.7E-01     2 6.2E-01      F  T
+    188   4        9.2438454086E+00 1.1E-09     1
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_2goods.gms(279) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.169
+--- Klenertmodel_2goods.gms(264) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_2goods.gms(280) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_2goods.gms(280) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.187
+*** Error at line 280: Could not find ShortName for International Characters
+--- Klenertmodel_2goods.gms(280) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.7141366798E-09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        1.5130943859E-09 (After pre-processing)
+      2   0        8.4339861484E-10 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.24384540861
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        9.2438454086E+00 1.1E-09     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_2goods.gms(280) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.262
+--- Klenertmodel_2goods.gms(264) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_2goods.gms(281) 5 Mb
+---   44 rows  48 columns  269 non-zeroes
+---   618 nl-code  202 nl-non-zeroes
+--- Klenertmodel_2goods.gms(281) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.268
+*** Error at line 281: Could not find ShortName for International Characters
+--- Klenertmodel_2goods.gms(281) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5130943859E-09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        1.5130943859E-09 (After pre-processing)
+      2   0        8.4339861484E-10 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    9.24384540861
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        9.2438454086E+00 1.1E-09     0
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_2goods.gms(281) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.341
+--- Klenertmodel_2goods.gms(264) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial.gdx
+--- Klenertmodel_2goods.gms(289) 3 Mb
+*** Status: Normal completion
+--- Job Klenertmodel_2goods.gms Stop 04/03/20 11:33:50 elapsed 0:00:00.345
+
