@@ -16,31 +16,36 @@ for decil,i in zip(Deciler,["1","2","3","4","5","6","7","8","9","10","h"]):
         Forbrug_loeb[decil] = pd.read_csv(f"C:/specialeJR/Prisdata DST/v8_decil_{i}.csv")
         Forbrug_loeb[decil].drop(["Unnamed: 0","aar","ialt"],axis=1,inplace=True)
 
-Forbrug_faste = {}
+#%%
 grupper = Forbrug_loeb["Decil1"].columns
-Samlet = {}
-for decil in Deciler:
-    priser1 = priser.drop(["Aar"],axis=1)
-    priser1.columns = grupper
-    Forbrug_faste[decil] = Forbrug_loeb[decil]
-    for column in Forbrug_loeb[decil]:
-            Forbrug_faste[decil][column] = Forbrug_loeb[decil].loc[:,column]/priser1.loc[:,column]
-    Samlet[decil]= pd.DataFrame(Forbrug_faste[decil].sum(axis=1), columns=["ialt"])
-    #Forbrug_faste[decil] = Forbrug_faste[decil].join(Samlet[decil]["ialt"])
+priser1 = priser.drop(["Aar"],axis=1)
+priser1.columns = grupper
+kvint_1 = (Forbrug_loeb['Decil1']+Forbrug_loeb['Decil2'])/2
+kvint_2 = (Forbrug_loeb['Decil3']+Forbrug_loeb['Decil4'])/2
+kvint_3 = (Forbrug_loeb['Decil5']+Forbrug_loeb['Decil6'])/2
+kvint_4 = (Forbrug_loeb['Decil7']+Forbrug_loeb['Decil8'])/2
+kvint_5 = (Forbrug_loeb['Decil9']+Forbrug_loeb['Decil10'])/2
 
+kvint_1_fast = kvint_1.div(priser1)
+kvint_2_fast = kvint_2.div(priser1)
+kvint_3_fast = kvint_3.div(priser1)
+kvint_4_fast = kvint_4.div(priser1)
+kvint_5_fast = kvint_5.div(priser1)
+
+Ialt_1 = pd.DataFrame(kvint_1_fast.sum(axis=1), columns=["ialt"])
+Ialt_2 = pd.DataFrame(kvint_2_fast.sum(axis=1), columns=["ialt"])
+Ialt_3 = pd.DataFrame(kvint_3_fast.sum(axis=1), columns=["ialt"])
+Ialt_4 = pd.DataFrame(kvint_4_fast.sum(axis=1), columns=["ialt"])
+Ialt_5 = pd.DataFrame(kvint_5_fast.sum(axis=1), columns=["ialt"])
+
+Andel_1 = kvint_1_fast.div(Ialt_1.loc[:,"ialt"],axis=0)
+Andel_2 = kvint_2_fast.div(Ialt_2.loc[:,"ialt"],axis=0)
+Andel_3 = kvint_3_fast.div(Ialt_3.loc[:,"ialt"],axis=0)
+Andel_4 = kvint_4_fast.div(Ialt_4.loc[:,"ialt"],axis=0)
+Andel_5 = kvint_5_fast.div(Ialt_5.loc[:,"ialt"],axis=0)
 
 #%%
-################# Vil gerne beregne forbrugsandele
-
-Forbrugs_andel = {}
-
-for decil in Deciler:
-    Forbrugs_andel[decil] = Forbrug_faste[decil]
-    for column in Forbrugs_andel[decil]:
-        Forbrugs_andel[decil].loc[:,column] = Forbrugs_andel[decil].loc[:,column]/Samlet[decil].loc[:,"ialt"]
-
 Aar = priser["Aar"]
-#%%
 ################## Plotte forbrugandele over tid:
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pylab
@@ -51,50 +56,57 @@ fontP.set_size('xx-large')
 ### lav plots 
 fig, axs = plt.subplots(2,4, figsize=(16,12))
 
-udvalgt_decil = ["Decil1","Decil4","Decil7","Decil10"]
-for decil in udvalgt_decil:
-    axs[0, 0].plot(Aar, Forbrugs_andel[decil]["kod_fisk_mej"], label=decil)
+Kvintiler = [Andel_1,Andel_2, Andel_3, Andel_4,Andel_5]
+Navne = ["Quint 1","Quint 2","Quint 3", "Quint 4", "Quint 5" ]
+for (kvint,navn) in  zip(Kvintiler, Navne):
+    axs[0, 0].plot(Aar, kvint["kod_fisk_mej"], label=navn)
 
-axs[0, 0].set_title('Kød, fisk og mejeri')
-axs[0, 0].set_ylabel('Forbrugsandele, faste priser', color='k')
+axs[0, 0].set_title('Meat and dairy', fontsize=18)
+axs[0, 0].set_ylabel('Budget share, 2015-prices', color='k')
 
 
-for decil in udvalgt_decil:
-    axs[0, 1].plot(Aar, Forbrugs_andel[decil]["ovr_fode"], label=decil)
-axs[0, 1].set_title('Øvrige fødevarer')
+for kvint,navn in zip(Kvintiler,Navne):
+    axs[0, 1].plot(Aar, kvint["ovr_fode"], label=navn)
+axs[0, 1].set_title('Other foods', fontsize=18)
 
-for decil in udvalgt_decil:
-    axs[0, 2].plot(Aar, Forbrugs_andel[decil]["bol"], label=decil)
-axs[0, 2].set_title('Bolig')
 
-for decil in udvalgt_decil:
-    axs[0, 3].plot(Aar, Forbrugs_andel[decil]["ene_hje"], label=decil)
-axs[0, 3].set_title('Energi til hjemmet')
+for kvint,navn in zip(Kvintiler,Navne):
+    axs[0, 2].plot(Aar, kvint["bol"], label=navn)
+axs[0, 2].set_title('Housing', fontsize=18)
+
+
+for kvint,navn in zip(Kvintiler,Navne):
+    axs[0, 3].plot(Aar, kvint["ene_hje"], label=navn)
+axs[0, 3].set_title('Energy, housing', fontsize=18)
 axs[0, 3].legend(bbox_to_anchor=(1.05, 1), loc='upper left', prop=fontP)
 
-for decil in udvalgt_decil:
-    axs[1, 0].plot(Aar, Forbrugs_andel[decil]["ene_tra"], label=decil)
 
-axs[1, 0].set_title('Energi til transport')
-axs[1, 0].set_ylabel('Forbrugsandele, faste priser', color='k')
+for kvint,navn in zip(Kvintiler,Navne):
+    axs[1, 0].plot(Aar, kvint["ene_tra"], label=navn)
+
+axs[1, 0].set_title('Energy, transport', fontsize=18)
+axs[1, 0].set_ylabel('Budget shares, 2015-prices', color='k')
 
 
-for decil in udvalgt_decil:
-    axs[1, 1].plot(Aar, Forbrugs_andel[decil]["tra"], label=decil)
-axs[1, 1].set_title('Transport')
 
-for decil in udvalgt_decil:
-    axs[1, 2].plot(Aar, Forbrugs_andel[decil]["ovr_var"], label=decil)
-axs[1, 2].set_title('Øvrige vare')
+for kvint,navn in zip(Kvintiler,Navne):
+    axs[1, 1].plot(Aar, kvint["tra"], label=navn)
+axs[1, 1].set_title('Transport', fontsize=18)
 
-for decil in udvalgt_decil:
-    axs[1, 3].plot(Aar, Forbrugs_andel[decil]["ovr_tje"], label=decil)
-axs[1, 3].set_title('Øvrige tjenester')
+
+for kvint,navn in zip(Kvintiler,Navne):
+    axs[1, 2].plot(Aar, kvint["ovr_var"], label=navn)
+axs[1, 2].set_title('Other goods', fontsize=18)
+
+
+for kvint,navn in zip(Kvintiler,Navne):
+    axs[1, 3].plot(Aar, kvint["ovr_tje"], label=navn)
+axs[1, 3].set_title('Other services', fontsize=18)
 #axs[1, 3].legend(bbox_to_anchor=(1.05, 1), loc='upper left', prop=fontP)
 
 plt.tight_layout()
 
-fig.savefig('C:\specialeJR\Beskrivende\Forbrugsandele.png',
+fig.savefig('C:\specialeJR\Beskrivende\Forbrugsandele_kvint.png',
             format='jpeg',
             dpi=100,
             bbox_inches='tight')
