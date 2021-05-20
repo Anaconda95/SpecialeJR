@@ -1,0 +1,2942 @@
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   2  ********************************************************************************
+   3  * Model for assessing the distributional impacts of different revenue recycling*
+   4  *  schemes when accounting for pollution-intensive subsistence consumption     *
+   5  *  with Stone-Geary utility functions.                                         *                 *
+   6  *                                                                              *
+   7  * David Klenert, 2014-2015,  Potsdam Institute for Climate Impact Research     *
+   8  ********************************************************************************
+   9   
+  10  * Pure optimal taxation version
+  11   
+  12  SETS
+  13  i              income quintiles                           / 1*5/
+  14  g              type of good                              /1*3/;  !!/C, D/;
+  15   
+  16  !!Alias(g,h);
+  17   
+  18  Variables
+  19  * firm
+  20  T(g)           labor time in production of good g
+  21  Z(g)           pollution in production of good g
+  22  Ztotal         total pollution
+  23  wage           rental price labor
+  24   
+  25  F(g)           production of good g
+  26   
+  27  pr(g)          price of good g
+  28   
+  29  T_total(i)     total time endowment of agents
+  30  P              total pollution
+  31   
+  32  * households
+  33  a              help param
+  34  X(i,g)         amount of good g consumed by hh i
+  35  E(i)           generic consumption good
+  36  lei(i)         leisure of hh i
+  37  inc            gross income
+  38   
+  39  * government
+  40  !!gC Not used
+  41  !!gD Not used
+  42  U(i)           Utility (with environmental component)
+  43  U_NE(i)        Non-environmental utility
+  44  L              Lump-sum transfers
+  45  Rev            Tax revenue government
+  46  W              Welfare
+  47  W_NE           Non-environmental welfare
+  48  Gov(g)         Government consumption of good g
+  49  tau(g)         tax on polluting output
+  50  tau_P          pollution tax
+  51  tau_w(i)       non-linear income tax
+  52  tau_w_flat     flat income tax rebate
+  53  * tau_w_preex(i) temporary as a variable    !! comment this when not calculating the optimal pre-existing income tax
+  54  * gov_share      government share of output   !! comment this when not calculating the optimal pre-existing government consumption share
+  55  GovRev_pol     Government revenue from pollution taxes
+  56  GovRev_LS      Government revenue from lump-sum taxes
+  57  GovRev_inc     Government revenue from income taxes
+  58   
+  59   
+  60  * post processing
+  61  Xtotal(g)      Total consumption of good g
+  62  GDP            Sum of all goods multiplied by the prices
+  63  CbyD           Ratio clean to polluting consumption
+  64  ConsPor(i,g)   Consumption share of good g of household i
+  65  ConsPor_total(i) Total consumption share
+  66  UtilPor(i)     Utility share
+  67  UtilPor_NE     Utility share non-environmental
+  68  gini_C         Gini coefficient consumption
+  69  gini_u         Gini coefficient utility
+  70  Gini_U_NE      Gini coefficient non-environmental utility
+  71  rel_cons       Relative share of consumption of hh i
+  72  rel_burden     Relative income tax burden of hh i
+  73  suits_help     helping variable when calculating suits index
+  74  suits          Suits index of income tax system
+  75  inc_tax_total_burden total tax burden for calculating suits index
+  76   
+  77  Z_dum          Dummy variable for market solution
+  78  ;
+  79   
+  80  Parameters
+  81  * firm
+  82  epsilon(g)     labor intensity in production of good g
+  83  s              elasticity of substitution btw. labor and pollution
+  84  r              CES Parameter
+  85  !! A_(g)       TFP in production
+  86  abate          parameter for labor intensity of pollution in production
+  87  !!omega          factor in production before pollution
+  88   
+  89  * households
+  90  alpha(g)       share of consumption of good g in utility
+  91  gamma          leisure exponent in utility
+  92  X0(g)          subsistence level consumption of of good g
+  93   
+  94  * government
+  95  xi             environmental preference parameter
+  96  min            minimum value of variables
+  97  theta          exponent of damage function
+  98  p_helper       scan parameter for communication with R
+  99  gov_spdg       government spending requirement
+ 100   
+ 101   
+ 102  * model operation
+ 103  SWITCH_Diff    activate differentiated income tax cuts
+ 104  SWITCH_Unif    activate uniform income tax cuts
+ 105  SWITCH_ULS     activate uniform lump-sum transfers
+ 106  SWITCH_UnifULS activate uniform income tax cuts plus ULS
+ 107  SWITCH_Bench
+ 108  SWITCH_opttax  activate social planner solution and the determination of optimal carbon taxes
+ 109  SWITCH_optInctax calculate optimal preexisting income tax
+ 110  SWITCH_optGovBud calculate optimal government budget for a given pre-existing income tax system
+ 111  SWITCH_DetL0   determine the L0 for the actual system
+ 112  SWITCH_opttaxsys determine optimal preexisting tax system
+ 113  SWITCH_OUT     activate output tax instead of pollution tax
+ 114  ;
+ 115   
+ 116  ********************************************************************************
+ 117  *****                     Set model parameters                             *****
+ 118  ********************************************************************************
+ 119   
+ 120  *New Benchmark with priv cost
+ 121  !!A_C     = 1;     A_D         = 1;    !!epsilon     = 0.92;
+ 122  gamma   = 0.2;   gov_spdg    = 5;
+ 123  min         = 1e-9;     xi      = 0.1;   theta      = 1.0;    !!xi      = 0.05; for 2nd best
+ 124  s         = 0.5;     abate           = 1;
+ 125  r         = 1-1/s;   !!omega       = 1;
+ 126   
+ 127  *Benchmark standard model
+ 128  *gamma     = 0.95;    epsilon     = 0.5;      A_C     = 1;     A_D         = 1;
+ 129  *alpha     = 0.7;     beta        = 0.2;      delta   = 0.2;   gov_spdg    = 8.696;
+ 130  *D0        = 0.5;     min         = 1e-9;     xi      = 0.02;  damexp      = 1.1;
+ 131  *s         = 0.9;     x           = 0.08;
+ 132   
+ 133  *Benchmark with priv cost
+ 134  *gamma     = 0.95;    epsilon     = 0.5;      A_C     = 1;     A_D         = 1;
+ 135  *alpha     = 0.6;     beta        = 0.25;      delta   = 0.2;  gov_spdg    = 1;!!8.696;
+ 136  *D0        = 0.25;     min         = 1e-9;     xi      = 0.2;  damexp      = 1.1;
+ 137  *s         = 0.9;     x           = 0.08;
+ 138  *r         = 1-1/s;
+ 139   
+ 140  ********************************************************************************
+ 141  *****                      Set model switches                              *****
+ 142  ********************************************************************************
+ 143  Switch_Bench     =       1; !! after environmental tax reform
+ 144  SWITCH_DetL0     =       0; !! before environmental tax reform
+ 145   
+ 146  ********************************************************************************
+ 147  *****                     Set model parameters                             *****
+ 148  ********************************************************************************
+ 149   
+ 150  p_helper=0.1;
+ 151   
+ 152  !!Parameter epsilon(g) /C 0.995, D 0.92/;
+ 153   
+ 154  !!Parameter alpha(g)   /C 0.7, D 0.2/;
+ 155   
+ 156  !!Parameter X0(g)      /C 0.4, D 0.5/;
+ 157   
+ 158  Parameter epsilon(g) /1 0.995, 2 0.92, 3 0.98/;
+ 159   
+ 160  Parameter alpha(g)   /1 0.4, 2 0.2, 3 0.3/;
+ 161   
+ 162  Parameter X0(g)      /1 0.0, 2 0.5,  3 0.0/;
+ 163   
+ 164  Parameter phi(i)          productivity of individual households
+ 165                  /1 0.03,
+ 166                   2 0.0825,
+ 167                   3 0.141,
+ 168                   4 0.229,
+ 169                   5 0.511/;
+ 170   
+ 171  Parameter tau_w_preex(i);
+ 172  tau_w_preex(i) = 0;
+ 173  !!Skal denne udkommenteres eller ej? -RLK
+ 174   
+ 175   
+ 176  ********************************************************************************
+ 177  *****                 Set limits and starting values                       *****
+ 178  ********************************************************************************
+ 179  * Limits
+ 180  L.lo     =       min;    T.lo(g)   =       min;    Z.lo(g)   =       min;
+ 181  F.lo(g)   =       min;    F.up(g) = 100000;  !!der blev produceret uendeligt meget sÃ¥ prÃ¸vede lige at sÃ¦tte en begrÃ¦nsning pÃ¥ -RLK
+ 182     pr.lo(g)  =       min;    wage.lo  =       min;
+ 183  lei.lo(i)=       min;   lei.up(i)=       24-1e-9;
+ 184  X.lo(i,g)  =    X0(g) + min;     tau_w.up(i)=     0;  !!tau_w.up var udkommenteret -RLK
+ 185   
+ 186   
+ 187  *Starting values
+ 188  X.l(i,g)=1;     !!0.3 seems like a very good starting value for 2 goods
+ 189   
+ 190   
+ 191  *Kan vi evt indsï¿½tte C pï¿½ g's plads og sï¿½ D i den ovenover? ellers giver vi dem begge startvï¿½rdien 0.4, hvilket mï¿½ske er for hï¿½jt?
+ 192  * Det kunen jeg ikke, sï¿½ har i stedet sat X0 for C til 0.4.
+ 193  * tau_w.l(i)=-0.4;
+ 194   
+ 195  Equations
+ 196   
+ 197  FirmProd(g),totalT,FirmFOC1(g),FirmFOC2(g),Copeland(g),HHFOC1(i,g),HHFOC2(i,g),HHFOC3(i),numeraire,
+ 198  GenEq(g),Utility,Welfare,Tax,Inc_constraint,Dummy,Utility_NE,Welfare_NE
+ 199  ;
+ 200  **********************************Firms*****************************************
+ 201  FirmProd(g)..
+ 202                           F(g)                  =e=    (epsilon(g)*T(g)**r + (1-epsilon(g))*Z(g)**r)**(1/r);      !!A_D*T_D**epsilon*Z_D**(1-epsilon);
+ 203  FirmFOC1(g)..
+ 204                           wage                  =e=     epsilon(g)*T(g)**(r-1)*F(g)**(1-r)*pr(g);
+ 205  FirmFOC2(g)..
+ 206                           tau_P                 =e=     (1-epsilon(g))*Z(g)**(r-1)*F(g)**(1-r)*pr(g);
+ 207  totalT..
+ 208                           0                     =e=     sum(g,T(g)) -sum(i,phi(i)*(T_total(i)-lei(i)));
+ 209  Copeland(g)..
+ 210                           Z(g)                  =l=     abate*T(g);
+ 211   
+ 212  ********************************Households**************************************
+ 213  !!HHFOC1(i,g,h)..
+ 214                           !!pr(g)*(X(i,g)-X0(g))  =e= (alpha(g)/alpha(h))*(X(i,h)-X0(h))*pr(h);
+ 215  *HHFOC2(i,g)..
+ 216                           !!pr(g)*(X(i,g)-X0(g))  =e= (alpha(g)/gamma)*lei(i)*( (1-tau_w(i))*phi(i)*wage );
+ 217  !!HHFOC3(i)..
+ 218                           !!sum(g,X(i,g)*pr(g))   =e= (1-tau_w(i))*phi(i)*wage*(T_total(i)-lei(i)) + L;
+ 219  HHFOC1(i,g)$(ord(g) lt 3)..
+ 220                           pr(g)*(X(i,g)-X0(g))  =e= (alpha(g)/alpha(g+1))*((X(i,g+1)-X0(g+1))*pr(g+1));
+ 221  HHFOC2(i,g)..
+ 222                           pr(g+2)*(X(i,g+2)-X0(g+2))  =e= (alpha(g+2)/gamma)*lei(i)*( (1-tau_w(i))*phi(i)*wage );
+ 223  HHFOC3(i)..
+ 224                           sum(g,X(i,g)*pr(g))   =e= (1-tau_w(i))*phi(i)*wage*(T_total(i)-lei(i)) + L;
+ 225   
+ 226  *****************************Market clearing***********************************
+ 227  numeraire..
+ 228                           wage      =e=     1;
+ 229  GenEq(g)..
+ 230                           F(g)      =e=     sum(i,X(i,g))+ gov_spdg/(pr(g)*card(g));!!*sum(i,C(i))/(sum(i,C(i))+sum(i,D(i)));!! F_C; !!
+ 231   
+ 232  ********************************Government**************************************
+ 233  Tax..
+ 234                           Gov_spdg  =e=     tau_p*sum(g,Z(g)) + wage*sum(i,tau_w(i)*phi(i)*(T_total(i)-lei(i))) - 5*L; !!
+ 235  Inc_constraint(i)$(ord(i) lt 5)..
+ 236                           U(i+1)    =g=     prod(g,(X(i,g)-X0(g))**alpha(g))*( T_total(i)-(sum(g,X(i,g)*pr(g)) -L )/( (1-tau_w(i))*phi(i+1)*wage ) )**gamma-xi*sum(g,Z(g))**theta;   !! Gregor approach
+ 237  Utility(i)..
+ 238                           U(i)      =e=     prod(g,(X(i,g)-X0(g))**alpha(g))*lei(i)**gamma - xi*(sum(g,Z(g))**theta);
+ 239  Utility_NE(i)..
+ 240                           U_NE(i)   =e=     prod(g,(X(i,g)-X0(g))**alpha(g))*lei(i)**gamma;
+ 241  Welfare..
+ 242                           W         =e=     sum(i, U(i));      !!U('1')*0.92+U('2')*0.94+U('3')*0.96+U('4')*0.98+U('5')-xi*(Z_C+Z_D)**damexp;!!
+ 243  Welfare_NE..
+ 244                           W_NE      =e=     sum(i, U_NE(i));
+ 245  Dummy..
+ 246                           Z_dum     =e=     0;
+ 247   
+ 248  model SG_MM /totalT,FirmProd,FirmFOC1,FirmFOC2,Copeland, HHFOC1,
+ 249  HHFOC2,HHFOC3,GenEq,numeraire,Tax,Inc_constraint,Utility,Utility_NE,Welfare_NE,Welfare,Dummy/;
+ 250  model SG_SP /totalT,FirmProd,FirmFOC1,FirmFOC2,Copeland, HHFOC1,
+ 251  HHFOC2,HHFOC3,GenEq,numeraire,Tax,Inc_constraint,Utility,Utility_NE,Welfare_NE,Welfare/;
+ 252  option nlp=conopt;
+ 253   
+ 254  ********************************************************************************
+ 255  *****                    Set additional variables                          *****
+ 256  ********************************************************************************
+ 257   
+ 258  gov.fx(g)  = 1;
+ 259  T_total.fx(i)   =        24;         !! time endowment to each worker
+ 260  tau_P.fx  =        0;!!0.043;        !! fixed pre-existing carbon price (extraction cost or such)
+ 261   
+ 262   
+ 263   
+ 264  if (SWITCH_DetL0 eq 1,
+ 265   
+ 266           Execute_loadpoint 'sg-initial.gdx';
+ 267   
+ 268   
+ 269           tau_P.lo       =     -10;
+ 270           tau_P.up       =     10;
+ 271           L.lo           =    -1e2;
+ 272           L.up           =     1e2;
+ 273           tau_w.lo(i)    =     -20;
+ 274           tau_w.up(i)    =     20;
+ 275   
+ 276  !!         tau_D.fx       =      0;
+ 277           tau_w_flat.fx=0;
+ 278   
+ 279           Solve SG_SP      maximizing w_NE using nlp;
+ 280           Solve SG_SP      maximizing w_NE using nlp;
+ 281           Solve SG_SP      maximizing w_NE using nlp;
+ 282   
+ 283   
+ 284  !!$include "SG_calculate_ginis_etc.inc"
+ 285           execute_unload 'sg-initial_3goods.gdx';
+ 286  )
+ 287   
+ 288  ************   Solution for both diff. and lump-sum  ********************
+ 289  if (SWITCH_Bench eq 1,
+ 290           Execute_loadpoint 'sg-initial.gdx';
+ 291   
+ 292           xi             =     0.1;!!p_helper;
+ 293   
+ 294           L.lo           =     -1e1;
+ 295           L.up           =      1e1;
+ 296           tau_w.lo(i)    =     -20;
+ 297           tau_w.up(i)    =      20;
+ 298           tau_P.lo       =     -10;
+ 299           tau_P.up       =      10;
+ 300  !!         tau_D.fx       =      0;
+ 301           tau_w_flat.fx=0;
+ 302   
+ 303           Solve SG_SP      maximizing w using nlp;
+ 304           Solve SG_SP      maximizing w using nlp;
+ 305           Solve SG_SP      maximizing w using nlp;
+ 306   
+ 307  !!$include "SG_calculate_ginis_etc.inc"
+ 308           execute_unload 'sg-results_4_diff_and_L_opt_3goods.gdx';
+ 309  );
+ 310   
+ 311   
+ 312   
+      FILE out / 'output.put'/ ;
+      !! file for differentiated labor tax cut
+      out.pw = 4000;
+      PUT out;
+      PUT 'F_C',',','F_D',',','tau_p',',','L',',','gamma',',','epsilon',',','alpha',',','delta',',','xi',',','damexp',',','D0',',','T',',','T_C',',','T_D',',','Z_C',',','Z_D',',','Z_total',',','pr_C',',','pr_D',',','wage',',','C1',',','C2',',','C3',',','C
+      4',',','C5',',','D1',',','D2',',','D3',',','D4',',','D5',',','C_total',',','D_total',',','ConsPor_C1',',','ConsPor_C2',',','ConsPor_C3',',','ConsPor_C4',',','ConsPor_C5',',','ConsPor_D1',',','ConsPor_D2',',','ConsPor_D3',',','ConsPor_D4',',','ConsPo
+      r_D5',',','ConsPor_total1',',','ConsPor_total2',',','ConsPor_total3'
+      ,',','ConsPor_total4',',','ConsPor_total5',',','UtilPor1',',','UtilPor2',',','UtilPor3',',','UtilPor4',',','UtilPor5',',','UtilPor1_NE',',','UtilPor2_NE',',','UtilPor3_NE',',','UtilPor4_NE',',','UtilPor5_NE',',','Gini_C',',','Gini_U',',','Gini_U_NE'
+      ,',','Welfare_E',',','Welfare_NE',',',
+      'lei1',',','lei2',',','lei3',',','lei4',',','lei5',',','tau_w_1',',','tau_w_2',',','tau_w_3',',','tau_w_4',',','tau_w_5',',','U1',',','U2',',','U3',',','U4',',','U5',',','U1_NE',',','U2_NE',',','U3_NE',',','U4_NE',',','U5_NE';
+      put /;
+      PUT F_C.l:0:6,',',F_D.l:0:6,',',tau_p.l:0:12,',',L.l:0:6
+      ,',',gamma:0:4,',',epsilon:0:4,',',alpha:0:4,',',delta:0:4,',',xi:0:4,',',damexp:0:4,',',D0:0:4,',',T.l('1'):0:4,',',T_C.l:0:4,',',T_D.l:0:4,',',Z_C.l:0:4,',',Z_D.l:0:4,',',Ztotal.l:0:4
+      ,',',pr_C.l:0:4,',',pr_D.l:0:4,',',wage.l:0:4,',',C.l('1'):0:4,',',C.l('2'):0:4,',',C.l('3'):0:4,',',C.l('4'):0:4,',',C.l('5'):0:4
+      ,',',D.l('1'):0:4,',',D.l('2'):0:4,',',D.l('3'):0:4,',',D.l('4'):0:4,',',D.l('5'):0:4,',',C_total.l:0:4,',',D_total.l:0:4,',',ConsPor_C.l('1'):0:6,',',ConsPor_C.l('2'):0:6,',',ConsPor_C.l('3'):0:6,',',
+      ConsPor_C.l('4'):0:6,',',ConsPor_C.l('5'):0:6,',',ConsPor_D.l('1'):0:6,',',ConsPor_D.l('2'):0:6,',',ConsPor_D.l('3'):0:6,',',ConsPor_D.l('4'):0:6,',',ConsPor_D.l('5'):0:6,',',ConsPor_total.l('1'):0:6,',',ConsPor_total.l('2'):0:6,',',ConsPor_total.l(
+      '3'):0:6,',',
+      ConsPor_total.l('4'):0:6,',',ConsPor_total.l('5'):0:6,',',UtilPor.l('1'):0:6,',',UtilPor.l('2'):0:6,',',UtilPor.l('3'):0:6,',',UtilPor.l('4'):0:6,',',UtilPor.l('5'):0:6
+      ,',',UtilPor_NE.l('1'):0:6,',',UtilPor_NE.l('2'):0:6,',',UtilPor_NE.l('3'):0:6,',',UtilPor_NE.l('4'):0:6,',',UtilPor_NE.l('5'):0:6
+      ,',',gini_c.l:0:6,',',gini_u.l:0:6,',',gini_u_NE.l:0:6,',',W.l:0:6,',',W_NE.l:0:6,',',lei.l('1'):0:4,',',lei.l('2'):0:4,',',lei.l('3'):0:4,',',lei.l('4'):0:4,',',lei.l('5'):0:4,',',tau_w.l('1'):0:4
+      ,',',tau_w.l('2'):0:4,',',tau_w.l('3'):0:4,',',tau_w.l('4'):0:4,',',tau_w.l('5'):0:4,',',U.l('1'):0:4,',',U.l('2'):0:4,',',U.l('3'):0:4,',',U.l('4'):0:4,',',U.l('5'):0:4
+      ,',',U_NE.l('1'):0:4,',',U_NE.l('2'):0:4,',',U_NE.l('3'):0:4,',',U_NE.l('4'):0:4,',',U_NE.l('5'):0:4;
+      PUTCLOSE out;
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  30.2.0 r482c588 WEX-WEI
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE SG_SP Using NLP From line 303
+
+
+---- totalT  =E=  
+
+totalT..  - T(1) - T(2) - T(3) + 0.03*T_total(1) + 0.0825*T_total(2) + 0.141*T_total(3) + 0.229*T_total(4) + 0.511*T_total(5) - 0.03*lei(1) - 0.0825*lei(2) - 0.141*lei(3) - 0.229*lei(4) - 0.511*lei(5) =E= 0 ;
+     
+      (LHS = -1.00000363545405E-9, INFES = 1.00000363545405E-9 ****)
+     
+
+---- FirmProd  =E=  
+
+FirmProd(1)..  - (0.9642892100322)*T(1) - (0.0838512356549183)*Z(1) + F(1) =E= 0 ; (LHS = 0)
+     
+FirmProd(2)..  - (0.92)*T(2) - (0.0799999999999999)*Z(2) + F(2) =E= 0 ; (LHS = 0)
+     
+FirmProd(3)..  - (0.980000000000001)*T(3) - (0.02)*Z(3) + F(3) =E= 0 ; (LHS = 0)
+     
+
+---- FirmFOC1  =E=  
+
+FirmFOC1(1)..  (0.157383348559574)*T(1) + wage - (0.159869887032386)*F(1) - (0.964289210032199)*pr(1) =E= 0 ; (LHS = 0)
+     
+FirmFOC1(2)..  (0.264794556192304)*T(2) + wage - (0.264794556192304)*F(2) - (0.92)*pr(2) =E= 0 ; (LHS = 0)
+     
+FirmFOC1(3)..  (1.96)*T(3) + wage - (1.96)*F(3) - (0.98)*pr(3) =E= 0 ; (LHS = 0.99999999902, INFES = 0.99999999902 ****)
+     
+
+---- FirmFOC2  =E=  
+
+FirmFOC2(1)..  (0.0569296559236133)*Z(1) - (0.0139017293071548)*F(1) - (0.0838512356549182)*pr(1) + tau_P =E= 0 ; (LHS = 0)
+     
+FirmFOC2(2)..  (0.0230256135819394)*Z(2) - (0.0230256135819394)*F(2) - (0.08)*pr(2) + tau_P =E= 0 ; (LHS = 0)
+     
+FirmFOC2(3)..  (0.04)*Z(3) - (0.04)*F(3) - (0.02)*pr(3) + tau_P =E= 0 ; (LHS = 0.0869565217191304, INFES = 0.0869565217191304 ****)
+     
+
+---- Copeland  =L=  
+
+Copeland(1)..  - T(1) + Z(1) =L= 0 ; (LHS = -9.65294860469048)
+     
+Copeland(2)..  - T(2) + Z(2) =L= 0 ; (LHS = 0)
+     
+Copeland(3)..  - T(3) + Z(3) =L= 0 ; (LHS = 0)
+     
+
+---- HHFOC1  =E=  
+
+HHFOC1(1,1)..  (1.00194284161933)*pr(1) - (0.546242413405068)*pr(2) + (1.03703327756475)*X(1,1) - (2.17391304347826)*X(1,2) =E= 0 ; (LHS = 0.445306315275871, INFES = 0.445306315275871 ****)
+     
+HHFOC1(1,2)..  (0.273121206702534)*pr(2) - (0.666666666666667)*pr(3) + (1.08695652173913)*X(1,2) - (6.66666666666667E-10)*X(1,3) =E= 0 ; (LHS = 0.296870876183914, INFES = 0.296870876183914 ****)
+     
+HHFOC1(2,1)..  (1.43875202234028)*pr(1) - (0.784383444173724)*pr(2) + (1.03703327756475)*X(2,1) - (2.17391304347826)*X(2,2) =E= 0 ; (LHS = 0.639443025141622, INFES = 0.639443025141622 ****)
+     
+REMAINING 7 ENTRIES SKIPPED
+
+
+---- HHFOC2  =E=  
+
+HHFOC2(1,1)..  - (0.445306315493547)*wage + (1)*pr(3) + (1E-9)*X(1,3) - (0.155186841548321)*lei(1) + (0.129126825427206)*tau_w(1) =E= 0 ; (LHS = -0.445306314493547, INFES = 0.445306314493547 ****)
+     
+HHFOC2(2,1)..  - (0.639443025304796)*wage + (1)*pr(3) + (1E-9)*X(2,3) - (0.199676504225889)*lei(2) + (0.396296372917013)*tau_w(2) =E= 0 ; (LHS = -0.639443024304796, INFES = 0.639443024304796 ****)
+     
+HHFOC2(3,1)..  - (0.842421269099961)*wage + (1)*pr(3) + (1E-9)*X(3,3) - (0.246192351767566)*lei(3) + (0.72371094039045)*tau_w(3) =E= 0 ; (LHS = -0.842421268099961, INFES = 0.842421268099961 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- HHFOC3  =E=  
+
+HHFOC3(1)..  - (2.18611858777744)*wage + (1.00194284161933)*pr(1) + (0.773121206702534)*pr(2) + (1)*pr(3) - (0.103457894365548)*T_total(1) + (1.03703327756475)*X(1,1) + (1.08695652173913)*X(1,2) + (1E-9)*X(1,3) + (0.103457894365548)*lei(1) - L
+     
+      + (0.633915449715196)*tau_w(1) =E= 0 ; (LHS = 1.14511689019992E-9, INFES = 1.14511689019992E-9 ****)
+     
+HHFOC3(2)..  - (2.76852871741103)*wage + (1.43875202234028)*pr(1) + (0.892191722086862)*pr(2) + (1)*pr(3) - (0.133117669483926)*T_total(2) + (1.03703327756475)*X(2,1) + (1.08695652173913)*X(2,2) + (1E-9)*X(2,3) + (0.133117669483926)*lei(2) - L
+     
+      + (1.71580241805533)*tau_w(2) =E= 0 ; (LHS = 1.10878195513919E-9, INFES = 1.10878195513919E-9 ****)
+     
+HHFOC3(3)..  - (3.37746344888108)*wage + (1.89545472657241)*pr(1) + (1.01668504496204)*pr(2) + (1)*pr(3) - (0.164128234511711)*T_total(3) + (1.03703327756475)*X(3,1) + (1.08695652173913)*X(3,2) + (1E-9)*X(3,3) + (0.164128234511711)*lei(3) - L
+     
+      + (2.9015260397397)*tau_w(3) =E= 0 ; (LHS = 1.09340803078339E-9, INFES = 1.09340803078339E-9 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- GenEq  =E=  
+
+GenEq(1)..  F(1) + (1.5497561343075)*pr(1) - X(1,1) - X(2,1) - X(3,1) - X(4,1) - X(5,1) =E= 0 ; (LHS = 0.803574341693491, INFES = 0.803574341693491 ****)
+     
+GenEq(2)..  F(2) + (1.41066666666667)*pr(2) - X(1,2) - X(2,2) - X(3,2) - X(4,2) - X(5,2) =E= 0 ; (LHS = 0.766666666666666, INFES = 0.766666666666666 ****)
+     
+GenEq(3)..  F(3) + (1.66666666666667E18)*pr(3) - X(1,3) - X(2,3) - X(3,3) - X(4,3) - X(5,3) =E= 0 ; (LHS = -1666666671.66667, INFES = 1666666671.66667 ****)
+     
+
+---- numeraire  =E=  
+
+numeraire..  wage =E= 1 ; (LHS = 1)
+     
+
+---- Tax  =E=  
+
+Tax..  - (0.0869565217391304)*Z(1) - (0.0869565217391304)*Z(2) - (0.0869565217391304)*Z(3) - (2.54396688256899)*wage + (0.0734578943655476)*T_total(1) + (0.0506176694839263)*T_total(2) + (0.0231282345117108)*T_total(3) - (0.0274902278646184)*T_total(4)
+     
+      - (0.250325985673875)*T_total(5) - (0.0734578943655476)*lei(1) - (0.0506176694839263)*lei(2) - (0.0231282345117108)*lei(3) + (0.0274902278646184)*lei(4) + (0.250325985673875)*lei(5) + 5*L - (10.607901436797)*tau_P - (0.633915449715196)*tau_w(1)
+     
+      - (1.71580241805533)*tau_w(2) - (2.9015260397397)*tau_w(3) - (4.67239727159397)*tau_w(4) - (10.3372088613833)*tau_w(5) =E= -5 ; (LHS = -5.0000000005913, INFES = 5.91295012952742E-10 ****)
+     
+
+---- Inc_constraint  =G=  
+
+Inc_constraint(1)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.127092796033169)*wage + (0.0582492266668753)*pr(1) + (0.0449463886955876)*pr(2) + (0.0581362770881555)*pr(3) - (0.0165403062379296)*T_total(1) - (0.478413239754887)*X(1,1)
+     
+      - (0.924921170241772)*X(1,2) - (0.404811830457576)*X(1,3) + U(2) - (0.0581362770881555)*L + (0.0368534842544096)*tau_w(1) =G= 0 ; (LHS = 0.000785951270491969)
+     
+Inc_constraint(2)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.323407079481296)*wage + (0.168068543602341)*pr(1) + (0.104221826288935)*pr(2) + (0.116815504682287)*pr(3) - (0.0265767186878563)*T_total(2) - (0.315951365050126)*X(2,1)
+     
+      - (0.67476248900443)*X(2,2) - (0.471651253424068)*X(2,3) + U(3) - (0.116815504682287)*L + (0.200432325480493)*tau_w(2) =G= 0 ; (LHS = 0.181287779377384)
+     
+Inc_constraint(3)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.411320602736466)*wage + (0.230835830540027)*pr(1) + (0.123815849284793)*pr(2) + (0.121783879775093)*pr(3) - (0.0324630614049589)*T_total(3) - (0.261784835630489)*X(3,1)
+     
+      - (0.579458066783965)*X(3,2) - (0.551689306352038)*X(3,3) + U(4) - (0.121783879775093)*L + (0.353359098502358)*tau_w(3) =G= 0 ; (LHS = 0.388892772342578)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- Utility  =E=  
+
+Utility(1)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.380527545509057)*X(1,1) - (0.697981044505683)*X(1,2) - (0.285950137696331)*X(1,3) - (0.0664347172054187)*lei(1) + U(1) =E= 0 ; (LHS = 0.000555178568989567, INFES = 0.000555178568989567 ****)
+     
+Utility(2)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.336560454601302)*X(2,1) - (0.617334593551342)*X(2,2) - (0.363170276023041)*X(2,3) - (0.07560389097524)*lei(2) + U(2) =E= 0 ; (LHS = 0.139591132912731, INFES = 0.139591132912731 ****)
+     
+Utility(3)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.305441520835291)*X(3,1) - (0.560254820614414)*X(3,2) - (0.434212930769037)*X(3,3) - (0.0845973438033192)*lei(3) + U(3) =E= 0 ; (LHS = 0.30608218861687, INFES = 0.30608218861687 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- Utility_NE  =E=  
+
+Utility_NE(1)..  - (0.380527545509057)*X(1,1) - (0.697981044505683)*X(1,2) - (0.285950137696331)*X(1,3) - (0.0664347172054187)*lei(1) + U_NE(1) =E= 0 ; (LHS = 0.000555178468989337, INFES = 0.000555178468989337 ****)
+     
+Utility_NE(2)..  - (0.336560454601302)*X(2,1) - (0.617334593551342)*X(2,2) - (0.363170276023041)*X(2,3) - (0.07560389097524)*lei(2) + U_NE(2) =E= 0 ; (LHS = 0.13959113281273, INFES = 0.13959113281273 ****)
+     
+Utility_NE(3)..  - (0.305441520835291)*X(3,1) - (0.560254820614414)*X(3,2) - (0.434212930769037)*X(3,3) - (0.0845973438033192)*lei(3) + U_NE(3) =E= 0 ; (LHS = 0.30608218851687, INFES = 0.30608218851687 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- Welfare_NE  =E=  
+
+Welfare_NE..  - U_NE(1) - U_NE(2) - U_NE(3) - U_NE(4) - U_NE(5) + W_NE =E= 0 ; (LHS = 0)
+     
+
+---- Welfare  =E=  
+
+Welfare..  - U(1) - U(2) - U(3) - U(4) - U(5) + W =E= 0 ; (LHS = 0)
+     
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE SG_SP Using NLP From line 303
+
+
+---- T  labor time in production of good g
+
+T(1)
+                (.LO, .L, .UP, .M = 1E-9, 12.7078246733514, +INF, 0)
+       -1       totalT
+      (-0.9643) FirmProd(1)
+       (0.1574) FirmFOC1(1)
+       -1       Copeland(1)
+
+T(2)
+                (.LO, .L, .UP, .M = 1E-9, 7.55302536713605, +INF, 0)
+       -1       totalT
+      (-0.92)   FirmProd(2)
+       (0.2648) FirmFOC1(2)
+       -1       Copeland(2)
+
+T(3)
+                (.LO, .L, .UP, .M = 1E-9, 1E-9, +INF, 0)
+       -1       totalT
+      (-0.98)   FirmProd(3)
+       (1.96)   FirmFOC1(3)
+       -1       Copeland(3)
+        0       (OLD LEVEL ****)
+
+
+---- Z  pollution in production of good g
+
+Z(1)
+                (.LO, .L, .UP, .M = 1E-9, 3.05487606866094, +INF, 0)
+      (-0.0839) FirmProd(1)
+       (0.0569) FirmFOC2(1)
+        1       Copeland(1)
+      (-0.087)  Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+Z(2)
+                (.LO, .L, .UP, .M = 1E-9, 7.55302536713605, +INF, 0)
+      (-0.08)   FirmProd(2)
+       (0.023)  FirmFOC2(2)
+        1       Copeland(2)
+      (-0.087)  Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+Z(3)
+                (.LO, .L, .UP, .M = 1E-9, 1E-9, +INF, 0)
+      (-0.02)   FirmProd(3)
+       (0.04)   FirmFOC2(3)
+        1       Copeland(3)
+      (-0.087)  Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+        0       (OLD LEVEL ****)
+
+
+---- wage  rental price labor
+
+wage
+                (.LO, .L, .UP, .M = 1E-9, 1, +INF, 0)
+        1       FirmFOC1(1)
+        1       FirmFOC1(2)
+        1       FirmFOC1(3)
+      (-0.4453) HHFOC2(1,1)
+      (-0.6394) HHFOC2(2,1)
+      (-0.8424) HHFOC2(3,1)
+      (-1.0871) HHFOC2(4,1)
+      (-1.4744) HHFOC2(5,1)
+      (-2.1861) HHFOC3(1)
+      (-2.7685) HHFOC3(2)
+      (-3.3775) HHFOC3(3)
+      (-4.1115) HHFOC3(4)
+      (-5.2733) HHFOC3(5)
+        1       numeraire
+      (-2.544)  Tax
+      (-0.1271) Inc_constraint(1)
+      (-0.3234) Inc_constraint(2)
+      (-0.4113) Inc_constraint(3)
+      (-0.2785) Inc_constraint(4)
+
+
+---- F  production of good g
+
+F(1)
+                (.LO, .L, .UP, .M = 1E-9, 12.5101733486236, 100000, 0)
+        1       FirmProd(1)
+      (-0.1599) FirmFOC1(1)
+      (-0.0139) FirmFOC2(1)
+        1       GenEq(1)
+
+F(2)
+                (.LO, .L, .UP, .M = 1E-9, 7.55302536713605, 100000, 0)
+        1       FirmProd(2)
+      (-0.2648) FirmFOC1(2)
+      (-0.023)  FirmFOC2(2)
+        1       GenEq(2)
+
+F(3)
+                (.LO, .L, .UP, .M = 1E-9, 1E-9, 100000, 0)
+        1       FirmProd(3)
+      (-1.96)   FirmFOC1(3)
+      (-0.04)   FirmFOC2(3)
+        1       GenEq(3)
+        0       (OLD LEVEL ****)
+
+
+---- pr  price of good g
+
+pr(1)
+                (.LO, .L, .UP, .M = 1E-9, 1.03703327756475, +INF, 0)
+      (-0.9643) FirmFOC1(1)
+      (-0.0839) FirmFOC2(1)
+       (1.0019) HHFOC1(1,1)
+       (1.4388) HHFOC1(2,1)
+       (1.8955) HHFOC1(3,1)
+       (2.446)  HHFOC1(4,1)
+       (3.3173) HHFOC1(5,1)
+       (1.0019) HHFOC3(1)
+       (1.4388) HHFOC3(2)
+       (1.8955) HHFOC3(3)
+       (2.446)  HHFOC3(4)
+       (3.3173) HHFOC3(5)
+       (1.5498) GenEq(1)
+       (0.0582) Inc_constraint(1)
+       (0.1681) Inc_constraint(2)
+       (0.2308) Inc_constraint(3)
+       (0.1657) Inc_constraint(4)
+
+pr(2)
+                (.LO, .L, .UP, .M = 1E-9, 1.08695652173913, +INF, 0)
+      (-0.92)   FirmFOC1(2)
+      (-0.08)   FirmFOC2(2)
+      (-0.5462) HHFOC1(1,1)
+       (0.2731) HHFOC1(1,2)
+      (-0.7844) HHFOC1(2,1)
+       (0.3922) HHFOC1(2,2)
+      (-1.0334) HHFOC1(3,1)
+       (0.5167) HHFOC1(3,2)
+      (-1.3335) HHFOC1(4,1)
+       (0.6668) HHFOC1(4,2)
+      (-1.8085) HHFOC1(5,1)
+       (0.9043) HHFOC1(5,2)
+       (0.7731) HHFOC3(1)
+       (0.8922) HHFOC3(2)
+       (1.0167) HHFOC3(3)
+       (1.1668) HHFOC3(4)
+       (1.4043) HHFOC3(5)
+       (1.4107) GenEq(2)
+       (0.0449) Inc_constraint(1)
+       (0.1042) Inc_constraint(2)
+       (0.1238) Inc_constraint(3)
+       (0.079)  Inc_constraint(4)
+
+pr(3)
+                (.LO, .L, .UP, .M = 1E-9, 1E-9, +INF, 0)
+      (-0.98)   FirmFOC1(3)
+      (-0.02)   FirmFOC2(3)
+      (-0.6667) HHFOC1(1,2)
+      (-0.6667) HHFOC1(2,2)
+      (-0.6667) HHFOC1(3,2)
+      (-0.6667) HHFOC1(4,2)
+      (-0.6667) HHFOC1(5,2)
+       (1)      HHFOC2(1,1)
+       (1)      HHFOC2(2,1)
+       (1)      HHFOC2(3,1)
+       (1)      HHFOC2(4,1)
+       (1)      HHFOC2(5,1)
+       (1)      HHFOC3(1)
+       (1)      HHFOC3(2)
+       (1)      HHFOC3(3)
+       (1)      HHFOC3(4)
+       (1)      HHFOC3(5)
+ (1.666667E+18) GenEq(3)
+       (0.0581) Inc_constraint(1)
+       (0.1168) Inc_constraint(2)
+       (0.1218) Inc_constraint(3)
+       (0.0677) Inc_constraint(4)
+        0       (OLD LEVEL ****)
+
+
+---- T_total  total time endowment of agents
+
+T_total(1)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0241031618421814)
+        0.03    totalT
+      (-0.1035) HHFOC3(1)
+       (0.0735) Tax
+      (-0.0165) Inc_constraint(1)
+
+T_total(2)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0564029345454035)
+        0.0825  totalT
+      (-0.1331) HHFOC3(2)
+       (0.0506) Tax
+      (-0.0266) Inc_constraint(2)
+
+T_total(3)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0916225526999339)
+        0.141   totalT
+      (-0.1641) HHFOC3(3)
+       (0.0231) Tax
+      (-0.0325) Inc_constraint(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- X  amount of good g consumed by hh i
+
+X(1,1)
+                (.LO, .L, .UP, .M = 1E-9, 1.00194284161933, +INF, 0)
+       (1.037)  HHFOC1(1,1)
+       (1.037)  HHFOC3(1)
+       -1       GenEq(1)
+      (-0.4784) Inc_constraint(1)
+      (-0.3805) Utility(1)
+      (-0.3805) Utility_NE(1)
+
+X(1,2)
+                (.LO, .L, .UP, .M = 0.500000001, 0.773121206702534, +INF, 0)
+      (-2.1739) HHFOC1(1,1)
+       (1.087)  HHFOC1(1,2)
+       (1.087)  HHFOC3(1)
+       -1       GenEq(2)
+      (-0.9249) Inc_constraint(1)
+      (-0.698)  Utility(1)
+      (-0.698)  Utility_NE(1)
+
+X(1,3)
+                (.LO, .L, .UP, .M = 1E-9, 1, +INF, 0)
+ (-6.66667E-10) HHFOC1(1,2)
+ (1.0000000E-9) HHFOC2(1,1)
+ (1.0000000E-9) HHFOC3(1)
+       -1       GenEq(3)
+      (-0.4048) Inc_constraint(1)
+      (-0.286)  Utility(1)
+      (-0.286)  Utility_NE(1)
+
+REMAINING 12 ENTRIES SKIPPED
+
+---- lei  leisure of hh i
+
+lei(1)
+                (.LO, .L, .UP, .M = 1E-9, 2.86948500949347, 23.999999999, 0)
+       -0.03    totalT
+      (-0.1552) HHFOC2(1,1)
+       (0.1035) HHFOC3(1)
+      (-0.0735) Tax
+      (-0.0664) Utility(1)
+      (-0.0664) Utility_NE(1)
+
+lei(2)
+                (.LO, .L, .UP, .M = 1E-9, 3.20239493266273, 23.999999999, 0)
+       -0.0825  totalT
+      (-0.1997) HHFOC2(2,1)
+       (0.1331) HHFOC3(2)
+      (-0.0506) Tax
+      (-0.0756) Utility(2)
+      (-0.0756) Utility_NE(2)
+
+lei(3)
+                (.LO, .L, .UP, .M = 1E-9, 3.42180113659787, 23.999999999, 0)
+       -0.141   totalT
+      (-0.2462) HHFOC2(3,1)
+       (0.1641) HHFOC3(3)
+      (-0.0231) Tax
+      (-0.0846) Utility(3)
+      (-0.0846) Utility_NE(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- U  Utility (with environmental component)
+
+U(1)
+                (.LO, .L, .UP, .M = -INF, -0.107067839456274, +INF, 0)
+        1       Utility(1)
+       -1       Welfare
+
+U(2)
+                (.LO, .L, .UP, .M = -INF, 0.289368575976501, +INF, 0)
+        1       Inc_constraint(1)
+        1       Utility(2)
+       -1       Welfare
+
+U(3)
+                (.LO, .L, .UP, .M = -INF, 0.692668480833963, +INF, 0)
+        1       Inc_constraint(2)
+        1       Utility(3)
+       -1       Welfare
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- U_NE  Non-environmental utility
+
+U_NE(1)
+                (.LO, .L, .UP, .M = -INF, 0.953722304123425, +INF, 0)
+        1       Utility_NE(1)
+       -1       Welfare_NE
+
+U_NE(2)
+                (.LO, .L, .UP, .M = -INF, 1.3501587195562, +INF, 0)
+        1       Utility_NE(2)
+       -1       Welfare_NE
+
+U_NE(3)
+                (.LO, .L, .UP, .M = -INF, 1.75345862441366, +INF, 0)
+        1       Utility_NE(3)
+       -1       Welfare_NE
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- L  Lump-sum transfers
+
+L
+                (.LO, .L, .UP, .M = -10, -0.306721381225383, 10, -1.10143882209313E-9)
+       -1       HHFOC3(1)
+       -1       HHFOC3(2)
+       -1       HHFOC3(3)
+       -1       HHFOC3(4)
+       -1       HHFOC3(5)
+        5       Tax
+      (-0.0581) Inc_constraint(1)
+      (-0.1168) Inc_constraint(2)
+      (-0.1218) Inc_constraint(3)
+      (-0.0677) Inc_constraint(4)
+
+
+---- W  Welfare
+
+W
+                (.LO, .L, .UP, .M = -INF, 3.93989469070747, +INF, 0)
+        1       Welfare
+
+
+---- W_NE  Non-environmental welfare
+
+W_NE
+                (.LO, .L, .UP, .M = -INF, 9.24384540860596, +INF, 0)
+        1       Welfare_NE
+
+
+---- tau_P  pollution tax
+
+tau_P
+                (.LO, .L, .UP, .M = -10, 0.0869565217391304, 10, 0)
+        1       FirmFOC2(1)
+        1       FirmFOC2(2)
+        1       FirmFOC2(3)
+     (-10.6079) Tax
+
+
+---- tau_w  non-linear income tax
+
+tau_w(1)
+                (.LO, .L, .UP, .M = -20, -2.44859647885159, 20, 0)
+       (0.1291) HHFOC2(1,1)
+       (0.6339) HHFOC3(1)
+      (-0.6339) Tax
+       (0.0369) Inc_constraint(1)
+
+tau_w(2)
+                (.LO, .L, .UP, .M = -20, -0.613547508896076, 20, 0)
+       (0.3963) HHFOC2(2,1)
+       (1.7158) HHFOC3(2)
+      (-1.7158) Tax
+       (0.2004) Inc_constraint(2)
+
+tau_w(3)
+                (.LO, .L, .UP, .M = -20, -0.164030031997949, 20, 0)
+       (0.7237) HHFOC2(3,1)
+       (2.9015) HHFOC3(3)
+      (-2.9015) Tax
+       (0.3534) Inc_constraint(3)
+
+REMAINING 2 ENTRIES SKIPPED
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE SG_SP Using NLP From line 303
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS          16     SINGLE EQUATIONS           54
+BLOCKS OF VARIABLES          15     SINGLE VARIABLES           57  4 projected
+NON ZERO ELEMENTS           348     NON LINEAR N-Z            269
+DERIVATIVE POOL              20     CONSTANT POOL              40
+CODE LENGTH                 805
+
+
+GENERATION TIME      =        0.078 SECONDS      4 MB  30.2.0 r482c588 WEX-WEI
+
+
+EXECUTION TIME       =        0.109 SECONDS      4 MB  30.2.0 r482c588 WEX-WEI
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE SG_SP Using NLP From line 303
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   SG_SP               OBJECTIVE  W
+     TYPE    NLP                 DIRECTION  MAXIMIZE
+     SOLVER  CONOPT              FROM LINE  303
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      2 Locally Optimal           
+**** OBJECTIVE VALUE                3.8385
+
+ RESOURCE USAGE, LIMIT          0.281      1000.000
+ ITERATION COUNT, LIMIT       148    2000000000
+ EVALUATION ERRORS              0             0
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The model has 57 variables and 54 constraints
+    with 348 Jacobian elements, 269 of which are nonlinear.
+    The Hessian of the Lagrangian has 42 elements on the diagonal,
+    208 elements below the diagonal, and 45 nonlinear variables.
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+ 
+ CONOPT time Total                            0.291 seconds
+   of which: Function evaluations             0.168 = 57.7%
+             1st Derivative evaluations       0.017 =  5.8%
+             Directional 2nd Derivative       0.001 =  0.3%
+ 
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU totalT              .              .              .            -0.4966      
+
+---- EQU FirmProd  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.0362      
+2          .              .              .              .          
+3          .              .              .            -0.0684      
+
+---- EQU FirmFOC1  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -1.9981      
+2          .              .              .            -1.6992      
+3          .              .              .            -1.4844      
+
+---- EQU FirmFOC2  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.0628      
+2          .              .              .            -0.2178      
+3          .              .              .            -0.0949      
+
+---- EQU Copeland  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF           -7.2839          .              .          
+2        -INF           -5.6502          .              .          
+3        -INF           -5.0158          .              .          
+
+---- EQU HHFOC1  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1          .              .              .            -0.0494      
+1.2          .              .              .            -0.1184      
+2.1          .              .              .            -0.0320      
+2.2          .              .              .            -0.0663      
+3.1          .              .              .            -0.0189      
+3.2          .              .              .            -0.0270      
+4.1          .              .              .            -0.0034      
+4.2          .              .              .             0.0196      
+5.1          .              .              .             0.0430      
+5.2          .              .              .             0.1587      
+
+---- EQU HHFOC2  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1          .              .              .            -0.1168      
+2.1          .              .              .            -0.0646      
+3.1          .              .              .            -0.0254      
+4.1          .              .              .             0.0212      
+5.1          .              .              .             0.1603      
+
+---- EQU HHFOC3  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.1584      
+2          .              .              .            -0.1672      
+3          .              .              .            -0.1774      
+4          .              .              .            -0.1943      
+5          .              .              .            -0.2388      
+
+---- EQU GenEq  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.6021      
+2          .              .              .            -0.9356      
+3          .              .              .            -0.7115      
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU numeraire          1.0000         1.0000         1.0000         1.3931      
+---- EQU Tax               -5.0000        -5.0000        -5.0000        -0.1901      
+
+---- EQU Inc_constraint  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .            +INF           -0.0589      
+2          .              .            +INF           -0.0799      
+3          .              .            +INF           -0.0762      
+4          .              .            +INF           -0.0500      
+
+---- EQU Utility  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .             1.0000      
+2          .              .              .             1.0589      
+3          .              .              .             1.0799      
+4          .              .              .             1.0762      
+5          .              .              .             1.0500      
+
+---- EQU Utility_NE  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .             EPS         
+2          .              .              .             EPS         
+3          .              .              .             EPS         
+4          .              .              .             EPS         
+5          .              .              .             EPS         
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Welfare_NE          .              .              .             EPS         
+---- EQU Welfare             .              .              .             1.0000      
+
+---- VAR T  labor time in production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         7.6026        +INF             .          
+2   1.0000000E-9         6.8435        +INF             .          
+3   1.0000000E-9         5.4786        +INF             .          
+
+---- VAR Z  pollution in production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         0.3187        +INF             .          
+2   1.0000000E-9         1.1934        +INF             .          
+3   1.0000000E-9         0.4628        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR wage         1.0000000E-9         1.0000        +INF             .          
+
+  wage  rental price labor
+
+---- VAR F  production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         6.8229    100000.0000          .          
+2   1.0000000E-9         4.9635    100000.0000          .          
+3   1.0000000E-9         4.5027    100000.0000          .          
+
+---- VAR pr  price of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         1.2479        +INF             .          
+2   1.0000000E-9         2.0663        +INF             .          
+3   1.0000000E-9         1.5107        +INF             .          
+
+---- VAR T_total  total time endowment of agents
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        24.0000        24.0000        24.0000         0.0119      
+2        24.0000        24.0000        24.0000         0.0272      
+3        24.0000        24.0000        24.0000         0.0438      
+4        24.0000        24.0000        24.0000         0.0683      
+5        24.0000        24.0000        24.0000         0.1434      
+
+---- VAR X  amount of good g consumed by hh i
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1   1.0000000E-9         0.5749        +INF             .          
+1.2         0.5000         0.6736        +INF             .          
+1.3   1.0000000E-9         0.3562        +INF             .          
+2.1   1.0000000E-9         0.8015        +INF             .          
+2.2         0.5000         0.7420        +INF             .          
+2.3   1.0000000E-9         0.4965        +INF             .          
+3.1   1.0000000E-9         1.0349        +INF             .          
+3.2         0.5000         0.8125        +INF             .          
+3.3   1.0000000E-9         0.6412        +INF             .          
+4.1   1.0000000E-9         1.3152        +INF             .          
+4.2         0.5000         0.8971        +INF             .          
+4.3   1.0000000E-9         0.8148        +INF             .          
+5.1   1.0000000E-9         1.7607        +INF             .          
+5.2         0.5000         1.0316        +INF             .          
+5.3   1.0000000E-9         1.0908        +INF             .          
+
+---- VAR lei  leisure of hh i
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         3.5032        24.0000         EPS         
+2   1.0000000E-9         3.7100        24.0000          .          
+3   1.0000000E-9         3.8397        24.0000          .          
+4   1.0000000E-9         3.9406        24.0000          .          
+5   1.0000000E-9         4.0397        24.0000          .          
+
+---- VAR U  Utility (with environmental component)
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF            0.3348        +INF             .          
+2        -INF            0.5286        +INF             .          
+3        -INF            0.7227        +INF             .          
+4        -INF            0.9502        +INF             .          
+5        -INF            1.3021        +INF             .          
+
+---- VAR U_NE  Non-environmental utility
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF            0.5323        +INF             .          
+2        -INF            0.7261        +INF             .          
+3        -INF            0.9202        +INF             .          
+4        -INF            1.1477        +INF             .          
+5        -INF            1.4996        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR L                -10.0000         0.5486        10.0000          .          
+---- VAR W                 -INF            3.8385        +INF             .          
+---- VAR W_NE              -INF            4.8259        +INF             .          
+---- VAR tau_P            -10.0000         2.8597        10.0000         EPS         
+
+  L  Lump-sum transfers
+  W  Welfare
+  W_NE  Non-environmental welfare
+  tau_P  pollution tax
+
+---- VAR tau_w  non-linear income tax
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1       -20.0000        -2.4132        20.0000          .          
+2       -20.0000        -0.6339        20.0000          .          
+3       -20.0000        -0.1927        20.0000          .          
+4       -20.0000         0.0906        20.0000          .          
+5       -20.0000         0.4678        20.0000          .          
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+                             0     ERRORS
+                             1  PROJECTED
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE SG_SP Using NLP From line 304
+
+
+---- totalT  =E=  
+
+totalT..  - T(1) - T(2) - T(3) + 0.03*T_total(1) + 0.0825*T_total(2) + 0.141*T_total(3) + 0.229*T_total(4) + 0.511*T_total(5) - 0.03*lei(1) - 0.0825*lei(2) - 0.141*lei(3) - 0.229*lei(4) - 0.511*lei(5) =E= 0 ; (LHS = 0)
+     
+
+---- FirmProd  =E=  
+
+FirmProd(1)..  - (0.801376389271947)*T(1) - (2.29170541932632)*Z(1) + F(1) =E= 0 ; (LHS = 1.13686837721616E-13, INFES = 1.13686837721616E-13 ****)
+     
+FirmProd(2)..  - (0.483950380351216)*T(2) - (1.38395855453541)*Z(2) + F(2) =E= 0 ; (LHS = 3.61488616817951E-13, INFES = 3.61488616817951E-13 ****)
+     
+FirmProd(3)..  - (0.661947715824542)*T(3) - (1.89297961354213)*Z(3) + F(3) =E= 0 ; (LHS = 1.25233157177718E-13, INFES = 1.25233157177718E-13 ****)
+     
+
+---- FirmFOC1  =E=  
+
+FirmFOC1(1)..  (0.263067064642674)*T(1) + wage - (0.293129648921134)*F(1) - (0.801376389271974)*pr(1) =E= 0 ; (LHS = 0)
+     
+FirmFOC1(2)..  (0.292247754576717)*T(2) + wage - (0.402943986654052)*F(2) - (0.483950380351286)*pr(2) =E= 0 ; (LHS = 1.37556632751057E-13, INFES = 1.37556632751057E-13 ****)
+     
+FirmFOC1(3)..  (0.365054569920137)*T(3) + wage - (0.444179983270728)*F(3) - (0.661947715824579)*pr(3) =E= 0 ; (LHS = 0)
+     
+
+---- FirmFOC2  =E=  
+
+FirmFOC2(1)..  (17.9463606267915)*Z(1) - (0.838266280353091)*F(1) - (2.2917054193264)*pr(1) + tau_P =E= 0 ; (LHS = -2.54463117244086E-12, INFES = 2.54463117244086E-12 ****)
+     
+FirmFOC2(2)..  (4.79273566235396)*Z(2) - (1.15230362444136)*F(2) - (1.38395855453561)*pr(2) + tau_P =E= 0 ; (LHS = -1.49569245877501E-12, INFES = 1.49569245877501E-12 ****)
+     
+FirmFOC2(3)..  (12.3577442484094)*Z(3) - (1.27022668554361)*F(3) - (1.89297961354224)*pr(3) + tau_P =E= 0 ; (LHS = -2.4580337765201E-12, INFES = 2.4580337765201E-12 ****)
+     
+
+---- Copeland  =L=  
+
+Copeland(1)..  - T(1) + Z(1) =L= 0 ; (LHS = -7.28392863544509)
+     
+Copeland(2)..  - T(2) + Z(2) =L= 0 ; (LHS = -5.65015596860428)
+     
+Copeland(3)..  - T(3) + Z(3) =L= 0 ; (LHS = -5.01581197851158)
+     
+
+---- HHFOC1  =E=  
+
+HHFOC1(1,1)..  (0.57493224114427)*pr(1) - (0.347200991322974)*pr(2) + (1.24785308550009)*X(1,1) - (4.13265508449023)*X(1,2) =E= 0 ; (LHS = -1.08357767203415E-13, INFES = 1.08357767203415E-13 ****)
+     
+HHFOC1(1,2)..  (0.173600495661487)*pr(2) - (0.237450896279299)*pr(3) + (2.06632754224512)*X(1,2) - (1.00712888756803)*X(1,3) =E= 0 ; (LHS = 0)
+     
+HHFOC1(2,1)..  (0.801516892240114)*pr(1) - (0.484035229949806)*pr(2) + (1.24785308550009)*X(2,1) - (4.13265508449023)*X(2,2) =E= 0 ; (LHS = 0)
+     
+REMAINING 7 ENTRIES SKIPPED
+
+
+---- HHFOC2  =E=  
+
+HHFOC2(1,1)..  - (0.538073228285718)*wage + (0.356176344418949)*pr(3) + (1.51069333135205)*X(1,3) - (0.153593435704944)*lei(1) + (0.157645378278871)*tau_w(1) =E= 0 ; (LHS = 1.33387745293589E-11, INFES = 1.33387745293589E-11 ****)
+     
+HHFOC2(2,1)..  - (0.750131495284923)*wage + (0.496547829879778)*pr(3) + (1.51069333135205)*X(2,3) - (0.202190121891921)*lei(2) + (0.459116259849382)*tau_w(2) =E= 0 ; (LHS = 1.17902354546118E-11, INFES = 1.17902354546118E-11 ****)
+     
+HHFOC2(3,1)..  - (0.968581474472964)*wage + (0.641150294624651)*pr(3) + (1.51069333135205)*X(3,3) - (0.252251575455663)*lei(3) + (0.812105856944543)*tau_w(3) =E= 0 ; (LHS = 1.08998365888624E-11, INFES = 1.08998365888624E-11 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- HHFOC3  =E=  
+
+HHFOC3(1)..  - (2.0987794857553)*wage + (0.57493224114427)*pr(1) + (0.673600495661487)*pr(2) + (0.356176344418949)*pr(3) - (0.102395623803296)*T_total(1) + (1.24785308550009)*X(1,1) + (2.06632754224512)*X(1,2) + (1.51069333135205)*X(1,3)
+     
+      + (0.102395623803296)*lei(1) - L + (0.61490308114742)*tau_w(1) =E= 0 ; (LHS = -8.61000160057301E-12, INFES = 8.61000160057301E-12 ****)
+     
+HHFOC3(2)..  - (2.73495428674745)*wage + (0.801516892240114)*pr(1) + (0.742017614974903)*pr(2) + (0.496547829879778)*pr(3) - (0.134793414594614)*T_total(2) + (1.24785308550009)*X(2,1) + (2.06632754224512)*X(2,2) + (1.51069333135205)*X(2,3)
+     
+      + (0.134793414594614)*lei(2) - L + (1.67392249343375)*tau_w(2) =E= 0 ; (LHS = -7.81286146889215E-12, INFES = 7.81286146889215E-12 ****)
+     
+HHFOC3(3)..  - (3.39030422430863)*wage + (1.03493109965022)*pr(1) + (0.812496915318445)*pr(2) + (0.641150294624651)*pr(3) - (0.168167716970442)*T_total(3) + (1.24785308550009)*X(3,1) + (2.06632754224512)*X(3,2) + (1.51069333135205)*X(3,3)
+     
+      + (0.168167716970442)*lei(3) - L + (2.8425960953703)*tau_w(3) =E= 0 ; (LHS = -7.55839835164807E-12, INFES = 7.55839835164807E-12 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- GenEq  =E=  
+
+GenEq(1)..  F(1) + (1.07034019547107)*pr(1) - X(1,1) - X(2,1) - X(3,1) - X(4,1) - X(5,1) =E= 0 ; (LHS = 0)
+     
+GenEq(2)..  F(2) + (0.390346617737031)*pr(2) - X(1,2) - X(2,2) - X(3,2) - X(4,2) - X(5,2) =E= 0 ; (LHS = 0)
+     
+GenEq(3)..  F(3) + (0.730291297475754)*pr(3) - X(1,3) - X(2,3) - X(3,3) - X(4,3) - X(5,3) =E= 0 ; (LHS = 0)
+     
+
+---- numeraire  =E=  
+
+numeraire..  wage =E= 1 ; (LHS = 1)
+     
+
+---- Tax  =E=  
+
+Tax..  - (2.85971167856119)*Z(1) - (2.85971167856119)*Z(2) - (2.85971167856119)*Z(3) - (2.09546395244771)*wage + (0.0723956238032962)*T_total(1) + (0.0522934145946137)*T_total(2) + (0.0271677169704418)*T_total(3) - (0.0207540108363136)*T_total(4)
+     
+      - (0.239062375305678)*T_total(5) - (0.0723956238032962)*lei(1) - (0.0522934145946137)*lei(2) - (0.0271677169704418)*lei(3) + (0.0207540108363136)*lei(4) + (0.239062375305678)*lei(5) + 5*L - (1.97486898459589)*tau_P - (0.61490308114742)*tau_w(1)
+     
+      - (1.67392249343375)*tau_w(2) - (2.8425960953703)*tau_w(3) - (4.59360936949342)*tau_w(4) - (10.1997345277119)*tau_w(5) =E= -5 ; (LHS = -4.99999999995971, INFES = 4.02931021881159E-11 ****)
+     
+
+---- Inc_constraint  =G=  
+
+Inc_constraint(1)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.0654141142860421)*wage + (0.0179193114781001)*pr(1) + (0.0209945733249145)*pr(2) + (0.0111011948887602)*pr(3) - (0.00877644720620093)*T_total(1) - (0.466282024250412)*X(1,1)
+     
+      - (0.772119250541535)*X(1,2) - (0.564496856841188)*X(1,3) + U(2) - (0.0311676928092184)*L + (0.0191651103405661)*tau_w(1) =G= 0 ; (LHS = -3.74589248508528E-13, INFES = 3.74589248508528E-13 ****)
+     
+Inc_constraint(2)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.180148925633619)*wage + (0.0527951811532416)*pr(1) + (0.0488760184355047)*pr(2) + (0.0327071492610519)*pr(3) - (0.0151745368223754)*T_total(2) - (0.377034207801377)*X(2,1)
+     
+      - (0.624333246438515)*X(2,2) - (0.456450418751713)*X(2,3) + U(3) - (0.0658690810691305)*L + (0.110259736423113)*tau_w(2) =G= 0 ; (LHS = -6.16950934784199E-13, INFES = 6.16950934784199E-13 ****)
+     
+Inc_constraint(3)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.245899156560794)*wage + (0.0750636720676556)*pr(1) + (0.0589304950136859)*pr(2) + (0.0465027048448457)*pr(3) - (0.0198096757201138)*T_total(3) - (0.353064746792108)*X(3,1)
+     
+      - (0.584642069623226)*X(3,2) - (0.427432175079011)*X(3,3) + U(4) - (0.0725301153796861)*L + (0.206173822774594)*tau_w(3) =G= 0 ; (LHS = -5.42121902924464E-13, INFES = 5.42121902924464E-13 ****)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- Utility  =E=  
+
+Utility(1)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.370333886351805)*X(1,1) - (0.613238143245537)*X(1,2) - (0.448338782013838)*X(1,3) - (0.0303886489123296)*lei(1) + U(1) =E= 0 ; (LHS = 0)
+     
+Utility(2)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.362364461856093)*X(2,1) - (0.600041524571002)*X(2,2) - (0.438690726020509)*X(2,3) - (0.0391427033435708)*lei(2) + U(2) =E= 0 ; (LHS = 6.33604280153577E-13, INFES = 6.33604280153577E-13 ****)
+     
+Utility(3)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.355656445468319)*X(3,1) - (0.588933679283088)*X(3,2) - (0.430569773529115)*X(3,3) - (0.0479302677181225)*lei(3) + U(3) =E= 0 ; (LHS = 7.99360577730113E-13, INFES = 7.99360577730113E-13 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- Utility_NE  =E=  
+
+Utility_NE(1)..  - (0.370333886351805)*X(1,1) - (0.613238143245537)*X(1,2) - (0.448338782013838)*X(1,3) - (0.0303886489123296)*lei(1) + U_NE(1) =E= 0 ; (LHS = 0)
+     
+Utility_NE(2)..  - (0.362364461856093)*X(2,1) - (0.600041524571002)*X(2,2) - (0.438690726020509)*X(2,3) - (0.0391427033435708)*lei(2) + U_NE(2) =E= 0 ; (LHS = 0)
+     
+Utility_NE(3)..  - (0.355656445468319)*X(3,1) - (0.588933679283088)*X(3,2) - (0.430569773529115)*X(3,3) - (0.0479302677181225)*lei(3) + U_NE(3) =E= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- Welfare_NE  =E=  
+
+Welfare_NE..  - U_NE(1) - U_NE(2) - U_NE(3) - U_NE(4) - U_NE(5) + W_NE =E= 0 ; (LHS = 0)
+     
+
+---- Welfare  =E=  
+
+Welfare..  - U(1) - U(2) - U(3) - U(4) - U(5) + W =E= 0 ; (LHS = 0)
+     
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE SG_SP Using NLP From line 304
+
+
+---- T  labor time in production of good g
+
+T(1)
+                (.LO, .L, .UP, .M = 1E-9, 7.60262407883148, +INF, 0)
+       -1       totalT
+      (-0.8014) FirmProd(1)
+       (0.2631) FirmFOC1(1)
+       -1       Copeland(1)
+
+T(2)
+                (.LO, .L, .UP, .M = 1E-9, 6.84350852548539, +INF, 0)
+       -1       totalT
+      (-0.484)  FirmProd(2)
+       (0.2922) FirmFOC1(2)
+       -1       Copeland(2)
+
+T(3)
+                (.LO, .L, .UP, .M = 1E-9, 5.47863296283996, +INF, 0)
+       -1       totalT
+      (-0.6619) FirmProd(3)
+       (0.3651) FirmFOC1(3)
+       -1       Copeland(3)
+
+
+---- Z  pollution in production of good g
+
+Z(1)
+                (.LO, .L, .UP, .M = 1E-9, 0.318695443386395, +INF, 0)
+      (-2.2917) FirmProd(1)
+      (17.9464) FirmFOC2(1)
+        1       Copeland(1)
+      (-2.8597) Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+Z(2)
+                (.LO, .L, .UP, .M = 1E-9, 1.19335255688111, +INF, 0)
+      (-1.384)  FirmProd(2)
+       (4.7927) FirmFOC2(2)
+        1       Copeland(2)
+      (-2.8597) Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+Z(3)
+                (.LO, .L, .UP, .M = 1E-9, 0.462820984328385, +INF, 0)
+      (-1.893)  FirmProd(3)
+      (12.3577) FirmFOC2(3)
+        1       Copeland(3)
+      (-2.8597) Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+
+---- wage  rental price labor
+
+wage
+                (.LO, .L, .UP, .M = 1E-9, 1, +INF, 0)
+        1       FirmFOC1(1)
+        1       FirmFOC1(2)
+        1       FirmFOC1(3)
+      (-0.5381) HHFOC2(1,1)
+      (-0.7501) HHFOC2(2,1)
+      (-0.9686) HHFOC2(3,1)
+      (-1.2309) HHFOC2(4,1)
+      (-1.6478) HHFOC2(5,1)
+      (-2.0988) HHFOC3(1)
+      (-2.735)  HHFOC3(2)
+      (-3.3903) HHFOC3(3)
+      (-4.1773) HHFOC3(4)
+      (-5.428)  HHFOC3(5)
+        1       numeraire
+      (-2.0955) Tax
+      (-0.0654) Inc_constraint(1)
+      (-0.1801) Inc_constraint(2)
+      (-0.2459) Inc_constraint(3)
+      (-0.1796) Inc_constraint(4)
+
+
+---- F  production of good g
+
+F(1)
+                (.LO, .L, .UP, .M = 1E-9, 6.82291950800926, 100000, 0)
+        1       FirmProd(1)
+      (-0.2931) FirmFOC1(1)
+      (-0.8383) FirmFOC2(1)
+        1       GenEq(1)
+
+F(2)
+                (.LO, .L, .UP, .M = 1E-9, 4.96346903351812, 100000, 0)
+        1       FirmProd(2)
+      (-0.4029) FirmFOC1(2)
+      (-1.1523) FirmFOC2(2)
+        1       GenEq(2)
+
+F(3)
+                (.LO, .L, .UP, .M = 1E-9, 4.50267926364622, 100000, 0)
+        1       FirmProd(3)
+      (-0.4442) FirmFOC1(3)
+      (-1.2702) FirmFOC2(3)
+        1       GenEq(3)
+
+
+---- pr  price of good g
+
+pr(1)
+                (.LO, .L, .UP, .M = 1E-9, 1.24785308550009, +INF, 0)
+      (-0.8014) FirmFOC1(1)
+      (-2.2917) FirmFOC2(1)
+       (0.5749) HHFOC1(1,1)
+       (0.8015) HHFOC1(2,1)
+       (1.0349) HHFOC1(3,1)
+       (1.3152) HHFOC1(4,1)
+       (1.7607) HHFOC1(5,1)
+       (0.5749) HHFOC3(1)
+       (0.8015) HHFOC3(2)
+       (1.0349) HHFOC3(3)
+       (1.3152) HHFOC3(4)
+       (1.7607) HHFOC3(5)
+       (1.0703) GenEq(1)
+       (0.0179) Inc_constraint(1)
+       (0.0528) Inc_constraint(2)
+       (0.0751) Inc_constraint(3)
+       (0.0566) Inc_constraint(4)
+
+pr(2)
+                (.LO, .L, .UP, .M = 1E-9, 2.06632754224512, +INF, 0)
+      (-0.484)  FirmFOC1(2)
+      (-1.384)  FirmFOC2(2)
+      (-0.3472) HHFOC1(1,1)
+       (0.1736) HHFOC1(1,2)
+      (-0.484)  HHFOC1(2,1)
+       (0.242)  HHFOC1(2,2)
+      (-0.625)  HHFOC1(3,1)
+       (0.3125) HHFOC1(3,2)
+      (-0.7943) HHFOC1(4,1)
+       (0.3971) HHFOC1(4,2)
+      (-1.0633) HHFOC1(5,1)
+       (0.5316) HHFOC1(5,2)
+       (0.6736) HHFOC3(1)
+       (0.742)  HHFOC3(2)
+       (0.8125) HHFOC3(3)
+       (0.8971) HHFOC3(4)
+       (1.0316) HHFOC3(5)
+       (0.3903) GenEq(2)
+       (0.021)  Inc_constraint(1)
+       (0.0489) Inc_constraint(2)
+       (0.0589) Inc_constraint(3)
+       (0.0386) Inc_constraint(4)
+
+pr(3)
+                (.LO, .L, .UP, .M = 1E-9, 1.51069333135205, +INF, 0)
+      (-0.6619) FirmFOC1(3)
+      (-1.893)  FirmFOC2(3)
+      (-0.2375) HHFOC1(1,2)
+      (-0.331)  HHFOC1(2,2)
+      (-0.4274) HHFOC1(3,2)
+      (-0.5432) HHFOC1(4,2)
+      (-0.7272) HHFOC1(5,2)
+       (0.3562) HHFOC2(1,1)
+       (0.4965) HHFOC2(2,1)
+       (0.6412) HHFOC2(3,1)
+       (0.8148) HHFOC2(4,1)
+       (1.0908) HHFOC2(5,1)
+       (0.3562) HHFOC3(1)
+       (0.4965) HHFOC3(2)
+       (0.6412) HHFOC3(3)
+       (0.8148) HHFOC3(4)
+       (1.0908) HHFOC3(5)
+       (0.7303) GenEq(3)
+       (0.0111) Inc_constraint(1)
+       (0.0327) Inc_constraint(2)
+       (0.0465) Inc_constraint(3)
+       (0.035)  Inc_constraint(4)
+
+
+---- T_total  total time endowment of agents
+
+T_total(1)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0119305320286391)
+        0.03    totalT
+      (-0.1024) HHFOC3(1)
+       (0.0724) Tax
+      (-0.0088) Inc_constraint(1)
+
+T_total(2)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0271678694242859)
+        0.0825  totalT
+      (-0.1348) HHFOC3(2)
+       (0.0523) Tax
+      (-0.0152) Inc_constraint(2)
+
+T_total(3)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0438475420852192)
+        0.141   totalT
+      (-0.1682) HHFOC3(3)
+       (0.0272) Tax
+      (-0.0198) Inc_constraint(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- X  amount of good g consumed by hh i
+
+X(1,1)
+                (.LO, .L, .UP, .M = 1E-9, 0.57493224114427, +INF, 0)
+       (1.2479) HHFOC1(1,1)
+       (1.2479) HHFOC3(1)
+       -1       GenEq(1)
+      (-0.4663) Inc_constraint(1)
+      (-0.3703) Utility(1)
+      (-0.3703) Utility_NE(1)
+
+X(1,2)
+                (.LO, .L, .UP, .M = 0.500000001, 0.673600495661487, +INF, 0)
+      (-4.1327) HHFOC1(1,1)
+       (2.0663) HHFOC1(1,2)
+       (2.0663) HHFOC3(1)
+       -1       GenEq(2)
+      (-0.7721) Inc_constraint(1)
+      (-0.6132) Utility(1)
+      (-0.6132) Utility_NE(1)
+
+X(1,3)
+                (.LO, .L, .UP, .M = 1E-9, 0.356176344418949, +INF, 0)
+      (-1.0071) HHFOC1(1,2)
+       (1.5107) HHFOC2(1,1)
+       (1.5107) HHFOC3(1)
+       -1       GenEq(3)
+      (-0.5645) Inc_constraint(1)
+      (-0.4483) Utility(1)
+      (-0.4483) Utility_NE(1)
+
+REMAINING 12 ENTRIES SKIPPED
+
+---- lei  leisure of hh i
+
+lei(1)
+                (.LO, .L, .UP, .M = 1E-9, 3.50323062841935, 23.999999999, EPS)
+       -0.03    totalT
+      (-0.1536) HHFOC2(1,1)
+       (0.1024) HHFOC3(1)
+      (-0.0724) Tax
+      (-0.0304) Utility(1)
+      (-0.0304) Utility_NE(1)
+
+lei(2)
+                (.LO, .L, .UP, .M = 1E-9, 3.71003038262127, 23.999999999, 0)
+       -0.0825  totalT
+      (-0.2022) HHFOC2(2,1)
+       (0.1348) HHFOC3(2)
+      (-0.0523) Tax
+      (-0.0391) Utility(2)
+      (-0.0391) Utility_NE(2)
+
+lei(3)
+                (.LO, .L, .UP, .M = 1E-9, 3.83974400446592, 23.999999999, 0)
+       -0.141   totalT
+      (-0.2523) HHFOC2(3,1)
+       (0.1682) HHFOC3(3)
+      (-0.0272) Tax
+      (-0.0479) Utility(3)
+      (-0.0479) Utility_NE(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- U  Utility (with environmental component)
+
+U(1)
+                (.LO, .L, .UP, .M = -INF, 0.334805329670188, +INF, 0)
+        1       Utility(1)
+       -1       Welfare
+
+U(2)
+                (.LO, .L, .UP, .M = -INF, 0.528616194853938, +INF, 0)
+        1       Inc_constraint(1)
+        1       Utility(2)
+       -1       Welfare
+
+U(3)
+                (.LO, .L, .UP, .M = -INF, 0.722712892056748, +INF, 0)
+        1       Inc_constraint(2)
+        1       Utility(3)
+       -1       Welfare
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- U_NE  Non-environmental utility
+
+U_NE(1)
+                (.LO, .L, .UP, .M = -INF, 0.532292228129776, +INF, 0)
+        1       Utility_NE(1)
+       -1       Welfare_NE
+
+U_NE(2)
+                (.LO, .L, .UP, .M = -INF, 0.726103093312893, +INF, 0)
+        1       Utility_NE(2)
+       -1       Welfare_NE
+
+U_NE(3)
+                (.LO, .L, .UP, .M = -INF, 0.920199790515538, +INF, 0)
+        1       Utility_NE(3)
+       -1       Welfare_NE
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- L  Lump-sum transfers
+
+L
+                (.LO, .L, .UP, .M = -10, 0.548603970273025, 10, 0)
+       -1       HHFOC3(1)
+       -1       HHFOC3(2)
+       -1       HHFOC3(3)
+       -1       HHFOC3(4)
+       -1       HHFOC3(5)
+        5       Tax
+      (-0.0312) Inc_constraint(1)
+      (-0.0659) Inc_constraint(2)
+      (-0.0725) Inc_constraint(3)
+      (-0.043)  Inc_constraint(4)
+
+
+---- W  Welfare
+
+W
+                (.LO, .L, .UP, .M = -INF, 3.83845119141306, +INF, 0)
+        1       Welfare
+
+
+---- W_NE  Non-environmental welfare
+
+W_NE
+                (.LO, .L, .UP, .M = -INF, 4.82588568370747, +INF, 0)
+        1       Welfare_NE
+
+
+---- tau_P  pollution tax
+
+tau_P
+                (.LO, .L, .UP, .M = -10, 2.85971167856119, 10, EPS)
+        1       FirmFOC2(1)
+        1       FirmFOC2(2)
+        1       FirmFOC2(3)
+      (-1.9749) Tax
+
+
+---- tau_w  non-linear income tax
+
+tau_w(1)
+                (.LO, .L, .UP, .M = -20, -2.41318746010987, 20, 0)
+       (0.1576) HHFOC2(1,1)
+       (0.6149) HHFOC3(1)
+      (-0.6149) Tax
+       (0.0192) Inc_constraint(1)
+
+tau_w(2)
+                (.LO, .L, .UP, .M = -20, -0.633859570843803, 20, 0)
+       (0.4591) HHFOC2(2,1)
+       (1.6739) HHFOC3(2)
+      (-1.6739) Tax
+       (0.1103) Inc_constraint(2)
+
+tau_w(3)
+                (.LO, .L, .UP, .M = -20, -0.192678843761998, 20, 0)
+       (0.8121) HHFOC2(3,1)
+       (2.8426) HHFOC3(3)
+      (-2.8426) Tax
+       (0.2062) Inc_constraint(3)
+
+REMAINING 2 ENTRIES SKIPPED
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 8
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE SG_SP Using NLP From line 304
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS          16     SINGLE EQUATIONS           54
+BLOCKS OF VARIABLES          15     SINGLE VARIABLES           57
+NON ZERO ELEMENTS           348     NON LINEAR N-Z            269
+DERIVATIVE POOL              20     CONSTANT POOL              40
+CODE LENGTH                 805
+
+
+GENERATION TIME      =        0.047 SECONDS      3 MB  30.2.0 r482c588 WEX-WEI
+
+
+EXECUTION TIME       =        0.047 SECONDS      3 MB  30.2.0 r482c588 WEX-WEI
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 9
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE SG_SP Using NLP From line 304
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   SG_SP               OBJECTIVE  W
+     TYPE    NLP                 DIRECTION  MAXIMIZE
+     SOLVER  CONOPT              FROM LINE  304
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      2 Locally Optimal           
+**** OBJECTIVE VALUE                3.8385
+
+ RESOURCE USAGE, LIMIT          0.000      1000.000
+ ITERATION COUNT, LIMIT         4    2000000000
+ EVALUATION ERRORS              0             0
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The model has 57 variables and 54 constraints
+    with 348 Jacobian elements, 269 of which are nonlinear.
+    The Hessian of the Lagrangian has 42 elements on the diagonal,
+    208 elements below the diagonal, and 45 nonlinear variables.
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+ 
+ CONOPT time Total                            0.003 seconds
+   of which: Function evaluations             0.001 = 33.3%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU totalT              .              .              .            -0.4966      
+
+---- EQU FirmProd  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.0362      
+2          .              .              .              .          
+3          .              .              .            -0.0684      
+
+---- EQU FirmFOC1  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -1.9981      
+2          .              .              .            -1.6992      
+3          .              .              .            -1.4844      
+
+---- EQU FirmFOC2  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.0628      
+2          .              .              .            -0.2178      
+3          .              .              .            -0.0949      
+
+---- EQU Copeland  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF           -7.2839          .              .          
+2        -INF           -5.6502          .              .          
+3        -INF           -5.0158          .              .          
+
+---- EQU HHFOC1  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1          .              .              .            -0.0494      
+1.2          .              .              .            -0.1184      
+2.1          .              .              .            -0.0320      
+2.2          .              .              .            -0.0663      
+3.1          .              .              .            -0.0189      
+3.2          .              .              .            -0.0270      
+4.1          .              .              .            -0.0034      
+4.2          .              .              .             0.0196      
+5.1          .              .              .             0.0430      
+5.2          .              .              .             0.1587      
+
+---- EQU HHFOC2  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1          .              .              .            -0.1168      
+2.1          .              .              .            -0.0646      
+3.1          .              .              .            -0.0254      
+4.1          .              .              .             0.0212      
+5.1          .              .              .             0.1603      
+
+---- EQU HHFOC3  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.1584      
+2          .              .              .            -0.1672      
+3          .              .              .            -0.1774      
+4          .              .              .            -0.1943      
+5          .              .              .            -0.2388      
+
+---- EQU GenEq  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.6021      
+2          .              .              .            -0.9356      
+3          .              .              .            -0.7115      
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU numeraire          1.0000         1.0000         1.0000         1.3931      
+---- EQU Tax               -5.0000        -5.0000        -5.0000        -0.1901      
+
+---- EQU Inc_constraint  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .            +INF           -0.0589      
+2          .              .            +INF           -0.0799      
+3          .              .            +INF           -0.0762      
+4          .              .            +INF           -0.0500      
+
+---- EQU Utility  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .             1.0000      
+2          .              .              .             1.0589      
+3          .              .              .             1.0799      
+4          .              .              .             1.0762      
+5          .              .              .             1.0500      
+
+---- EQU Utility_NE  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .             EPS         
+2          .              .              .             EPS         
+3          .              .              .             EPS         
+4          .              .              .             EPS         
+5          .              .              .             EPS         
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Welfare_NE          .              .              .             EPS         
+---- EQU Welfare             .              .              .             1.0000      
+
+---- VAR T  labor time in production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         7.6026        +INF             .          
+2   1.0000000E-9         6.8435        +INF             .          
+3   1.0000000E-9         5.4786        +INF             .          
+
+---- VAR Z  pollution in production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         0.3187        +INF             .          
+2   1.0000000E-9         1.1934        +INF             .          
+3   1.0000000E-9         0.4628        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR wage         1.0000000E-9         1.0000        +INF             .          
+
+  wage  rental price labor
+
+---- VAR F  production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         6.8229    100000.0000          .          
+2   1.0000000E-9         4.9635    100000.0000          .          
+3   1.0000000E-9         4.5027    100000.0000          .          
+
+---- VAR pr  price of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         1.2479        +INF             .          
+2   1.0000000E-9         2.0663        +INF             .          
+3   1.0000000E-9         1.5107        +INF             .          
+
+---- VAR T_total  total time endowment of agents
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        24.0000        24.0000        24.0000         0.0119      
+2        24.0000        24.0000        24.0000         0.0272      
+3        24.0000        24.0000        24.0000         0.0438      
+4        24.0000        24.0000        24.0000         0.0683      
+5        24.0000        24.0000        24.0000         0.1434      
+
+---- VAR X  amount of good g consumed by hh i
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1   1.0000000E-9         0.5749        +INF             .          
+1.2         0.5000         0.6736        +INF             .          
+1.3   1.0000000E-9         0.3562        +INF             .          
+2.1   1.0000000E-9         0.8015        +INF             .          
+2.2         0.5000         0.7420        +INF             .          
+2.3   1.0000000E-9         0.4965        +INF             .          
+3.1   1.0000000E-9         1.0349        +INF             .          
+3.2         0.5000         0.8125        +INF             .          
+3.3   1.0000000E-9         0.6412        +INF             .          
+4.1   1.0000000E-9         1.3152        +INF             .          
+4.2         0.5000         0.8971        +INF             .          
+4.3   1.0000000E-9         0.8148        +INF             .          
+5.1   1.0000000E-9         1.7607        +INF             .          
+5.2         0.5000         1.0316        +INF             .          
+5.3   1.0000000E-9         1.0908        +INF             .          
+
+---- VAR lei  leisure of hh i
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         3.5032        24.0000         EPS         
+2   1.0000000E-9         3.7100        24.0000          .          
+3   1.0000000E-9         3.8397        24.0000          .          
+4   1.0000000E-9         3.9406        24.0000          .          
+5   1.0000000E-9         4.0397        24.0000          .          
+
+---- VAR U  Utility (with environmental component)
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF            0.3348        +INF             .          
+2        -INF            0.5286        +INF             .          
+3        -INF            0.7227        +INF             .          
+4        -INF            0.9502        +INF             .          
+5        -INF            1.3021        +INF             .          
+
+---- VAR U_NE  Non-environmental utility
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF            0.5323        +INF             .          
+2        -INF            0.7261        +INF             .          
+3        -INF            0.9202        +INF             .          
+4        -INF            1.1477        +INF             .          
+5        -INF            1.4996        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR L                -10.0000         0.5486        10.0000          .          
+---- VAR W                 -INF            3.8385        +INF             .          
+---- VAR W_NE              -INF            4.8259        +INF             .          
+---- VAR tau_P            -10.0000         2.8597        10.0000         EPS         
+
+  L  Lump-sum transfers
+  W  Welfare
+  W_NE  Non-environmental welfare
+  tau_P  pollution tax
+
+---- VAR tau_w  non-linear income tax
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1       -20.0000        -2.4132        20.0000          .          
+2       -20.0000        -0.6339        20.0000          .          
+3       -20.0000        -0.1927        20.0000          .          
+4       -20.0000         0.0906        20.0000          .          
+5       -20.0000         0.4678        20.0000          .          
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+                             0     ERRORS
+                             1  PROJECTED
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 10
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE SG_SP Using NLP From line 305
+
+
+---- totalT  =E=  
+
+totalT..  - T(1) - T(2) - T(3) + 0.03*T_total(1) + 0.0825*T_total(2) + 0.141*T_total(3) + 0.229*T_total(4) + 0.511*T_total(5) - 0.03*lei(1) - 0.0825*lei(2) - 0.141*lei(3) - 0.229*lei(4) - 0.511*lei(5) =E= 0 ; (LHS = 0)
+     
+
+---- FirmProd  =E=  
+
+FirmProd(1)..  - (0.801376389271947)*T(1) - (2.29170541932632)*Z(1) + F(1) =E= 0 ; (LHS = 1.13686837721616E-13, INFES = 1.13686837721616E-13 ****)
+     
+FirmProd(2)..  - (0.483950380351216)*T(2) - (1.38395855453541)*Z(2) + F(2) =E= 0 ; (LHS = 3.61488616817951E-13, INFES = 3.61488616817951E-13 ****)
+     
+FirmProd(3)..  - (0.661947715824542)*T(3) - (1.89297961354213)*Z(3) + F(3) =E= 0 ; (LHS = 1.25233157177718E-13, INFES = 1.25233157177718E-13 ****)
+     
+
+---- FirmFOC1  =E=  
+
+FirmFOC1(1)..  (0.263067064642674)*T(1) + wage - (0.293129648921134)*F(1) - (0.801376389271974)*pr(1) =E= 0 ; (LHS = 0)
+     
+FirmFOC1(2)..  (0.292247754576717)*T(2) + wage - (0.402943986654052)*F(2) - (0.483950380351286)*pr(2) =E= 0 ; (LHS = 1.37556632751057E-13, INFES = 1.37556632751057E-13 ****)
+     
+FirmFOC1(3)..  (0.365054569920137)*T(3) + wage - (0.444179983270728)*F(3) - (0.661947715824579)*pr(3) =E= 0 ; (LHS = 0)
+     
+
+---- FirmFOC2  =E=  
+
+FirmFOC2(1)..  (17.9463606267915)*Z(1) - (0.838266280353091)*F(1) - (2.2917054193264)*pr(1) + tau_P =E= 0 ; (LHS = -2.54463117244086E-12, INFES = 2.54463117244086E-12 ****)
+     
+FirmFOC2(2)..  (4.79273566235396)*Z(2) - (1.15230362444136)*F(2) - (1.38395855453561)*pr(2) + tau_P =E= 0 ; (LHS = -1.49569245877501E-12, INFES = 1.49569245877501E-12 ****)
+     
+FirmFOC2(3)..  (12.3577442484094)*Z(3) - (1.27022668554361)*F(3) - (1.89297961354224)*pr(3) + tau_P =E= 0 ; (LHS = -2.4580337765201E-12, INFES = 2.4580337765201E-12 ****)
+     
+
+---- Copeland  =L=  
+
+Copeland(1)..  - T(1) + Z(1) =L= 0 ; (LHS = -7.28392863544509)
+     
+Copeland(2)..  - T(2) + Z(2) =L= 0 ; (LHS = -5.65015596860428)
+     
+Copeland(3)..  - T(3) + Z(3) =L= 0 ; (LHS = -5.01581197851158)
+     
+
+---- HHFOC1  =E=  
+
+HHFOC1(1,1)..  (0.57493224114427)*pr(1) - (0.347200991322974)*pr(2) + (1.24785308550009)*X(1,1) - (4.13265508449023)*X(1,2) =E= 0 ; (LHS = -1.08357767203415E-13, INFES = 1.08357767203415E-13 ****)
+     
+HHFOC1(1,2)..  (0.173600495661487)*pr(2) - (0.237450896279299)*pr(3) + (2.06632754224512)*X(1,2) - (1.00712888756803)*X(1,3) =E= 0 ; (LHS = 0)
+     
+HHFOC1(2,1)..  (0.801516892240114)*pr(1) - (0.484035229949806)*pr(2) + (1.24785308550009)*X(2,1) - (4.13265508449023)*X(2,2) =E= 0 ; (LHS = 0)
+     
+REMAINING 7 ENTRIES SKIPPED
+
+
+---- HHFOC2  =E=  
+
+HHFOC2(1,1)..  - (0.538073228285718)*wage + (0.356176344418949)*pr(3) + (1.51069333135205)*X(1,3) - (0.153593435704944)*lei(1) + (0.157645378278871)*tau_w(1) =E= 0 ; (LHS = 1.33387745293589E-11, INFES = 1.33387745293589E-11 ****)
+     
+HHFOC2(2,1)..  - (0.750131495284923)*wage + (0.496547829879778)*pr(3) + (1.51069333135205)*X(2,3) - (0.202190121891921)*lei(2) + (0.459116259849382)*tau_w(2) =E= 0 ; (LHS = 1.17902354546118E-11, INFES = 1.17902354546118E-11 ****)
+     
+HHFOC2(3,1)..  - (0.968581474472964)*wage + (0.641150294624651)*pr(3) + (1.51069333135205)*X(3,3) - (0.252251575455663)*lei(3) + (0.812105856944543)*tau_w(3) =E= 0 ; (LHS = 1.08998365888624E-11, INFES = 1.08998365888624E-11 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- HHFOC3  =E=  
+
+HHFOC3(1)..  - (2.0987794857553)*wage + (0.57493224114427)*pr(1) + (0.673600495661487)*pr(2) + (0.356176344418949)*pr(3) - (0.102395623803296)*T_total(1) + (1.24785308550009)*X(1,1) + (2.06632754224512)*X(1,2) + (1.51069333135205)*X(1,3)
+     
+      + (0.102395623803296)*lei(1) - L + (0.61490308114742)*tau_w(1) =E= 0 ; (LHS = -8.61000160057301E-12, INFES = 8.61000160057301E-12 ****)
+     
+HHFOC3(2)..  - (2.73495428674745)*wage + (0.801516892240114)*pr(1) + (0.742017614974903)*pr(2) + (0.496547829879778)*pr(3) - (0.134793414594614)*T_total(2) + (1.24785308550009)*X(2,1) + (2.06632754224512)*X(2,2) + (1.51069333135205)*X(2,3)
+     
+      + (0.134793414594614)*lei(2) - L + (1.67392249343375)*tau_w(2) =E= 0 ; (LHS = -7.81286146889215E-12, INFES = 7.81286146889215E-12 ****)
+     
+HHFOC3(3)..  - (3.39030422430863)*wage + (1.03493109965022)*pr(1) + (0.812496915318445)*pr(2) + (0.641150294624651)*pr(3) - (0.168167716970442)*T_total(3) + (1.24785308550009)*X(3,1) + (2.06632754224512)*X(3,2) + (1.51069333135205)*X(3,3)
+     
+      + (0.168167716970442)*lei(3) - L + (2.8425960953703)*tau_w(3) =E= 0 ; (LHS = -7.55839835164807E-12, INFES = 7.55839835164807E-12 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- GenEq  =E=  
+
+GenEq(1)..  F(1) + (1.07034019547107)*pr(1) - X(1,1) - X(2,1) - X(3,1) - X(4,1) - X(5,1) =E= 0 ; (LHS = 0)
+     
+GenEq(2)..  F(2) + (0.390346617737031)*pr(2) - X(1,2) - X(2,2) - X(3,2) - X(4,2) - X(5,2) =E= 0 ; (LHS = 0)
+     
+GenEq(3)..  F(3) + (0.730291297475754)*pr(3) - X(1,3) - X(2,3) - X(3,3) - X(4,3) - X(5,3) =E= 0 ; (LHS = 0)
+     
+
+---- numeraire  =E=  
+
+numeraire..  wage =E= 1 ; (LHS = 1)
+     
+
+---- Tax  =E=  
+
+Tax..  - (2.85971167856119)*Z(1) - (2.85971167856119)*Z(2) - (2.85971167856119)*Z(3) - (2.09546395244771)*wage + (0.0723956238032962)*T_total(1) + (0.0522934145946137)*T_total(2) + (0.0271677169704418)*T_total(3) - (0.0207540108363136)*T_total(4)
+     
+      - (0.239062375305678)*T_total(5) - (0.0723956238032962)*lei(1) - (0.0522934145946137)*lei(2) - (0.0271677169704418)*lei(3) + (0.0207540108363136)*lei(4) + (0.239062375305678)*lei(5) + 5*L - (1.97486898459589)*tau_P - (0.61490308114742)*tau_w(1)
+     
+      - (1.67392249343375)*tau_w(2) - (2.8425960953703)*tau_w(3) - (4.59360936949342)*tau_w(4) - (10.1997345277119)*tau_w(5) =E= -5 ; (LHS = -4.99999999995971, INFES = 4.02931021881159E-11 ****)
+     
+
+---- Inc_constraint  =G=  
+
+Inc_constraint(1)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.0654141142860421)*wage + (0.0179193114781001)*pr(1) + (0.0209945733249145)*pr(2) + (0.0111011948887602)*pr(3) - (0.00877644720620093)*T_total(1) - (0.466282024250412)*X(1,1)
+     
+      - (0.772119250541535)*X(1,2) - (0.564496856841188)*X(1,3) + U(2) - (0.0311676928092184)*L + (0.0191651103405661)*tau_w(1) =G= 0 ; (LHS = -1.0081935286621E-12, INFES = 1.0081935286621E-12 ****)
+     
+Inc_constraint(2)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.180148925633619)*wage + (0.0527951811532416)*pr(1) + (0.0488760184355047)*pr(2) + (0.0327071492610519)*pr(3) - (0.0151745368223754)*T_total(2) - (0.377034207801377)*X(2,1)
+     
+      - (0.624333246438515)*X(2,2) - (0.456450418751713)*X(2,3) + U(3) - (0.0658690810691305)*L + (0.110259736423113)*tau_w(2) =G= 0 ; (LHS = -1.41631151251431E-12, INFES = 1.41631151251431E-12 ****)
+     
+Inc_constraint(3)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.245899156560794)*wage + (0.0750636720676556)*pr(1) + (0.0589304950136859)*pr(2) + (0.0465027048448457)*pr(3) - (0.0198096757201138)*T_total(3) - (0.353064746792108)*X(3,1)
+     
+      - (0.584642069623226)*X(3,2) - (0.427432175079011)*X(3,3) + U(4) - (0.0725301153796861)*L + (0.206173822774594)*tau_w(3) =G= 0 ; (LHS = -1.50213175231784E-12, INFES = 1.50213175231784E-12 ****)
+     
+REMAINING ENTRY SKIPPED
+
+
+---- Utility  =E=  
+
+Utility(1)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.370333886351805)*X(1,1) - (0.613238143245537)*X(1,2) - (0.448338782013838)*X(1,3) - (0.0303886489123296)*lei(1) + U(1) =E= 0 ; (LHS = 0)
+     
+Utility(2)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.362364461856093)*X(2,1) - (0.600041524571002)*X(2,2) - (0.438690726020509)*X(2,3) - (0.0391427033435708)*lei(2) + U(2) =E= 0 ; (LHS = 0)
+     
+Utility(3)..  (0.1)*Z(1) + (0.1)*Z(2) + (0.1)*Z(3) - (0.355656445468319)*X(3,1) - (0.588933679283088)*X(3,2) - (0.430569773529115)*X(3,3) - (0.0479302677181225)*lei(3) + U(3) =E= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- Utility_NE  =E=  
+
+Utility_NE(1)..  - (0.370333886351805)*X(1,1) - (0.613238143245537)*X(1,2) - (0.448338782013838)*X(1,3) - (0.0303886489123296)*lei(1) + U_NE(1) =E= 0 ; (LHS = 0)
+     
+Utility_NE(2)..  - (0.362364461856093)*X(2,1) - (0.600041524571002)*X(2,2) - (0.438690726020509)*X(2,3) - (0.0391427033435708)*lei(2) + U_NE(2) =E= 0 ; (LHS = 0)
+     
+Utility_NE(3)..  - (0.355656445468319)*X(3,1) - (0.588933679283088)*X(3,2) - (0.430569773529115)*X(3,3) - (0.0479302677181225)*lei(3) + U_NE(3) =E= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- Welfare_NE  =E=  
+
+Welfare_NE..  - U_NE(1) - U_NE(2) - U_NE(3) - U_NE(4) - U_NE(5) + W_NE =E= 0 ; (LHS = 0)
+     
+
+---- Welfare  =E=  
+
+Welfare..  - U(1) - U(2) - U(3) - U(4) - U(5) + W =E= 0 ; (LHS = 0)
+     
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 11
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE SG_SP Using NLP From line 305
+
+
+---- T  labor time in production of good g
+
+T(1)
+                (.LO, .L, .UP, .M = 1E-9, 7.60262407883148, +INF, 0)
+       -1       totalT
+      (-0.8014) FirmProd(1)
+       (0.2631) FirmFOC1(1)
+       -1       Copeland(1)
+
+T(2)
+                (.LO, .L, .UP, .M = 1E-9, 6.84350852548539, +INF, 0)
+       -1       totalT
+      (-0.484)  FirmProd(2)
+       (0.2922) FirmFOC1(2)
+       -1       Copeland(2)
+
+T(3)
+                (.LO, .L, .UP, .M = 1E-9, 5.47863296283996, +INF, 0)
+       -1       totalT
+      (-0.6619) FirmProd(3)
+       (0.3651) FirmFOC1(3)
+       -1       Copeland(3)
+
+
+---- Z  pollution in production of good g
+
+Z(1)
+                (.LO, .L, .UP, .M = 1E-9, 0.318695443386395, +INF, 0)
+      (-2.2917) FirmProd(1)
+      (17.9464) FirmFOC2(1)
+        1       Copeland(1)
+      (-2.8597) Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+Z(2)
+                (.LO, .L, .UP, .M = 1E-9, 1.19335255688111, +INF, 0)
+      (-1.384)  FirmProd(2)
+       (4.7927) FirmFOC2(2)
+        1       Copeland(2)
+      (-2.8597) Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+Z(3)
+                (.LO, .L, .UP, .M = 1E-9, 0.462820984328385, +INF, 0)
+      (-1.893)  FirmProd(3)
+      (12.3577) FirmFOC2(3)
+        1       Copeland(3)
+      (-2.8597) Tax
+       (0.1)    Inc_constraint(1)
+       (0.1)    Inc_constraint(2)
+       (0.1)    Inc_constraint(3)
+       (0.1)    Inc_constraint(4)
+       (0.1)    Utility(1)
+       (0.1)    Utility(2)
+       (0.1)    Utility(3)
+       (0.1)    Utility(4)
+       (0.1)    Utility(5)
+
+
+---- wage  rental price labor
+
+wage
+                (.LO, .L, .UP, .M = 1E-9, 1, +INF, 0)
+        1       FirmFOC1(1)
+        1       FirmFOC1(2)
+        1       FirmFOC1(3)
+      (-0.5381) HHFOC2(1,1)
+      (-0.7501) HHFOC2(2,1)
+      (-0.9686) HHFOC2(3,1)
+      (-1.2309) HHFOC2(4,1)
+      (-1.6478) HHFOC2(5,1)
+      (-2.0988) HHFOC3(1)
+      (-2.735)  HHFOC3(2)
+      (-3.3903) HHFOC3(3)
+      (-4.1773) HHFOC3(4)
+      (-5.428)  HHFOC3(5)
+        1       numeraire
+      (-2.0955) Tax
+      (-0.0654) Inc_constraint(1)
+      (-0.1801) Inc_constraint(2)
+      (-0.2459) Inc_constraint(3)
+      (-0.1796) Inc_constraint(4)
+
+
+---- F  production of good g
+
+F(1)
+                (.LO, .L, .UP, .M = 1E-9, 6.82291950800926, 100000, 0)
+        1       FirmProd(1)
+      (-0.2931) FirmFOC1(1)
+      (-0.8383) FirmFOC2(1)
+        1       GenEq(1)
+
+F(2)
+                (.LO, .L, .UP, .M = 1E-9, 4.96346903351812, 100000, 0)
+        1       FirmProd(2)
+      (-0.4029) FirmFOC1(2)
+      (-1.1523) FirmFOC2(2)
+        1       GenEq(2)
+
+F(3)
+                (.LO, .L, .UP, .M = 1E-9, 4.50267926364622, 100000, 0)
+        1       FirmProd(3)
+      (-0.4442) FirmFOC1(3)
+      (-1.2702) FirmFOC2(3)
+        1       GenEq(3)
+
+
+---- pr  price of good g
+
+pr(1)
+                (.LO, .L, .UP, .M = 1E-9, 1.24785308550009, +INF, 0)
+      (-0.8014) FirmFOC1(1)
+      (-2.2917) FirmFOC2(1)
+       (0.5749) HHFOC1(1,1)
+       (0.8015) HHFOC1(2,1)
+       (1.0349) HHFOC1(3,1)
+       (1.3152) HHFOC1(4,1)
+       (1.7607) HHFOC1(5,1)
+       (0.5749) HHFOC3(1)
+       (0.8015) HHFOC3(2)
+       (1.0349) HHFOC3(3)
+       (1.3152) HHFOC3(4)
+       (1.7607) HHFOC3(5)
+       (1.0703) GenEq(1)
+       (0.0179) Inc_constraint(1)
+       (0.0528) Inc_constraint(2)
+       (0.0751) Inc_constraint(3)
+       (0.0566) Inc_constraint(4)
+
+pr(2)
+                (.LO, .L, .UP, .M = 1E-9, 2.06632754224512, +INF, 0)
+      (-0.484)  FirmFOC1(2)
+      (-1.384)  FirmFOC2(2)
+      (-0.3472) HHFOC1(1,1)
+       (0.1736) HHFOC1(1,2)
+      (-0.484)  HHFOC1(2,1)
+       (0.242)  HHFOC1(2,2)
+      (-0.625)  HHFOC1(3,1)
+       (0.3125) HHFOC1(3,2)
+      (-0.7943) HHFOC1(4,1)
+       (0.3971) HHFOC1(4,2)
+      (-1.0633) HHFOC1(5,1)
+       (0.5316) HHFOC1(5,2)
+       (0.6736) HHFOC3(1)
+       (0.742)  HHFOC3(2)
+       (0.8125) HHFOC3(3)
+       (0.8971) HHFOC3(4)
+       (1.0316) HHFOC3(5)
+       (0.3903) GenEq(2)
+       (0.021)  Inc_constraint(1)
+       (0.0489) Inc_constraint(2)
+       (0.0589) Inc_constraint(3)
+       (0.0386) Inc_constraint(4)
+
+pr(3)
+                (.LO, .L, .UP, .M = 1E-9, 1.51069333135205, +INF, 0)
+      (-0.6619) FirmFOC1(3)
+      (-1.893)  FirmFOC2(3)
+      (-0.2375) HHFOC1(1,2)
+      (-0.331)  HHFOC1(2,2)
+      (-0.4274) HHFOC1(3,2)
+      (-0.5432) HHFOC1(4,2)
+      (-0.7272) HHFOC1(5,2)
+       (0.3562) HHFOC2(1,1)
+       (0.4965) HHFOC2(2,1)
+       (0.6412) HHFOC2(3,1)
+       (0.8148) HHFOC2(4,1)
+       (1.0908) HHFOC2(5,1)
+       (0.3562) HHFOC3(1)
+       (0.4965) HHFOC3(2)
+       (0.6412) HHFOC3(3)
+       (0.8148) HHFOC3(4)
+       (1.0908) HHFOC3(5)
+       (0.7303) GenEq(3)
+       (0.0111) Inc_constraint(1)
+       (0.0327) Inc_constraint(2)
+       (0.0465) Inc_constraint(3)
+       (0.035)  Inc_constraint(4)
+
+
+---- T_total  total time endowment of agents
+
+T_total(1)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0119305320286393)
+        0.03    totalT
+      (-0.1024) HHFOC3(1)
+       (0.0724) Tax
+      (-0.0088) Inc_constraint(1)
+
+T_total(2)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0271678694242859)
+        0.0825  totalT
+      (-0.1348) HHFOC3(2)
+       (0.0523) Tax
+      (-0.0152) Inc_constraint(2)
+
+T_total(3)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0.0438475420852193)
+        0.141   totalT
+      (-0.1682) HHFOC3(3)
+       (0.0272) Tax
+      (-0.0198) Inc_constraint(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- X  amount of good g consumed by hh i
+
+X(1,1)
+                (.LO, .L, .UP, .M = 1E-9, 0.57493224114427, +INF, 0)
+       (1.2479) HHFOC1(1,1)
+       (1.2479) HHFOC3(1)
+       -1       GenEq(1)
+      (-0.4663) Inc_constraint(1)
+      (-0.3703) Utility(1)
+      (-0.3703) Utility_NE(1)
+
+X(1,2)
+                (.LO, .L, .UP, .M = 0.500000001, 0.673600495661487, +INF, 0)
+      (-4.1327) HHFOC1(1,1)
+       (2.0663) HHFOC1(1,2)
+       (2.0663) HHFOC3(1)
+       -1       GenEq(2)
+      (-0.7721) Inc_constraint(1)
+      (-0.6132) Utility(1)
+      (-0.6132) Utility_NE(1)
+
+X(1,3)
+                (.LO, .L, .UP, .M = 1E-9, 0.356176344418949, +INF, 0)
+      (-1.0071) HHFOC1(1,2)
+       (1.5107) HHFOC2(1,1)
+       (1.5107) HHFOC3(1)
+       -1       GenEq(3)
+      (-0.5645) Inc_constraint(1)
+      (-0.4483) Utility(1)
+      (-0.4483) Utility_NE(1)
+
+REMAINING 12 ENTRIES SKIPPED
+
+---- lei  leisure of hh i
+
+lei(1)
+                (.LO, .L, .UP, .M = 1E-9, 3.50323062841935, 23.999999999, EPS)
+       -0.03    totalT
+      (-0.1536) HHFOC2(1,1)
+       (0.1024) HHFOC3(1)
+      (-0.0724) Tax
+      (-0.0304) Utility(1)
+      (-0.0304) Utility_NE(1)
+
+lei(2)
+                (.LO, .L, .UP, .M = 1E-9, 3.71003038262127, 23.999999999, 0)
+       -0.0825  totalT
+      (-0.2022) HHFOC2(2,1)
+       (0.1348) HHFOC3(2)
+      (-0.0523) Tax
+      (-0.0391) Utility(2)
+      (-0.0391) Utility_NE(2)
+
+lei(3)
+                (.LO, .L, .UP, .M = 1E-9, 3.83974400446592, 23.999999999, 0)
+       -0.141   totalT
+      (-0.2523) HHFOC2(3,1)
+       (0.1682) HHFOC3(3)
+      (-0.0272) Tax
+      (-0.0479) Utility(3)
+      (-0.0479) Utility_NE(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- U  Utility (with environmental component)
+
+U(1)
+                (.LO, .L, .UP, .M = -INF, 0.334805329670188, +INF, 0)
+        1       Utility(1)
+       -1       Welfare
+
+U(2)
+                (.LO, .L, .UP, .M = -INF, 0.528616194853305, +INF, 0)
+        1       Inc_constraint(1)
+        1       Utility(2)
+       -1       Welfare
+
+U(3)
+                (.LO, .L, .UP, .M = -INF, 0.722712892055949, +INF, 0)
+        1       Inc_constraint(2)
+        1       Utility(3)
+       -1       Welfare
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- U_NE  Non-environmental utility
+
+U_NE(1)
+                (.LO, .L, .UP, .M = -INF, 0.532292228129776, +INF, 0)
+        1       Utility_NE(1)
+       -1       Welfare_NE
+
+U_NE(2)
+                (.LO, .L, .UP, .M = -INF, 0.726103093312893, +INF, 0)
+        1       Utility_NE(2)
+       -1       Welfare_NE
+
+U_NE(3)
+                (.LO, .L, .UP, .M = -INF, 0.920199790515538, +INF, 0)
+        1       Utility_NE(3)
+       -1       Welfare_NE
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- L  Lump-sum transfers
+
+L
+                (.LO, .L, .UP, .M = -10, 0.548603970273025, 10, 0)
+       -1       HHFOC3(1)
+       -1       HHFOC3(2)
+       -1       HHFOC3(3)
+       -1       HHFOC3(4)
+       -1       HHFOC3(5)
+        5       Tax
+      (-0.0312) Inc_constraint(1)
+      (-0.0659) Inc_constraint(2)
+      (-0.0725) Inc_constraint(3)
+      (-0.043)  Inc_constraint(4)
+
+
+---- W  Welfare
+
+W
+                (.LO, .L, .UP, .M = -INF, 3.83845119140953, +INF, 0)
+        1       Welfare
+
+
+---- W_NE  Non-environmental welfare
+
+W_NE
+                (.LO, .L, .UP, .M = -INF, 4.82588568370747, +INF, 0)
+        1       Welfare_NE
+
+
+---- tau_P  pollution tax
+
+tau_P
+                (.LO, .L, .UP, .M = -10, 2.85971167856119, 10, EPS)
+        1       FirmFOC2(1)
+        1       FirmFOC2(2)
+        1       FirmFOC2(3)
+      (-1.9749) Tax
+
+
+---- tau_w  non-linear income tax
+
+tau_w(1)
+                (.LO, .L, .UP, .M = -20, -2.41318746010987, 20, 0)
+       (0.1576) HHFOC2(1,1)
+       (0.6149) HHFOC3(1)
+      (-0.6149) Tax
+       (0.0192) Inc_constraint(1)
+
+tau_w(2)
+                (.LO, .L, .UP, .M = -20, -0.633859570843803, 20, 0)
+       (0.4591) HHFOC2(2,1)
+       (1.6739) HHFOC3(2)
+      (-1.6739) Tax
+       (0.1103) Inc_constraint(2)
+
+tau_w(3)
+                (.LO, .L, .UP, .M = -20, -0.192678843761998, 20, 0)
+       (0.8121) HHFOC2(3,1)
+       (2.8426) HHFOC3(3)
+      (-2.8426) Tax
+       (0.2062) Inc_constraint(3)
+
+REMAINING 2 ENTRIES SKIPPED
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 12
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE SG_SP Using NLP From line 305
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS          16     SINGLE EQUATIONS           54
+BLOCKS OF VARIABLES          15     SINGLE VARIABLES           57
+NON ZERO ELEMENTS           348     NON LINEAR N-Z            269
+DERIVATIVE POOL              20     CONSTANT POOL              40
+CODE LENGTH                 805
+
+
+GENERATION TIME      =        0.031 SECONDS      3 MB  30.2.0 r482c588 WEX-WEI
+
+
+EXECUTION TIME       =        0.047 SECONDS      3 MB  30.2.0 r482c588 WEX-WEI
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 13
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE SG_SP Using NLP From line 305
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   SG_SP               OBJECTIVE  W
+     TYPE    NLP                 DIRECTION  MAXIMIZE
+     SOLVER  CONOPT              FROM LINE  305
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      2 Locally Optimal           
+**** OBJECTIVE VALUE                3.8385
+
+ RESOURCE USAGE, LIMIT          0.000      1000.000
+ ITERATION COUNT, LIMIT         4    2000000000
+ EVALUATION ERRORS              0             0
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+    The model has 57 variables and 54 constraints
+    with 348 Jacobian elements, 269 of which are nonlinear.
+    The Hessian of the Lagrangian has 42 elements on the diagonal,
+    208 elements below the diagonal, and 45 nonlinear variables.
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+ 
+ ** Optimal solution. Reduced gradient less than tolerance.
+ 
+ 
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU totalT              .              .              .            -0.4966      
+
+---- EQU FirmProd  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.0362      
+2          .              .              .              .          
+3          .              .              .            -0.0684      
+
+---- EQU FirmFOC1  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -1.9981      
+2          .              .              .            -1.6992      
+3          .              .              .            -1.4844      
+
+---- EQU FirmFOC2  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.0628      
+2          .              .              .            -0.2178      
+3          .              .              .            -0.0949      
+
+---- EQU Copeland  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF           -7.2839          .              .          
+2        -INF           -5.6502          .              .          
+3        -INF           -5.0158          .              .          
+
+---- EQU HHFOC1  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1          .              .              .            -0.0494      
+1.2          .              .              .            -0.1184      
+2.1          .              .              .            -0.0320      
+2.2          .              .              .            -0.0663      
+3.1          .              .              .            -0.0189      
+3.2          .              .              .            -0.0270      
+4.1          .              .              .            -0.0034      
+4.2          .              .              .             0.0196      
+5.1          .              .              .             0.0430      
+5.2          .              .              .             0.1587      
+
+---- EQU HHFOC2  
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1          .              .              .            -0.1168      
+2.1          .              .              .            -0.0646      
+3.1          .              .              .            -0.0254      
+4.1          .              .              .             0.0212      
+5.1          .              .              .             0.1603      
+
+---- EQU HHFOC3  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.1584      
+2          .              .              .            -0.1672      
+3          .              .              .            -0.1774      
+4          .              .              .            -0.1943      
+5          .              .              .            -0.2388      
+
+---- EQU GenEq  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .            -0.6021      
+2          .              .              .            -0.9356      
+3          .              .              .            -0.7115      
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU numeraire          1.0000         1.0000         1.0000         1.3931      
+---- EQU Tax               -5.0000        -5.0000        -5.0000        -0.1901      
+
+---- EQU Inc_constraint  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .            +INF           -0.0589      
+2          .              .            +INF           -0.0799      
+3          .              .            +INF           -0.0762      
+4          .              .            +INF           -0.0500      
+
+---- EQU Utility  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .             1.0000      
+2          .              .              .             1.0589      
+3          .              .              .             1.0799      
+4          .              .              .             1.0762      
+5          .              .              .             1.0500      
+
+---- EQU Utility_NE  
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .              .              .             EPS         
+2          .              .              .             EPS         
+3          .              .              .             EPS         
+4          .              .              .             EPS         
+5          .              .              .             EPS         
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU Welfare_NE          .              .              .             EPS         
+---- EQU Welfare             .              .              .             1.0000      
+
+---- VAR T  labor time in production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         7.6026        +INF             .          
+2   1.0000000E-9         6.8435        +INF             .          
+3   1.0000000E-9         5.4786        +INF             .          
+
+---- VAR Z  pollution in production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         0.3187        +INF             .          
+2   1.0000000E-9         1.1934        +INF             .          
+3   1.0000000E-9         0.4628        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR wage         1.0000000E-9         1.0000        +INF             .          
+
+  wage  rental price labor
+
+---- VAR F  production of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         6.8229    100000.0000          .          
+2   1.0000000E-9         4.9635    100000.0000          .          
+3   1.0000000E-9         4.5027    100000.0000          .          
+
+---- VAR pr  price of good g
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         1.2479        +INF             .          
+2   1.0000000E-9         2.0663        +INF             .          
+3   1.0000000E-9         1.5107        +INF             .          
+
+---- VAR T_total  total time endowment of agents
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        24.0000        24.0000        24.0000         0.0119      
+2        24.0000        24.0000        24.0000         0.0272      
+3        24.0000        24.0000        24.0000         0.0438      
+4        24.0000        24.0000        24.0000         0.0683      
+5        24.0000        24.0000        24.0000         0.1434      
+
+---- VAR X  amount of good g consumed by hh i
+
+           LOWER          LEVEL          UPPER         MARGINAL
+
+1.1   1.0000000E-9         0.5749        +INF             .          
+1.2         0.5000         0.6736        +INF             .          
+1.3   1.0000000E-9         0.3562        +INF             .          
+2.1   1.0000000E-9         0.8015        +INF             .          
+2.2         0.5000         0.7420        +INF             .          
+2.3   1.0000000E-9         0.4965        +INF             .          
+3.1   1.0000000E-9         1.0349        +INF             .          
+3.2         0.5000         0.8125        +INF             .          
+3.3   1.0000000E-9         0.6412        +INF             .          
+4.1   1.0000000E-9         1.3152        +INF             .          
+4.2         0.5000         0.8971        +INF             .          
+4.3   1.0000000E-9         0.8148        +INF             .          
+5.1   1.0000000E-9         1.7607        +INF             .          
+5.2         0.5000         1.0316        +INF             .          
+5.3   1.0000000E-9         1.0908        +INF             .          
+
+---- VAR lei  leisure of hh i
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1   1.0000000E-9         3.5032        24.0000         EPS         
+2   1.0000000E-9         3.7100        24.0000          .          
+3   1.0000000E-9         3.8397        24.0000          .          
+4   1.0000000E-9         3.9406        24.0000          .          
+5   1.0000000E-9         4.0397        24.0000          .          
+
+---- VAR U  Utility (with environmental component)
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF            0.3348        +INF             .          
+2        -INF            0.5286        +INF             .          
+3        -INF            0.7227        +INF             .          
+4        -INF            0.9502        +INF             .          
+5        -INF            1.3021        +INF             .          
+
+---- VAR U_NE  Non-environmental utility
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF            0.5323        +INF             .          
+2        -INF            0.7261        +INF             .          
+3        -INF            0.9202        +INF             .          
+4        -INF            1.1477        +INF             .          
+5        -INF            1.4996        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR L                -10.0000         0.5486        10.0000          .          
+---- VAR W                 -INF            3.8385        +INF             .          
+---- VAR W_NE              -INF            4.8259        +INF             .          
+---- VAR tau_P            -10.0000         2.8597        10.0000         EPS         
+
+  L  Lump-sum transfers
+  W  Welfare
+  W_NE  Non-environmental welfare
+  tau_P  pollution tax
+
+---- VAR tau_w  non-linear income tax
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1       -20.0000        -2.4132        20.0000          .          
+2       -20.0000        -0.6339        20.0000          .          
+3       -20.0000        -0.1927        20.0000          .          
+4       -20.0000         0.0906        20.0000          .          
+5       -20.0000         0.4678        20.0000          .          
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+                             0     ERRORS
+                             1  PROJECTED
+GAMS 30.2.0  r482c588 Released Feb  7, 2020 WEX-WEI x86 64bit/MS Windows - 04/13/20 10:36:21 Page 14
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.000 SECONDS      3 MB  30.2.0 r482c588 WEX-WEI
+
+
+USER: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+      University of Copenhagen, Denmark                        DL004361
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Dedin\Københavns Universitet\Rasmus Lindø Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenertmodel_3goods_3april.gms
+Output     C:\Users\Dedin\Københavns Universitet\Rasmus Lindø Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenertmodel_3goods_3april.lst

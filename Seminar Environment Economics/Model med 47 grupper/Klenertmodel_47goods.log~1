@@ -1,0 +1,36 @@
+--- Job Klenertmodel_47goods.gms Start 03/27/20 10:56:23 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenertmodel_47goods.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\225a\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_47goods.gms(328) 3 Mb
+--- Starting execution: elapsed 0:00:00.010
+--- Klenertmodel_47goods.gms(259) 4 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\sg-results_4_diff_and_L_opt_LOAD3.gdx
+--- Generating NLP model SG_SP
+--- Klenertmodel_47goods.gms(214) 6 Mb
+*** Error at line 214: division by zero (0)
+--- Klenertmodel_47goods.gms(230) 6 Mb 1 Error
+*** Error at line 230: rPower: FUNC DOMAIN: x**y, x < 0
+--- Klenertmodel_47goods.gms(232) 6 Mb 2 Errors
+*** Error at line 232: rPower: FUNC DOMAIN: x**y, x < 0
+--- Klenertmodel_47goods.gms(234) 6 Mb 3 Errors
+*** Error at line 234: rPower: FUNC DOMAIN: x**y, x < 0
+--- Klenertmodel_47goods.gms(274) 4 Mb 4 Errors
+*** SOLVE aborted
+--- Klenertmodel_47goods.gms(274) 4 Mb 4 Errors
+*** Status: Execution error(s)
+--- Job Klenertmodel_47goods.gms Stop 03/27/20 10:56:23 elapsed 0:00:00.034
+

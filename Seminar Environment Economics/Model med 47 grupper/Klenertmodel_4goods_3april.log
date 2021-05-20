@@ -1,0 +1,157 @@
+--- Job Klenertmodel_4goods_3april.gms Start 04/09/20 12:24:28 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenertmodel_4goods_3april.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\225b\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_4goods_3april.gms(347) 3 Mb
+--- Starting execution: elapsed 0:00:00.013
+--- Klenertmodel_4goods_3april.gms(278) 4 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\sg-initial_3goods.gdx
+--- Generating NLP model SG_SP
+--- Klenertmodel_4goods_3april.gms(293) 6 Mb
+---   90 rows  92 columns  493 non-zeroes
+---   992 nl-code  352 nl-non-zeroes
+--- Klenertmodel_4goods_3april.gms(293) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.053
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2500000587E+09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  12
+                   Definitional equations:     16
+ 
+      1   0        1.2500001032E+09 (After pre-processing)
+      2   0        3.5975839451E+01 (After scaling)
+     10   0    10  3.5975839451E+01               0.0E+00      T  T
+     20   0    19  3.5975839451E+01               0.0E+00      F  T
+     30   0    29  3.5975839451E+01               0.0E+00      F  T
+     40   0    38  3.5717704635E+01               1.0E+00      F  T
+     46   1    38  3.4095276358E+01 4.6E+00    26 3.4E-01    3 F  F
+     51   1    30  2.4719296240E+01 3.3E+00    29 1.0E+00    1 T  T
+     61   1    28  2.0435713634E+01 3.5E+00    25 1.6E-02      T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     71   1    28  1.9762146010E+01 3.8E+00    25 2.6E-04      F  F
+     81   1    27  1.9586533729E+01 1.8E+02    25 1.3E-10      F  F
+     91   1    27  1.9585857345E+01 3.8E+00    25 1.8E-05      F  F
+    101   1    17  4.8908650590E+00 1.5E+00    20 1.0E+00    6 T  T
+    111   1    16  2.2287503579E+00 8.8E-01    12 3.1E-02      T  T
+    121   2    12  1.3142813451E+00 1.9E+00     9 8.0E-01    6 F  F
+    126   1    11  1.2632214836E+00 1.1E+00     8 7.7E-04      F  F
+    131   2    11  1.2558496358E+00 3.2E-01     7 1.2E-01    4 F  F
+    136   2    10  1.2505784714E+00 5.9E+02     6 1.0E+00    2 T  T
+    140   0        1.2489579438E+00
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+    146   2    10  1.2484295931E+00 2.9E+02     6 5.1E+00    1 T  T
+    151   2     9  1.2354889278E+00 3.3E+03     5 1.0E+00    1 T  T
+    156   2     9  1.2261607683E+00 1.4E-01     5 2.5E-01    3 F  F
+    161   2     9  1.2228063369E+00 4.1E-03     3 1.0E+00    2 T  T
+    166   2     9  1.2227829919E+00 5.1E-08     4
+ 
+ ** Infeasible solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_4goods_3april.gms(293) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.324
+--- Klenertmodel_4goods_3april.gms(278) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_4goods_3april.gms(294) 5 Mb
+---   90 rows  92 columns  493 non-zeroes
+---   992 nl-code  352 nl-non-zeroes
+--- Klenertmodel_4goods_3april.gms(294) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.352
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4987897278E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  12
+                   Definitional equations:     16
+ 
+      1   0        1.4987897278E+00 (After pre-processing)
+      2   0        1.2319806194E+00 (After scaling)
+     10   0     7  1.2319806194E+00               0.0E+00      F  F
+     21   2     9  1.2310890579E+00 5.7E-04     5 1.0E+00    3 T  T
+     23   2     9  1.2310890578E+00 8.5E-09     5
+ 
+ ** Infeasible solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_4goods_3april.gms(294) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.530
+--- Klenertmodel_4goods_3april.gms(278) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_4goods_3april.gms(295) 5 Mb
+---   90 rows  92 columns  493 non-zeroes
+---   992 nl-code  352 nl-non-zeroes
+--- Klenertmodel_4goods_3april.gms(295) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.560
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4864354445E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  12
+                   Definitional equations:     16
+ 
+      1   0        1.4850105515E+00 (After pre-processing)
+      2   0        1.2468023602E+00 (After scaling)
+     10   0     6  1.2468023602E+00               0.0E+00      F  F
+     21   2     9  1.2440654553E+00 8.3E-03     4 4.3E-01      F  T
+     26   2     9  1.2440607381E+00 2.7E-08     4
+ 
+ ** Infeasible solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_4goods_3april.gms(295) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.739
+--- Klenertmodel_4goods_3april.gms(278) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\sg-initial_4goods.gdx
+--- Klenertmodel_4goods_3april.gms(303) 3 Mb
+*** Status: Normal completion
+--- Job Klenertmodel_4goods_3april.gms Stop 04/09/20 12:24:29 elapsed 0:00:00.778
+

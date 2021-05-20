@@ -1,0 +1,128 @@
+--- Job Klenertmodel_41goods_27marts.gms Start 04/03/20 10:39:01 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_41goods_27marts.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225b/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_41goods_27marts.gms(509) 3 Mb
+--- Starting execution: elapsed 0:00:00.005
+--- Klenertmodel_41goods_27marts.gms(440) 4 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/sg-initial_41goods.gdx
+--- Generating NLP model SG_SP
+--- Klenertmodel_41goods_27marts.gms(455) 6 Mb
+---   434 rows  399 columns  3,350 non-zeroes
+---   7,502 nl-code  2,815 nl-non-zeroes
+--- Klenertmodel_41goods_27marts.gms(455) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.031
+*** Error at line 455: Could not find ShortName for International Characters
+--- Klenertmodel_41goods_27marts.gms(455) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.6296561289E-07 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        5.6296561023E-07 (After pre-processing)
+      2   0        4.1675449257E-07 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    18274.0661750
+ 
+ ** Loss of feasibility while tightening tolerances - Return to phase 0.
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0     9  4.1675449257E-07               0.0E+00      F  T
+     20   0    19  4.1675449257E-07               0.0E+00      F  T
+     30   0    29  4.1675449257E-07               0.0E+00      F  T
+     40   0    39  4.1675449257E-07               0.0E+00      F  T
+     50   0    49  4.1675449257E-07               0.0E+00      F  T
+     60   0    55  4.1675449257E-07               0.0E+00      T  T
+     70   0    55  2.8620185376E-07               1.0E+00      F  T
+     71   1    46  2.8017910259E-07 1.6E+01    51 2.7E-12      T  T
+     80   0    43  2.6133968462E-07               0.0E+00      F  F
+     81   1    43  2.5317509269E-07 1.2E+01    40 1.2E-11      T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     91   1     5  9.7408721398E-09 4.7E-10     0 0.0E+00      F  T
+     92   1     5  9.7408721398E-09 4.7E-10     0
+ 
+ ** Infeasible solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_41goods_27marts.gms(455) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.185
+--- Klenertmodel_41goods_27marts.gms(440) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_41goods_27marts.gms(456) 5 Mb
+---   434 rows  399 columns  3,350 non-zeroes
+---   7,502 nl-code  2,815 nl-non-zeroes
+--- Klenertmodel_41goods_27marts.gms(456) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.196
+*** Error at line 456: Could not find ShortName for International Characters
+--- Klenertmodel_41goods_27marts.gms(456) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.9885990697E-07 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  8
+                   Definitional equations:     4
+ 
+      1   0        5.9884535239E-07 (After pre-processing)
+      2   0        4.5586419530E-07 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    18274.0660896
+ 
+ ** Loss of feasibility while tightening tolerances - Return to phase 0.
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     10   0    11  4.5586419530E-07               0.0E+00      T  T
+ 
+ ** Domain error(s) in nonlinear functions.
+    Check bounds on variables.
+ 
+--- Restarting execution
+--- Klenertmodel_41goods_27marts.gms(456) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.286
+--- Klenertmodel_41goods_27marts.gms(440) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_41goods_27marts.gms(411) 5 Mb
+*** Error at line 411: rPower: FUNC DOMAIN: x**y, x < 0
+--- Klenertmodel_41goods_27marts.gms(457) 3 Mb 1 Error
+*** SOLVE aborted
+--- Klenertmodel_41goods_27marts.gms(457) 3 Mb 1 Error
+*** Status: Execution error(s)
+--- Job Klenertmodel_41goods_27marts.gms Stop 04/03/20 10:39:02 elapsed 0:00:00.302
+

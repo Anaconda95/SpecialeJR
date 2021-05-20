@@ -1,0 +1,167 @@
+--- Job robustness.gms Start 05/21/20 13:55:20 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\robustness.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\225a\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- robustness.gms(576) 3 Mb
+--- call gdxmerge robust_X0_02_after.gdx robust_X0_04_after.gdx robust_X0_06_after.gdx output = robust_after_X0_nyny
+Output file: robust_after_X0_nyny.gdx
+Reading file: robust_X0_02_after.gdx
+Reading file: robust_X0_04_after.gdx
+Reading file: robust_X0_06_after.gdx
+Merge complete, 3 input files merged
+--- robustness.gms(610) 3 Mb
+--- Starting execution: elapsed 0:00:00.102
+--- robustness.gms(514) 4 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
+--- Generating NLP model SG_SP
+--- robustness.gms(531) 6 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- robustness.gms(531) 6 Mb
+--- robustness.gms(531) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.196
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        8.4465126928E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        7.6185773521E+00 (After pre-processing)
+      2   0        7.0622435597E+00 (After scaling)
+     10   0     6  7.0622435597E+00               0.0E+00      T  T
+     20   0    11  4.2781156937E+00               9.7E-01      T  T
+     30   0    18  4.2595911846E+00               0.0E+00      F  F
+     40   0    25  3.3788620055E+00               0.0E+00      F  F
+     50   0    35  3.3788620055E+00               0.0E+00      F  F
+     60   0    45  3.3788620055E+00               0.0E+00      F  F
+     70   0    55  3.3788620055E+00               0.0E+00      F  F
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     80   0    61  3.2908421822E+00               1.0E+00      F  T
+     91   1    53  3.2298881428E+00 1.1E+01    55 1.0E+00    3 T  T
+     96   1    22  2.8843469572E+00 1.2E+00    21 1.2E-01   11 F  F
+    101   1    12  2.0851628293E+00 6.1E+02    11 1.5E-02    8 F  F
+    111   1     5  1.0653571820E+00 2.9E-01     5 1.3E-01      T  T
+ 
+ ** Feasible solution. Value of objective =    1.01118058491
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+    121   3        1.1235752414E+00 0.0E+00     0 0.0E+00      F  T
+    122   3        1.1235752414E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- robustness.gms(531) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.533
+--- robustness.gms(514) 3 Mb
+--- Generating NLP model SG_SP
+--- robustness.gms(532) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- robustness.gms(532) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.591
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.5482910977E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        6.4553099194E-14 (After pre-processing)
+      2   0        4.9551210574E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.12357524135
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1235752414E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- robustness.gms(532) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.751
+--- robustness.gms(514) 3 Mb
+--- Generating NLP model SG_SP
+--- robustness.gms(533) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- robustness.gms(533) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.782
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.4553099194E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        6.4553099194E-14 (After pre-processing)
+      2   0        4.9551210574E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.12357524135
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1235752414E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- robustness.gms(533) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.943
+--- robustness.gms(514) 3 Mb
+--- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\robust_X0_06_after.gdx
+--- robustness.gms(578) 3 Mb
+GDX2XLS          30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+Output file: C:\Users\Dedin\K�benhavns Universit
+Output file: C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\robust_after_X0_nyny.xlsx
+(Created backup file)
+*** Status: Normal completion
+--- Job robustness.gms Stop 05/21/20 13:55:33 elapsed 0:00:12.944
+

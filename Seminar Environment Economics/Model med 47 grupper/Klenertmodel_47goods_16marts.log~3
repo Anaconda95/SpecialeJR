@@ -1,0 +1,43 @@
+--- Job Klenertmodel_47goods_16marts.gms Start 03/26/20 17:38:08 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/225a/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_47goods_16marts.gms(198) 3 Mb 1 Error
+*** Error 148 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+--- Klenertmodel_47goods_16marts.gms(258) 3 Mb 2 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    Solve statement not checked because of previous errors
+--- Klenertmodel_47goods_16marts.gms(259) 3 Mb 3 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    Solve statement not checked because of previous errors
+--- Klenertmodel_47goods_16marts.gms(260) 3 Mb 4 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    Solve statement not checked because of previous errors
+--- Klenertmodel_47goods_16marts.gms(282) 3 Mb 5 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    Solve statement not checked because of previous errors
+--- Klenertmodel_47goods_16marts.gms(283) 3 Mb 6 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    Solve statement not checked because of previous errors
+--- Klenertmodel_47goods_16marts.gms(284) 3 Mb 7 Errors
+*** Error 257 in /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Model med 47 grupper/Klenertmodel_47goods_16marts.gms
+    Solve statement not checked because of previous errors
+--- Klenertmodel_47goods_16marts.gms(312) 3 Mb 7 Errors
+*** Status: Compilation error(s)
+--- Job Klenertmodel_47goods_16marts.gms Stop 03/26/20 17:38:08 elapsed 0:00:00.013
+

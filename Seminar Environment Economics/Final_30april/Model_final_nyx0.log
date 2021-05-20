@@ -1,0 +1,297 @@
+--- Job Model_final_nyx0.gms Start 04/30/20 16:22:04 30.1.0 re01a340 DEX-DEG x86 64bit/Mac OS X
+--- GAMS Parameters defined
+    Input /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Final_30april/Model_final_nyx0.gms
+    PageSize 0
+    ScrDir /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Final_30april/225a/
+    SysDir /Applications/GAMS30.1/GAMS Terminal.app/Contents/MacOS/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.1.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Rasmus Kaslund           G200206|0002CO-GEN
+          University of Copenhagen, Denmark                        DL001455
+          rlk@econ.ku.dk, Rasmus Kaslund                                   
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Model_final_nyx0.gms(566) 3 Mb
+--- call gdxmerge precali_before_ny.gdx precali_after_lumpanddiff.gdx precal_after_noredist.gdx precali_after_lump.gdx precali_after_unif.gdx precali_after_diff.gdx output = nyx0
+Output file: nyx0.gdx
+Reading file: precali_before_ny.gdx
+Reading file: precali_after_lumpanddiff.gdx
+Reading file: precal_after_noredist.gdx
+Reading file: precali_after_lump.gdx
+Reading file: precali_after_unif.gdx
+Reading file: precali_after_diff.gdx
+Merge complete, 6 input files merged
+--- Model_final_nyx0.gms(599) 3 Mb
+--- Starting execution: elapsed 0:00:00.066
+--- Model_final_nyx0.gms(408) 4 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Final_30april/precali_before_L0.gdx
+--- Generating NLP model SG_SP
+--- Model_final_nyx0.gms(424) 6 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final_nyx0.gms(424) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.097
+*** Error at line 424: Could not find ShortName for International Characters
+--- Model_final_nyx0.gms(424) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.3485075925E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        1.0278378277E+00 (After pre-processing)
+      2   0        1.0192783063E+00 (After scaling)
+     10   0     4  8.1441523614E-01               0.0E+00      T  T
+     20   0    11  8.1441529496E-01               0.0E+00      F  F
+     30   0    18  6.8229992780E-01               0.0E+00      F  F
+     41   1     3  1.0291236879E-01 1.0E+00     5 1.5E-02      T  T
+ 
+ ** Feasible solution. Value of objective =    1.12885313049
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     51   3        1.1498829712E+00 3.8E-01     2 1.5E-01      F  F
+     56   3        1.1722922120E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final_nyx0.gms(424) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.371
+--- Model_final_nyx0.gms(408) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final_nyx0.gms(425) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final_nyx0.gms(425) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.390
+*** Error at line 425: Could not find ShortName for International Characters
+--- Model_final_nyx0.gms(425) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.3525673935E-09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        6.3343481197E-09 (After pre-processing)
+      2   0        6.2308587498E-09 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.17229221202
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1722922120E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final_nyx0.gms(425) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.465
+--- Model_final_nyx0.gms(408) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final_nyx0.gms(426) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final_nyx0.gms(426) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.480
+*** Error at line 426: Could not find ShortName for International Characters
+--- Model_final_nyx0.gms(426) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.3343481197E-09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        6.3343481197E-09 (After pre-processing)
+      2   0        6.2308587498E-09 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.17229221202
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1722922120E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final_nyx0.gms(426) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.554
+--- Model_final_nyx0.gms(408) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Final_30april/precali_before_ny.gdx
+--- Model_final_nyx0.gms(537) 3 Mb
+--- GDXin=/Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Final_30april/precali_before_ny.gdx
+--- Model_final_nyx0.gms(537) 4 Mb
+--- Generating NLP model SG_SP
+--- Model_final_nyx0.gms(557) 6 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final_nyx0.gms(557) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.570
+*** Error at line 557: Could not find ShortName for International Characters
+--- Model_final_nyx0.gms(557) 4 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2431226462E+01 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        1.2431226462E+01 (After pre-processing)
+      2   0        1.1132001488E+01 (After scaling)
+     10   0     8  1.1132001488E+01               0.0E+00      F  F
+     20   0    18  1.1132001488E+01               0.0E+00      F  F
+     30   0    28  1.1132001488E+01               0.0E+00      F  F
+     40   0    38  1.1132001488E+01               0.0E+00      F  F
+     51   1    46  9.5836923541E+00 6.5E+00    44 2.3E-01    1 F  F
+     56   1    42  8.3162150312E+00 1.3E+01    40 4.6E-01    3 F  F
+     61   1    39  7.6465259974E+00 1.1E+01    38 5.2E-05      T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     71   1    32  5.3698443132E+00 5.3E+00    30 3.3E-01    3 F  F
+     76   1    28  3.7215009006E+00 4.3E+00    26 3.8E-01    4 F  F
+     81   1    18  1.8663952594E+00 1.3E+00    17 4.3E-01    9 T  T
+     86   1     5  4.5211948983E-01 1.0E+00     4 3.8E-01    4 F  F
+ 
+ ** Feasible solution. Value of objective =    1.12186215953
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     89   3        1.1218621591E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final_nyx0.gms(557) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.919
+--- Model_final_nyx0.gms(537) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final_nyx0.gms(558) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final_nyx0.gms(558) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.932
+*** Error at line 558: Could not find ShortName for International Characters
+--- Model_final_nyx0.gms(558) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.1604655958E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        3.5511253226E-14 (After pre-processing)
+      2   0        2.7899286614E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.12186215910
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1218621591E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final_nyx0.gms(558) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:01.015
+--- Model_final_nyx0.gms(537) 3 Mb
+--- Generating NLP model SG_SP
+--- Model_final_nyx0.gms(559) 5 Mb
+---   447 rows  414 columns  3,670 non-zeroes
+---   7,553 nl-code  2,834 nl-non-zeroes
+--- Model_final_nyx0.gms(559) 3 Mb
+--- Executing CONOPT: elapsed 0:00:01.033
+*** Error at line 559: Could not find ShortName for International Characters
+--- Model_final_nyx0.gms(559) 3 Mb 1 Error
+CONOPT 3         30.1.0 re01a340 Released Jan 10, 2020 DEG x86 64bit/Mac OS X 
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.5511253226E-14 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  15
+                   Definitional equations:     45
+ 
+      1   0        3.5511253226E-14 (After pre-processing)
+      2   0        2.7899286614E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    1.12186215910
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        1.1218621591E+00 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Restarting execution
+--- Model_final_nyx0.gms(559) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:01.114
+--- Model_final_nyx0.gms(537) 3 Mb
+--- GDX File /Users/rasmuskaslund/OneDrive - Københavns Universitet/Seminar Environment Economics/Final_30april/precal_after_noredist.gdx
+*** Status: Normal completion
+--- Job Model_final_nyx0.gms Stop 04/30/20 16:22:05 elapsed 0:00:01.117
+

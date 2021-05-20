@@ -1,0 +1,129 @@
+--- Job Klenertmodel_4goods_3april.gms Start 04/03/20 14:13:59 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- GAMS Parameters defined
+    Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\Klenertmodel_4goods_3april.gms
+    PageSize 0
+    ScrDir C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\225b\
+    SysDir C:\GAMS\win64\30.2\
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 30.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: GAMS Demo license for Julie Deding Nielsen     G200317|0002CO-GEN
+          University of Copenhagen, Denmark                        DL004361
+          tnk654@alumni.ku.dk, Julie Deding Nielsen                        
+          Demo license for demonstration and instructional purposes only
+--- Starting compilation
+--- Klenertmodel_4goods_3april.gms(347) 3 Mb
+--- Starting execution: elapsed 0:00:00.016
+--- Klenertmodel_4goods_3april.gms(278) 4 Mb
+--- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Model med 47 grupper\sg-initial_3goods.gdx
+--- Generating NLP model SG_SP
+--- Klenertmodel_4goods_3april.gms(293) 6 Mb
+---   90 rows  92 columns  493 non-zeroes
+---   992 nl-code  352 nl-non-zeroes
+--- Klenertmodel_4goods_3april.gms(293) 4 Mb
+--- Executing CONOPT: elapsed 0:00:00.059
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2500000587E+09 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  12
+                   Definitional equations:     16
+ 
+      1   0        1.2500001026E+09 (After pre-processing)
+      2   0        3.5963264880E+01 (After scaling)
+     10   0    10  3.5963264880E+01               0.0E+00      T  T
+     20   0    18  3.5963264880E+01               0.0E+00      F  F
+     30   0    28  3.5963264880E+01               0.0E+00      F  T
+     40   0    38  3.5963264880E+01               0.0E+00      T  T
+     51   1    32  2.5649628410E+01 3.8E+04    30 0.0E+00    8 F  F
+     61   1    30  2.0698022526E+01 1.6E+00    27 1.2E-03      F  F
+     71   2    29  1.7117846990E+01 3.7E+00    25 4.1E+03      F  F
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+     76   1    29  1.6986121521E+01 2.6E+00    26 1.6E-04      F  F
+     81   1    26  1.4825065845E+01 2.3E+00    24 9.0E-02      T  T
+     86   2    25  1.0743491733E+01 4.5E+01    21 1.0E+00    2 T  T
+     91   1    16  5.2298569345E+00 3.8E+06    13 3.5E-13      F  F
+     96   1    16  4.4742058765E+00 3.6E+06    11 2.0E-08      F  F
+    101   1    14  3.1203412869E+00 1.8E+01    10 5.9E-05      F  T
+    111   1    14  3.1203411945E+00 1.4E+05    12 0.0E+00      F  F
+    121   1    14  3.1011844067E+00 6.6E-01    11 2.4E-02      T  T
+    126   2    14  3.0595914418E+00 6.3E-01    11 5.3E-01      F  F
+    131   2    14  2.8705660166E+00 3.6E+01    10 3.0E+00    2 T  T
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+    136   2    14  2.6080532167E+00 3.7E+00    11 7.6E-01    3 F  F
+    141   1    14  2.6024932189E+00 2.7E-01     5 6.0E-02      F  T
+    146   2    14  2.5063894880E+00 1.1E+07     1 2.1E+00    1 T  T
+    151   2    14  2.2224383135E+00 1.1E+01     3 2.0E+01      F  F
+    161   2    12  2.0033326156E+00 4.9E-01     8 1.9E+00      F  T
+    166   2    11  1.2255970774E+00 9.4E+00     7 5.8E-01    3 F  T
+    171   2    11  1.2231292728E+00 1.4E-02     5 9.5E-01    5 F  T
+    176   2    10  1.2227473043E+00 1.2E-04     4 1.0E+00    2 T  T
+    181   2    10  1.2227386171E+00 9.6E-05     5 1.0E+00    3 T  T
+    184   2    10  1.2227386170E+00 3.6E-08     5
+ 
+ ** Infeasible solution. Reduced gradient less than tolerance.
+ 
+--- Restarting execution
+--- Klenertmodel_4goods_3april.gms(293) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.410
+--- Klenertmodel_4goods_3april.gms(278) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_4goods_3april.gms(294) 5 Mb
+---   90 rows  92 columns  493 non-zeroes
+---   992 nl-code  352 nl-non-zeroes
+--- Klenertmodel_4goods_3april.gms(294) 3 Mb
+--- Executing CONOPT: elapsed 0:00:00.449
+CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
+*** This solver runs with a demo license. No commercial use.
+ 
+ 
+    C O N O P T 3   version 3.17K
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4980821101E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  12
+                   Definitional equations:     16
+ 
+      1   0        1.4980821101E+00 (After pre-processing)
+      2   0        1.2316280246E+00 (After scaling)
+     10   0     7  1.2316280246E+00               0.0E+00      T  T
+ 
+ ** Domain error(s) in nonlinear functions.
+    Check bounds on variables.
+ 
+--- Restarting execution
+--- Klenertmodel_4goods_3april.gms(294) 2 Mb
+--- Reading solution for model SG_SP
+--- Executing after solve: elapsed 0:00:00.685
+--- Klenertmodel_4goods_3april.gms(278) 3 Mb
+--- Generating NLP model SG_SP
+--- Klenertmodel_4goods_3april.gms(249) 5 Mb
+*** Error at line 249: rPower: FUNC DOMAIN: x**y, x < 0
+--- Klenertmodel_4goods_3april.gms(295) 3 Mb 1 Error
+*** SOLVE aborted
+--- Klenertmodel_4goods_3april.gms(295) 3 Mb 1 Error
+*** Status: Execution error(s)
+--- Job Klenertmodel_4goods_3april.gms Stop 04/03/20 14:14:00 elapsed 0:00:00.716
+
