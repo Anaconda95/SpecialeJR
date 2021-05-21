@@ -1,11 +1,12 @@
 #######################################################################################
 #######################################################################################
 ########### This awesome script will BOOTSTRAP our parameters          ################
-######################################################## YEAHHHH ######################
+############and make a big table############################ YEAHHHH ##################
 #######################################################################################
 dataframelist =list(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5,df_h)
 
-rnams_kvinttab <- c("Meat and dairy","se","Other foods","se","Housing","se","Energy for housing","se","Energy for transport","se","Transport","se","Other goods","se","Other services","se")
+rnams_kvinttab <- c("Meat and dairy","(SE)","Other foods","(SE)","Housing","(SE)","Energy for housing","(SE)",
+                    "Energy for transport","(SE)","Transport","(SE)","Other goods","(SE)","Other services","(SE)")
 cnams_kvinttab <- c("1", "2", "3", "4", "5", "Avg.")
 
 kvinttab_estinfo =matrix(nrow=2,ncol=6)
@@ -193,7 +194,7 @@ mu=df$ialt/10000
 phat
 
 #Initialize bootstrap
-B=2
+B=100
 w1_boot_mat       <- matrix(ncol=B,nrow=T)
 w3_boot_mat       <- matrix(ncol=B,nrow=T)
 alpha_boot_mat    <- matrix(ncol=n,nrow=B)
@@ -309,10 +310,54 @@ for (g in 1:n){
   kvinttab_el_exp[(2*g),df_kvint]=el_exp_se[g]
 }
 
+
 #results_h <- rbind(alpha_sol, alpha_se,beta_sol,beta_se,beta2_sol, beta2_se, sol_el_op, el_op_se,
 #      sol_el_exp, el_exp_se)
 
 }
+
+
+bracket <- function(x, i, j){
+  x[i,j] <- sprintf("(%s)", x[i,j])
+  x
+}
+#Afrund tabeller
+antaldigits=3
+kvinttab_estinfo=round(kvinttab_estinfo,digits=antaldigits)
+kvinttab_alpha  =round(kvinttab_alpha  ,digits=antaldigits)
+kvinttab_beta   =round(kvinttab_beta   ,digits=antaldigits)
+kvinttab_beta2  =round(kvinttab_beta2  ,digits=antaldigits)
+kvinttab_el_op  =round(kvinttab_el_op  ,digits=antaldigits)
+kvinttab_el_exp =round(kvinttab_el_exp ,digits=antaldigits)
+
+stortab=rbind(kvinttab_alpha,kvinttab_beta,kvinttab_beta2,kvinttab_el_op,kvinttab_el_exp)
+tablist=list(kvinttab_alpha,kvinttab_beta,kvinttab_beta2,kvinttab_el_op,kvinttab_el_exp)
+for (tab in 1:5){
+  tablist[[tab]]
+  # every second row
+  ind = which(row(tablist[[tab]]) %% 2 == 0, arr.ind = TRUE)
+  tablist[[tab]]<-bracket(tablist[[tab]], ind[,1], ind[,2])
+}
+
+alphanam<-rep("alpha",6)
+betanam<-rep("beta",6)
+beta2nam<-rep("beta2",6)
+el_opnam<-rep("el_op",6)
+el_exp<-rep("el_exp",6)
+
+x<- rbind(kvinttab_estinfo,alphanam,tablist[[1]],
+          betanam, tablist[[2]],
+          beta2nam, tablist[[3]],
+          el_opnam, tablist[[4]],
+          el_exp,tablist[[5]])
+
+print(xtable(x))
+alphatab <- xtable(tablist[[1]])
+betatab <- xtable(tablist[[2]])
+beta2tab <- xtable(tablist[[3]])
+eloptab <- xtable(tablist[[4]])
+elexptab <- xtable(tablist[[5]])
+
 #v=data.frame(Year=c(1994:2019),w_pred[,3],w[,3],w3_boot_mat)
 #v <- v %>%
 #  #select(Year, Share, Phat, Sharepredict, Shareboot, Shareboot2) %>%
