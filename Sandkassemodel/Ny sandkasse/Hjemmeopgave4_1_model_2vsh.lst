@@ -1,0 +1,342 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/21/21 12:34:22 Page 1
+Hjemmeopgave 4.1
+C o m p i l a t i o n
+
+
+   2   
+   3  *suppressing output
+   5  option limcol =0, limrow=0;
+   6  option solprint=off;
+   7  *------------------------------------------------------------------------*
+   8  *Objekter og dimensioner
+   9  *------------------------------------------------------------------------*
+  10  sets t /t0*t100/;
+  11  set  b /1*2/;
+  12   
+  13  Variables
+  14  *Endogene variable
+  15  K(b,t)     "Kapital"
+  16  Y(b,t)     "Output"
+  17  L(b,t)     "Arbejdsudbud"
+  18  I(b,t)     "Investeringer"
+  19  C(b,t)     "Privatforbrug"
+  20  V(b,t)     "Virksomhedernes v�rdi"
+  21  uc(t)    "User-cost for kapital"
+  22  W(b,t)     "L�nnen"
+  23  r(t)     "Renten"
+  24  P(b,t)     "Prisen i indlandet"
+  25  C_tot(t)     "C"
+  26   
+  27  *Eksogene variable
+  28  delta(t) "Afskrivningsraten"
+  29  theta(t) "Arbejdskraftsproduktivitet"
+  30  rho      "Risikoaversion"
+  31  eta      "Tilbagediskonteringsrate"
+  32  myK(b)   "Produktionsv�gt kapital"
+  33  myL(b)   "Produktionsv�gt arbejdskraft"
+  34  E        "Elasticitet i produktionsfkt"
+  35  g        "V�kst"
+  36  alpha   "Vægt i forbruget"
+  37  ;
+  38   
+  39   
+  40   
+  41  Equations
+  42  E_K(b,t)
+  43  E_W(b,t)
+  44  E_P(b,t)
+  45  E_uc(t)
+  46  E_I(b,t)
+  47  E_C_tot(t)
+  48  E_C(b,t)
+  49  E_Y(b,t)
+  50  E_V(b,t)
+  51  E_Vterm
+  52  E_ucterm
+  53  E_Cterm
+  54  ;
+  55   
+  56  E_K(b,t)    $ (ord(t) gt 1)..                          K(b,t-1)/(1+g)   =e= MyK(b) * (uc(t-1)/P(b,t))**(-E) * Y(b,t);
+  57  E_W(b,t)    $ (ord(t) gt 1)..                          theta(t)*L(b,t)  =e= MyL(b) * ((W(b,t)/theta(t))/P(b,t))**(-E)*Y(b,t);
+  58  E_P(b,t)    $ (ord(t) gt 1)..                          P(b,t)*Y(b,t)    =e= (uc(t-1)*K(b,t-1))/(1+g) + W(b,t)*L(b,t);
+  59  E_uc(t)     $ (ord(t) lt card(t))..                      uc(t)            =e= r(t+1) + delta(t);
+  60  E_I(b,t)    $ (ord(t) gt 1)..                          K(b,t)           =e= (1-delta(t))*K(b,t-1)/(1+g) + I(b,t);
+  61  E_C_tot(t)$ (ord(t) gt 1)..                            C_tot(t)         =e= C('1',t)**alpha*C('2',t)**(1-alpha);
+  62  E_C(b,t)    $ (ord(t) gt 1 and ord(t) lt card(t))..    C_tot(t+1)*(1+g) =e= ((1+r(t+1))/(1+eta))**(1/rho)*C_tot(t);
+  63  E_Y(b,t)    $ (ord(t) gt 1)..                          Y(b,t)           =e= C(b,t) + I(b,t);
+  64  E_V(b,t)    $ (ord(t) gt 1 and ord(t) lt card(t))..    V(b,t+1)*(1+g)   =e= (1+r(t+1))*V(b,t) - (P(b,t+1)*Y(b,t+1)*(1+g) - w(b,t+1)*L(b,t+1)*(1+g) - P(b,t+1)*I(b,t+1)*(1+g));
+  65  E_Cterm(b)..                                           C(b,'t100')      =e= C(b,'t99');
+  66  E_Vterm(b)..                                           V(b,'t100')      =e= V(b,'t99');
+  67  E_ucterm..                                             uc('t100')       =e= uc('t99');
+  68   
+  69  Model Ramsey /ALL/;
+  70  *------------------------------------------------------------------------*
+  71  * Data
+  72  *------------------------------------------------------------------------*
+  73   
+  74  Sets
+  75  j "Input" /
+  76  PS   "Privat sektor"
+  77  Lon  "Lonsum"
+  78  Rest "restindkomst"
+  79  /
+  80  o "Output" /
+  81  PS   "Privat sektor"
+  82  C    "forbrug"
+  83  I    "Investeringer" /
+  84  ;
+  85  Table IO(j,o) "Input-output-tabel"
+  86          PS     C    I
+  87  PS       0   800  200
+  88  lon    700     0    0
+  89  Rest   300     0    0
+  90  ;
+  91   
+  92  * Eksogene parametre
+  93  E.fx        = 0.7;
+  94  theta.fx(t) = 1;
+  95  g.fx        = 0.02;
+  96  rho.fx      = 2;
+  97  alpha.fx    = 0.5;
+  98   
+  99  *Antagelser: p er numeriere. w sættes =1 i udgangspunktet.
+ 100  p.fx('1',t)  = 1;
+ 101  p.l('2',t)   = 1;
+ 102  w.l(b,t)       = 1;
+ 103  r.l(t)       =0.05;
+ 104   
+ 105  * Initialisering
+ 106  L.fx(b,t)     = IO('lon','PS');
+ 107  C.l(b,t)      = IO('PS','C');
+ 108  I.l(b,t)      = IO('PS','I');
+ 109  Y.l(b,t)      = sum(j,IO(j,'PS'));
+ 110   
+ 111  * Kalibrering - delta kommer fra noten.
+ 112  eta.fx      = (1+r.l('t0'))/(1+g.l)**rho.l-1;
+ 113  delta.fx(t) = 2*r.l('t0')-3*g.l;
+ 114   
+ 115  * Initialisering
+ 116  K.fx(b,'t0')  = IO('PS','I')*((1+g.l))/(delta.l('t0')+g.l);
+ 117  K.l(b,t)      = K.l(b,'t0');
+ 118  uc.l(t)       = r.l(t) + delta.l(t);
+ 119  V.l(b,t)      = ( p.l(b,t)*Y.l(b,t) - w.l(b,t)*L.l(b,t) - p.l(b,t)*I.l(b,t) ) / ((r.l(t)-g.l)/(1+g.l));
+ 120   
+ 121  * Kalibrering
+ 122  MyL.fx(b)      =  IO('lon','PS')/sum(j,IO(j,'PS'));
+ 123  MyK.fx(b)      =  (K.l(b,'t0')/(1+g.l))/Y.l(b,'t0')*(r.l('t0')+delta.l('t0'))**E.l;
+ 124   
+ 125   
+ 126  Solve Ramsey using CNS;
+ 127   
+       
+      set objekt  /Y,I,C,p,w,r,K,L,uc,V,eta,delta,theta/;
+      Parameter grund(t,objekt);
+      grund(t,'Y')=y.l(t);
+      grund(t,'I')=i.l(t);
+      grund(t,'C')=c.l(t);
+      grund(t,'p')=p.l(t);
+      grund(t,'w')=w.l(t);
+      grund(t,'r')=r.l(t);
+      grund(t,'K')=K.l(t);
+      grund(t,'L')=p.l(t);
+      grund(t,'uc')=uc.l(t);
+      grund(t,'V')=V.l(t);
+      grund(t,'delta')=delta.l(t);
+      grund(t,'theta')=theta.l(t);
+       
+      display grund;
+       
+       
+      *2 stød til produktiviteten. Først 1 med 10 pct. i periode 1. Og et med 10 pct. i periode 5.
+       
+      *Først periode 1.
+      theta.fx(t)$ (ord(t) gt 1)=theta.l('t0')*1.1;
+      Solve Ramsey using CNS;
+       
+      Parameter shock1(t,objekt);
+      shock1(t,'Y')=y.l(t);
+      shock1(t,'I')=i.l(t);
+      shock1(t,'C')=c.l(t);
+      shock1(t,'p')=p.l(t);
+      shock1(t,'w')=w.l(t);
+      shock1(t,'r')=r.l(t);
+      shock1(t,'K')=K.l(t);
+      shock1(t,'L')=p.l(t);
+      shock1(t,'uc')=uc.l(t);
+      shock1(t,'V')=V.l(t);
+      shock1(t,'delta')=delta.l(t);
+      shock1(t,'theta')=theta.l(t);
+       
+      display shock1;
+       
+      *Så periode 2
+      theta.fx(t)=1;
+      theta.fx(t)$ (ord(t) gt 5)=theta.l('t0')*1.1;
+       
+      Solve Ramsey using CNS;
+       
+      Parameter shock2(t,objekt);
+      shock2(t,'Y')=y.l(t);
+      shock2(t,'I')=i.l(t);
+      shock2(t,'C')=c.l(t);
+      shock2(t,'p')=p.l(t);
+      shock2(t,'w')=w.l(t);
+      shock2(t,'r')=r.l(t);
+      shock2(t,'K')=K.l(t);
+      shock2(t,'L')=p.l(t);
+      shock2(t,'uc')=uc.l(t);
+      shock2(t,'V')=V.l(t);
+      shock2(t,'delta')=delta.l(t);
+      shock2(t,'theta')=theta.l(t);
+       
+      display shock2;
+       
+       
+      ****************
+      *    TSUNAMI   *
+      ****************
+       
+      theta.fx(t)=1;
+      K.fx('t0')     = (IO('PS','I')*((1+g.l))/(delta.l('t0')+g.l))*0.8;
+       
+       
+      Solve Ramsey using CNS;
+       
+      Parameter tsunami(t,objekt);
+      tsunami(t,'Y')=y.l(t);
+      tsunami(t,'I')=i.l(t);
+      tsunami(t,'C')=c.l(t);
+      tsunami(t,'p')=p.l(t);
+      tsunami(t,'w')=w.l(t);
+      tsunami(t,'r')=r.l(t);
+      tsunami(t,'K')=K.l(t);
+      tsunami(t,'L')=p.l(t);
+      tsunami(t,'uc')=uc.l(t);
+      tsunami(t,'V')=V.l(t);
+      tsunami(t,'delta')=delta.l(t);
+      tsunami(t,'theta')=theta.l(t);
+       
+      display tsunami;
+       
+      *********************************************
+      ********* Afskrivningsrate ******************
+      *********************************************
+       
+      K.fx('t0')     = (IO('PS','I')*((1+g.l))/(delta.l('t0')+g.l));
+      delta.fx(t) = (2*r.l('t0')-3*g.l)*0.9; 
+       
+      Solve Ramsey using CNS;
+       
+      Parameter afskriv(t,objekt);
+      afskriv(t,'Y')=y.l(t);
+      afskriv(t,'I')=i.l(t);
+      afskriv(t,'C')=c.l(t);
+      afskriv(t,'p')=p.l(t);
+      afskriv(t,'w')=w.l(t);
+      afskriv(t,'r')=r.l(t);
+      afskriv(t,'K')=K.l(t);
+      afskriv(t,'L')=p.l(t);
+      afskriv(t,'uc')=uc.l(t);
+      afskriv(t,'V')=V.l(t);
+      afskriv(t,'delta')=delta.l(t);
+      afskriv(t,'theta')=theta.l(t);
+       
+       
+      execute_unload "hjopg4-1-1.gdx", grund,shock1,shock2,tsunami,afskriv;
+       
+       
+       
+       
+       
+       
+
+
+COMPILATION TIME     =        0.003 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/21/21 12:34:22 Page 2
+Hjemmeopgave 4.1
+Model Statistics    SOLVE Ramsey Using CNS From line 126
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS          12     SINGLE EQUATIONS        1,601
+BLOCKS OF VARIABLES          20     SINGLE VARIABLES        2,113
+NON ZERO ELEMENTS         9,480     NON LINEAR N-Z          8,070
+DERIVATIVE POOL              20     CONSTANT POOL              16
+CODE LENGTH              20,010
+SINGLE =E|X= EQUS         1,601     SINGLE UNFIXED VARS     1,601
+
+
+GENERATION TIME      =        0.026 SECONDS      5 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/21/21 12:34:22 Page 3
+Hjemmeopgave 4.1
+Solution Report     SOLVE Ramsey Using CNS From line 126
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Ramsey              
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  126
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      5 Locally Infeasible        
+
+ RESOURCE USAGE, LIMIT          0.035 10000000000.000
+ ITERATION COUNT, LIMIT         1    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+ ** Warning **  The variance of the derivatives in the initial
+                point is large (= 5.1 ). A better initial
+                point, a better scaling, or better bounds on the
+                variables will probably help the optimization.
+ 
+ 
+                   Pre-triangular equations:   0
+                   Post-triangular equations:  4
+ 
+ 
+ ** Error in Square System: Pivot too small.
+ 
+ 
+ CONOPT time Total                            0.030 seconds
+   of which: Function evaluations             0.005 = 16.7%
+             1st Derivative evaluations       0.002 =  6.7%
+ 
+
+**** ERRORS/WARNINGS IN EQUATION E_C(1,t99)
+     1 error(s): Pivot too small.
+
+**** ERRORS/WARNINGS IN VARIABLE C(2,t6)
+     1 error(s): Pivot too small.
+
+
+**** REPORT SUMMARY :      100 INFEASIBLE (INFES)
+                    SUM      80000.0000
+                    MAX        800.0000
+                    MEAN       800.0000
+                             1  DEPENDENT (DEPND)
+                             2     ERRORS ( ****)
+                           200  PROJECTED
+
+
+EXECUTION TIME       =        0.153 SECONDS      5 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.lst

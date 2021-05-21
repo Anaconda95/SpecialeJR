@@ -1,0 +1,31 @@
+--- Job Hjemmeopgave4_1_model_2vsh.gms Start 05/21/21 12:27:20 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/225a/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- Hjemmeopgave4_1_model_2vsh.gms(250) 3 Mb
+--- Starting execution: elapsed 0:00:00.017
+--- Hjemmeopgave4_1_model_2vsh.gms(123) 4 Mb
+--- Generating CNS model Ramsey
+--- Hjemmeopgave4_1_model_2vsh.gms(126) 7 Mb
+---   1,601 rows  2,013 columns  9,480 non-zeroes
+---   20,010 nl-code  8,070 nl-non-zeroes
+--- Hjemmeopgave4_1_model_2vsh.gms(126) 5 Mb 1 Error
+*** SOLVE aborted
+--- Hjemmeopgave4_1_model_2vsh.gms(126) 5 Mb 1 Error
+*** Status: Execution error(s)
+--- Job Hjemmeopgave4_1_model_2vsh.gms Stop 05/21/21 12:27:20 elapsed 0:00:00.033

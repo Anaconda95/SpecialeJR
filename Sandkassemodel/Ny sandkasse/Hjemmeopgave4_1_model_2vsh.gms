@@ -19,48 +19,52 @@ I(b,t)     "Investeringer"
 C(b,t)     "Privatforbrug"
 V(b,t)     "Virksomhedernes v�rdi"
 uc(t)    "User-cost for kapital"
-W(t)     "L�nnen"
+W(b,t)     "L�nnen"
 r(t)     "Renten"
 P(b,t)     "Prisen i indlandet"
+C_tot(t)     "C"
 
 *Eksogene variable
 delta(t) "Afskrivningsraten"
 theta(t) "Arbejdskraftsproduktivitet"
 rho      "Risikoaversion"
 eta      "Tilbagediskonteringsrate"
-myK(b)     "Produktionsv�gt kapital"
-myL      "Produktionsv�gt arbejdskraft"
+myK(b)   "Produktionsv�gt kapital"
+myL(b)   "Produktionsv�gt arbejdskraft"
 E        "Elasticitet i produktionsfkt"
 g        "V�kst"
+alpha   "Vægt i forbruget"
 ;
 
 
 
 Equations
 E_K(b,t)
-E_W(t)
-E_P(t)
+E_W(b,t)
+E_P(b,t)
 E_uc(t)
-E_I(t)
-E_C(t)
-E_Y(t)
-E_V(t)
+E_I(b,t)
+E_C_tot(t)
+E_C(b,t)
+E_Y(b,t)
+E_V(b,t)
 E_Vterm
 E_ucterm
 E_Cterm
 ;
 
-E_K(t)    $ (ord(t) gt 1)..                         K(b,t-1)/(1+g)  =e= MyK(b) * (uc(t-1)/P(t))**(-E) * Y(t);
-E_W(t)    $ (ord(t) gt 1)..                         theta(t)*L(t) =e= MyL * ((W(t)/theta(t))/P(t))**(-E)*Y(t);
-E_P(t)    $ (ord(t) gt 1)..                         P(t)*Y(t)     =e= (uc(t-1)*K(t-1))/(1+g) + W(t)*L(t);
-E_uc(t)   $ (ord(t) lt card(t))..                   uc(t)         =e= r(t+1) + delta(t);
-E_I(t)    $ (ord(t) gt 1)..                         K(t)          =e= (1-delta(t))*K(t-1)/(1+g) + I(t);
-E_C(t)    $ (ord(t) gt 1 and ord(t) lt card(t))..   C(t+1)*(1+g)  =e= ((1+r(t+1))/(1+eta))**(1/rho)*C(t);
-E_Y(t)    $ (ord(t) gt 1)..                         Y(t)          =e= C(t) + I(t);
-E_V(t)    $ (ord(t) gt 1 and ord(t) lt card(t))..   V(t+1)*(1+g)  =e= (1+r(t+1))*V(t) - (P(t+1)*Y(t+1)*(1+g) - w(t+1)*L(t+1)*(1+g) - P(t+1)*I(t+1)*(1+g));
-E_Cterm..                                           C('t100')     =e= C('t99');
-E_Vterm..                                           V('t100')     =e= V('t99');
-E_ucterm..                                          uc('t100')    =e= uc('t99');
+E_K(b,t)    $ (ord(t) gt 1)..                          K(b,t-1)/(1+g)   =e= MyK(b) * (uc(t-1)/P(b,t))**(-E) * Y(b,t);
+E_W(b,t)    $ (ord(t) gt 1)..                          theta(t)*L(b,t)  =e= MyL(b) * ((W(b,t)/theta(t))/P(b,t))**(-E)*Y(b,t);
+E_P(b,t)    $ (ord(t) gt 1)..                          P(b,t)*Y(b,t)    =e= (uc(t-1)*K(b,t-1))/(1+g) + W(b,t)*L(b,t);
+E_uc(t)     $ (ord(t) lt card(t))..                      uc(t)            =e= r(t+1) + delta(t);
+E_I(b,t)    $ (ord(t) gt 1)..                          K(b,t)           =e= (1-delta(t))*K(b,t-1)/(1+g) + I(b,t);
+E_C_tot(t)$ (ord(t) gt 1)..                            C_tot(t)         =e= C('1',t)**alpha*C('2',t)**(1-alpha);
+E_C(b,t)    $ (ord(t) gt 1 and ord(t) lt card(t))..    C_tot(t+1)*(1+g) =e= ((1+r(t+1))/(1+eta))**(1/rho)*C_tot(t);
+E_Y(b,t)    $ (ord(t) gt 1)..                          Y(b,t)           =e= C(b,t) + I(b,t);
+E_V(b,t)    $ (ord(t) gt 1 and ord(t) lt card(t))..    V(b,t+1)*(1+g)   =e= (1+r(t+1))*V(b,t) - (P(b,t+1)*Y(b,t+1)*(1+g) - w(b,t+1)*L(b,t+1)*(1+g) - P(b,t+1)*I(b,t+1)*(1+g));
+E_Cterm(b)..                                           C(b,'t100')      =e= C(b,'t99');
+E_Vterm(b)..                                           V(b,'t100')      =e= V(b,'t99');
+E_ucterm..                                             uc('t100')       =e= uc('t99');
 
 Model Ramsey /ALL/;
 *------------------------------------------------------------------------*
@@ -90,34 +94,38 @@ E.fx        = 0.7;
 theta.fx(t) = 1;
 g.fx        = 0.02;
 rho.fx      = 2;
+alpha.fx    = 0.5;
 
 *Antagelser: p er numeriere. w sættes =1 i udgangspunktet.
-p.fx(t)     = 1; 
-w.l(t)      = 1;
-r.l(t)      =0.05;
+p.fx('1',t)  = 1;
+p.l('2',t)   = 1;
+w.l(b,t)       = 1;
+r.l(t)       =0.05;
 
 * Initialisering
-L.fx(t)     = IO('lon','PS');
-C.l(t)      = IO('PS','C');
-I.l(t)      = IO('PS','I');
-Y.l(t)      = sum(j,IO(j,'PS'));
+L.fx(b,t)     = IO('lon','PS');
+C.l(b,t)      = IO('PS','C');
+I.l(b,t)      = IO('PS','I');
+Y.l(b,t)      = sum(j,IO(j,'PS'));
 
 * Kalibrering - delta kommer fra noten. 
 eta.fx      = (1+r.l('t0'))/(1+g.l)**rho.l-1;
 delta.fx(t) = 2*r.l('t0')-3*g.l; 
 
 * Initialisering
-K.fx('t0')  = IO('PS','I')*((1+g.l))/(delta.l('t0')+g.l);
-K.l(t)      = K.l('t0');
-uc.l(t)     = r.l(t) + delta.l(t);
-V.l(t)      = ( p.l(t)*Y.l(t) - w.l(t)*L.l(t) - p.l(t)*I.l(t) ) / ((r.l(t)-g.l)/(1+g.l));
+K.fx(b,'t0')  = IO('PS','I')*((1+g.l))/(delta.l('t0')+g.l);
+K.l(b,t)      = K.l(b,'t0');
+uc.l(t)       = r.l(t) + delta.l(t);
+V.l(b,t)      = ( p.l(b,t)*Y.l(b,t) - w.l(b,t)*L.l(b,t) - p.l(b,t)*I.l(b,t) ) / ((r.l(t)-g.l)/(1+g.l));
 
 * Kalibrering
-MyL.fx      =  IO('lon','PS')/sum(j,IO(j,'PS'));
-MyK.fx      =  (K.l('t0')/(1+g.l))/Y.l('t0')*(r.l('t0')+delta.l('t0'))**E.l;
+MyL.fx(b)      =  IO('lon','PS')/sum(j,IO(j,'PS'));
+MyK.fx(b)      =  (K.l(b,'t0')/(1+g.l))/Y.l(b,'t0')*(r.l('t0')+delta.l('t0'))**E.l;
 
 
 Solve Ramsey using CNS;
+
+$ontext
 
 set objekt  /Y,I,C,p,w,r,K,L,uc,V,eta,delta,theta/;
 Parameter grund(t,objekt);
@@ -239,4 +247,4 @@ execute_unload "hjopg4-1-1.gdx", grund,shock1,shock2,tsunami,afskriv;
 
 
 
-
+$offtext

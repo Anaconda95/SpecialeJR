@@ -1,0 +1,31 @@
+--- Job Hjemmeopgave4_1_model_2vsh.gms Start 05/21/21 12:34:14 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/225a/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- Hjemmeopgave4_1_model_2vsh.gms(119) 3 Mb 2 Errors
+*** Error 171 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms
+    Domain violation for set
+*** Error 148 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms
+    Dimension different - The symbol is referenced with more/less
+       indices as declared
+--- Hjemmeopgave4_1_model_2vsh.gms(126) 3 Mb 3 Errors
+*** Error 257 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms
+    Solve statement not checked because of previous errors
+--- Hjemmeopgave4_1_model_2vsh.gms(250) 3 Mb 3 Errors
+*** Status: Compilation error(s)
+--- Job Hjemmeopgave4_1_model_2vsh.gms Stop 05/21/21 12:34:14 elapsed 0:00:00.017
