@@ -13,16 +13,17 @@ set  b /1*2/;
 Variables
 *Endogene variable
 K(b,t)     "Kapital"
-Y(t)     "Output"
-L(t)     "Arbejdsudbud"
-I(t)     "Investeringer"
-C(t)     "Privatforbrug"
-V(t)     "Virksomhedernes v�rdi"
+Y(b,t)     "Output"
+L(b,t)     "Arbejdsudbud"
+I(b,t)     "Investeringer"
+C(b,t)     "Privatforbrug"
+V(b,t)     "Virksomhedernes v�rdi"
 uc(t)    "User-cost for kapital"
 W(t)     "L�nnen"
 r(t)     "Renten"
+P(b,t)     "Prisen i indlandet"
+
 *Eksogene variable
-P(t)     "Prisen i indlandet"
 delta(t) "Afskrivningsraten"
 theta(t) "Arbejdskraftsproduktivitet"
 rho      "Risikoaversion"
