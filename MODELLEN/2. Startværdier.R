@@ -6,7 +6,7 @@
 
 
 ############# Vælg dataframe ########################
-dataframe <- df_h  ### <<<<<<<<<<<<<==============
+dataframe <- kvint_4  ### <<<<<<<<<<<<<==============
 #####################################################
 
 ##### Sætter startværdier
@@ -157,7 +157,7 @@ sol <-  optim(par = startval, fn = loglik, model=j,
                       phat=phat, w=w, x=x, method="BFGS",
                       control=list(maxit=5000,
                                    trace=6,
-                                   ndeps = rep(1e-09,length(startval))) )
+                                   ndeps = rep(1e-10,length(startval))) )
 
 AIC = 2*length(sol$par) + 2*sol$value
 if (j==1) {BIC = length(sol$par)*log(T)+2*sol$value}
@@ -189,7 +189,7 @@ LI <- cbind(LI,sol$value)
 
 
 
-write.csv(likelihood2, "C:/specialeJR/Model Fit/LV_startværdier.csv")
-write.csv(start_matstor1, "C:/specialeJR/Model Fit/startværdier.csv")
-write.csv(bic_mat2, "C:/specialeJR/Model Fit/bic_startværdier.csv")
+write.csv(likelihood2, "C:/specialeJR/Model Fit/LV_startværdier_kvint4.csv")
+#write.csv(start_matstor1, "C:/specialeJR/Model Fit/startværdier_kvint2.csv")
+write.csv(bic_mat2, "C:/specialeJR/Model Fit/bic_startværdier_kvint4.csv")
 
