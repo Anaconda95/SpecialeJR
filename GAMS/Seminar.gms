@@ -60,7 +60,7 @@ g              type of good                              /1*8/;
 * 7  other goods 
 * 8  other services
 
-**Alias(g,h);
+Alias(g,k);
 
 
 **********************************************************************************
@@ -141,7 +141,7 @@ abate          parameter for labor intensity of pollution in production
 
 
 **** 'households'
-alpha(g)       share of consumption of good g in utility
+alpha(i,g)     share of consumption of good g in utility
 gamma          leisure exponent in utility
 X0(g)          subsistence level consumption of of good g
 phi(i)
@@ -177,7 +177,7 @@ GenEq(g),Utility,Welfare,Tax,AltTax1,AltTax2,Z_totaldef, X_totalconsdef, Inc_con
 FirmProd(g)..
                          F(g)                  =e=    (epsilon(g)*T(g)**r + (1-epsilon(g))*Z(g)**r)**(1/r);
 FirmFOC1(g)..
-                         wage                  =e=     epsilon(g)    *T(g)**(r-1)*F(g)**(1-r)*pr(g);
+                         wage                  =e=     epsilon(g)*T(g)**(r-1)*F(g)**(1-r)*pr(g);
 FirmFOC2(g)..
                          tau_P                 =e=     (1-epsilon(g))*Z(g)**(r-1)*F(g)**(1-r)*pr(g);
 totalT..
@@ -188,10 +188,10 @@ Copeland(g)..
 ********************************Households**************************************
 
 HHFOC1(i,g)$(ord(g) lt 8)..
-                         pr(g)*(X(i,g)-X0(g))  =e= (alpha(g)/alpha(g+1))*((X(i,g+1)-X0(g+1))*pr(g+1));
+                         pr(g)*(X(i,g)-X0(g))  =e= (alpha(i,g)/alpha(i,g+1))*((X(i,g+1)-X0(g+1))*pr(g+1));
 
 HHFOC2(i,g)..
-                         pr(g+7)*(X(i,g+7)-X0(g+7))  =e= (alpha(g+7)/gamma)*lei(i)*( (1-tau_w(i)-tau_w_preex(i)-tau_w_flat)*phi(i)*wage );
+                         pr(g+7)*(X(i,g+7)-X0(g+7))  =e= (alpha(i,g+7)/gamma)*lei(i)*( (1-tau_w(i)-tau_w_preex(i)-tau_w_flat)*phi(i)*wage );
 
 HHFOC3(i)..
                          sum(g,X(i,g)*pr(g))   =e= (1-tau_w(i)-tau_w_preex(i)-tau_w_flat)*phi(i)*wage*(T_total(i)-lei(i)) + L;
@@ -210,11 +210,11 @@ Z_totaldef..
 X_totalconsdef(i)..
                          X_totalcons(i) =e= sum(g,X(i,g)*pr(g));
 Inc_constraint(i)$(ord(i) lt 5)..
-                         U(i+1)    =g=     prod(g,(X(i,g)-X0(g))**alpha(g))*( T_total(i)-(X_totalcons(i) -L )/( (1-tau_w(i)-tau_w_preex(i)-tau_w_flat)*phi(i+1)*wage ) )**gamma-xi*Z_total**theta; 
+                         U(i+1)    =g=     prod(g,(X(i,g)-X0(g))**alpha(i,g))*( T_total(i)-(X_totalcons(i) -L )/( (1-tau_w(i)-tau_w_preex(i)-tau_w_flat)*phi(i+1)*wage ) )**gamma-xi*Z_total**theta; 
 Utility(i)..
-                         U(i)      =e=     prod(g,(X(i,g)-X0(g))**alpha(g))*lei(i)**gamma - xi*(Z_total**theta);
+                         U(i)      =e=     prod(g,(X(i,g)-X0(g))**alpha(i,g))*lei(i)**gamma - xi*(Z_total**theta);
 Utility_NE(i)..
-                         U_NE(i)   =e=     prod(g,(X(i,g)-X0(g))**alpha(g))*lei(i)**gamma;
+                         U_NE(i)   =e=     prod(g,(X(i,g)-X0(g))**alpha(i,g))*lei(i)**gamma;
 Welfare..
                          W         =e=     sum(i, U(i));
 Welfare_NE..
@@ -246,9 +246,21 @@ option nlp=conopt;
 ***********************       Calibration to real data      ****************************
 ****************************************************************************************
 
+******************* 'DATA' ****************************
+Table alphas(i,g) "Alphaer"
+    1     2     3     4     5     6     7     8
+1   0.008 0.032 0.131 0.105 0.03  0.231 0.291 0.172   
+2   0.039 0.081 0.104 0.029 0.025 0.276 0.244 0.202
+3   0.034 0.067 0.122 0.122 0.025 0.244 0.169 0.217
+4   0.029 0.037 0.11  0.068 0.018 0.207 0.286 0.244
+5   0.028 0.036 0.072 0.112 0.03  0.241 0.293 0.188
+;
+
+
+
 ********** 'parameters' ***********
 gamma        = 0.2;   
-gov_spdg     = 5;
+gov_spdg     = 0;
 min          = 1e-9; 
 max          = 1e+5;    
 theta        = 1.0;  
@@ -269,17 +281,9 @@ Parameter epsilon(g)
 8 0.999476353715811
 /;
 
-*** These alphas sum to 0.8 as far as we remember (LOL)
-*** JMN: sætter midlertidige alphaer
-Parameter alpha(g)
-/1 0.1,
-2 0.1,
-3 0.1,
-4 0.1,
-5 0.1,
-6 0.1,
-7 0.1,
-8 0.1/;
+
+*** JMN: sætter rigtige alphaer: de summer til 1, så hvis vi har leisure med bliver den over 1 
+alpha(i,g) = alphas(i,g);
 
 *** JMN: sætter midlertidige b'er
 Parameter X0(g)    /1 0.05, 2 0.05, 3 0.05, 4 0.05, 5 0, 6 0, 7 0, 8 0/;
@@ -302,8 +306,13 @@ Parameter tau_w_preex(i)  pre-existing (progressive) tax on income
 ***************' Variable'
 ***parameter initx(i) /1 0.4, 2 0.45, 3 0.5, 4 0.5, 5 0.55/;
 ***X.l(i,g)=initx(i);
-***pr.l(g)=1;
 
+** Skal vi sætte rigige priser? 
+***pr.l(g)=1;
+gov_unprod.l =0;
+
+** time endowment to each worker
+T_total.fx(i)   =        24; 
 ********************************************************************************
 *****                 Set limits and starting values                       *****
 ********************************************************************************
@@ -327,8 +336,7 @@ gov_unprod.lo = 0;
 
 
 
-** time endowment to each worker
-T_total.fx(i)   =        24;        
+       
 ** fixed pre-existing carbon price (extraction cost or such) 
 tau_P.fx  =        0;      
 

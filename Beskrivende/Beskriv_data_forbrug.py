@@ -119,15 +119,26 @@ indkomst = pd.read_excel("C:\specialeJR\Data\Disponibel indkomst tidsserie.xlsx"
 indkomst = indkomst.sort_values(by=["Aar"])
 
 #%%
+########## Lav til kvintiler ###########
+ind_kvint1= indkomst.loc[:,"1. decil"]+indkomst.loc[:,"2. decil"]/10000
+ind_kvint2= indkomst.loc[:,"3. decil"]+indkomst.loc[:,"4. decil"]/10000
+ind_kvint3= indkomst.loc[:,"5. decil"]+indkomst.loc[:,"6. decil"]/10000
+ind_kvint4= indkomst.loc[:,"7. decil"]+indkomst.loc[:,"8. decil"]/10000
+ind_kvint5= indkomst.loc[:,"9. decil"]+indkomst.loc[:,"10. decil"]/10000
+
+
+#%%
 fontP.set_size("small")
-decilind = ["1. decil","2. decil", "3. decil", "4. decil", "5. decil", "6. decil", "7. decil", "8. decil", "9. decil", "10. decil"]
-for decil in decilind:
-    plt.plot(indkomst["Aar"],indkomst.loc[:,decil], label= decil)
+ind_kvint = [ind_kvint1,ind_kvint2,ind_kvint3, ind_kvint4, ind_kvint5]
+#decilind = ["1. decil","2. decil", "3. decil", "4. decil", "5. decil", "6. decil", "7. decil", "8. decil", "9. decil", "10. decil"]
+for kvint,navn in zip(ind_kvint,Navne):
+    plt.plot(indkomst["Aar"],kvint, label= navn)
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', prop=fontP)
-plt.title("Udvikling i disponibel indkomst")
+#plt.title("Development in disposable income across quintiles", fontsize=14)
+plt.ylabel("10.000 DKK")
 plt.tight_layout()
 
-fig.savefig('C:\specialeJR\Beskrivende\Indkomstudvikling.png',
+plt.savefig('C:\specialeJR\Beskrivende\Indkomstudvikling1.png',
             format='jpeg',
             dpi=100,
             bbox_inches='tight')

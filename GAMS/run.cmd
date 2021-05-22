@@ -24,7 +24,10 @@ rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 rem %gamY%  gdxmerge.gms r=Saved\stone_geary_5h s=Saved\gdxmerge
 rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
-%gamY%  Seminar.gms r=Saved\settings_AM s=Saved\Seminar
+rem %gamY%  Seminar.gms r=Saved\settings_AM s=Saved\Seminar
+rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
+
+%gamY%  Seminar_uden_leis.gms r=Saved\settings_AM s=Saved\Seminar
 IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
 
