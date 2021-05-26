@@ -6,7 +6,7 @@
 
 
 ############# Vælg dataframe ########################
-dataframe <- kvint_4  ### <<<<<<<<<<<<<==============
+dataframe <- kvint_5  ### <<<<<<<<<<<<<==============
 #####################################################
 
 ##### Sætter startværdier
@@ -189,7 +189,7 @@ LI <- cbind(LI,sol$value)
 
 
 
-write.csv(likelihood2, "C:/specialeJR/Model Fit/LV_startværdier_kvint4.csv")
+write.csv(likelihood2, "C:/specialeJR/Model Fit/LV_startværdier_kvint5.csv")
 #write.csv(start_matstor1, "C:/specialeJR/Model Fit/startværdier_kvint2.csv")
-write.csv(bic_mat2, "C:/specialeJR/Model Fit/bic_startværdier_kvint4.csv")
+write.csv(bic_mat2, "C:/specialeJR/Model Fit/bic_startværdier_kvint5.csv")
 

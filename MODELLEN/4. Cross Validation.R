@@ -570,7 +570,11 @@ library(ggarrange)
 ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="right")
 
 
-
+sol7 <-  optim(par = start_7, fn = loglik, model=7, 
+               phat=phat, w=w, x=x, method="BFGS",
+               control=list(maxit=5000,
+                            trace=6,
+                            ndeps = rep(1e-10,length(start_7))) )
 
 
 

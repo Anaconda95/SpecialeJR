@@ -18,11 +18,18 @@ IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 rem %gamY%  lille_model.gms r=Saved\settings_AM s=Saved\lille_model
 rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
-%gamY%  stone_geary_5h.gms r=Saved\settings_AM s=Saved\stone_geary_5h
+rem %gamY%  stone_geary_5h.gms r=Saved\settings_AM s=Saved\stone_geary_5h
+rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
+
+rem %gamY%  gdxmerge.gms r=Saved\stone_geary_5h s=Saved\gdxmerge
+rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
+
+rem %gamY%  Seminar.gms r=Saved\settings_AM s=Saved\Seminar
+rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
+
+%gamY%  Seminar_uden_leis.gms r=Saved\settings_AM s=Saved\Seminar
 IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
-%gamY%  gdxmerge.gms r=Saved\stone_geary_5h s=Saved\gdxmerge
-IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
 :pathsNotFound
 ECHO ----------------------------------------------------------------------------------------------------
