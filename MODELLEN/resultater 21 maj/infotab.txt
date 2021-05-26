@@ -1,0 +1,10 @@
+% latex table generated in R 4.0.5 by xtable 1.8-4 package
+% 
+\begin{tabular}{rrrrrrr}
+  \hline
+ & 1 & 2 & 3 & 4 & 5 & Avg. \\ 
+  \hline
+Likelihood & -689.43 & -723.17 & -713.13 & -743.48 & -733.04 & -799.60 \\ 
+  BIC & -1214.70 & -1282.19 & -1262.11 & -1322.80 & -1301.91 & -1435.04 \\ 
+   \hline
+\end{tabular}

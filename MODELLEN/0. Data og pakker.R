@@ -29,7 +29,9 @@ library(ggpubr)
 #no scientific numbers
 options(scipen=999)
 options(digits=5)
-
+library(xtable)
+options(xtable.floating = FALSE)
+options(xtable.timestamp = "")
 
 ###### Indl?s data ###################
 

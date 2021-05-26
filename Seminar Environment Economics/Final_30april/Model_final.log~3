@@ -1,4 +1,4 @@
---- Job Model_final.gms Start 04/30/20 13:13:45 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
+--- Job Model_final.gms Start 05/03/20 11:02:46 30.2.0 r482c588 WEX-WEI x86 64bit/MS Windows
 --- GAMS Parameters defined
     Input C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\Model_final.gms
     PageSize 0
@@ -25,8 +25,9 @@ Reading file: precali_after_lump.gdx
 Reading file: precali_after_unif.gdx
 Reading file: precali_after_diff.gdx
 Merge complete, 6 input files merged
+--- Model_final.gms(567) 3 Mb
 --- Model_final.gms(599) 3 Mb
---- Starting execution: elapsed 0:00:00.160
+--- Starting execution: elapsed 0:00:00.397
 --- Model_final.gms(408) 4 Mb
 --- GDXin=C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_L0.gdx
 --- Generating NLP model SG_SP
@@ -34,7 +35,7 @@ Merge complete, 6 input files merged
 ---   447 rows  414 columns  3,670 non-zeroes
 ---   7,553 nl-code  2,834 nl-non-zeroes
 --- Model_final.gms(424) 4 Mb
---- Executing CONOPT: elapsed 0:00:00.269
+--- Executing CONOPT: elapsed 0:00:00.506
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -65,14 +66,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(424) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:00.533
+--- Executing after solve: elapsed 0:00:01.246
 --- Model_final.gms(408) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(425) 5 Mb
 ---   447 rows  414 columns  3,670 non-zeroes
 ---   7,553 nl-code  2,834 nl-non-zeroes
 --- Model_final.gms(425) 3 Mb
---- Executing CONOPT: elapsed 0:00:00.610
+--- Executing CONOPT: elapsed 0:00:01.339
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -103,14 +104,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(425) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:00.793
+--- Executing after solve: elapsed 0:00:01.596
 --- Model_final.gms(408) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(426) 5 Mb
 ---   447 rows  414 columns  3,670 non-zeroes
 ---   7,553 nl-code  2,834 nl-non-zeroes
 --- Model_final.gms(426) 3 Mb
---- Executing CONOPT: elapsed 0:00:00.863
+--- Executing CONOPT: elapsed 0:00:01.636
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -141,7 +142,7 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(426) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:01.082
+--- Executing after solve: elapsed 0:00:01.902
 --- Model_final.gms(408) 3 Mb
 --- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_before_ny.gdx
 --- Model_final.gms(437) 3 Mb
@@ -151,9 +152,8 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Model_final.gms(454) 6 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
-
 --- Model_final.gms(454) 4 Mb
---- Executing CONOPT: elapsed 0:00:01.262
+--- Executing CONOPT: elapsed 0:00:02.056
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -198,15 +198,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(454) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:02.142
+--- Executing after solve: elapsed 0:00:02.484
 --- Model_final.gms(437) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(455) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
-
 --- Model_final.gms(455) 3 Mb
---- Executing CONOPT: elapsed 0:00:02.299
+--- Executing CONOPT: elapsed 0:00:02.556
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -237,14 +236,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(455) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:02.621
+--- Executing after solve: elapsed 0:00:02.773
 --- Model_final.gms(437) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(456) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(456) 3 Mb
---- Executing CONOPT: elapsed 0:00:02.705
+--- Executing CONOPT: elapsed 0:00:02.928
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -275,7 +274,7 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(456) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:02.960
+--- Executing after solve: elapsed 0:00:03.153
 --- Model_final.gms(437) 3 Mb
 --- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_lumpanddiff.gdx
 GDX2XLS          30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
@@ -290,7 +289,7 @@ Output file: C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Se
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(476) 4 Mb
---- Executing CONOPT: elapsed 0:00:23.438
+--- Executing CONOPT: elapsed 0:00:19.323
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -334,14 +333,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(476) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:24.397
+--- Executing after solve: elapsed 0:00:19.973
 --- Model_final.gms(463) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(477) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(477) 3 Mb
---- Executing CONOPT: elapsed 0:00:24.490
+--- Executing CONOPT: elapsed 0:00:20.039
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -372,14 +371,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(477) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:24.691
+--- Executing after solve: elapsed 0:00:20.247
 --- Model_final.gms(463) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(478) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(478) 3 Mb
---- Executing CONOPT: elapsed 0:00:24.803
+--- Executing CONOPT: elapsed 0:00:20.303
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -410,7 +409,7 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(478) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:25.059
+--- Executing after solve: elapsed 0:00:20.547
 --- Model_final.gms(463) 3 Mb
 --- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_diff.gdx
 --- Model_final.gms(485) 3 Mb
@@ -421,7 +420,7 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(500) 4 Mb
---- Executing CONOPT: elapsed 0:00:25.202
+--- Executing CONOPT: elapsed 0:00:20.642
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -464,14 +463,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(500) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:26.195
+--- Executing after solve: elapsed 0:00:21.041
 --- Model_final.gms(485) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(501) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(501) 3 Mb
---- Executing CONOPT: elapsed 0:00:26.342
+--- Executing CONOPT: elapsed 0:00:21.103
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -502,14 +501,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(501) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:26.574
+--- Executing after solve: elapsed 0:00:21.316
 --- Model_final.gms(485) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(502) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(502) 3 Mb
---- Executing CONOPT: elapsed 0:00:26.664
+--- Executing CONOPT: elapsed 0:00:21.389
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -540,7 +539,7 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(502) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:26.972
+--- Executing after solve: elapsed 0:00:21.620
 --- Model_final.gms(485) 3 Mb
 --- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_unif.gdx
 --- Model_final.gms(509) 3 Mb
@@ -550,9 +549,8 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Model_final.gms(526) 6 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
---- Model_final.gms(526) 5 Mb
 --- Model_final.gms(526) 4 Mb
---- Executing CONOPT: elapsed 0:00:27.209
+--- Executing CONOPT: elapsed 0:00:21.738
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -590,15 +588,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(526) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:28.020
+--- Executing after solve: elapsed 0:00:22.234
 --- Model_final.gms(509) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(527) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
-
 --- Model_final.gms(527) 3 Mb
---- Executing CONOPT: elapsed 0:00:28.168
+--- Executing CONOPT: elapsed 0:00:22.316
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -629,14 +626,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(527) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:28.460
+--- Executing after solve: elapsed 0:00:22.551
 --- Model_final.gms(509) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(528) 5 Mb
 ---   447 rows  414 columns  3,679 non-zeroes
 ---   7,598 nl-code  2,843 nl-non-zeroes
 --- Model_final.gms(528) 3 Mb
---- Executing CONOPT: elapsed 0:00:28.582
+--- Executing CONOPT: elapsed 0:00:22.664
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -667,7 +664,7 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(528) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:29.017
+--- Executing after solve: elapsed 0:00:23.009
 --- Model_final.gms(509) 3 Mb
 --- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precali_after_lump.gdx
 --- Model_final.gms(537) 3 Mb
@@ -677,9 +674,8 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Model_final.gms(557) 6 Mb
 ---   447 rows  414 columns  3,670 non-zeroes
 ---   7,553 nl-code  2,834 nl-non-zeroes
-
 --- Model_final.gms(557) 4 Mb
---- Executing CONOPT: elapsed 0:00:29.253
+--- Executing CONOPT: elapsed 0:00:23.131
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -721,14 +717,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(557) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:30.278
+--- Executing after solve: elapsed 0:00:23.652
 --- Model_final.gms(537) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(558) 5 Mb
 ---   447 rows  414 columns  3,670 non-zeroes
 ---   7,553 nl-code  2,834 nl-non-zeroes
 --- Model_final.gms(558) 3 Mb
---- Executing CONOPT: elapsed 0:00:30.382
+--- Executing CONOPT: elapsed 0:00:23.784
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -759,14 +755,14 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(558) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:30.682
+--- Executing after solve: elapsed 0:00:24.124
 --- Model_final.gms(537) 3 Mb
 --- Generating NLP model SG_SP
 --- Model_final.gms(559) 5 Mb
 ---   447 rows  414 columns  3,670 non-zeroes
 ---   7,553 nl-code  2,834 nl-non-zeroes
 --- Model_final.gms(559) 3 Mb
---- Executing CONOPT: elapsed 0:00:30.783
+--- Executing CONOPT: elapsed 0:00:24.223
 CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 *** This solver runs with a demo license. No commercial use.
  
@@ -797,7 +793,7 @@ CONOPT 3         30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 --- Restarting execution
 --- Model_final.gms(559) 2 Mb
 --- Reading solution for model SG_SP
---- Executing after solve: elapsed 0:00:31.033
+--- Executing after solve: elapsed 0:00:24.462
 --- Model_final.gms(537) 3 Mb
 --- GDX File C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\precal_after_noredist.gdx
 --- Model_final.gms(568) 3 Mb
@@ -805,6 +801,8 @@ GDX2XLS          30.2.0 r482c588 Released Feb 07, 2020 WEI x86 64bit/MS Window
 Output file: C:\Users\Dedin\K�benhavns Universit
 Output file: C:\Users\Dedin\K�benhavns Universitet\Rasmus Lind� Kaslund - Seminar Environment Economics\Final_30april\merged.xlsx
 (Created backup file)
+gdx2xls error: Metoden
+gdx2xls error: Metoden SaveAs for klassen Workbook mislykkedes
 *** Status: Normal completion
---- Job Model_final.gms Stop 04/30/20 13:14:36 elapsed 0:00:51.002
+--- Job Model_final.gms Stop 05/03/20 11:03:26 elapsed 0:00:39.521
 

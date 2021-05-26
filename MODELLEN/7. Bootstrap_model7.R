@@ -4,7 +4,7 @@
 ############and make a big table############################ YEAHHHH ##################
 #######################################################################################
 dataframelist =list(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5,df_h)
-
+n=8
 rnams_kvinttab <- c("Meat and dairy","(SE)","Other foods","(SE)","Housing","(SE)","Energy for housing","(SE)",
                     "Energy for transport","(SE)","Transport","(SE)","Other goods","(SE)","Other services","(SE)")
 cnams_kvinttab <- c("1", "2", "3", "4", "5", "Avg.")
@@ -182,7 +182,7 @@ j=7;
 
 #Den predictede share
 w_pred <- (phat*sol_b_mat/10000) +  matrix(rep((1-rowSums(phat*sol_b_mat/10000)), n), ncol = n)%*%diag(alpha_sol)
-w_pred_26 = matrix(rbind(w_pred_26,w_pred),ncol = n)
+#w_pred_26 = matrix(rbind(w_pred_26,w_pred),ncol = n)
 w-w_pred
 u_7 = w - w_pred
 
@@ -272,7 +272,7 @@ beta2_se    = c(1:n)
 beta_se     = c(1:n)
 el_op_se    = c(1:n)
 el_exp_se   = c(1:n)
-ac_const_se = quantile(ac_const_boot[s], c(.05,.95))
+
 for (s in 1:n){
   ci <-quantile(alpha_boot_mat[,s], c(.05,.95))
   alpha_conf[1,s]=ci[1]
@@ -352,6 +352,7 @@ x<- rbind(kvinttab_estinfo,alphanam,tablist[[1]],
           el_exp,tablist[[5]])
 
 print(xtable(x))
+infotab <- xtable(kvinttab_estinfo)
 alphatab <- xtable(tablist[[1]])
 betatab <- xtable(tablist[[2]])
 beta2tab <- xtable(tablist[[3]])
