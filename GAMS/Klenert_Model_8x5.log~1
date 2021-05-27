@@ -1,0 +1,24 @@
+--- Job Klenert_Model_8x5.gms Start 05/27/21 15:04:24 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Klenert_Model_8x5.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/225b/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- Klenert_Model_8x5.gms(185) 3 Mb
+--- Starting execution: elapsed 0:00:00.006
+--- Klenert_Model_8x5.gms(132) 4 Mb
+*** Status: Normal completion
+--- Job Klenert_Model_8x5.gms Stop 05/27/21 15:04:24 elapsed 0:00:00.011

@@ -1,0 +1,169 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 15:03:35 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  ****************************************************************************************
+   2  ***********************       Calibration to real data      ****************************
+   3  ****************************************************************************************
+   4   
+   5  ******************* 'DATA' ****************************
+   6  Table alphas(i,g) "Alphaer"
+****               $120,120
+**** 120  Unknown identifier entered as set
+   7      1     2     3     4     5     6     7     8
+   8  1   0.008 0.032 0.131 0.105 0.03  0.231 0.291 0.172
+   9  2   0.039 0.081 0.104 0.029 0.025 0.276 0.244 0.202
+  10  3   0.034 0.067 0.122 0.122 0.025 0.244 0.169 0.217
+  11  4   0.029 0.037 0.11  0.068 0.018 0.207 0.286 0.244
+  12  5   0.028 0.036 0.072 0.112 0.03  0.241 0.293 0.188
+  13  ;
+  14   
+  15   
+  16   
+  17  Table min_cons(i,g) "b'er"
+  18      1       2       3       4       5       6       7       8
+****      $361,362
+**** 361  Values for domain 1 are unknown - no checking possible
+**** 362  Values for domain 2 are unknown - no checking possible
+  19  1   10821   21847   42808   14298   2399    6665    19287   33753
+  20  2   11143   22634   53459   17990   4850    5361    34469   55109
+  21  3   13129   26875   64495   18501   6440    16588   38986   64683
+  22  4   15838   31219   76719   24004   8812    36676   51615   87761
+  23  5   14087   32069   99980   18914   8167    35575   40409   86531
+  24  ;
+  25   
+  26   
+  27   
+  28  *** må justere 1,1 og 1,2 lidt ned, da de er højere end cons
+  29  min_cons("1","1") = 10100;
+****             $353$353
+**** 353  The domain for this index position is unknown and the element
+****         cannot be checked at this point. Missing data statement.
+  30  min_cons('1','2') = 21500;
+****             $353$353
+**** 353  The domain for this index position is unknown and the element
+****         cannot be checked at this point. Missing data statement.
+  31   
+  32   
+  33  Table cons(i,g) "samlet forbrug"
+  34      1       2       3       4       5       6       7       8
+****      $361,362
+**** 361  Values for domain 1 are unknown - no checking possible
+**** 362  Values for domain 2 are unknown - no checking possible
+  35  1   10256   21605   53703   21172   4269    19137   32006   44053
+  36  2   11974   24952   60790   22313   5245    25933   39999   60168
+  37  3   15165   31208   76997   26468   8292    37151   52196   84311
+  38  4   16065   33840   82148   26185   10166   44085   61141   92510
+  39  5   17722   37644   115872  27160   10329   62408   85645   114118
+  40  ;
+  41   
+  42  Table cons_share(i) "kvintilers forbrugsandel"
+****                                               $166
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+  43  1   0.126784
+  44  2   0.154558
+  45  3   0.204001
+  46  4   0.225123
+  47  5   0.289534
+  48  ;
+  49   
+  50  Table income(i) "Kvintilers indkomst 2019"
+****                                           $166
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+  51  1   392009.15
+  52  2   612026.48
+  53  3   927983.33
+  54  4   1083464.21
+  55  5   1698144.8
+  56  ;
+  57   
+  58  Table income_share(i) "Indkomstandel 2019"
+****                                           $166
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+  59  1   0.083165059
+  60  2   0.129841915
+  61  3   0.196872417
+  62  4   0.229857812
+  63  5   0.360262798
+  64  ;
+  65   
+  66  Table CO2_koef(g) "Varegruppernes co2-andel af produktion"
+****                                                           $166
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+  67  1   0.0823176
+  68  2   0.129274392
+  69  3   0.024987882
+  70  4   0.401554549
+  71  5   0.115478351
+  72  6   0.113095265
+  73  7   0.052594913
+  74  8   0.034791298
+  75  ;
+  76   
+  77  Table production(g) "Varergruppernes produktion"
+****                                                 $166
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+  78  1   27390.536
+  79  2   50466.738
+  80  3   219834.253
+  81  4   25459.668
+  82  5   7948.585
+  83  6   57465.41
+  84  7   101537.846
+  85  8   231128.268
+  86  ;
+  87   
+  88  Table prod_share(g) "Varergruppers andel af produktion"
+****                                                        $166
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+  89  1       0.037977464
+  90  2       0.069973028
+  91  3       0.304804092
+  92  4       0.035300281
+  93  5       0.011020854
+  94  6       0.079676811
+  95  7       0.140784025
+  96  8       0.320463445
+  97  ;
+  98   
+  99  Table prices(g) "varergruppers 2015-priser for 2019"
+****                                                     $166
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+ 100  1   1.040037111
+ 101  2   1.031743332
+ 102  3   1.060924014
+ 103  4   0.964655349
+ 104  5   1.052080537
+ 105  6   1.007260708
+ 106  7   0.949414731
+ 107  8   1.045076628
+ 108  ;
+ 109   
+ 110   
+ 111   
+
+**** 17 ERROR(S)   0 WARNING(S)
+
+
+COMPILATION TIME     =        0.009 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.lst
+
+**** USER ERROR(S) ENCOUNTERED

@@ -1,4 +1,4 @@
---- Job Med_off_sektor.gms Start 05/27/21 13:54:55 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job Med_off_sektor.gms Start 05/27/21 14:12:58 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -18,15 +18,15 @@ Licensee: Course License                                 S210104/0001AO-GEN
           /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
           Course license for use within the course and related course work
 --- Starting compilation
---- Med_off_sektor.gms(120) 3 Mb
+--- Med_off_sektor.gms(124) 3 Mb
 --- Starting execution: elapsed 0:00:00.005
---- Med_off_sektor.gms(100) 4 Mb
+--- Med_off_sektor.gms(104) 4 Mb
 --- Generating CNS model Klenert
---- Med_off_sektor.gms(113) 6 Mb
----   16 rows  17 columns  64 non-zeroes
----   114 nl-code  42 nl-non-zeroes
---- Med_off_sektor.gms(113) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.014
+--- Med_off_sektor.gms(117) 6 Mb
+---   16 rows  17 columns  67 non-zeroes
+---   124 nl-code  45 nl-non-zeroes
+--- Med_off_sektor.gms(117) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.015
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -44,20 +44,20 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
       1   0        3.2887658314E+00 (After pre-processing)
       2   0        3.8448828537E-01 (After scaling)
-     10   0     0  1.4499146886E-05               1.0E+00      F  T
-     18            3.6448782881E-10
+     10   0     0  8.1899096005E-08               1.0E+00      F  T
+     12            7.7841173785E-10
  
  ** Feasible solution to a square system.
  
 --- Reading solution for model Klenert
---- Executing after solve: elapsed 0:00:00.116
---- Med_off_sektor.gms(116) 4 Mb
+--- Executing after solve: elapsed 0:00:00.094
+--- Med_off_sektor.gms(120) 4 Mb
 --- Generating CNS model Klenert
---- Med_off_sektor.gms(117) 6 Mb
----   16 rows  17 columns  64 non-zeroes
----   114 nl-code  42 nl-non-zeroes
---- Med_off_sektor.gms(117) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.120
+--- Med_off_sektor.gms(121) 6 Mb
+---   16 rows  17 columns  67 non-zeroes
+---   124 nl-code  45 nl-non-zeroes
+--- Med_off_sektor.gms(121) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.097
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -68,19 +68,19 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        9.4750704333E+00 (Input point)
+      0   0        9.4750704345E+00 (Input point)
  
                    Pre-triangular equations:   1
                    Post-triangular equations:  0
  
-      1   0        9.4750704333E+00 (After pre-processing)
-      2   0        2.7515757060E+00 (After scaling)
-     10   0     0  6.0445578546E-06               1.0E+00      F  T
-     16            7.1459086912E-10
+      1   0        9.4750704345E+00 (After pre-processing)
+      2   0        2.2343838045E+00 (After scaling)
+     10   0     0  5.6531936425E-06               1.0E+00      F  T
+     16            4.6003914567E-10
  
  ** Feasible solution to a square system.
  
 --- Reading solution for model Klenert
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gdx
 *** Status: Normal completion
---- Job Med_off_sektor.gms Stop 05/27/21 13:54:55 elapsed 0:00:00.153
+--- Job Med_off_sektor.gms Stop 05/27/21 14:12:58 elapsed 0:00:00.131

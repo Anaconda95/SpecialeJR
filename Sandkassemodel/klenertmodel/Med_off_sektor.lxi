@@ -1,85 +1,85 @@
 B 3 C o m p i l a t i o n
-B 131 Equation Listing    SOLVE Klenert Using CNS From line 113
-D 134 FirmFOC1
-D 141 FirmFOC2
-D 148 NulProfit
-D 155 Copeland
-D 162 TimeConstr
-D 167 HHFOC1
-D 174 HHBudget
-D 181 Lumpsum
-D 186 Numeraire
-D 191 GenEq
-B 197 Column Listing      SOLVE Klenert Using CNS From line 113
-E 200 w
-E 213 t
-E 230 F
-E 246 z
-E 263 p
-E 287 x
-E 308 L
-E 317 T_total
-E 330 Gov_spdg
-B 339 Model Statistics    SOLVE Klenert Using CNS From line 113
-B 355 Solution Report     SOLVE Klenert Using CNS From line 113
-F 391 FirmFOC1
-F 398 FirmFOC2
-F 405 NulProfit
-F 412 Copeland
-F 421 TimeConstr
-F 423 HHFOC1
-F 430 HHBudget
-F 439 Lumpsum
-F 440 Numeraire
-F 442 GenEq
-G 450 w
-G 454 t
-G 461 F
-G 468 z
-G 475 p
-G 482 x
-G 493 L
-G 497 T_total
-G 506 Gov_spdg
-B 515 Equation Listing    SOLVE Klenert Using CNS From line 117
-D 518 FirmFOC1
-D 525 FirmFOC2
-D 532 NulProfit
-D 539 Copeland
-D 546 TimeConstr
-D 551 HHFOC1
-D 558 HHBudget
-D 565 Lumpsum
-D 570 Numeraire
-D 575 GenEq
-B 581 Column Listing      SOLVE Klenert Using CNS From line 117
-E 584 w
-E 597 t
-E 614 F
-E 630 z
-E 647 p
-E 671 x
-E 692 L
-E 701 T_total
-E 714 Gov_spdg
-B 723 Model Statistics    SOLVE Klenert Using CNS From line 117
-B 739 Solution Report     SOLVE Klenert Using CNS From line 117
-F 775 FirmFOC1
-F 782 FirmFOC2
-F 789 NulProfit
-F 796 Copeland
-F 805 TimeConstr
-F 807 HHFOC1
-F 814 HHBudget
-F 823 Lumpsum
-F 824 Numeraire
-F 826 GenEq
-G 834 w
-G 838 t
-G 845 F
-G 852 z
-G 859 p
-G 866 x
-G 877 L
-G 881 T_total
-G 890 Gov_spdg
+B 135 Equation Listing    SOLVE Klenert Using CNS From line 117
+D 138 FirmFOC1
+D 145 FirmFOC2
+D 152 NulProfit
+D 159 Copeland
+D 166 TimeConstr
+D 171 HHFOC1
+D 178 HHBudget
+D 185 Lumpsum
+D 190 Numeraire
+D 195 GenEq
+B 201 Column Listing      SOLVE Klenert Using CNS From line 117
+E 204 w
+E 218 t
+E 235 F
+E 251 z
+E 268 p
+E 292 x
+E 313 L
+E 322 T_total
+E 337 Gov_spdg
+B 346 Model Statistics    SOLVE Klenert Using CNS From line 117
+B 362 Solution Report     SOLVE Klenert Using CNS From line 117
+F 398 FirmFOC1
+F 405 FirmFOC2
+F 412 NulProfit
+F 419 Copeland
+F 428 TimeConstr
+F 430 HHFOC1
+F 437 HHBudget
+F 446 Lumpsum
+F 447 Numeraire
+F 449 GenEq
+G 457 w
+G 461 t
+G 468 F
+G 475 z
+G 482 p
+G 489 x
+G 500 L
+G 504 T_total
+G 513 Gov_spdg
+B 522 Equation Listing    SOLVE Klenert Using CNS From line 121
+D 525 FirmFOC1
+D 532 FirmFOC2
+D 539 NulProfit
+D 546 Copeland
+D 553 TimeConstr
+D 558 HHFOC1
+D 565 HHBudget
+D 572 Lumpsum
+D 577 Numeraire
+D 582 GenEq
+B 588 Column Listing      SOLVE Klenert Using CNS From line 121
+E 591 w
+E 605 t
+E 622 F
+E 638 z
+E 655 p
+E 679 x
+E 700 L
+E 709 T_total
+E 724 Gov_spdg
+B 733 Model Statistics    SOLVE Klenert Using CNS From line 121
+B 749 Solution Report     SOLVE Klenert Using CNS From line 121
+F 785 FirmFOC1
+F 792 FirmFOC2
+F 799 NulProfit
+F 806 Copeland
+F 815 TimeConstr
+F 817 HHFOC1
+F 824 HHBudget
+F 833 Lumpsum
+F 834 Numeraire
+F 836 GenEq
+G 844 w
+G 848 t
+G 855 F
+G 862 z
+G 869 p
+G 876 x
+G 887 L
+G 891 T_total
+G 900 Gov_spdg

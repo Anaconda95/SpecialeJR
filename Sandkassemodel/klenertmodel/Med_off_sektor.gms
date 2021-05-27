@@ -34,6 +34,7 @@ epsilon(g) 'forurening'
 r 'CES parameter'
 s 'elasticity of substitution'
 tau_p 'co2-skat'
+tau_w(hh) 'wage tax'
 ;
 
 equations
@@ -56,8 +57,8 @@ Nulprofit(g)..                   w*T(g) + tau_P*Z(g) =e=     p(g)*F(g);
 Copeland(g)..                                Z(g)    =l=     abate*T(g);
 TimeConstr..                                  0      =e=     sum(g, T(g) ) -sum(hh, phi(hh) *T_total(hh)  );
 HHFOC1(hh,g)$(ord(g) lt 2)..    p(g)*(x(hh,g)-b(g))  =e= (alpha(g)/alpha(g+1))*((x(hh,g+1)-b(g+1))*p(g+1));
-HHBudget(hh)..                   sum(g,p(g)*x(hh,g)) =e= phi(hh)*w*T_total(hh) + L;
-Lumpsum..                                 Gov_spdg   =e= sum(g,tau_P*z(g)) - L*card(hh)  ;
+HHBudget(hh)..                   sum(g,p(g)*x(hh,g)) =e= (1-tau_w(hh))*phi(hh)*w*T_total(hh) + L;
+Lumpsum..                                 Gov_spdg   =e= sum(g,tau_P*z(g)) + sum(hh,tau_w(hh)*phi(hh)*w*T_total(hh)) - L*card(hh)  ;
 Numeraire..                                      w   =e= 1;
 GenEq(g)$(ord(g) lt 2)..                        F(g) =e= sum(hh,X(hh,g)) + gov_spdg/( p(g)*card(g)  );
 
@@ -79,12 +80,14 @@ Parameters b(g)       'minimum consumption'
            epsilon(g) 'forurening'
            /1 0.99
            2 0.94/
+           tau_w(hh)
+           /1 0.3
+            2 0.5/
 ;
 s=0.5;
 r    = 1-1/s;
 tau_p = 0.4;
             
-
 *Kalibrering
 w.l=1;
 T_total.fx(hh)=24;
@@ -96,15 +99,11 @@ F.l(g)  = 24/card(g);
 T.l(g)  = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
 z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
 
-L.l = (sum(g,tau_P*z.l(g)) - Gov_spdg.l)/card(hh);
-x.l(hh,g) = b(g) +  (    alpha(g)*( w.l*phi(hh)*T_total.l(hh) + L.l - subsist )  )/p.l(g);
+L.l = (sum(g,tau_P*z.l(g)) + sum(hh,tau_w(hh)*phi(hh)*w.l*T_total.l(hh)) - Gov_spdg.l)/card(hh);
+x.l(hh,g) = b(g) +  (    alpha(g)*(  (1-tau_w(hh))*w.l*phi(hh)*T_total.l(hh) + L.l - subsist )  )/p.l(g);
 
 *F.l(g) = sum(hh,x.l(hh,g));
-
 *T.l(g) = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
-
-
-
 *T_total.fx(hh)=sum(g,T.l(g))
 
 

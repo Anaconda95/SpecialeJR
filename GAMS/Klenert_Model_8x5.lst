@@ -1,0 +1,192 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 15:17:57 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  ********** Lille model med offentlig sektor (dvs ingen omfordeling) *************
+   2   
+   3  * sets
+   4  * Husholdninger
+   5  set i /1*5/;
+   6   
+   7  * Firmaer
+   8  set g /1*8/;
+   9  alias(g,gg);
+  10   
+  11  *Endogene variable
+  12  variables
+  13  w 'loen'
+  14  t(g) 'labour input'
+  15  F(g) 'produktion'
+  16  z(g) 'polluion'
+  17  p(g) 'priser'
+  18  x(i,g) 'forbrug af vare g i husholdninger'
+  19  L 'offforbrug'
+  20  ;
+  21   
+  22  *Eksogene variable
+  23  variables
+  24  T_total(i)
+  25  Gov_spdg;
+  26  *Parametre
+  27   
+  28  parameters
+  29  abate 'copeland parameter'
+  30  b(i,g)'minimumsforbrug'
+  31  alpha(i,g) 'marginal budget share'
+  32  phi(i) 'produktivitet i husholding i'
+  33  epsilon(g) 'forurening'
+  34  r 'CES parameter'
+  35  s 'elasticity of substitution'
+  36  tau_p 'co2-skat'
+  37  tau_w(i) 'wage tax'
+  38  ;
+  39   
+  40  equations
+  41  *FirmProd(g)
+  42  FirmFOC1(g)
+  43  FirmFOC2(g)
+  44  NulProfit(g)
+  45  Copeland(g)
+  46  TimeConstr
+  47  HHFOC1(i,g)
+  48  HHBudget(i)
+  49  Lumpsum
+  50  Numeraire
+  51  GenEq(g)
+  52  ;
+  53  *FirmProd(g)..                               F(g)     =e=    (epsilon(g)*T(g)**r + (1-epsilon(g))*Z(g)**r)**(1/r);
+  54  FirmFOC1(g)..                                    w   =e=     epsilon(g)    *T(g)**(r-1)*F(g)**(1-r)*p(g);
+  55  FirmFOC2(g)..                                 tau_P  =e=     (1-epsilon(g))*Z(g)**(r-1)*F(g)**(1-r)*p(g);
+  56  Nulprofit(g)..                   w*T(g) + tau_P*Z(g) =e=     p(g)*F(g);
+  57  Copeland(g)..                                Z(g)    =l=     abate*T(g);
+  58  TimeConstr..                                  0      =e=     sum(g, T(g) ) -sum(i, phi(i) *T_total(i)  );
+  59  HHFOC1(i,g)$(ord(g) lt 8)..    p(g)*(x(i,g)-b(i,g))  =e= (alpha(i,g)/alpha(i,g+1))*((x(i,g+1)-b(i,g+1))*p(g+1));
+  60  HHBudget(i)..                   sum(g,p(g)*x(i,g)) =e= (1-tau_w(i))*phi(i)*w*T_total(i) + L;
+  61  Lumpsum..                                 Gov_spdg   =e= sum(g,tau_P*z(g)) + sum(i,tau_w(i)*phi(i)*w*T_total(i)) - L*card(i)  ;
+  62  Numeraire..                                      w   =e= 1;
+  63  GenEq(g)$(ord(g) lt 8)..                        F(g) =e= sum(i,X(i,g)) + gov_spdg/( p(g)*card(g)  );
+  64   
+  65  ***********************************************************************************************************************
+  66  ************************************ Kalibrering **********************************************************************
+  67  ***********************************************************************************************************************
+  68   
+  69  *Parametre
+  70  abate=1;
+  71   
+  72   
+  73  Table alphas(i,g) "Alphaer"
+  74      1     2     3     4     5     6     7     8
+  75  1   0.008 0.032 0.131 0.105 0.03  0.231 0.291 0.172
+  76  2   0.039 0.081 0.104 0.029 0.025 0.276 0.244 0.202
+  77  3   0.034 0.067 0.122 0.122 0.025 0.244 0.169 0.217
+  78  4   0.029 0.037 0.11  0.068 0.018 0.207 0.286 0.244
+  79  5   0.028 0.036 0.072 0.112 0.03  0.241 0.293 0.188
+  80  ;
+  81   
+  82  alpha(i,g)=alphas(i,g)
+  83   
+  84  Table min_cons(i,g) "b'er"
+  85      1       2       3       4       5       6       7       8
+  86  1   10821   21847   42808   14298   2399    6665    19287   33753
+  87  2   11143   22634   53459   17990   4850    5361    34469   55109
+  88  3   13129   26875   64495   18501   6440    16588   38986   64683
+  89  4   15838   31219   76719   24004   8812    36676   51615   87761
+  90  5   14087   32069   99980   18914   8167    35575   40409   86531
+  91  ;
+  92  *** må justere 1,1 og 1,2 lidt ned, da de er højere end cons
+  93  min_cons("1","1") = 10100;
+  94  min_cons('1','2') = 21500;
+  95   
+  96  b(i,g)=min_cons(i,g)/1000;
+  97   
+  98  display b;
+  99   
+ 100  Table cons(i,g) "samlet forbrug"
+ 101      1       2       3       4       5       6       7       8
+ 102  1   10256   21605   53703   21172   4269    19137   32006   44053
+ 103  2   11974   24952   60790   22313   5245    25933   39999   60168
+ 104  3   15165   31208   76997   26468   8292    37151   52196   84311
+ 105  4   16065   33840   82148   26185   10166   44085   61141   92510
+ 106  5   17722   37644   115872  27160   10329   62408   85645   114118
+ 107  ;
+ 108   
+ 109  x.l(i,g) = cons(i,g)/1000;
+ 110   
+ 111  Parameter cons_share(i) "kvintilers forbrugsandel"
+ 112  /1   0.126784
+ 113  2   0.154558
+ 114  3   0.204001
+ 115  4   0.225123
+ 116  5   0.289534/
+ 117  ;
+ 118   
+ 119  phi(i)=cons_share(i);
+ 120   
+ 121  Parameter CO2_koef(g) "Varegruppernes co2-andel af produktion"
+ 122  /1   0.0823176
+ 123  2   0.129274392
+ 124  3   0.024987882
+ 125  4   0.401554549
+ 126  5   0.115478351
+ 127  6   0.113095265
+ 128  7   0.052594913
+ 129  8   0.034791298/
+ 130  ;
+ 131   
+ 132  epsilon(g)=1-CO2_koef(g);
+ 133   
+ 134  *Sætter skatterne lig nul.
+ 135  tau_w(i)=0;
+ 136   
+ 137  s=0.5;
+ 138  r    = 1-1/s;
+ 139   
+ 140  *Kalibrering
+ 141  w.l=1;
+ 142  *T_total.fx(i)=24;
+ 143  Gov_spdg.fx=50;
+ 144  p.l(g)=1;
+ 145  tau_p=2;
+ 146   
+ 147  F.l(g)  = sum(i,x.l(i,g);
+****                          $8
+****   8  ')' expected
+ 148  T.l(g)  = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
+ 149  T_total.fx(i)=sum(g,T.l(g));
+ 150   
+ 151  z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
+ 152  L.l = (sum(g,tau_P*z.l(g)) + sum(i,tau_w(i)*phi(i)*w.l*T_total.l(i)) - Gov_spdg.l)/card(i);
+ 153   
+ 154  Model Klenert /all/;
+ 155   
+ 156  Solve Klenert using cns;
+****                         $257
+**** 257  Solve statement not checked because of previous errors
+ 157   
+ 158  *Test om man kan hæve skatten - det kan man, og prisen på det forurenende gode stiger.
+ 159  *tau_P=1;
+ 160  *Solve Klenert using cns;
+ 161   
+ 162   
+ 163  $offtext
+****         $216
+**** 216  No previous "ontext"
+
+**** 3 ERROR(S)   0 WARNING(S)
+
+
+COMPILATION TIME     =        0.009 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Klenert_Model_8x5.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Klenert_Model_8x5.lst
+
+**** USER ERROR(S) ENCOUNTERED
