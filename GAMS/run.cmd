@@ -27,7 +27,10 @@ rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 rem %gamY%  Seminar.gms r=Saved\settings_AM s=Saved\Seminar
 rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
-%gamY%  Seminar_uden_leis.gms r=Saved\settings_AM s=Saved\Seminar
+rem %gamY%  Seminar_uden_leis.gms r=Saved\settings_AM s=Saved\Seminar
+rem IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
+
+%gamY%  Model_LES.gms r=Saved\settings_AM s=Saved\Seminar
 IF %ERRORLEVEL% NEQ 0 GOTO errorHandling
 
 

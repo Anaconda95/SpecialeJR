@@ -12,7 +12,9 @@
 df_kvintiler <- list(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5)  ###
 ###############################################################
 b_min <- c()
+forbrug <- c()
 solutions <- list()
+
 
 for (dfdf in 1:length(df_kvintiler) ) {
   
@@ -114,8 +116,8 @@ for (dfdf in 1:length(df_kvintiler) ) {
   covar_start <- covar[lower.tri(covar,diag=TRUE)]
   
   habit=rep(0.5,n)
-  AR = rep(0.4,n)
-  timetrend=rep(0.05,n)
+  AR = rep(0.5,n)
+  timetrend=rep(0.01,n)
   autocorr <- 0.9
   
   start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
@@ -148,32 +150,33 @@ for (dfdf in 1:length(df_kvintiler) ) {
   sol_b_mat_7 = matrix(rep(0,26),nrow=26,ncol=n)
   #sol_b_mat_7[1,] = c(rep(NA,n))
   #sol_b_mat_7[2,] = c(rep(NA,n))
-  sol_b_mat_7[3,] =  (x[2,])%*%diag(beta1_sol7) + (x[1,])%*%diag(AR_p_start)%*%diag(beta2_sol7)
-  sol_b_mat_7[4,] = x[3,]%*%diag(beta1_sol7) + sol_b_mat_7[3,]%*%diag(beta2_sol7)
-  sol_b_mat_7[5,] = x[4,]%*%diag(beta1_sol7) + sol_b_mat_7[4,]%*%diag(beta2_sol7)
-  sol_b_mat_7[6,] = x[5,]%*%diag(beta1_sol7) + sol_b_mat_7[5,]%*%diag(beta2_sol7)
-  sol_b_mat_7[7,] = x[6,]%*%diag(beta1_sol7) + sol_b_mat_7[6,]%*%diag(beta2_sol7)
-  sol_b_mat_7[8,] = x[7,]%*%diag(beta1_sol7) + sol_b_mat_7[7,]%*%diag(beta2_sol7)
-  sol_b_mat_7[9,] = x[8,]%*%diag(beta1_sol7) + sol_b_mat_7[8,]%*%diag(beta2_sol7)
-  sol_b_mat_7[10,] = x[9,]%*%diag(beta1_sol7) + sol_b_mat_7[9,]%*%diag(beta2_sol7)
-  sol_b_mat_7[11,] = x[10,]%*%diag(beta1_sol7) + sol_b_mat_7[10,]%*%diag(beta2_sol7)
-  sol_b_mat_7[12,] = x[11,]%*%diag(beta1_sol7) + sol_b_mat_7[11,]%*%diag(beta2_sol7)
-  sol_b_mat_7[13,] = x[12,]%*%diag(beta1_sol7) + sol_b_mat_7[12,]%*%diag(beta2_sol7)
-  sol_b_mat_7[14,] = x[13,]%*%diag(beta1_sol7) + sol_b_mat_7[13,]%*%diag(beta2_sol7)
-  sol_b_mat_7[15,] = x[14,]%*%diag(beta1_sol7) + sol_b_mat_7[14,]%*%diag(beta2_sol7)
-  sol_b_mat_7[16,] = x[15,]%*%diag(beta1_sol7) + sol_b_mat_7[15,]%*%diag(beta2_sol7)
-  sol_b_mat_7[17,] = x[16,]%*%diag(beta1_sol7) + sol_b_mat_7[16,]%*%diag(beta2_sol7)
-  sol_b_mat_7[18,] = x[17,]%*%diag(beta1_sol7) + sol_b_mat_7[17,]%*%diag(beta2_sol7)
-  sol_b_mat_7[19,] = x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
-  sol_b_mat_7[20,] = x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
-  sol_b_mat_7[21,] = x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
-  sol_b_mat_7[22,] = x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)
-  sol_b_mat_7[23,] = x[22,]%*%diag(beta1_sol7) + sol_b_mat_7[22,]%*%diag(beta2_sol7)
-  sol_b_mat_7[24,] = x[23,]%*%diag(beta1_sol7) + sol_b_mat_7[23,]%*%diag(beta2_sol7)
-  sol_b_mat_7[25,] = x[24,]%*%diag(beta1_sol7) + sol_b_mat_7[24,]%*%diag(beta2_sol7)
-  sol_b_mat_7[26,] = x[25,]%*%diag(beta1_sol7) + sol_b_mat_7[25,]%*%diag(beta2_sol7)
+  sol_b_mat_7[3,] =  (10000*x[2,])%*%diag(beta1_sol7) + (10000*x[1,])%*%diag(AR_p_start)%*%diag(beta2_sol7)
+  sol_b_mat_7[4,] =  10000*x[3,]%*%diag(beta1_sol7) + sol_b_mat_7[3,]%*%diag(beta2_sol7)
+  sol_b_mat_7[5,] =  10000*x[4,]%*%diag(beta1_sol7) + sol_b_mat_7[4,]%*%diag(beta2_sol7)
+  sol_b_mat_7[6,] =  10000*x[5,]%*%diag(beta1_sol7) + sol_b_mat_7[5,]%*%diag(beta2_sol7)
+  sol_b_mat_7[7,] =  10000*x[6,]%*%diag(beta1_sol7) + sol_b_mat_7[6,]%*%diag(beta2_sol7)
+  sol_b_mat_7[8,] =  10000*x[7,]%*%diag(beta1_sol7) + sol_b_mat_7[7,]%*%diag(beta2_sol7)
+  sol_b_mat_7[9,] =  10000*x[8,]%*%diag(beta1_sol7) + sol_b_mat_7[8,]%*%diag(beta2_sol7)
+  sol_b_mat_7[10,] = 10000*x[9,]%*%diag(beta1_sol7) + sol_b_mat_7[9,]%*%diag(beta2_sol7)
+  sol_b_mat_7[11,] = 10000*x[10,]%*%diag(beta1_sol7) + sol_b_mat_7[10,]%*%diag(beta2_sol7)
+  sol_b_mat_7[12,] = 10000*x[11,]%*%diag(beta1_sol7) + sol_b_mat_7[11,]%*%diag(beta2_sol7)
+  sol_b_mat_7[13,] = 10000*x[12,]%*%diag(beta1_sol7) + sol_b_mat_7[12,]%*%diag(beta2_sol7)
+  sol_b_mat_7[14,] = 10000*x[13,]%*%diag(beta1_sol7) + sol_b_mat_7[13,]%*%diag(beta2_sol7)
+  sol_b_mat_7[15,] = 10000*x[14,]%*%diag(beta1_sol7) + sol_b_mat_7[14,]%*%diag(beta2_sol7)
+  sol_b_mat_7[16,] = 10000*x[15,]%*%diag(beta1_sol7) + sol_b_mat_7[15,]%*%diag(beta2_sol7)
+  sol_b_mat_7[17,] = 10000*x[16,]%*%diag(beta1_sol7) + sol_b_mat_7[16,]%*%diag(beta2_sol7)
+  sol_b_mat_7[18,] = 10000*x[17,]%*%diag(beta1_sol7) + sol_b_mat_7[17,]%*%diag(beta2_sol7)
+  sol_b_mat_7[19,] = 10000*x[18,]%*%diag(beta1_sol7) + sol_b_mat_7[18,]%*%diag(beta2_sol7)
+  sol_b_mat_7[20,] = 10000*x[19,]%*%diag(beta1_sol7) + sol_b_mat_7[19,]%*%diag(beta2_sol7)
+  sol_b_mat_7[21,] = 10000*x[20,]%*%diag(beta1_sol7) + sol_b_mat_7[20,]%*%diag(beta2_sol7)
+  sol_b_mat_7[22,] = 10000*x[21,]%*%diag(beta1_sol7) + sol_b_mat_7[21,]%*%diag(beta2_sol7)
+  sol_b_mat_7[23,] = 10000*x[22,]%*%diag(beta1_sol7) + sol_b_mat_7[22,]%*%diag(beta2_sol7)
+  sol_b_mat_7[24,] = 10000*x[23,]%*%diag(beta1_sol7) + sol_b_mat_7[23,]%*%diag(beta2_sol7)
+  sol_b_mat_7[25,] = 10000*x[24,]%*%diag(beta1_sol7) + sol_b_mat_7[24,]%*%diag(beta2_sol7)
+  sol_b_mat_7[26,] = 10000*x[25,]%*%diag(beta1_sol7) + sol_b_mat_7[25,]%*%diag(beta2_sol7)
   
   b_min[[dfdf]] = sol_b_mat_7
+  forbrug[[dfdf]] =x*10000
 
 }
 
@@ -183,7 +186,40 @@ b_min3 = b_min[[3]]
 b_min4 = b_min[[4]]
 b_min5 = b_min[[5]]
 
+forbrug1 = forbrug[[1]]
+forbrug2 = forbrug[[2]]
+forbrug3 = forbrug[[3]]
+forbrug4 = forbrug[[4]]
+forbrug5 = forbrug[[5]]
 
+b_min2019 <- b_min1[26,]
+b_min2019 <- rbind(b_min2019, b_min2[26,])
+b_min2019 <- rbind(b_min2019, b_min3[26,])
+b_min2019 <- rbind(b_min2019, b_min4[26,])
+b_min2019 <- rbind(b_min2019, b_min5[26,])
+
+forbrug2019 <- forbrug1[26,]
+forbrug2019 <- rbind(forbrug2019,forbrug2[26,])
+forbrug2019 <- rbind(forbrug2019,forbrug3[26,])
+forbrug2019 <- rbind(forbrug2019,forbrug4[26,])
+forbrug2019 <- rbind(forbrug2019,forbrug5[26,])
+
+write.csv(b_min2019, "C:/specialeJR/MODELLEN/b_min2019.csv" )
+write.csv(forbrug2019, "C:/specialeJR/MODELLEN/forbrug2019.csv" )
+
+write.csv(b_min1, "C:/specialeJR/MODELLEN/b_min1" )
+write.csv(b_min2, "C:/specialeJR/MODELLEN/b_min2" )
+write.csv(b_min3, "C:/specialeJR/MODELLEN/b_min3" )
+write.csv(b_min4, "C:/specialeJR/MODELLEN/b_min4" )
+write.csv(b_min5, "C:/specialeJR/MODELLEN/b_min5" )
+
+write.csv(forbrug1, "C:/specialeJR/MODELLEN/forbrug1" )
+write.csv(forbrug2, "C:/specialeJR/MODELLEN/forbrug2" )
+write.csv(forbrug3, "C:/specialeJR/MODELLEN/forbrug3" )
+write.csv(forbrug4, "C:/specialeJR/MODELLEN/forbrug4" )
+write.csv(forbrug5, "C:/specialeJR/MODELLEN/forbrug5" )
+
+x*10000
 sol_kvint1 = solutions[[1]]
 sol_kvint2 = solutions[[2]]
 sol_kvint3 = solutions[[3]]
