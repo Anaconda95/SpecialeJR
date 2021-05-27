@@ -104,10 +104,14 @@ e8..          w*L_G =e= sum(HH, tau('D')*X(HH,'D'));
 
 Model stone_geary /e1,e11,e2, e3, e4, e5, e6, e7, e8/;
 
+
+
 * 25 lign
 * 20 var
 
 ********** Kalibrering *********
+
+@import_from_modules("Data_LES")  
 
 
 rho('1') = 0.055;

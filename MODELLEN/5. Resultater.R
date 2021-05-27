@@ -117,7 +117,7 @@ for (dfdf in 1:length(df_kvintiler) ) {
   
   habit=rep(0.5,n)
   AR = rep(0.5,n)
-  timetrend=rep(0.05,n)
+  timetrend=rep(0.01,n)
   autocorr <- 0.9
   
   start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
@@ -191,6 +191,33 @@ forbrug2 = forbrug[[2]]
 forbrug3 = forbrug[[3]]
 forbrug4 = forbrug[[4]]
 forbrug5 = forbrug[[5]]
+
+b_min2019 <- b_min1[26,]
+b_min2019 <- rbind(b_min2019, b_min2[26,])
+b_min2019 <- rbind(b_min2019, b_min3[26,])
+b_min2019 <- rbind(b_min2019, b_min4[26,])
+b_min2019 <- rbind(b_min2019, b_min5[26,])
+
+forbrug2019 <- forbrug1[26,]
+forbrug2019 <- rbind(forbrug2019,forbrug2[26,])
+forbrug2019 <- rbind(forbrug2019,forbrug3[26,])
+forbrug2019 <- rbind(forbrug2019,forbrug4[26,])
+forbrug2019 <- rbind(forbrug2019,forbrug5[26,])
+
+write.csv(b_min2019, "C:/specialeJR/MODELLEN/b_min2019.csv" )
+write.csv(forbrug2019, "C:/specialeJR/MODELLEN/forbrug2019.csv" )
+
+write.csv(b_min1, "C:/specialeJR/MODELLEN/b_min1" )
+write.csv(b_min2, "C:/specialeJR/MODELLEN/b_min2" )
+write.csv(b_min3, "C:/specialeJR/MODELLEN/b_min3" )
+write.csv(b_min4, "C:/specialeJR/MODELLEN/b_min4" )
+write.csv(b_min5, "C:/specialeJR/MODELLEN/b_min5" )
+
+write.csv(forbrug1, "C:/specialeJR/MODELLEN/forbrug1" )
+write.csv(forbrug2, "C:/specialeJR/MODELLEN/forbrug2" )
+write.csv(forbrug3, "C:/specialeJR/MODELLEN/forbrug3" )
+write.csv(forbrug4, "C:/specialeJR/MODELLEN/forbrug4" )
+write.csv(forbrug5, "C:/specialeJR/MODELLEN/forbrug5" )
 
 x*10000
 sol_kvint1 = solutions[[1]]

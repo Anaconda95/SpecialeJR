@@ -327,6 +327,18 @@ Table production(g) "Varergruppernes produktion"
 8   231128.268
 ;
 
+Table prices(g) "varergruppers 2015-priser for 2019"
+1   1.040037111
+2   1.031743332
+3   1.060924014
+4   0.964655349
+5   1.052080537
+6   1.007260708
+7   0.949414731
+8   1.045076628
+;
+
+
 
 
 
