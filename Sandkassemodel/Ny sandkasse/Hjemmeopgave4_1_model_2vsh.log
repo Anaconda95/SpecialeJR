@@ -1,4 +1,4 @@
---- Job Hjemmeopgave4_1_model_2vsh.gms Start 05/21/21 12:34:22 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job Hjemmeopgave4_1_model_2vsh.gms Start 05/26/21 19:01:44 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -17,15 +17,15 @@ Licensee: Course License                                 S210104/0001AO-GEN
           /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
           Course license for use within the course and related course work
 --- Starting compilation
---- Hjemmeopgave4_1_model_2vsh.gms(250) 3 Mb
---- Starting execution: elapsed 0:00:00.008
---- Hjemmeopgave4_1_model_2vsh.gms(123) 4 Mb
+--- Hjemmeopgave4_1_model_2vsh.gms(300) 3 Mb
+--- Starting execution: elapsed 0:00:00.009
+--- Hjemmeopgave4_1_model_2vsh.gms(132) 4 Mb
 --- Generating CNS model Ramsey
---- Hjemmeopgave4_1_model_2vsh.gms(126) 7 Mb
----   1,601 rows  2,113 columns  9,480 non-zeroes
----   20,010 nl-code  8,070 nl-non-zeroes
---- Hjemmeopgave4_1_model_2vsh.gms(126) 5 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.037
+--- Hjemmeopgave4_1_model_2vsh.gms(135) 7 Mb
+---   1,801 rows  2,213 columns  9,684 non-zeroes
+---   18,527 nl-code  7,676 nl-non-zeroes
+--- Hjemmeopgave4_1_model_2vsh.gms(135) 5 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.029
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -36,15 +36,49 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        8.0000000000E+04 (Input point)
+      0   0        9.0949470177E-11 (Input point)
  
-                   Pre-triangular equations:   0
+                   Pre-triangular equations:   100
                    Post-triangular equations:  4
  
-      1   0        8.0000000000E+04 (After pre-processing)
+      1   0        9.0949470177E-11 (After pre-processing)
+      2   0        2.2204460493E-14 (After scaling)
+      2            2.2204460493E-14
  
- ** Error in Square System: Pivot too small.
+ ** Feasible solution to a square system.
  
 --- Reading solution for model Ramsey
+--- Executing after solve: elapsed 0:00:00.091
+--- Hjemmeopgave4_1_model_2vsh.gms(157) 5 Mb
+--- Generating CNS model Ramsey
+--- Hjemmeopgave4_1_model_2vsh.gms(158) 7 Mb
+---   1,801 rows  2,213 columns  9,684 non-zeroes
+---   18,527 nl-code  7,676 nl-non-zeroes
+--- Hjemmeopgave4_1_model_2vsh.gms(158) 5 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.130
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.5963603684E+02 (Input point)
+ 
+                   Pre-triangular equations:   100
+                   Post-triangular equations:  4
+ 
+      1   0        6.5963603684E+02 (After pre-processing)
+      2   0        6.6469080435E-01 (After scaling)
+ 
+ ** Domain error(s) in nonlinear functions.
+    Check bounds on variables.
+ 
+--- Reading solution for model Ramsey
+--- Executing after solve: elapsed 0:00:00.183
+--- Hjemmeopgave4_1_model_2vsh.gms(175) 5 Mb
 *** Status: Normal completion
---- Job Hjemmeopgave4_1_model_2vsh.gms Stop 05/21/21 12:34:23 elapsed 0:00:00.162
+--- Job Hjemmeopgave4_1_model_2vsh.gms Stop 05/26/21 19:01:45 elapsed 0:00:00.188

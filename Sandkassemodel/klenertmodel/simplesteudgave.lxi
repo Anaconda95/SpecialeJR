@@ -1,0 +1,41 @@
+B 3 C o m p i l a t i o n
+B 124 Equation Listing    SOLVE Klenert Using CNS From line 106
+D 127 FirmFOC1
+D 134 FirmFOC2
+D 141 NulProfit
+D 148 Copeland
+D 155 TimeConstr
+D 160 HHFOC1
+D 167 HHBudget
+D 174 Lumpsum
+D 179 Numeraire
+D 184 GenEq
+B 190 Column Listing      SOLVE Klenert Using CNS From line 106
+E 193 w
+E 206 t
+E 223 F
+E 239 z
+E 256 p
+E 279 x
+E 300 L
+E 309 T_total
+B 323 Model Statistics    SOLVE Klenert Using CNS From line 106
+B 339 Solution Report     SOLVE Klenert Using CNS From line 106
+F 375 FirmFOC1
+F 382 FirmFOC2
+F 389 NulProfit
+F 396 Copeland
+F 405 TimeConstr
+F 407 HHFOC1
+F 414 HHBudget
+F 423 Lumpsum
+F 424 Numeraire
+F 426 GenEq
+G 434 w
+G 438 t
+G 445 F
+G 452 z
+G 459 p
+G 466 x
+G 477 L
+G 481 T_total

@@ -1,0 +1,201 @@
+B 3 C o m p i l a t i o n
+B 749 E x e c u t i o n
+I 749 SAMGAP
+I 755 Y0
+I 765 F0
+I 779 X0
+I 801 Z0
+I 811 Xp0
+I 821 Xv0
+I 831 E0
+I 841 M0
+I 851 Q0
+I 861 D0
+I 871 Sp0
+I 876 Td0
+I 881 Tz0
+I 891 Tm0
+I 901 FF0
+I 909 Sf0
+I 914 tauz
+I 919 taum
+I 924 alpha
+I 930 a
+I 931 beta
+I 939 b
+I 944 ax
+I 954 ay
+I 959 lambda
+I 964 deltam
+I 969 deltad
+I 974 gamma
+I 979 xie
+I 984 xid
+I 989 theta
+I 995 iota
+I 996 ssp
+B 1000 Model Statistics    SOLVE dyncge Using NLP From line 526
+B 1015 Solution Report     SOLVE dyncge Using NLP From line 526
+F 1058 eqpy
+F 1067 eqF
+F 1080 eqX
+F 1101 eqY
+F 1110 eqpzs
+F 1121 eqTd
+F 1125 eqTz
+F 1134 eqTm
+F 1143 eqXv
+F 1154 eqSp
+F 1158 eqXp
+F 1167 eqpe
+F 1176 eqpm
+F 1187 eqepsilon
+F 1191 eqpqs
+F 1200 eqM
+F 1209 eqD
+F 1218 eqpzd
+F 1227 eqE
+F 1236 eqDs
+F 1245 eqpqd
+F 1254 eqpf1
+F 1260 eqpf2
+F 1277 eqpf3
+F 1288 eqpk
+F 1289 eqIII
+F 1294 eqII
+F 1305 eqCC
+F 1306 eqPRICE
+G 1311 Y
+G 1320 F
+G 1333 X
+G 1354 Z
+G 1363 Xp
+G 1372 Xg
+G 1381 Xv
+G 1390 E
+G 1399 M
+G 1408 Q
+G 1417 D
+G 1426 FF
+G 1432 pf
+G 1445 py
+G 1454 pz
+G 1463 pq
+G 1472 pe
+G 1481 pm
+G 1490 pd
+G 1501 pk
+G 1502 epsilon
+G 1503 Sp
+G 1504 Sf
+G 1505 Td
+G 1513 Tz
+G 1522 Tm
+G 1531 KK
+G 1540 II
+G 1551 III
+G 1552 PRICE
+G 1553 CC
+B 1566 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 1586 Solution Report     SOLVE dyncge Using NLP From line 540
+B 1637 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 1657 Solution Report     SOLVE dyncge Using NLP From line 540
+B 1708 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 1728 Solution Report     SOLVE dyncge Using NLP From line 540
+B 1779 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 1799 Solution Report     SOLVE dyncge Using NLP From line 540
+B 1850 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 1870 Solution Report     SOLVE dyncge Using NLP From line 540
+B 1921 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 1941 Solution Report     SOLVE dyncge Using NLP From line 540
+B 1992 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2012 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2063 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2083 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2134 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2154 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2205 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2225 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2276 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2296 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2347 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2367 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2418 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2438 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2489 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2509 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2560 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2580 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2631 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2651 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2702 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2722 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2773 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2793 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2844 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2864 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2915 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 2935 Solution Report     SOLVE dyncge Using NLP From line 540
+B 2986 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3006 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3057 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3077 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3128 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3148 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3199 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3219 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3270 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3290 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3341 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3361 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3412 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3432 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3483 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3503 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3554 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3574 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3625 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3645 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3696 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3716 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3767 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3787 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3838 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3858 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3909 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 3929 Solution Report     SOLVE dyncge Using NLP From line 540
+B 3980 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4000 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4051 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4071 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4122 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4142 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4193 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4213 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4264 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4284 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4335 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4355 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4406 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4426 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4477 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4497 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4548 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4568 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4619 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4639 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4690 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4710 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4761 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4781 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4832 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4852 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4903 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4923 Solution Report     SOLVE dyncge Using NLP From line 540
+B 4974 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 4994 Solution Report     SOLVE dyncge Using NLP From line 540
+B 5045 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 5065 Solution Report     SOLVE dyncge Using NLP From line 540
+B 5116 Model Statistics    SOLVE dyncge Using NLP From line 540
+B 5136 Solution Report     SOLVE dyncge Using NLP From line 540
+B 5187 E x e c u t i o n
