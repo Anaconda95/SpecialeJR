@@ -1,4 +1,4 @@
---- Job simplesteudgave.gms Start 05/27/21 11:56:07 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job simplesteudgave.gms Start 05/27/21 13:35:03 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -18,16 +18,69 @@ Licensee: Course License                                 S210104/0001AO-GEN
           /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
           Course license for use within the course and related course work
 --- Starting compilation
---- simplesteudgave.gms(98) 3 Mb
---- Starting execution: elapsed 0:00:00.008
---- simplesteudgave.gms(91) 4 Mb
+--- simplesteudgave.gms(113) 3 Mb
+--- Starting execution: elapsed 0:00:00.005
+--- simplesteudgave.gms(99) 4 Mb
 --- Generating CNS model Klenert
---- simplesteudgave.gms(98) 6 Mb
----   16 rows  15 columns  59 non-zeroes
+--- simplesteudgave.gms(106) 6 Mb
+---   16 rows  16 columns  61 non-zeroes
 ---   106 nl-code  40 nl-non-zeroes
---- simplesteudgave.gms(98) 4 Mb 1 Error
-*** SOLVE aborted
+--- simplesteudgave.gms(106) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.011
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.3092963138E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  0
+ 
+      1   0        5.3092963138E+00 (After pre-processing)
+      2   0        7.1937606392E-01 (After scaling)
+     10   0     0  4.6152445548E-06               1.0E+00      F  T
+     17            4.1477561663E-10
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model Klenert
+--- Executing after solve: elapsed 0:00:00.044
+--- simplesteudgave.gms(109) 4 Mb
+--- Generating CNS model Klenert
+--- simplesteudgave.gms(110) 6 Mb
+---   16 rows  16 columns  61 non-zeroes
+---   106 nl-code  40 nl-non-zeroes
+--- simplesteudgave.gms(110) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.048
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        7.3097622158E+00 (Input point)
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  0
+ 
+      1   0        7.3097622158E+00 (After pre-processing)
+      2   0        2.7274405538E+00 (After scaling)
+     10   0     0  5.5469069916E-06               1.0E+00      F  T
+     16            6.8965469446E-10
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model Klenert
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/simplesteudgave.gdx
---- simplesteudgave.gms(98) 4 Mb 1 Error
-*** Status: Execution error(s)
---- Job simplesteudgave.gms Stop 05/27/21 11:56:07 elapsed 0:00:00.017
+*** Status: Normal completion
+--- Job simplesteudgave.gms Stop 05/27/21 13:35:03 elapsed 0:00:00.081

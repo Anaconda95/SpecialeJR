@@ -1,8 +1,8 @@
---- Job simplesteudgave.gms Start 05/27/21 13:26:48 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job Med_off_sektor.gms Start 05/27/21 13:54:55 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
-    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/simplesteudgave.gms"
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms"
     PageSize 0
     ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/225a/"
     SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
@@ -10,7 +10,7 @@
     ErrMsg 1
     ErrorLog 99
     IDE 1
-    GDX "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/simplesteudgave.gdx"
+    GDX "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gdx"
     LstTitleLeftAligned 1
 GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
 Licensee: Course License                                 S210104/0001AO-GEN
@@ -18,15 +18,15 @@ Licensee: Course License                                 S210104/0001AO-GEN
           /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
           Course license for use within the course and related course work
 --- Starting compilation
---- simplesteudgave.gms(113) 3 Mb
+--- Med_off_sektor.gms(120) 3 Mb
 --- Starting execution: elapsed 0:00:00.005
---- simplesteudgave.gms(99) 4 Mb
+--- Med_off_sektor.gms(100) 4 Mb
 --- Generating CNS model Klenert
---- simplesteudgave.gms(106) 6 Mb
----   16 rows  16 columns  61 non-zeroes
----   106 nl-code  40 nl-non-zeroes
---- simplesteudgave.gms(106) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.012
+--- Med_off_sektor.gms(113) 6 Mb
+---   16 rows  17 columns  64 non-zeroes
+---   114 nl-code  42 nl-non-zeroes
+--- Med_off_sektor.gms(113) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.014
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -37,27 +37,27 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        5.3092963138E+00 (Input point)
+      0   0        3.2887658314E+00 (Input point)
  
                    Pre-triangular equations:   1
                    Post-triangular equations:  0
  
-      1   0        5.3092963138E+00 (After pre-processing)
-      2   0        7.1937606392E-01 (After scaling)
-     10   0     0  4.6152445548E-06               1.0E+00      F  T
-     17            4.1477561663E-10
+      1   0        3.2887658314E+00 (After pre-processing)
+      2   0        3.8448828537E-01 (After scaling)
+     10   0     0  1.4499146886E-05               1.0E+00      F  T
+     18            3.6448782881E-10
  
  ** Feasible solution to a square system.
  
 --- Reading solution for model Klenert
---- Executing after solve: elapsed 0:00:00.094
---- simplesteudgave.gms(109) 4 Mb
+--- Executing after solve: elapsed 0:00:00.116
+--- Med_off_sektor.gms(116) 4 Mb
 --- Generating CNS model Klenert
---- simplesteudgave.gms(110) 6 Mb
----   16 rows  16 columns  61 non-zeroes
----   106 nl-code  40 nl-non-zeroes
---- simplesteudgave.gms(110) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.097
+--- Med_off_sektor.gms(117) 6 Mb
+---   16 rows  17 columns  64 non-zeroes
+---   114 nl-code  42 nl-non-zeroes
+--- Med_off_sektor.gms(117) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.120
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -68,19 +68,19 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        7.3097622158E+00 (Input point)
+      0   0        9.4750704333E+00 (Input point)
  
                    Pre-triangular equations:   1
                    Post-triangular equations:  0
  
-      1   0        7.3097622158E+00 (After pre-processing)
-      2   0        2.7274405538E+00 (After scaling)
-     10   0     0  5.5469069916E-06               1.0E+00      F  T
-     16            6.8965469446E-10
+      1   0        9.4750704333E+00 (After pre-processing)
+      2   0        2.7515757060E+00 (After scaling)
+     10   0     0  6.0445578546E-06               1.0E+00      F  T
+     16            7.1459086912E-10
  
  ** Feasible solution to a square system.
  
 --- Reading solution for model Klenert
---- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/simplesteudgave.gdx
+--- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gdx
 *** Status: Normal completion
---- Job simplesteudgave.gms Stop 05/27/21 13:26:48 elapsed 0:00:00.130
+--- Job Med_off_sektor.gms Stop 05/27/21 13:54:55 elapsed 0:00:00.153

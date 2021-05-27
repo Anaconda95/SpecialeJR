@@ -57,9 +57,9 @@ Copeland(g)..                                Z(g)    =l=     abate*T(g);
 TimeConstr..                                  0      =e=     sum(g, T(g) ) -sum(hh, phi(hh) *T_total(hh)  );
 HHFOC1(hh,g)$(ord(g) lt 2)..    p(g)*(x(hh,g)-b(g))  =e= (alpha(g)/alpha(g+1))*((x(hh,g+1)-b(g+1))*p(g+1));
 HHBudget(hh)..                   sum(g,p(g)*x(hh,g)) =e= phi(hh)*w*T_total(hh) + L;
-Lumpsum..                                        L   =e= sum(g,tau_P*z(g))/card(hh)     ;
+Lumpsum..                                 Gov_spdg   =e= sum(g,tau_P*z(g)) - L*card(hh)  ;
 Numeraire..                                      w   =e= 1;
-GenEq(g)$(ord(g) lt 2)..                        F(g) =e= sum(hh,X(hh,g));
+GenEq(g)$(ord(g) lt 2)..                        F(g) =e= sum(hh,X(hh,g)) + gov_spdg/( p(g)*card(g)  );
 
 ***********************************************************************************************************************
 ************************************ Kalibrering **********************************************************************
@@ -92,11 +92,18 @@ Gov_spdg.fx=5;
 p.l(g)=1;
 Parameter subsist;
 subsist = sum(g,p.l(g)*b(g));
-x.l(hh,g) = b(g) +  (    alpha(g)*( w.l*phi(hh)*T_total.l(hh) - subsist )  )/p.l(g);
-F.l(g) = sum(hh,x.l(hh,g));
-T.l(g) = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
+F.l(g)  = 24/card(g);
+T.l(g)  = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
 z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
-L.l = sum(g,z.l(g)*tau_p)/card(hh);
+
+L.l = (sum(g,tau_P*z.l(g)) - Gov_spdg.l)/card(hh);
+x.l(hh,g) = b(g) +  (    alpha(g)*( w.l*phi(hh)*T_total.l(hh) + L.l - subsist )  )/p.l(g);
+
+*F.l(g) = sum(hh,x.l(hh,g));
+
+*T.l(g) = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
+
+
 
 *T_total.fx(hh)=sum(g,T.l(g))
 
@@ -106,8 +113,8 @@ Model Klenert /all/;
 Solve Klenert using cns;
 
 *Test om man kan hæve skatten - det kan man, og prisen på det forurenende gode stiger.
-*tau_P=1;
-*Solve Klenert using cns;
+tau_P=1;
+Solve Klenert using cns;
         
 
 
