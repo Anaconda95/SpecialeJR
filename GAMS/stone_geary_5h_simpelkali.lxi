@@ -1,86 +1,86 @@
 B 3 C o m p i l a t i o n
-B 268 Equation Listing    SOLVE stone_geary Using CNS From line 194
-D 271 e1
-D 278 e11
-D 283 e2
-D 290 e3
-D 295 e4
-D 306 e5
-D 317 e6
-D 322 e7
-D 327 e8
-B 333 Column Listing      SOLVE stone_geary Using CNS From line 194
-E 336 L
-E 351 w
-E 366 Y
-E 380 p
-E 411 N
-E 423 X
-E 444 Y_G
-E 451 L_G
-E 460 alpha
-E 476 mu
-B 496 Model Statistics    SOLVE stone_geary Using CNS From line 194
-B 512 Solution Report     SOLVE stone_geary Using CNS From line 194
-F 548 e1
-F 557 e11
-F 559 e2
-F 568 e3
-F 570 e4
-F 580 e5
-F 590 e6
-F 598 e7
-F 599 e8
-G 601 L
-G 610 w
-G 612 Y
-G 619 p
-G 628 N
-G 630 X
-G 647 Y_G
-G 648 L_G
-G 650 alpha
-G 665 mu
-B 679 Equation Listing    SOLVE stone_geary Using CNS From line 233
-D 682 e1
-D 689 e11
-D 694 e2
-D 701 e3
-D 706 e4
-D 717 e5
-D 728 e6
-D 733 e7
-D 738 e8
-B 744 Column Listing      SOLVE stone_geary Using CNS From line 233
-E 747 L
-E 762 w
-E 777 Y
-E 791 p
-E 822 N
-E 834 X
-E 857 Y_G
-E 864 L_G
-E 873 alpha
-E 889 mu
-B 909 Model Statistics    SOLVE stone_geary Using CNS From line 233
-B 925 Solution Report     SOLVE stone_geary Using CNS From line 233
-F 961 e1
-F 970 e11
-F 972 e2
-F 981 e3
-F 983 e4
-F 993 e5
-F 1003 e6
-F 1011 e7
-F 1012 e8
-G 1014 L
-G 1023 w
-G 1025 Y
-G 1032 p
-G 1041 N
-G 1043 X
-G 1060 Y_G
-G 1061 L_G
-G 1063 alpha
-G 1078 mu
-B 1092 E x e c u t i o n
+B 267 Equation Listing    SOLVE stone_geary Using CNS From line 194
+D 270 e1
+D 277 e11
+D 282 e2
+D 289 e3
+D 294 e4
+D 305 e5
+D 316 e6
+D 321 e7
+D 326 e8
+B 332 Column Listing      SOLVE stone_geary Using CNS From line 194
+E 335 L
+E 350 w
+E 365 Y
+E 379 p
+E 410 N
+E 422 X
+E 443 Y_G
+E 450 L_G
+E 459 alpha
+E 475 mu
+B 495 Model Statistics    SOLVE stone_geary Using CNS From line 194
+B 511 Solution Report     SOLVE stone_geary Using CNS From line 194
+F 547 e1
+F 556 e11
+F 558 e2
+F 567 e3
+F 569 e4
+F 579 e5
+F 589 e6
+F 597 e7
+F 598 e8
+G 600 L
+G 609 w
+G 611 Y
+G 618 p
+G 627 N
+G 629 X
+G 646 Y_G
+G 647 L_G
+G 649 alpha
+G 664 mu
+B 678 Equation Listing    SOLVE stone_geary Using CNS From line 233
+D 681 e1
+D 688 e11
+D 693 e2
+D 700 e3
+D 705 e4
+D 716 e5
+D 727 e6
+D 732 e7
+D 737 e8
+B 743 Column Listing      SOLVE stone_geary Using CNS From line 233
+E 746 L
+E 761 w
+E 776 Y
+E 790 p
+E 821 N
+E 833 X
+E 856 Y_G
+E 863 L_G
+E 872 alpha
+E 888 mu
+B 908 Model Statistics    SOLVE stone_geary Using CNS From line 233
+B 924 Solution Report     SOLVE stone_geary Using CNS From line 233
+F 960 e1
+F 969 e11
+F 971 e2
+F 980 e3
+F 982 e4
+F 992 e5
+F 1002 e6
+F 1010 e7
+F 1011 e8
+G 1013 L
+G 1022 w
+G 1024 Y
+G 1031 p
+G 1040 N
+G 1042 X
+G 1059 Y_G
+G 1060 L_G
+G 1062 alpha
+G 1077 mu
+B 1091 E x e c u t i o n

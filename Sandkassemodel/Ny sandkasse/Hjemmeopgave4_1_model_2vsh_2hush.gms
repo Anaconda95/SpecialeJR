@@ -7,26 +7,27 @@ option solprint=off;
 *------------------------------------------------------------------------*
 *Objekter og dimensioner
 *------------------------------------------------------------------------*
-sets t /t0*t100/;
-set  b /1*2/;
+sets t tid      /t0*t100/
+     b brancher /1*2/'
+     h husholdninger /1*2/;
 
 Variables
-*Endogene variable - 18 stks.
+*Endogene variable 
 K(b,t)     "Kapital "
 Y(b,t)     "Output  "
 L(b,t)     "Arbejdsudbud"
 I(b,t)     "Investeringer"
-C(b,t)     "Privatforbrug"
+C(h,b,t)     "Privatforbrug"
 V(b,t)     "Virksomhedernes v�rdi"
 W(t)       "L�nnen"
 P(b,t)     "Prisen i indlandet"
 uc(t)      "User-cost for kapital" 
 r(t)       "Renten"
-C_tot(t)   "C-aggregat"
+C_tot(h,t)   "C-aggregat"
 
 *Eksogene   variable
 delta(t)   "Afskrivningsraten"
-theta(b,t) "Arbejdskraftsproduktivitet"
+theta(t)   "Arbejdskraftsproduktivitet"
 N(t)       "arbejdsstyrken"
 rho        "Risikoaversion"
 eta        "Tilbagediskonteringsrate"
@@ -34,7 +35,7 @@ myK(b)     "Produktionsv�gt kapital"
 myL(b)     "Produktionsv�gt arbejdskraft"
 E          "Elasticitet i produktionsfkt"
 g          "V�kst"
-alpha    "Vægt i forbruget"
+alpha      "Vægt i forbruget"
 
 ;
 
@@ -58,15 +59,16 @@ E_Cterm
 ;
 
 E_K(b,t)    $ (ord(t) gt 1)..                          K(b,t-1)/(1+g)   =e= MyK(b) * (uc(t-1)/P(b,t))**(-E) * Y(b,t);
-E_L(b,t)    $ (ord(t) gt 1)..                          theta(b,t)*L(b,t)=e= MyL(b) * ((W(t)/theta(b,t))/P(b,t))**(-E)*Y(b,t);
+E_L(b,t)    $ (ord(t) gt 1)..                          theta(t)*L(b,t)  =e= MyL(b) * ((W(t)/theta(t))/P(b,t))**(-E)*Y(b,t);
 E_P(b,t)    $ (ord(t) gt 1)..                          P(b,t)*Y(b,t)    =e= (uc(t-1)*K(b,t-1))/(1+g) + W(t)*L(b,t);
 E_uc(t)     $ (ord(t) lt card(t))..                    uc(t)            =e= r(t+1) + delta(t);
 E_I(b,t)    $ (ord(t) gt 1)..                          K(b,t)           =e= (1-delta(t))*K(b,t-1)/(1+g) + I(b,t);
-E_C_agg(t)  $ (ord(t) gt 1)..                          C_tot(t)         =e= sum(b,C(b,t));
+E_C_agg(t)  $ (ord(t) gt 1)..                          C_tot(t)         =e= C('1',t)**alpha*C('2',t)**(1-alpha);
 E_C_tot(t)  $ (ord(t) gt 1 and ord(t) lt card(t))..    C_tot(t+1)*(1+g) =e= ((1+r(t+1))/(1+eta))**(1/rho)*C_tot(t);
-E_C_FOC(t)  $ (ord(t) gt 1)..                          p('1',t)/p('2',t)=e= alpha/(1-alpha)*c('2',t)/c('1',t);
+E_C_FOC(t)  $ (ord(t) gt 1)..                          P('1',t)*C('1',t)=e= alpha/(1-alpha)*p('2',t)*c('2',t);
 E_Y(b,t)    $ (ord(t) gt 1)..                          Y(b,t)           =e= C(b,t) + I(b,t);
 E_V(b,t)    $ (ord(t) gt 1 and ord(t) lt card(t))..    V(b,t+1)*(1+g)   =e= (1+r(t+1))*V(b,t) - (P(b,t+1)*Y(b,t+1)*(1+g) - W(t+1)*L(b,t+1)*(1+g) - P(b,t+1)*I(b,t+1)*(1+g));
+
 E_L_agg(t)  $ (ord(t) gt 1)..                          N(t)             =e= sum(b,L(b,t));
 E_w_num(t)  $ (ord(t) gt 1)..                          W(t)             =e= 1;
 E_Cterm..                                              C_tot('t100')    =e= C_tot('t99');
@@ -98,13 +100,13 @@ Rest   300     0    0
 
 * Eksogene parametre
 E.fx        = 0.7;
-theta.fx(b,t) = 1;
+theta.fx(t) = 1;
 g.fx        = 0.02;
 rho.fx      = 2;
-alpha.fx  = 0.5;
+alpha.fx    = 0.5;
 N.fx(t)     = 1400;
 
-*Antagelser: w er numeriere. 
+*Antagelser: p er numeriere. w sættes =1 i udgangspunktet.
 p.l('1',t)  = 1;
 p.l('2',t)   = 1;
 w.l(t)       = 1;
@@ -113,7 +115,7 @@ r.l(t)       =0.05;
 * Initialisering
 L.l(b,t)      = IO('lon','PS');
 C.l(b,t)      = IO('PS','C');
-C_tot.l(t)    = sum(b,P.l(b,t)*C.l(b,t));
+C_tot.l(t)      = sum(b,C.l(b,t));
 I.l(b,t)      = IO('PS','I');
 Y.l(b,t)      = sum(j,IO(j,'PS'));
 
@@ -134,48 +136,7 @@ MyK.fx(b)      =  (K.l(b,'t0')/(1+g.l))/Y.l(b,'t0')*(r.l('t0')+delta.l('t0'))**E
 
 Solve Ramsey using CNS;
 
-set objekt  /Y,I,C,C_tot,p,V,r,w,K,uc,delta,theta/;
-Parameter grund(b,t,objekt);
-grund(b,t,'Y')=y.l(b,t);
-grund(b,t,'I')=i.l(b,t);
-grund(b,t,'C')=c.l(b,t);
-grund(b,t,'C_tot')=c_tot.l(t);
-grund(b,t,'p')=p.l(b,t);
-grund(b,t,'V')=V.l(b,t);
-grund(b,t,'r')=r.l(t);
-grund(b,t,'w')=w.l(t);
-grund(b,t,'K')=K.l(b,t);
-grund(b,t,'uc')=uc.l(t);
-grund(b,t,'delta')=delta.l(t);
-grund(b,t,'theta')=theta.l(b,t);
-
-
-display grund;
-
-
-theta.fx('1',t)$ (ord(t) gt 1)=theta.l('1','t0')*1.001;
-rho.fx=2.5;
-Solve Ramsey using CNS;
-Parameter shock(b,t,objekt);
-shock(b,t,'Y')=y.l(b,t);
-shock(b,t,'I')=i.l(b,t);
-shock(b,t,'C')=c.l(b,t);
-shock(b,t,'Y')=y.l(b,t);
-shock(b,t,'I')=i.l(b,t);
-shock(b,t,'C')=c.l(b,t);
-shock(b,t,'p')=p.l(b,t);
-shock(b,t,'V')=V.l(b,t);
-shock(b,t,'r')=r.l(t);
-shock(b,t,'w')=w.l(t);
-shock(b,t,'K')=K.l(b,t);
-shock(b,t,'uc')=uc.l(t);
-shock(b,t,'delta')=delta.l(t);
-shock(b,t,'theta')=theta.l(b,t);
-
-display grund,shock;
-
 $ontext
-
 
 set objekt  /Y,I,C,p,w,r,K,L,uc,V,eta,delta,theta/;
 Parameter grund(t,objekt);

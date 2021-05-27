@@ -1,0 +1,466 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 11:58:39 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  ********** Lille model med offentlig sektor (dvs ingen omfordeling) *************
+   2   
+   3  * sets
+   4  * Husholdninger
+   5  set HH /1*2/;
+   6   
+   7  * Firmaer
+   8  set g /1*2/;
+   9  alias(g,gg);
+  10   
+  11  *Endogene variable
+  12  variables
+  13  w 'loen'
+  14  t(g) 'labour input'
+  15  F(g) 'produktion'
+  16  z(g) 'polluion'
+  17  p(g) 'priser'
+  18  x(hh,g) 'forbrug af vare g i husholdninger'
+  19  ;
+  20   
+  21  *Eksogene variable
+  22  variables
+  23  T_total(hh);
+  24  *Parametre
+  25   
+  26  parameters
+  27  abate 'copeland parameter'
+  28  b(g)'minimumsforbrug'
+  29  alpha(g) 'marginal budget share'
+  30  phi(hh) 'produktivitet i husholding hh'
+  31  epsilon(g) 'forurening'
+  32  r 'CES parameter'
+  33  s 'elasticity of substitution'
+  34  tau_p 'co2-skat'
+  35  ;
+  36   
+  37  equations
+  38  *FirmProd(g)
+  39  FirmFOC1(g)
+  40  FirmFOC2(g)
+  41  NulProfit(g)
+  42  Copeland(g)
+  43  TimeConstr
+  44  HHFOC1(hh,g)
+  45  HHBudget(hh)
+  46  Numeraire
+  47  GenEq(g)
+  48  ;
+  49  *FirmProd(g)..                               F(g)     =e=    (epsilon(g)*T(g)**r + (1-epsilon(g))*Z(g)**r)**(1/r);
+  50  FirmFOC1(g)..                                    w   =e=     epsilon(g)    *T(g)**(r-1)*F(g)**(1-r)*p(g);
+  51  FirmFOC2(g)..                                 tau_P  =e=     (1-epsilon(g))*Z(g)**(r-1)*F(g)**(1-r)*p(g);
+  52  Nulprofit(g)..                   w*T(g) + tau_P*Z(g) =e=     p(g)*F(g);
+  53  Copeland(g)..                                Z(g)    =l=     abate*T(g);
+  54  TimeConstr..                                  0      =e=     sum(g, T(g) ) -sum(hh, phi(hh) *T_total(hh)  );
+  55  HHFOC1(hh,g)$(ord(g) lt 2)..    p(g)*(x(hh,g)-b(g))  =e= (alpha(g)/alpha(g+1))*((x(hh,g+1)-b(g+1))*p(g+1));
+  56  HHBudget(hh)..                   sum(g,p(g)*x(hh,g)) =e= phi(hh)*w*T_total(hh);
+  57  Numeraire..                                      w   =e= 1;
+  58  GenEq(g)$(ord(g) lt 2)..                        F(g) =e= sum(hh,X(hh,g));
+  59   
+  60  *Parametre
+  61  abate=1;
+  62  Parameters b(g)       'minimum consumption'
+  63                   /1 1
+  64                    2 3/
+  65            alpha(g) marginal budget share'
+  66            /1 0.6
+  67            2 0.4/
+  68            phi(hh) 'produktivitet i husholding hh'
+  69            /1 0.2
+  70             2 0.8/
+  71             epsilon(g) 'forurening'
+  72             /1 0.99
+  73             2 0.94/
+  74  ;
+  75  s=0.5;
+  76  r    = 1-1/s;
+  77  tau_p = 0.4;
+  78   
+  79   
+  80  *Kalibrering
+  81  w.l=1;
+  82  T_total.fx(hh)=24;
+  83  p.l(g)=1;
+  84  Parameter subsist;
+  85  subsist = sum(g,p.l(g)*b(g));
+  86  x.l(hh,g) = b(g) + alpha(g)*( w.l*phi(hh)*T_total.l(hh) - subsist );
+  87  F.l(g) = sum(hh,x.l(hh,g));
+  88  T.l(g) = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
+  89  z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
+  90  *T_total.fx(hh)=sum(g,T.l(g))
+  91   
+  92   
+  93   
+  94   
+  95  Model Klenert /all/;
+  96  Solve Klenert using cns;
+
+
+COMPILATION TIME     =        0.001 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 11:58:39 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE Klenert Using CNS From line 96
+
+
+---- FirmFOC1  =E=  
+
+FirmFOC1(1)..  w + (0.173282381941243)*t(1) - (0.172413793103448)*F(1) - (1)*p(1) =E= 0 ; (LHS = 0)
+     
+FirmFOC1(2)..  w + (0.166358265525612)*t(2) - (0.161290322580645)*F(2) - (1)*p(2) =E= 0 ; (LHS = 0)
+     
+
+---- FirmFOC2  =E=  
+
+FirmFOC2(1)..  - (0.0689655172413793)*F(1) + (0.436176228988742)*z(1) - (0.4)*p(1) =E= -0.4 ; (LHS = -0.4)
+     
+FirmFOC2(2)..  - (0.064516129032258)*F(2) + (0.166579928869136)*z(2) - (0.4)*p(2) =E= -0.4 ; (LHS = -0.4)
+     
+
+---- NulProfit  =E=  
+
+NulProfit(1)..  (11.5418542704368)*w + (1)*t(1) - (1)*F(1) + 0.4*z(1) - (11.6)*p(1) =E= 0 ; (LHS = 0.675502687595857, INFES = 0.675502687595857 ****)
+     
+NulProfit(2)..  (12.0222460463925)*w + (1)*t(2) - (1)*F(2) + 0.4*z(2) - (12.4)*p(2) =E= 0 ; (LHS = 1.54324578611137, INFES = 1.54324578611137 ****)
+     
+
+---- Copeland  =L=  
+
+Copeland(1)..  - t(1) + z(1) =L= 0 ; (LHS = -9.70773322753913)
+     
+Copeland(2)..  - t(2) + z(2) =L= 0 ; (LHS = -7.21974669709529)
+     
+
+---- TimeConstr  =E=  
+
+TimeConstr..  - t(1) - t(2) + 0.2*T_total(1) + 0.8*T_total(2) =E= 0 ; (LHS = 0.435899683170717, INFES = 0.435899683170717 ****)
+     
+
+---- HHFOC1  =E=  
+
+HHFOC1(1,1)..  (0.48)*p(1) - (0.48)*p(2) + (1)*x(1,1) - (1.5)*x(1,2) =E= 0 ; (LHS = 0)
+     
+HHFOC1(2,1)..  (9.12)*p(1) - (9.12)*p(2) + (1)*x(2,1) - (1.5)*x(2,2) =E= 0 ; (LHS = 0)
+     
+
+---- HHBudget  =E=  
+
+HHBudget(1)..  - (4.8)*w + (1.48)*p(1) + (3.32)*p(2) + (1)*x(1,1) + (1)*x(1,2) - (0.2)*T_total(1) =E= 0 ; (LHS = 0)
+     
+HHBudget(2)..  - (19.2)*w + (10.12)*p(1) + (9.08)*p(2) + (1)*x(2,1) + (1)*x(2,2) - (0.8)*T_total(2) =E= 0 ; (LHS = 0)
+     
+
+---- Numeraire  =E=  
+
+Numeraire..  w =E= 1 ; (LHS = 1)
+     
+
+---- GenEq  =E=  
+
+GenEq(1)..  F(1) - x(1,1) - x(2,1) =E= 0 ; (LHS = 0)
+     
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 11:58:39 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE Klenert Using CNS From line 96
+
+
+---- w  loen
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+        1       FirmFOC1(1)
+        1       FirmFOC1(2)
+      (11.5419) NulProfit(1)
+      (12.0222) NulProfit(2)
+      (-4.8)    HHBudget(1)
+     (-19.2)    HHBudget(2)
+        1       Numeraire
+
+
+---- t  labour input
+
+t(1)
+                (.LO, .L, .UP, .M = -INF, 11.5418542704368, +INF, 0)
+       (0.1733) FirmFOC1(1)
+       (1)      NulProfit(1)
+       -1       Copeland(1)
+       -1       TimeConstr
+
+t(2)
+                (.LO, .L, .UP, .M = -INF, 12.0222460463925, +INF, 0)
+       (0.1664) FirmFOC1(2)
+       (1)      NulProfit(2)
+       -1       Copeland(2)
+       -1       TimeConstr
+
+
+---- F  produktion
+
+F(1)
+                (.LO, .L, .UP, .M = -INF, 11.6, +INF, 0)
+      (-0.1724) FirmFOC1(1)
+      (-0.069)  FirmFOC2(1)
+      (-1)      NulProfit(1)
+        1       GenEq(1)
+
+F(2)
+                (.LO, .L, .UP, .M = -INF, 12.4, +INF, 0)
+      (-0.1613) FirmFOC1(2)
+      (-0.0645) FirmFOC2(2)
+      (-1)      NulProfit(2)
+
+
+---- z  polluion
+
+z(1)
+                (.LO, .L, .UP, .M = -INF, 1.83412104289766, +INF, 0)
+       (0.4362) FirmFOC2(1)
+        0.4     NulProfit(1)
+        1       Copeland(1)
+
+z(2)
+                (.LO, .L, .UP, .M = -INF, 4.8024993492972, +INF, 0)
+       (0.1666) FirmFOC2(2)
+        0.4     NulProfit(2)
+        1       Copeland(2)
+
+
+---- p  priser
+
+p(1)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (-1)      FirmFOC1(1)
+      (-0.4)    FirmFOC2(1)
+     (-11.6)    NulProfit(1)
+       (0.48)   HHFOC1(1,1)
+       (9.12)   HHFOC1(2,1)
+       (1.48)   HHBudget(1)
+      (10.12)   HHBudget(2)
+
+p(2)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (-1)      FirmFOC1(2)
+      (-0.4)    FirmFOC2(2)
+     (-12.4)    NulProfit(2)
+      (-0.48)   HHFOC1(1,1)
+      (-9.12)   HHFOC1(2,1)
+       (3.32)   HHBudget(1)
+       (9.08)   HHBudget(2)
+
+
+---- x  forbrug af vare g i husholdninger
+
+x(1,1)
+                (.LO, .L, .UP, .M = -INF, 1.48, +INF, 0)
+       (1)      HHFOC1(1,1)
+       (1)      HHBudget(1)
+       -1       GenEq(1)
+
+x(1,2)
+                (.LO, .L, .UP, .M = -INF, 3.32, +INF, 0)
+      (-1.5)    HHFOC1(1,1)
+       (1)      HHBudget(1)
+
+x(2,1)
+                (.LO, .L, .UP, .M = -INF, 10.12, +INF, 0)
+       (1)      HHFOC1(2,1)
+       (1)      HHBudget(2)
+       -1       GenEq(1)
+
+REMAINING ENTRY SKIPPED
+
+---- T_total  
+
+T_total(1)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0)
+        0.2     TimeConstr
+      (-0.2)    HHBudget(1)
+
+T_total(2)
+                (.LO, .L, .UP, .M = 24, 24, 24, 0)
+        0.8     TimeConstr
+      (-0.8)    HHBudget(2)
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 11:58:39 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE Klenert Using CNS From line 96
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           9     SINGLE EQUATIONS           15
+BLOCKS OF VARIABLES           7     SINGLE VARIABLES           15
+NON ZERO ELEMENTS            56     NON LINEAR N-Z             40
+DERIVATIVE POOL              20     CONSTANT POOL              26
+CODE LENGTH                 106
+SINGLE =E|X= EQUS            13     SINGLE UNFIXED VARS        13
+
+
+GENERATION TIME      =        0.004 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 11:58:39 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE Klenert Using CNS From line 96
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Klenert             
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  96
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.002 10000000000.000
+ ITERATION COUNT, LIMIT        12    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  0
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.002 seconds
+   of which: Function evaluations             0.001 = 50.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU FirmFOC1  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+
+---- EQU FirmFOC2  
+
+         LOWER          LEVEL          UPPER
+
+1        -0.4000        -0.4000        -0.4000      
+2        -0.4000        -0.4000        -0.4000      
+
+---- EQU NulProfit  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+
+---- EQU Copeland  
+
+         LOWER          LEVEL          UPPER
+
+1        -INF           -8.4966          .          
+2        -INF           -8.3462          .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU TimeConstr          .              .              .          
+
+---- EQU HHFOC1  
+
+           LOWER          LEVEL          UPPER
+
+1.1          .              .              .          
+2.1          .              .              .          
+
+---- EQU HHBudget  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU Numeraire          1.0000         1.0000         1.0000      
+
+---- EQU GenEq  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+  w  loen
+
+---- VAR t  labour input
+
+         LOWER          LEVEL          UPPER
+
+1        -INF           10.1019        +INF         
+2        -INF           13.8981        +INF         
+
+---- VAR F  produktion
+
+         LOWER          LEVEL          UPPER
+
+1        -INF            9.5941        +INF         
+2        -INF           12.7482        +INF         
+
+---- VAR z  polluion
+
+         LOWER          LEVEL          UPPER
+
+1        -INF            1.6053        +INF         
+2        -INF            5.5518        +INF         
+
+---- VAR p  priser
+
+         LOWER          LEVEL          UPPER
+
+1        -INF            1.1199        +INF         
+2        -INF            1.2644        +INF         
+
+---- VAR x  forbrug af vare g i husholdninger
+
+           LOWER          LEVEL          UPPER
+
+1.1        -INF            0.9394        +INF         
+1.2        -INF            2.9642        +INF         
+2.1        -INF            8.6547        +INF         
+2.2        -INF            7.5198        +INF         
+
+---- VAR T_total  
+
+         LOWER          LEVEL          UPPER
+
+1        24.0000        24.0000        24.0000      
+2        24.0000        24.0000        24.0000      
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+                            10  PROJECTED
+
+
+EXECUTION TIME       =        0.040 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/simplesteudgave.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/simplesteudgave.lst

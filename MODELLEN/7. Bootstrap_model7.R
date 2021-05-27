@@ -27,6 +27,7 @@ dataframe = dataframelist[[df_kvint]]
 
 ############## Datamanipulation #############
 df <- dataframe
+df = kvint_1
 df     <- transform( df,
                      p1 = priser$Pris.kod_fisk_mej,
                      p2 = priser$Pris.ovr_fode,
@@ -194,7 +195,7 @@ mu=df$ialt/10000
 phat
 
 #Initialize bootstrap
-B=100
+B=100al
 w1_boot_mat       <- matrix(ncol=B,nrow=T)
 w3_boot_mat       <- matrix(ncol=B,nrow=T)
 alpha_boot_mat    <- matrix(ncol=n,nrow=B)
@@ -358,6 +359,14 @@ betatab <- xtable(tablist[[2]])
 beta2tab <- xtable(tablist[[3]])
 eloptab <- xtable(tablist[[4]])
 elexptab <- xtable(tablist[[5]])
+
+print(infotab, file="infotab.txt")
+print(alphatab, file="alphatab.txt")
+print(betatab, file="betatab.txt")
+print(beta2tab, file="beta2tab.txt")
+print(eloptab, file="eloptab.txt")
+print(elexptab, file="elexptab.txt")
+
 
 #v=data.frame(Year=c(1994:2019),w_pred[,3],w[,3],w3_boot_mat)
 #v <- v %>%

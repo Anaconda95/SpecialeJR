@@ -1,3 +1,10 @@
 B 3 C o m p i l a t i o n
-B 257 Model Statistics    SOLVE Ramsey Using CNS From line 126
-B 273 Solution Report     SOLVE Ramsey Using CNS From line 126
+B 307 Model Statistics    SOLVE Ramsey Using CNS From line 135
+B 323 Solution Report     SOLVE Ramsey Using CNS From line 135
+B 378 E x e c u t i o n
+I 378 grund
+B 590 Model Statistics    SOLVE Ramsey Using CNS From line 158
+B 606 Solution Report     SOLVE Ramsey Using CNS From line 158
+B 818 E x e c u t i o n
+I 818 grund
+I 1027 shock

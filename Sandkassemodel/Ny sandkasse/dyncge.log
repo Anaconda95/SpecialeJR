@@ -1,0 +1,1844 @@
+--- Job dyncge.gms Start 05/26/21 11:51:06 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/dyncge.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/225a/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- dyncge.gms(743) 3 Mb
+--- Starting execution: elapsed 0:00:00.014
+--- dyncge.gms(519) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(526) 6 Mb
+---   116 rows  117 columns  529 non-zeroes
+---   823 nl-code  296 nl-non-zeroes
+--- dyncge.gms(526) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.026
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.9767596900E+05 (Input point)
+ 
+                   Pre-triangular equations:   4
+                   Post-triangular equations:  1
+ 
+      1   0        2.7866528529E-09 (After pre-processing)
+      2   0        2.5813390054E-14 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    297675.969000
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      4   3        2.9767596900E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.067
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 0
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.072
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4777083338E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        1.4777083338E+04 (After pre-processing)
+      2   0        3.8979665840E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    298088.303433
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+     10   3        2.9808830343E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.089
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 1
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.090
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.1167338896E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.0870873361E+04 (After pre-processing)
+      2   0        3.2323896719E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    304029.209279
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.0402920928E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.097
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 2
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.099
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.1391541784E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.1284120207E+04 (After pre-processing)
+      2   0        3.2245881162E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    310090.261908
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.1009026191E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.104
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 3
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.106
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.1620168981E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.1705826392E+04 (After pre-processing)
+      2   0        3.2893220010E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    316273.802705
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.1627380270E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.113
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 4
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.115
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.1853312919E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.2136146873E+04 (After pre-processing)
+      2   0        3.1876882778E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    322582.221566
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.2258222157E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.120
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 5
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.122
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2091067592E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.2575241114E+04 (After pre-processing)
+      2   0        3.2383717581E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    329017.957991
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.2901795799E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.129
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 6
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.130
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2333528608E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.3023273012E+04 (After pre-processing)
+      2   0        3.2276885010E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    335583.502151
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.3558350215E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.136
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 7
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.137
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2580793245E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.3480410845E+04 (After pre-processing)
+      2   0        2.9738034799E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    342281.395964
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.4228139596E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.143
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 8
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.145
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2832960503E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.3946827236E+04 (After pre-processing)
+      2   0        3.0328015112E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    349114.234155
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.4911423415E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.150
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 9
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.152
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.3090131161E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.4422699127E+04 (After pre-processing)
+      2   0        2.7798375380E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    356084.665332
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.5608466533E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.158
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 10
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.159
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.3352407822E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.4908207771E+04 (After pre-processing)
+      2   0        2.8339835684E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    363195.393057
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.6319539306E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.165
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 11
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.166
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.3619894972E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.5403538737E+04 (After pre-processing)
+      2   0        2.8892520258E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    370449.176929
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.7044917693E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.172
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 12
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.174
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.3892699025E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.5908881917E+04 (After pre-processing)
+      2   0        2.9420823688E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    377848.833682
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.7784883368E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.179
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 13
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.180
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4170928378E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.6424431548E+04 (After pre-processing)
+      2   0        3.0001944192E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    385397.238287
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.8539723829E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.186
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 14
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.188
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4454693460E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.6950386243E+04 (After pre-processing)
+      2   0        3.0594799580E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    393097.325082
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        3.9309732508E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.193
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 15
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.196
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.4744106783E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.7486949030E+04 (After pre-processing)
+      2   0        2.9633531603E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    400952.088905
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.0095208890E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.202
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 16
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.204
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5039282992E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.8034327389E+04 (After pre-processing)
+      2   0        3.0214204789E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    408964.586258
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.0896458626E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.210
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 17
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.212
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5340338919E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.8592733307E+04 (After pre-processing)
+      2   0        2.9832099038E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    417137.936483
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.1713793648E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.217
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 18
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.219
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5647393633E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.9162383331E+04 (After pre-processing)
+      2   0        3.0423811574E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    425475.322966
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.2547532297E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.225
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 19
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.226
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5960568490E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        2.9743498626E+04 (After pre-processing)
+      2   0        3.1027426326E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    433979.994358
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.3397999436E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.232
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 20
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.233
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.6279987188E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.0337464541E+04 (After pre-processing)
+      2   0        3.1646728642E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    442655.265821
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.4265526582E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.239
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 21
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.241
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.6605775818E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.0944851895E+04 (After pre-processing)
+      2   0        3.2283007060E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    451504.520302
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.5150452030E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.246
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 22
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.248
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.6938062919E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.1564321427E+04 (After pre-processing)
+      2   0        3.0894130658E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    460531.209830
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.6053120983E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.256
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 23
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.258
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.7276979530E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.2196118337E+04 (After pre-processing)
+      2   0        3.1516855561E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    469738.856840
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.6973885684E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.264
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 24
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.266
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.7622659247E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.2840492582E+04 (After pre-processing)
+      2   0        3.2151683296E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    479131.055524
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.7913105552E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.271
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 25
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.273
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.7975238277E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.3497698967E+04 (After pre-processing)
+      2   0        3.0799097421E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    488711.473210
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.8871147321E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.278
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 26
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.280
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.8334855494E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.4167997252E+04 (After pre-processing)
+      2   0        2.9443840278E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    498483.851774
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        4.9848385177E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.285
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 27
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.287
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.8701652497E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.4851652254E+04 (After pre-processing)
+      2   0        3.0033949517E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    508452.009071
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.0845200907E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.292
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 28
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.294
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.9075773667E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.5548933947E+04 (After pre-processing)
+      2   0        3.0635748305E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    518619.840412
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.1861984041E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.299
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 29
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.303
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.9457366225E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.6260117576E+04 (After pre-processing)
+      2   0        3.1249478541E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    528991.320055
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.2899132005E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.309
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 30
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.311
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.9846580295E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.6985483761E+04 (After pre-processing)
+      2   0        3.1875386340E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    539570.502741
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.3957050274E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.317
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 31
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.318
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.0243568962E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.7725318613E+04 (After pre-processing)
+      2   0        3.2513722177E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    550361.525256
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.5036152526E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.324
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 32
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.326
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.0648488334E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.8479913848E+04 (After pre-processing)
+      2   0        3.3164741012E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    561368.608027
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.6136860803E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.331
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 33
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.333
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.1061497605E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        3.9249566900E+04 (After pre-processing)
+      2   0        3.1847282103E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    572596.056752
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.7259605675E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.339
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 34
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.341
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.1482759120E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.0034581043E+04 (After pre-processing)
+      2   0        3.2484822050E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    584048.264064
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.8404826406E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.347
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 35
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.348
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.1912438439E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.0835265513E+04 (After pre-processing)
+      2   0        3.1802639821E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    595729.711228
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        5.9572971123E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.354
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 36
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.356
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.2350704403E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.1651935627E+04 (After pre-processing)
+      2   0        3.2362423456E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    607644.969879
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.0764496988E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.361
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 37
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.363
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.2797729201E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.2484912913E+04 (After pre-processing)
+      2   0        3.2337420849E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    619798.703792
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.1979870379E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.368
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 38
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.370
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.3253688441E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.3334525239E+04 (After pre-processing)
+      2   0        3.2986614399E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    632195.670688
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.3219567069E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.376
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 39
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.378
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.3718761218E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.4201106938E+04 (After pre-processing)
+      2   0        3.2741991738E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    644840.724082
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.4484072408E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.383
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 40
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.385
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.4193130185E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.5084998950E+04 (After pre-processing)
+      2   0        3.2522302464E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    657738.815166
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.5773881517E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.390
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 41
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.392
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.4676981627E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.5986548948E+04 (After pre-processing)
+      2   0        3.2091853228E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    670894.994733
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.7089499473E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.397
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 42
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.399
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.5170505532E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.6906111486E+04 (After pre-processing)
+      2   0        2.9776224726E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    684314.415136
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.8431441514E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.404
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 6 Mb
+--- LOOPS t = 43
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 4 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.407
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.5673895670E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.7844048132E+04 (After pre-processing)
+      2   0        3.0373112531E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    698002.332300
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        6.9800233230E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.416
+--- dyncge.gms(539) 4 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 7 Mb
+--- LOOPS t = 44
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 5 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.418
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.6187349667E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.8800727617E+04 (After pre-processing)
+      2   0        2.9643795454E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    711964.107757
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        7.1196410776E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.425
+--- dyncge.gms(539) 5 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 7 Mb
+--- LOOPS t = 45
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 5 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.427
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.6711069085E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        4.9776525981E+04 (After pre-processing)
+      2   0        2.8280896355E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    726205.210741
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        7.2620521074E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.433
+--- dyncge.gms(539) 5 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 7 Mb
+--- LOOPS t = 46
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 5 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.434
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.7245259501E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        5.0771826718E+04 (After pre-processing)
+      2   0        2.8846917895E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    740731.220315
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        7.4073122031E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.440
+--- dyncge.gms(539) 5 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 7 Mb
+--- LOOPS t = 47
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 5 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.441
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.7790130587E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        5.1787020934E+04 (After pre-processing)
+      2   0        2.9380202824E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    755547.827542
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        7.5554782754E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.447
+--- dyncge.gms(539) 5 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 7 Mb
+--- LOOPS t = 48
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 5 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.448
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.8345896195E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        5.2822507498E+04 (After pre-processing)
+      2   0        2.9967605398E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    770660.837710
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        7.7066083771E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.456
+--- dyncge.gms(539) 5 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 7 Mb
+--- LOOPS t = 49
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 5 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.460
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.8912774438E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        5.3878693204E+04 (After pre-processing)
+      2   0        3.0566747767E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    786076.172590
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        7.8607617259E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.467
+--- dyncge.gms(539) 5 Mb
+--- Generating NLP model dyncge
+--- dyncge.gms(540) 7 Mb
+--- LOOPS t = 50
+---   116 rows  117 columns  521 non-zeroes
+---   795 nl-code  288 nl-non-zeroes
+--- dyncge.gms(540) 5 Mb
+--- Executing CONOPT (Solvelink=5): elapsed 0:00:00.469
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.9490987782E+04 (Input point)
+ 
+                   Pre-triangular equations:   8
+                   Post-triangular equations:  1
+ 
+      1   0        5.4955992925E+04 (After pre-processing)
+      2   0        2.9555645495E-01 (After scaling)
+ 
+ ** Feasible solution. Value of objective =    801799.872749
+ 
+   Iter Phase Ninf     Objective     RGmax    NSB   Step InItr MX OK
+      7   3        8.0179987275E+05 0.0E+00     0
+ 
+ ** Optimal solution. There are no superbasic variables.
+ 
+--- Reading solution for model dyncge
+--- Executing after solve: elapsed 0:00:00.474
+--- dyncge.gms(743) 5 Mb
+--- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/result.gdx
+*** Status: Normal completion
+--- Job dyncge.gms Stop 05/26/21 11:51:06 elapsed 0:00:00.485

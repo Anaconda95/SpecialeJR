@@ -1,4 +1,4 @@
---- Job Hjemmeopgave4_1_model_2vsh.gms Start 05/21/21 12:34:14 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job Hjemmeopgave4_1_model_2vsh.gms Start 05/26/21 19:00:36 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -17,15 +17,70 @@ Licensee: Course License                                 S210104/0001AO-GEN
           /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
           Course license for use within the course and related course work
 --- Starting compilation
---- Hjemmeopgave4_1_model_2vsh.gms(119) 3 Mb 2 Errors
-*** Error 171 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms
-    Domain violation for set
-*** Error 148 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms
-    Dimension different - The symbol is referenced with more/less
-       indices as declared
---- Hjemmeopgave4_1_model_2vsh.gms(126) 3 Mb 3 Errors
-*** Error 257 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/Ny sandkasse/Hjemmeopgave4_1_model_2vsh.gms
-    Solve statement not checked because of previous errors
---- Hjemmeopgave4_1_model_2vsh.gms(250) 3 Mb 3 Errors
-*** Status: Compilation error(s)
---- Job Hjemmeopgave4_1_model_2vsh.gms Stop 05/21/21 12:34:14 elapsed 0:00:00.017
+--- Hjemmeopgave4_1_model_2vsh.gms(300) 3 Mb
+--- Starting execution: elapsed 0:00:00.020
+--- Hjemmeopgave4_1_model_2vsh.gms(132) 4 Mb
+--- Generating CNS model Ramsey
+--- Hjemmeopgave4_1_model_2vsh.gms(135) 7 Mb
+---   1,801 rows  2,213 columns  9,684 non-zeroes
+---   18,527 nl-code  7,676 nl-non-zeroes
+--- Hjemmeopgave4_1_model_2vsh.gms(135) 5 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.036
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.0949470177E-11 (Input point)
+ 
+                   Pre-triangular equations:   100
+                   Post-triangular equations:  4
+ 
+      1   0        9.0949470177E-11 (After pre-processing)
+      2   0        2.2204460493E-14 (After scaling)
+      2            2.2204460493E-14
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model Ramsey
+--- Executing after solve: elapsed 0:00:00.136
+--- Hjemmeopgave4_1_model_2vsh.gms(157) 5 Mb
+--- Generating CNS model Ramsey
+--- Hjemmeopgave4_1_model_2vsh.gms(158) 7 Mb
+---   1,801 rows  2,213 columns  9,684 non-zeroes
+---   18,527 nl-code  7,676 nl-non-zeroes
+--- Hjemmeopgave4_1_model_2vsh.gms(158) 5 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.151
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.3862869002E+02 (Input point)
+ 
+                   Pre-triangular equations:   100
+                   Post-triangular equations:  4
+ 
+      1   0        6.3862869002E+02 (After pre-processing)
+      2   0        6.2366083010E-01 (After scaling)
+      5   0     0  4.5457142187E-01               2.5E-01      F  T
+     10   0     0  4.4628381092E-06               1.0E+00      F  T
+     13            1.9013263186E-13
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model Ramsey
+--- Executing after solve: elapsed 0:00:00.224
+--- Hjemmeopgave4_1_model_2vsh.gms(175) 5 Mb
+*** Status: Normal completion
+--- Job Hjemmeopgave4_1_model_2vsh.gms Stop 05/26/21 19:00:36 elapsed 0:00:00.230
