@@ -1,0 +1,10 @@
+Input="/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Klenert_Model_8x5.gms"
+PageSize=0
+ScrDir=225a
+SysDir=/Library/Frameworks/GAMS.framework/Versions/32/Resources
+ScriptNext=225a/gamsnext.sh
+LogOption=3
+ErrMsg=1
+ErrorLog=99
+IDE=1
+LstTitleLeftAligned=1

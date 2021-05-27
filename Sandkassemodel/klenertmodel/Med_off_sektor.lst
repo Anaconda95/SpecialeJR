@@ -1,4 +1,4 @@
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 1
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -39,96 +39,100 @@ C o m p i l a t i o n
   34  r 'CES parameter'
   35  s 'elasticity of substitution'
   36  tau_p 'co2-skat'
-  37  ;
-  38   
-  39  equations
-  40  *FirmProd(g)
-  41  FirmFOC1(g)
-  42  FirmFOC2(g)
-  43  NulProfit(g)
-  44  Copeland(g)
-  45  TimeConstr
-  46  HHFOC1(hh,g)
-  47  HHBudget(hh)
-  48  Lumpsum
-  49  Numeraire
-  50  GenEq(g)
-  51  ;
-  52  *FirmProd(g)..                               F(g)     =e=    (epsilon(g)*T(g)**r + (1-epsilon(g))*Z(g)**r)**(1/r);
-  53  FirmFOC1(g)..                                    w   =e=     epsilon(g)    *T(g)**(r-1)*F(g)**(1-r)*p(g);
-  54  FirmFOC2(g)..                                 tau_P  =e=     (1-epsilon(g))*Z(g)**(r-1)*F(g)**(1-r)*p(g);
-  55  Nulprofit(g)..                   w*T(g) + tau_P*Z(g) =e=     p(g)*F(g);
-  56  Copeland(g)..                                Z(g)    =l=     abate*T(g);
-  57  TimeConstr..                                  0      =e=     sum(g, T(g) ) -sum(hh, phi(hh) *T_total(hh)  );
-  58  HHFOC1(hh,g)$(ord(g) lt 2)..    p(g)*(x(hh,g)-b(g))  =e= (alpha(g)/alpha(g+1))*((x(hh,g+1)-b(g+1))*p(g+1));
-  59  HHBudget(hh)..                   sum(g,p(g)*x(hh,g)) =e= phi(hh)*w*T_total(hh) + L;
-  60  Lumpsum..                                 Gov_spdg   =e= sum(g,tau_P*z(g)) - L*card(hh)  ;
-  61  Numeraire..                                      w   =e= 1;
-  62  GenEq(g)$(ord(g) lt 2)..                        F(g) =e= sum(hh,X(hh,g)) + gov_spdg/( p(g)*card(g)  );
-  63   
-  64  ***********************************************************************************************************************
-  65  ************************************ Kalibrering **********************************************************************
-  66  ***********************************************************************************************************************
-  67   
-  68  *Parametre
-  69  abate=1;
-  70  Parameters b(g)       'minimum consumption'
-  71                   /1 1
-  72                    2 3/
-  73            alpha(g) marginal budget share'
-  74            /1 0.6
-  75            2 0.4/
-  76            phi(hh) 'produktivitet i husholding hh'
-  77            /1 0.2
-  78             2 0.8/
-  79             epsilon(g) 'forurening'
-  80             /1 0.99
-  81             2 0.94/
-  82  ;
-  83  s=0.5;
-  84  r    = 1-1/s;
-  85  tau_p = 0.4;
-  86   
-  87   
-  88  *Kalibrering
-  89  w.l=1;
-  90  T_total.fx(hh)=24;
-  91  Gov_spdg.fx=5;
-  92  p.l(g)=1;
-  93  Parameter subsist;
-  94  subsist = sum(g,p.l(g)*b(g));
-  95  F.l(g)  = 24/card(g);
-  96  T.l(g)  = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
-  97  z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
-  98   
-  99  L.l = (sum(g,tau_P*z.l(g)) - Gov_spdg.l)/card(hh);
- 100  x.l(hh,g) = b(g) +  (    alpha(g)*( w.l*phi(hh)*T_total.l(hh) + L.l - subsist )  )/p.l(g);
- 101   
- 102  *F.l(g) = sum(hh,x.l(hh,g));
- 103   
- 104  *T.l(g) = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
+  37  tau_w(hh) 'wage tax'
+  38  ;
+  39   
+  40  equations
+  41  *FirmProd(g)
+  42  FirmFOC1(g)
+  43  FirmFOC2(g)
+  44  NulProfit(g)
+  45  Copeland(g)
+  46  TimeConstr
+  47  HHFOC1(hh,g)
+  48  HHBudget(hh)
+  49  Lumpsum
+  50  Numeraire
+  51  GenEq(g)
+  52  ;
+  53  *FirmProd(g)..                               F(g)     =e=    (epsilon(g)*T(g)**r + (1-epsilon(g))*Z(g)**r)**(1/r);
+  54  FirmFOC1(g)..                                    w   =e=     epsilon(g)    *T(g)**(r-1)*F(g)**(1-r)*p(g);
+  55  FirmFOC2(g)..                                 tau_P  =e=     (1-epsilon(g))*Z(g)**(r-1)*F(g)**(1-r)*p(g);
+  56  Nulprofit(g)..                   w*T(g) + tau_P*Z(g) =e=     p(g)*F(g);
+  57  Copeland(g)..                                Z(g)    =l=     abate*T(g);
+  58  TimeConstr..                                  0      =e=     sum(g, T(g) ) -sum(hh, phi(hh) *T_total(hh)  );
+  59  HHFOC1(hh,g)$(ord(g) lt 2)..    p(g)*(x(hh,g)-b(g))  =e= (alpha(g)/alpha(g+1))*((x(hh,g+1)-b(g+1))*p(g+1));
+  60  HHBudget(hh)..                   sum(g,p(g)*x(hh,g)) =e= (1-tau_w(hh))*phi(hh)*w*T_total(hh) + L;
+  61  Lumpsum..                                 Gov_spdg   =e= sum(g,tau_P*z(g)) + sum(hh,tau_w(hh)*phi(hh)*w*T_total(hh)) - L*card(hh)  ;
+  62  Numeraire..                                      w   =e= 1;
+  63  GenEq(g)$(ord(g) lt 2)..                        F(g) =e= sum(hh,X(hh,g)) + gov_spdg/( p(g)*card(g)  );
+  64   
+  65  ***********************************************************************************************************************
+  66  ************************************ Kalibrering **********************************************************************
+  67  ***********************************************************************************************************************
+  68   
+  69  *Parametre
+  70  abate=1;
+  71  Parameters b(g)       'minimum consumption'
+  72                   /1 1
+  73                    2 3/
+  74            alpha(g) marginal budget share'
+  75            /1 0.6
+  76            2 0.4/
+  77            phi(hh) 'produktivitet i husholding hh'
+  78            /1 0.2
+  79             2 0.8/
+  80             epsilon(g) 'forurening'
+  81             /1 0.99
+  82             2 0.94/
+  83             tau_w(hh)
+  84             /1 0.3
+  85              2 0.5/
+  86  ;
+  87  s=0.5;
+  88  r    = 1-1/s;
+  89  tau_p = 0.4;
+  90   
+  91   
+  92  *Kalibrering
+  93  w.l=1;
+  94  T_total.fx(hh)=24;
+  95  Gov_spdg.fx=5;
+  96  p.l(g)=1;
+  97  Parameter subsist;
+  98  subsist = sum(g,p.l(g)*b(g));
+  99  F.l(g)  = 24/card(g);
+ 100  T.l(g)  = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
+ 101  z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
+ 102   
+ 103  L.l = (sum(g,tau_P*z.l(g)) + sum(hh,tau_w(hh)*phi(hh)*w.l*T_total.l(hh)) - Gov_spdg.l)/card(hh);
+ 104  x.l(hh,g) = b(g) +  (    alpha(g)*(  (1-tau_w(hh))*w.l*phi(hh)*T_total.l(hh) + L.l - subsist )  )/p.l(g);
  105   
- 106   
+ 106  *F.l(g) = sum(hh,x.l(hh,g));
  107   
- 108  *T_total.fx(hh)=sum(g,T.l(g))
+ 108  *T.l(g) = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
  109   
  110   
- 111  Model Klenert /all/;
- 112   
- 113  Solve Klenert using cns;
+ 111   
+ 112  *T_total.fx(hh)=sum(g,T.l(g))
+ 113   
  114   
- 115  *Test om man kan hæve skatten - det kan man, og prisen på det forurenende gode stiger.
- 116  tau_P=1;
+ 115  Model Klenert /all/;
+ 116   
  117  Solve Klenert using cns;
  118   
- 119   
- 120   
+ 119  *Test om man kan hæve skatten - det kan man, og prisen på det forurenende gode stiger.
+ 120  tau_P=1;
+ 121  Solve Klenert using cns;
+ 122   
+ 123   
+ 124   
 
 
 COMPILATION TIME     =        0.001 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 2
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 2
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE Klenert Using CNS From line 113
+Equation Listing    SOLVE Klenert Using CNS From line 117
 
 
 ---- FirmFOC1  =E=  
@@ -166,21 +170,21 @@ TimeConstr..  - t(1) - t(2) + 0.2*T_total(1) + 0.8*T_total(2) =E= 0 ; (LHS = 0.4
 
 ---- HHFOC1  =E=  
 
-HHFOC1(1,1)..  - (0.234606406614008)*p(1) + (0.234606406614008)*p(2) + (1)*x(1,1) - (1.5)*x(1,2) =E= 0 ; (LHS = 0)
+HHFOC1(1,1)..  (2.21339359338599)*p(1) - (2.21339359338599)*p(2) + (1)*x(1,1) - (1.5)*x(1,2) =E= 0 ; (LHS = 0)
      
-HHFOC1(2,1)..  (8.40539359338599)*p(1) - (8.40539359338599)*p(2) + (1)*x(2,1) - (1.5)*x(2,2) =E= 0 ; (LHS = 0)
+HHFOC1(2,1)..  (5.95739359338599)*p(1) - (5.95739359338599)*p(2) + (1)*x(2,1) - (1.5)*x(2,2) =E= 0 ; (LHS = 0)
      
 
 ---- HHBudget  =E=  
 
-HHBudget(1)..  - (4.8)*w + (0.765393593385992)*p(1) + (2.84359572892399)*p(2) + (1)*x(1,1) + (1)*x(1,2) - L - (0.2)*T_total(1) =E= 0 ; (LHS = 0)
+HHBudget(1)..  - (3.36)*w + (3.21339359338599)*p(1) + (4.47559572892399)*p(2) + (1)*x(1,1) + (1)*x(1,2) - L - (0.14)*T_total(1) =E= 0 ; (LHS = 0)
      
-HHBudget(2)..  - (19.2)*w + (9.40539359338599)*p(1) + (8.603595728924)*p(2) + (1)*x(2,1) + (1)*x(2,2) - L - (0.8)*T_total(2) =E= 0 ; (LHS = 0)
+HHBudget(2)..  - (9.6)*w + (6.95739359338599)*p(1) + (6.971595728924)*p(2) + (1)*x(2,1) + (1)*x(2,2) - L - (0.4)*T_total(2) =E= 0 ; (LHS = 0)
      
 
 ---- Lumpsum  =E=  
 
-Lumpsum..  - 0.4*z(1) - 0.4*z(2) + 2*L + Gov_spdg =E= 0 ; (LHS = 0)
+Lumpsum..  - (11.04)*w - 0.4*z(1) - 0.4*z(2) + 2*L - (0.06)*T_total(1) - (0.4)*T_total(2) + Gov_spdg =E= 0 ; (LHS = 0)
      
 
 ---- Numeraire  =E=  
@@ -190,11 +194,11 @@ Numeraire..  w =E= 1 ; (LHS = 1)
 
 ---- GenEq  =E=  
 
-GenEq(1)..  F(1) + (2.5)*p(1) - x(1,1) - x(2,1) - (0.5)*Gov_spdg =E= 0 ; (LHS = -0.670787186771985, INFES = 0.670787186771985 ****)
+GenEq(1)..  F(1) + (2.5)*p(1) - x(1,1) - x(2,1) - (0.5)*Gov_spdg =E= 0 ; (LHS = -0.670787186771983, INFES = 0.670787186771983 ****)
      
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 3
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 3
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE Klenert Using CNS From line 113
+Column Listing      SOLVE Klenert Using CNS From line 117
 
 
 ---- w  loen
@@ -205,8 +209,9 @@ w
         1       FirmFOC1(2)
       (11.9398) NulProfit(1)
       (11.6344) NulProfit(2)
-      (-4.8)    HHBudget(1)
-     (-19.2)    HHBudget(2)
+      (-3.36)   HHBudget(1)
+      (-9.6)    HHBudget(2)
+     (-11.04)   Lumpsum
         1       Numeraire
 
 
@@ -267,10 +272,10 @@ p(1)
       (-1)      FirmFOC1(1)
       (-0.4)    FirmFOC2(1)
      (-12)      NulProfit(1)
-      (-0.2346) HHFOC1(1,1)
-       (8.4054) HHFOC1(2,1)
-       (0.7654) HHBudget(1)
-       (9.4054) HHBudget(2)
+       (2.2134) HHFOC1(1,1)
+       (5.9574) HHFOC1(2,1)
+       (3.2134) HHBudget(1)
+       (6.9574) HHBudget(2)
        (2.5)    GenEq(1)
 
 p(2)
@@ -278,27 +283,27 @@ p(2)
       (-1)      FirmFOC1(2)
       (-0.4)    FirmFOC2(2)
      (-12)      NulProfit(2)
-       (0.2346) HHFOC1(1,1)
-      (-8.4054) HHFOC1(2,1)
-       (2.8436) HHBudget(1)
-       (8.6036) HHBudget(2)
+      (-2.2134) HHFOC1(1,1)
+      (-5.9574) HHFOC1(2,1)
+       (4.4756) HHBudget(1)
+       (6.9716) HHBudget(2)
 
 
 ---- x  forbrug af vare g i husholdninger
 
 x(1,1)
-                (.LO, .L, .UP, .M = -INF, 0.765393593385992, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 3.21339359338599, +INF, 0)
        (1)      HHFOC1(1,1)
        (1)      HHBudget(1)
        -1       GenEq(1)
 
 x(1,2)
-                (.LO, .L, .UP, .M = -INF, 2.84359572892399, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 4.47559572892399, +INF, 0)
       (-1.5)    HHFOC1(1,1)
        (1)      HHBudget(1)
 
 x(2,1)
-                (.LO, .L, .UP, .M = -INF, 9.40539359338599, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 6.95739359338599, +INF, 0)
        (1)      HHFOC1(2,1)
        (1)      HHBudget(2)
        -1       GenEq(1)
@@ -308,7 +313,7 @@ REMAINING ENTRY SKIPPED
 ---- L  offforbrug
 
 L
-                (.LO, .L, .UP, .M = -INF, -1.19101067769001, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 4.32898932230999, +INF, 0)
        -1       HHBudget(1)
        -1       HHBudget(2)
         2       Lumpsum
@@ -319,12 +324,14 @@ L
 T_total(1)
                 (.LO, .L, .UP, .M = 24, 24, 24, 0)
         0.2     TimeConstr
-      (-0.2)    HHBudget(1)
+      (-0.14)   HHBudget(1)
+      (-0.06)   Lumpsum
 
 T_total(2)
                 (.LO, .L, .UP, .M = 24, 24, 24, 0)
         0.8     TimeConstr
-      (-0.8)    HHBudget(2)
+      (-0.4)    HHBudget(2)
+      (-0.4)    Lumpsum
 
 
 ---- Gov_spdg  
@@ -334,38 +341,38 @@ Gov_spdg
         1       Lumpsum
       (-0.5)    GenEq(1)
 
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 4
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 4
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE Klenert Using CNS From line 113
+Model Statistics    SOLVE Klenert Using CNS From line 117
 
 
 MODEL STATISTICS
 
 BLOCKS OF EQUATIONS          10     SINGLE EQUATIONS           16
 BLOCKS OF VARIABLES           9     SINGLE VARIABLES           17
-NON ZERO ELEMENTS            64     NON LINEAR N-Z             42
-DERIVATIVE POOL              20     CONSTANT POOL              26
-CODE LENGTH                 114
+NON ZERO ELEMENTS            67     NON LINEAR N-Z             45
+DERIVATIVE POOL              20     CONSTANT POOL              27
+CODE LENGTH                 124
 SINGLE =E|X= EQUS            14     SINGLE UNFIXED VARS        14
 
 
-GENERATION TIME      =        0.006 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 5
+GENERATION TIME      =        0.007 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 5
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Solution Report     SOLVE Klenert Using CNS From line 113
+Solution Report     SOLVE Klenert Using CNS From line 117
 
 
                S O L V E      S U M M A R Y
 
      MODEL   Klenert             
      TYPE    CNS                 
-     SOLVER  CONOPT              FROM LINE  113
+     SOLVER  CONOPT              FROM LINE  117
 
 **** SOLVER STATUS     1 Normal Completion         
 **** MODEL STATUS      16 Solved                   
 
- RESOURCE USAGE, LIMIT          0.021 10000000000.000
- ITERATION COUNT, LIMIT        18    2147483647
+ RESOURCE USAGE, LIMIT          0.017 10000000000.000
+ ITERATION COUNT, LIMIT        12    2147483647
  EVALUATION ERRORS              0             0
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
@@ -383,8 +390,8 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
  
- CONOPT time Total                            0.017 seconds
-   of which: Function evaluations             0.001 =  5.9%
+ CONOPT time Total                            0.015 seconds
+   of which: Function evaluations             0.000 =  0.0%
              1st Derivative evaluations       0.000 =  0.0%
  
 
@@ -483,14 +490,14 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
 
            LOWER          LEVEL          UPPER
 
-1.1        -INF            0.3389        +INF         
-1.2        -INF            2.6097        +INF         
-2.1        -INF            8.0542        +INF         
-2.2        -INF            7.1652        +INF         
+1.1        -INF            2.5249        +INF         
+1.2        -INF            3.9004        +INF         
+2.1        -INF            5.8682        +INF         
+2.2        -INF            5.8744        +INF         
 
                            LOWER          LEVEL          UPPER
 
----- VAR L                 -INF           -1.1208        +INF         
+---- VAR L                 -INF            4.3992        +INF         
 
   L  offforbrug
 
@@ -509,38 +516,38 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
 **** REPORT SUMMARY :        0 INFEASIBLE
                              0  DEPENDENT
                              0     ERRORS
-                            12  PROJECTED
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 6
+                            11  PROJECTED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 6
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Equation Listing    SOLVE Klenert Using CNS From line 117
+Equation Listing    SOLVE Klenert Using CNS From line 121
 
 
 ---- FirmFOC1  =E=  
 
-FirmFOC1(1)..  w + (0.178764391568244)*t(1) - (0.188226128189432)*F(1) - (0.892971106875149)*p(1) =E= 0 ; (LHS = 1.5842882561401E-13, INFES = 1.5842882561401E-13 ****)
+FirmFOC1(1)..  w + (0.178764391568912)*t(1) - (0.188226128190239)*F(1) - (0.89297110687417)*p(1) =E= 0 ; (LHS = 1.34536826124076E-12, INFES = 1.34536826124076E-12 ****)
      
-FirmFOC1(2)..  w + (0.156102561432276)*t(2) - (0.170182991687654)*F(2) - (0.790889125768104)*p(2) =E= 0 ; (LHS = 1.52255985597094E-12, INFES = 1.52255985597094E-12 ****)
+FirmFOC1(2)..  w + (0.156102561433836)*t(2) - (0.170182991688987)*F(2) - (0.79088912577153)*p(2) =E= 0 ; (LHS = -1.27717836306829E-11, INFES = 1.27717836306829E-11 ****)
      
 
 ---- FirmFOC2  =E=  
 
-FirmFOC2(1)..  - (0.0752904512757729)*F(1) + (0.449975221474867)*z(1) - (0.35718844275006)*p(1) =E= -1 ; (LHS = -0.399999999999937, INFES = 0.600000000000063 ****)
+FirmFOC2(1)..  - (0.0752904512760954)*F(1) + (0.449975221476548)*z(1) - (0.357188442749668)*p(1) =E= -1 ; (LHS = -0.399999999999462, INFES = 0.600000000000538 ****)
      
-FirmFOC2(2)..  - (0.0680731966750616)*F(2) + (0.156310559607722)*z(2) - (0.316355650307241)*p(2) =E= -1 ; (LHS = -0.399999999999391, INFES = 0.600000000000609 ****)
+FirmFOC2(2)..  - (0.0680731966755947)*F(2) + (0.156310559609285)*z(2) - (0.316355650308612)*p(2) =E= -1 ; (LHS = -0.400000000005109, INFES = 0.599999999994891 ****)
      
 
 ---- NulProfit  =E=  
 
-NulProfit(1)..  (11.1879104247457)*w + (1)*t(1) - (1.11985706178023)*F(1) + z(1) - (10.625517398875)*p(1) =E= 0 ; (LHS = 1.06672540418454, INFES = 1.06672540418454 ****)
+NulProfit(1)..  (11.1879104246906)*w + (1)*t(1) - (1.11985706178013)*F(1) + z(1) - (10.6255173988168)*p(1) =E= 0 ; (LHS = 1.06672540418689, INFES = 1.06672540418689 ****)
      
-NulProfit(2)..  (12.8120895752543)*w + (1)*t(2) - (1.2643997336887)*F(2) + z(2) - (11.7520557146372)*p(2) =E= 0 ; (LHS = 3.07080981096403, INFES = 3.07080981096403 ****)
+NulProfit(2)..  (12.8120895753094)*w + (1)*t(2) - (1.26439973370129)*F(2) + z(2) - (11.7520557147132)*p(2) =E= 0 ; (LHS = 3.07080981079699, INFES = 3.07080981079699 ****)
      
 
 ---- Copeland  =L=  
 
-Copeland(1)..  - t(1) + z(1) =L= 0 ; (LHS = -9.41003475110807)
+Copeland(1)..  - t(1) + z(1) =L= 0 ; (LHS = -9.41003475106176)
      
-Copeland(2)..  - t(2) + z(2) =L= 0 ; (LHS = -7.69407322366254)
+Copeland(2)..  - t(2) + z(2) =L= 0 ; (LHS = -7.6940732236956)
      
 
 ---- TimeConstr  =E=  
@@ -550,21 +557,21 @@ TimeConstr..  - t(1) - t(2) + 0.2*T_total(1) + 0.8*T_total(2) =E= 0 ; (LHS = 0)
 
 ---- HHFOC1  =E=  
 
-HHFOC1(1,1)..  - (0.661090365858544)*p(1) + (0.585516347967008)*p(2) + (1.11985706178023)*x(1,1) - (1.89659960053305)*x(1,2) =E= 0 ; (LHS = -2.41700104375298E-10, INFES = 2.41700104375298E-10 ****)
+HHFOC1(1,1)..  (1.52490290375768)*p(1) - (1.35058023098717)*p(2) + (1.11985706178013)*x(1,1) - (1.89659960055194)*x(1,2) =E= 0 ; (LHS = 8.99653462838046E-10, INFES = 8.99653462838046E-10 ****)
      
-HHFOC1(2,1)..  (7.05417999754478)*p(1) - (6.24776569972953)*p(2) + (1.11985706178023)*x(2,1) - (1.89659960053305)*x(2,2) =E= 0 ; (LHS = -1.56804613737904E-9, INFES = 1.56804613737904E-9 ****)
+HHFOC1(2,1)..  (4.86818672788366)*p(1) - (4.3116691171765)*p(2) + (1.11985706178013)*x(2,1) - (1.89659960055194)*x(2,2) =E= 0 ; (LHS = 1.71873892895746E-9, INFES = 1.71873892895746E-9 ****)
      
 
 ---- HHBudget  =E=  
 
-HHBudget(1)..  - (4.8)*w + (0.338909634141456)*p(1) + (2.60965576802199)*p(2) + (1.11985706178023)*x(1,1) + (1.2643997336887)*x(1,2) - L - (0.2)*T_total(1) =E= 0 ; (LHS = 1.58966173557928E-10, INFES = 1.58966173557928E-10 ****)
+HHBudget(1)..  - (3.36)*w + (2.52490290375768)*p(1) + (3.90038682065811)*p(2) + (1.11985706178013)*x(1,1) + (1.26439973370129)*x(1,2) - L - (0.14)*T_total(1) =E= 0 ; (LHS = -5.94189586422544E-10, INFES = 5.94189586422544E-10 ****)
      
-HHBudget(2)..  - (19.2)*w + (8.05417999754478)*p(1) + (7.16517713315302)*p(2) + (1.11985706178023)*x(2,1) + (1.2643997336887)*x(2,2) - L - (0.8)*T_total(2) =E= 0 ; (LHS = 1.04471098438808E-9, INFES = 1.04471098438808E-9 ****)
+HHBudget(2)..  - (9.6)*w + (5.86818672788366)*p(1) + (5.87444607811767)*p(2) + (1.11985706178013)*x(2,1) + (1.26439973370129)*x(2,2) - L - (0.4)*T_total(2) =E= 0 ; (LHS = -1.16900800151143E-9, INFES = 1.16900800151143E-9 ****)
      
 
 ---- Lumpsum  =E=  
 
-Lumpsum..  - z(1) - z(2) + 2*L + Gov_spdg =E= 0 ; (LHS = -4.13753521513764, INFES = 4.13753521513764 ****)
+Lumpsum..  - (11.04)*w - z(1) - z(2) + 2*L - (0.06)*T_total(1) - (0.4)*T_total(2) + Gov_spdg =E= 0 ; (LHS = -4.13753521514559, INFES = 4.13753521514559 ****)
      
 
 ---- Numeraire  =E=  
@@ -574,11 +581,11 @@ Numeraire..  w =E= 1 ; (LHS = 1)
 
 ---- GenEq  =E=  
 
-GenEq(1)..  F(1) + (1.9934934942852)*p(1) - x(1,1) - x(2,1) - (0.446485553437645)*Gov_spdg =E= 0 ; (LHS = 4.9915627187147E-13, INFES = 4.9915627187147E-13 ****)
+GenEq(1)..  F(1) + (1.99349349428556)*p(1) - x(1,1) - x(2,1) - (0.446485553437686)*Gov_spdg =E= 0 ; (LHS = -1.29265487203156E-11, INFES = 1.29265487203156E-11 ****)
      
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 7
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 7
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Column Listing      SOLVE Klenert Using CNS From line 117
+Column Listing      SOLVE Klenert Using CNS From line 121
 
 
 ---- w  loen
@@ -589,22 +596,23 @@ w
         1       FirmFOC1(2)
       (11.1879) NulProfit(1)
       (12.8121) NulProfit(2)
-      (-4.8)    HHBudget(1)
-     (-19.2)    HHBudget(2)
+      (-3.36)   HHBudget(1)
+      (-9.6)    HHBudget(2)
+     (-11.04)   Lumpsum
         1       Numeraire
 
 
 ---- t  labour input
 
 t(1)
-                (.LO, .L, .UP, .M = -INF, 11.1879104247457, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 11.1879104246906, +INF, 0)
        (0.1788) FirmFOC1(1)
        (1)      NulProfit(1)
        -1       Copeland(1)
        -1       TimeConstr
 
 t(2)
-                (.LO, .L, .UP, .M = -INF, 12.8120895752543, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 12.8120895753094, +INF, 0)
        (0.1561) FirmFOC1(2)
        (1)      NulProfit(2)
        -1       Copeland(2)
@@ -614,14 +622,14 @@ t(2)
 ---- F  produktion
 
 F(1)
-                (.LO, .L, .UP, .M = -INF, 10.625517398875, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 10.6255173988168, +INF, 0)
       (-0.1882) FirmFOC1(1)
       (-0.0753) FirmFOC2(1)
       (-1.1199) NulProfit(1)
         1       GenEq(1)
 
 F(2)
-                (.LO, .L, .UP, .M = -INF, 11.7520557146372, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 11.7520557147132, +INF, 0)
       (-0.1702) FirmFOC1(2)
       (-0.0681) FirmFOC2(2)
       (-1.2644) NulProfit(2)
@@ -630,14 +638,14 @@ F(2)
 ---- z  polluion
 
 z(1)
-                (.LO, .L, .UP, .M = -INF, 1.77787567363763, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 1.77787567362888, +INF, 0)
        (0.45)   FirmFOC2(1)
         1       NulProfit(1)
         1       Copeland(1)
        -1       Lumpsum
 
 z(2)
-                (.LO, .L, .UP, .M = -INF, 5.11801635159176, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 5.11801635161376, +INF, 0)
        (0.1563) FirmFOC2(2)
         1       NulProfit(2)
         1       Copeland(2)
@@ -647,42 +655,42 @@ z(2)
 ---- p  priser
 
 p(1)
-                (.LO, .L, .UP, .M = -INF, 1.11985706178023, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 1.11985706178013, +INF, 0)
       (-0.893)  FirmFOC1(1)
       (-0.3572) FirmFOC2(1)
      (-10.6255) NulProfit(1)
-      (-0.6611) HHFOC1(1,1)
-       (7.0542) HHFOC1(2,1)
-       (0.3389) HHBudget(1)
-       (8.0542) HHBudget(2)
+       (1.5249) HHFOC1(1,1)
+       (4.8682) HHFOC1(2,1)
+       (2.5249) HHBudget(1)
+       (5.8682) HHBudget(2)
        (1.9935) GenEq(1)
 
 p(2)
-                (.LO, .L, .UP, .M = -INF, 1.2643997336887, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 1.26439973370129, +INF, 0)
       (-0.7909) FirmFOC1(2)
       (-0.3164) FirmFOC2(2)
      (-11.7521) NulProfit(2)
-       (0.5855) HHFOC1(1,1)
-      (-6.2478) HHFOC1(2,1)
-       (2.6097) HHBudget(1)
-       (7.1652) HHBudget(2)
+      (-1.3506) HHFOC1(1,1)
+      (-4.3117) HHFOC1(2,1)
+       (3.9004) HHBudget(1)
+       (5.8744) HHBudget(2)
 
 
 ---- x  forbrug af vare g i husholdninger
 
 x(1,1)
-                (.LO, .L, .UP, .M = -INF, 0.338909634141456, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 2.52490290375768, +INF, 0)
        (1.1199) HHFOC1(1,1)
        (1.1199) HHBudget(1)
        -1       GenEq(1)
 
 x(1,2)
-                (.LO, .L, .UP, .M = -INF, 2.60965576802199, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 3.90038682065811, +INF, 0)
       (-1.8966) HHFOC1(1,1)
        (1.2644) HHBudget(1)
 
 x(2,1)
-                (.LO, .L, .UP, .M = -INF, 8.05417999754478, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 5.86818672788366, +INF, 0)
        (1.1199) HHFOC1(2,1)
        (1.1199) HHBudget(2)
        -1       GenEq(1)
@@ -692,7 +700,7 @@ REMAINING ENTRY SKIPPED
 ---- L  offforbrug
 
 L
-                (.LO, .L, .UP, .M = -INF, -1.12082159495412, +INF, 0)
+                (.LO, .L, .UP, .M = -INF, 4.39917840504853, +INF, 0)
        -1       HHBudget(1)
        -1       HHBudget(2)
         2       Lumpsum
@@ -703,12 +711,14 @@ L
 T_total(1)
                 (.LO, .L, .UP, .M = 24, 24, 24, 0)
         0.2     TimeConstr
-      (-0.2)    HHBudget(1)
+      (-0.14)   HHBudget(1)
+      (-0.06)   Lumpsum
 
 T_total(2)
                 (.LO, .L, .UP, .M = 24, 24, 24, 0)
         0.8     TimeConstr
-      (-0.8)    HHBudget(2)
+      (-0.4)    HHBudget(2)
+      (-0.4)    Lumpsum
 
 
 ---- Gov_spdg  
@@ -718,37 +728,37 @@ Gov_spdg
         1       Lumpsum
       (-0.4465) GenEq(1)
 
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 8
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 8
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Model Statistics    SOLVE Klenert Using CNS From line 117
+Model Statistics    SOLVE Klenert Using CNS From line 121
 
 
 MODEL STATISTICS
 
 BLOCKS OF EQUATIONS          10     SINGLE EQUATIONS           16
 BLOCKS OF VARIABLES           9     SINGLE VARIABLES           17
-NON ZERO ELEMENTS            64     NON LINEAR N-Z             42
-DERIVATIVE POOL              20     CONSTANT POOL              26
-CODE LENGTH                 114
+NON ZERO ELEMENTS            67     NON LINEAR N-Z             45
+DERIVATIVE POOL              20     CONSTANT POOL              27
+CODE LENGTH                 124
 SINGLE =E|X= EQUS            14     SINGLE UNFIXED VARS        14
 
 
-GENERATION TIME      =        0.004 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 13:54:55 Page 9
+GENERATION TIME      =        0.003 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 14:12:58 Page 9
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
-Solution Report     SOLVE Klenert Using CNS From line 117
+Solution Report     SOLVE Klenert Using CNS From line 121
 
 
                S O L V E      S U M M A R Y
 
      MODEL   Klenert             
      TYPE    CNS                 
-     SOLVER  CONOPT              FROM LINE  117
+     SOLVER  CONOPT              FROM LINE  121
 
 **** SOLVER STATUS     1 Normal Completion         
 **** MODEL STATUS      16 Solved                   
 
- RESOURCE USAGE, LIMIT          0.002 10000000000.000
+ RESOURCE USAGE, LIMIT          0.004 10000000000.000
  ITERATION COUNT, LIMIT        16    2147483647
  EVALUATION ERRORS              0             0
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
@@ -767,8 +777,8 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
  
- CONOPT time Total                            0.002 seconds
-   of which: Function evaluations             0.001 = 50.0%
+ CONOPT time Total                            0.004 seconds
+   of which: Function evaluations             0.000 =  0.0%
              1st Derivative evaluations       0.000 =  0.0%
  
 
@@ -867,14 +877,14 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
 
            LOWER          LEVEL          UPPER
 
-1.1        -INF            0.4326        +INF         
-1.2        -INF            2.6925        +INF         
-2.1        -INF            7.6386        +INF         
-2.2        -INF            6.5976        +INF         
+1.1        -INF            2.4743        +INF         
+1.2        -INF            3.7990        +INF         
+2.1        -INF            5.5969        +INF         
+2.2        -INF            5.4912        +INF         
 
                            LOWER          LEVEL          UPPER
 
----- VAR L                 -INF           -0.3100        +INF         
+---- VAR L                 -INF            5.2100        +INF         
 
   L  offforbrug
 
@@ -893,10 +903,10 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
 **** REPORT SUMMARY :        0 INFEASIBLE
                              0  DEPENDENT
                              0     ERRORS
-                            11  PROJECTED
+                            12  PROJECTED
 
 
-EXECUTION TIME       =        0.145 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+EXECUTION TIME       =        0.123 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
 
 
 USER: Course License                                 S210104/0001AO-GEN

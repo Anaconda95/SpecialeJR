@@ -23,6 +23,8 @@ Table min_cons(i,g) "b'er"
 5   14087   32069   99980   18914   8167    35575   40409   86531
 ;
 
+
+
 *** må justere 1,1 og 1,2 lidt ned, da de er højere end cons
 min_cons("1","1") = 10100;
 min_cons('1','2') = 21500;

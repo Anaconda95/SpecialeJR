@@ -1,4 +1,4 @@
---- Job Med_off_sektor.gms Start 05/27/21 13:31:34 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job Med_off_sektor.gms Start 05/27/21 14:12:19 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -18,68 +18,30 @@ Licensee: Course License                                 S210104/0001AO-GEN
           /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
           Course license for use within the course and related course work
 --- Starting compilation
---- Med_off_sektor.gms(113) 3 Mb
---- Starting execution: elapsed 0:00:00.006
---- Med_off_sektor.gms(99) 4 Mb
---- Generating CNS model Klenert
---- Med_off_sektor.gms(106) 6 Mb
----   16 rows  17 columns  64 non-zeroes
----   114 nl-code  42 nl-non-zeroes
---- Med_off_sektor.gms(106) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.014
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        8.8273240784E+00 (Input point)
- 
-                   Pre-triangular equations:   1
-                   Post-triangular equations:  0
- 
-      1   0        8.8273240784E+00 (After pre-processing)
-      2   0        1.2863830051E+00 (After scaling)
-     10   0     0  6.8217554522E-09               1.0E+00      F  T
-     11            3.5885477923E-10
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model Klenert
---- Executing after solve: elapsed 0:00:00.091
---- Med_off_sektor.gms(109) 4 Mb
---- Generating CNS model Klenert
---- Med_off_sektor.gms(110) 6 Mb
----   16 rows  17 columns  64 non-zeroes
----   114 nl-code  42 nl-non-zeroes
---- Med_off_sektor.gms(110) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.094
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        8.2465393292E+00 (Input point)
- 
-                   Pre-triangular equations:   1
-                   Post-triangular equations:  0
- 
-      1   0        8.2465393292E+00 (After pre-processing)
-      2   0        2.4291945722E+00 (After scaling)
- 
- ** Domain error(s) in nonlinear functions.
-    Check bounds on variables.
- 
---- Reading solution for model Klenert
+--- Med_off_sektor.gms(37) 3 Mb 1 Error
+*** Error 120 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    Unknown identifier entered as set
+--- Med_off_sektor.gms(84) 3 Mb 2 Errors
+*** Error 361 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    Values for domain 1 are unknown - no checking possible
+--- Med_off_sektor.gms(103) 3 Mb 5 Errors
+*** Error 171 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    Domain violation for set
+*** Error 143 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    A suffix is missing
+*** Error 143 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    A suffix is missing
+--- Med_off_sektor.gms(104) 3 Mb 6 Errors
+*** Error 171 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    Domain violation for set
+--- Med_off_sektor.gms(117) 3 Mb 7 Errors
+*** Error 257 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    Solve statement not checked because of previous errors
+--- Med_off_sektor.gms(121) 3 Mb 8 Errors
+*** Error 257 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gms
+    Solve statement not checked because of previous errors
+--- Med_off_sektor.gms(124) 3 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Sandkassemodel/klenertmodel/Med_off_sektor.gdx
-*** Status: Normal completion
---- Job Med_off_sektor.gms Stop 05/27/21 13:31:34 elapsed 0:00:00.125
+--- Med_off_sektor.gms(124) 3 Mb 8 Errors
+*** Status: Compilation error(s)
+--- Job Med_off_sektor.gms Stop 05/27/21 14:12:19 elapsed 0:00:00.024
