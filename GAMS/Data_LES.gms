@@ -37,31 +37,43 @@ Table cons(i,g) "samlet forbrug"
 5   17722   37644   115872  27160   10329   62408   85645   114118
 ;
 
-Table cons_share(i) "kvintilers forbrugsandel"
+parameter cons_share(i) "kvintilers forbrugsandel"/
 1   0.126784
 2   0.154558
 3   0.204001
 4   0.225123
-5   0.289534
+5   0.289534/
 ;
 
-Table income(i) "Kvintilers indkomst 2019"
+parameter income(i) "Kvintilers indkomst 2019"/
 1   392009.15
 2   612026.48
 3   927983.33
 4   1083464.21
-5   1698144.8
+5   1698144.8/
 ;
 
-Table income_share(i) "Indkomstandel 2019"
+parameter income_share(i) "Indkomstandel 2019"/
 1   0.083165059
 2   0.129841915
 3   0.196872417
 4   0.229857812
-5   0.360262798
+5   0.360262798/
 ;
 
-Table CO2_koef(g) "Varegruppernes co2-andel af produktion"
+parameter Emissions(g)  "Udledninger: ton co2e"/
+1	2255
+2	6524
+3	5493
+4	10223
+5	918
+6	6499
+7	5340
+8	8041/
+;
+
+
+parameter CO2_koef(g) "Varegruppernes co2-andel af produktion"/
 1   0.0823176
 2   0.129274392
 3   0.024987882
@@ -69,21 +81,21 @@ Table CO2_koef(g) "Varegruppernes co2-andel af produktion"
 5   0.115478351
 6   0.113095265
 7   0.052594913
-8   0.034791298
+8   0.034791298/
 ;
 
-Table production(g) "Varergruppernes produktion"
-1   27390.536
-2   50466.738
-3   219834.253
-4   25459.668
-5   7948.585
-6   57465.41
-7   101537.846
-8   231128.268
+parameter production(g) "Varergruppernes produktion"/
+1   27391
+2   50467
+3   219834
+4   25460
+5   7949
+6   57465
+7   101538
+8   231129/
 ;
 
-Table prod_share(g) "Varergruppers andel af produktion"
+parameter prod_share(g) "Varergruppers andel af produktion"/
 1	0.037977464
 2	0.069973028
 3	0.304804092
@@ -91,18 +103,29 @@ Table prod_share(g) "Varergruppers andel af produktion"
 5	0.011020854
 6	0.079676811
 7	0.140784025
-8	0.320463445
+8	0.320463445/
 ;
 
-Table prices(g) "varergruppers 2015-priser for 2019"
-1   1.040037111
-2   1.031743332
-3   1.060924014
-4   0.964655349
-5   1.052080537
-6   1.007260708
-7   0.949414731
-8   1.045076628
+parameter prices(g) "varergruppers 2015-priser for 2019"/
+1   1.04
+2   1.03
+3   1.06
+4   0.96
+5   1.05
+6   1.01
+7   0.95
+8   1.05/
+;
+
+parameter production2019(g) "Varergruppernes produktion i 2019-priser"/
+1	26338
+2	48997
+3	207391
+4	26521
+5	7570
+6	56896
+7	106882
+8	220123/
 ;
 
 
