@@ -39,13 +39,14 @@ Table cons(i,g) "samlet forbrug"
 5   17722   37644   115872  27160   10329   62408   85645   114118
 ;
 
-parameter cons_share(i) "kvintilers forbrugsandel"/
-1   0.126784
-2   0.154558
-3   0.204001
-4   0.225123
-5   0.289534/
-;
+parameter cons_share(i) "kvintilers forbrugsandel i 2019 priser"/
+1	0.126773
+2	0.154567
+3	0.204116
+4	0.225107
+5	0.289437/;
+
+
 
 parameter income(i) "Kvintilers indkomst 2019"/
 1   392009.15
@@ -63,7 +64,7 @@ parameter income_share(i) "Indkomstandel 2019"/
 5   0.360262798/
 ;
 
-parameter Emissions(g)  "Udledninger: ton co2e"/
+parameter Emissions(g)  "Udledninger: 1000 ton co2e"/
 1	2255
 2	6524
 3	5493
