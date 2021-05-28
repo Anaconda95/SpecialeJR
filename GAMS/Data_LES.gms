@@ -48,7 +48,7 @@ parameter cons_share(i) "kvintilers forbrugsandel i 2019 priser"/
 
 
 
-parameter income(i) "Kvintilers indkomst 2019"/
+parameter income(i) "Kvintilers indkomst 2019 (i 2015 priser)"/
 1   392009.15
 2   612026.48
 3   927983.33
