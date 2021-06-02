@@ -1,0 +1,23 @@
+B 3 C o m p i l a t i o n
+B 119 E x e c u t i o n
+I 119 b
+B 134 Equation Listing    SOLVE calib Using CNS From line 108
+D 137 SUPERNUMeq
+D 148 HHFOC1
+B 160 Column Listing      SOLVE calib Using CNS From line 108
+E 163 p
+E 206 x
+E 222 b
+E 241 exp
+E 257 supernum
+E 297 alpha
+B 314 Model Statistics    SOLVE calib Using CNS From line 108
+B 330 Solution Report     SOLVE calib Using CNS From line 108
+F 366 SUPERNUMeq
+F 376 HHFOC1
+G 421 p
+G 434 x
+G 479 b
+G 524 exp
+G 534 supernum
+G 544 alpha

@@ -1,0 +1,607 @@
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:29:15 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  ********** Lille model med offentlig sektor (dvs ingen omfordeling) *************
+   2   
+   3  * sets
+   4  * Husholdninger
+   5  set i /1*5/;
+   6   
+   7  * Firmaer
+   8  set g /1*8/;
+   9  alias(g,gg);
+  10   
+  11  *Endogene variable
+  12  variables
+  13  w 'loen'
+  14  t(g) 'labour input'
+  15  F(g) 'produktion'
+  16  z(g) 'polluion'
+  17  p(g) 'priser'
+  18  x(i,g) 'forbrug af vare g i husholdninger'
+  19  b(i,g)'minimumsforbrug'
+  20  L 'offforbrug'
+  21  exp(i) 'total expenditure'
+  22  supernum(i) 'supernumeraryincome'
+  23  alpha(i,g) 'marginal budget share'
+  24  ;
+  25   
+  26  *Eksogene variable
+  27  variables
+  28  T_total(i)
+  29  Gov_spdg;
+  30   
+  31  *Parametre
+  32   
+  33  parameters
+  34  abate 'copeland parameter'
+  35   
+  36   
+  37  phi(i) 'produktivitet i husholding i'
+  38  epsilon(g) 'forurening'
+  39  r 'CES parameter'
+  40  s 'elasticity of substitution'
+  41  tau_p 'co2-skat'
+  42  tau_w(i) 'wage tax'
+  43  ;
+  44   
+  45  equations
+  46  *FirmProd(g)
+  47  SUPERNUMeq(i)
+  48  HHFOC1(i,g)
+  49  *HHBudget(i)
+  50  ;
+  51   
+  52  *HHFOC1(i,g)$(ord(g) lt 8)..    p(g)*(x(i,g)-b(i,g))  =e= (alpha(i,g)/alpha(i,g+1))*((x(i,g+1)-b(i,g+1))*p(g+1));
+  53  SUPERNUMeq(i)..                     supernum(i) =e=  exp(i) - sum(g,p(g)*b(i,g));
+  54  HHFOC1(i,g)..         p(g)*x(i,g) =e= p(g)*b(i,g) + alpha(i,g)*supernum(i);
+  55  *HHBudget(i)..                       sum(g,p(g)*x(i,g)) =e= exp(i);
+  56   
+  57  ***********************************************************************************************************************
+  58  ************************************ Kalibrering **********************************************************************
+  59  ***********************************************************************************************************************
+  60   
+  61  *Parametre
+  62  abate=1;
+  63   
+  64   
+  65  Table alphas(i,g) "Alphaer"
+  66      1     2     3     4     5     6     7     8
+  67  1   0.008 0.032 0.131 0.105 0.03  0.231 0.291 0.172
+  68  2   0.039 0.081 0.104 0.029 0.025 0.276 0.244 0.202
+  69  3   0.034 0.067 0.122 0.122 0.025 0.244 0.169 0.217
+  70  4   0.029 0.037 0.11  0.068 0.018 0.207 0.286 0.244
+  71  5   0.028 0.036 0.072 0.112 0.03  0.241 0.293 0.188
+  72  ;
+  73   
+  74  alpha.l(i,g)=alphas(i,g)
+  75   
+  76  Table min_cons(i,g) "b'er"
+  77      1       2       3       4       5       6       7       8
+  78  1   10821   21847   42808   14298   2399    6665    19287   33753
+  79  2   11143   22634   53459   17990   4850    5361    34469   55109
+  80  3   13129   26875   64495   18501   6440    16588   38986   64683
+  81  4   15838   31219   76719   24004   8812    36676   51615   87761
+  82  5   14087   32069   99980   18914   8167    35575   40409   86531
+  83  ;
+  84  *** må justere 1,1 og 1,2 lidt ned, da de er højere end cons
+  85  min_cons("1","1") = 10100;
+  86  min_cons('1','2') = 21500;
+  87   
+  88  b.fx(i,g)=min_cons(i,g)/1000;
+  89   
+  90  display b.l;
+  91   
+  92  Table cons(i,g) "samlet forbrug"
+  93      1       2       3       4       5       6       7       8
+  94  1   10256   21605   53703   21172   4269    19137   32006   44053
+  95  2   11974   24952   60790   22313   5245    25933   39999   60168
+  96  3   15165   31208   76997   26468   8292    37151   52196   84311
+  97  4   16065   33840   82148   26185   10166   44085   61141   92510
+  98  5   17722   37644   115872  27160   10329   62408   85645   114118
+  99  ;
+ 100   
+ 101  x.fx(i,g) = cons(i,g)/1000;
+ 102  exp.fx(i) = sum(g,x.l(i,g));
+ 103  p.fx(g)=1;
+ 104  supernum.l(i) = exp.l(i)-sum(g,p.l(g)*b.l(i,g));
+ 105   
+ 106   
+ 107  Model calib /all/;
+ 108  Solve calib using cns;
+
+
+COMPILATION TIME     =        0.002 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:29:15 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----     90 VARIABLE b.L  minimumsforbrug
+
+            1           2           3           4           5           6           7           8
+
+1      10.100      21.500      42.808      14.298       2.399       6.665      19.287      33.753
+2      11.143      22.634      53.459      17.990       4.850       5.361      34.469      55.109
+3      13.129      26.875      64.495      18.501       6.440      16.588      38.986      64.683
+4      15.838      31.219      76.719      24.004       8.812      36.676      51.615      87.761
+5      14.087      32.069      99.980      18.914       8.167      35.575      40.409      86.531
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:29:15 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE calib Using CNS From line 108
+
+
+---- SUPERNUMeq  =E=  
+
+SUPERNUMeq(1)..  (10.1)*p(1) + (21.5)*p(2) + (42.808)*p(3) + (14.298)*p(4) + (2.399)*p(5) + (6.665)*p(6) + (19.287)*p(7) + (33.753)*p(8) + (1)*b(1,1) + (1)*b(1,2) + (1)*b(1,3) + (1)*b(1,4) + (1)*b(1,5) + (1)*b(1,6) + (1)*b(1,7) + (1)*b(1,8) - exp(1) + supernum(1) =E= 0 ; (LHS = 0)
+     
+SUPERNUMeq(2)..  (11.143)*p(1) + (22.634)*p(2) + (53.459)*p(3) + (17.99)*p(4) + (4.85)*p(5) + (5.361)*p(6) + (34.469)*p(7) + (55.109)*p(8) + (1)*b(2,1) + (1)*b(2,2) + (1)*b(2,3) + (1)*b(2,4) + (1)*b(2,5) + (1)*b(2,6) + (1)*b(2,7) + (1)*b(2,8) - exp(2) + supernum(2) =E= 0 ; (LHS = 0)
+     
+SUPERNUMeq(3)..  (13.129)*p(1) + (26.875)*p(2) + (64.495)*p(3) + (18.501)*p(4) + (6.44)*p(5) + (16.588)*p(6) + (38.986)*p(7) + (64.683)*p(8) + (1)*b(3,1) + (1)*b(3,2) + (1)*b(3,3) + (1)*b(3,4) + (1)*b(3,5) + (1)*b(3,6) + (1)*b(3,7) + (1)*b(3,8) - exp(3) + supernum(3) =E= 0 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- HHFOC1  =E=  
+
+HHFOC1(1,1)..  (0.156000000000001)*p(1) + (1)*x(1,1) - (1)*b(1,1) - (0.008)*supernum(1) - (55.391)*alpha(1,1) =E= 0 ; (LHS = -0.287127999999999, INFES = 0.287127999999999 ****)
+     
+HHFOC1(1,2)..  (0.105)*p(2) + (1)*x(1,2) - (1)*b(1,2) - (0.032)*supernum(1) - (55.391)*alpha(1,2) =E= 0 ; (LHS = -1.667512, INFES = 1.667512 ****)
+     
+HHFOC1(1,3)..  (10.895)*p(3) + (1)*x(1,3) - (1)*b(1,3) - (0.131)*supernum(1) - (55.391)*alpha(1,3) =E= 0 ; (LHS = 3.63877900000001, INFES = 3.63877900000001 ****)
+     
+REMAINING 37 ENTRIES SKIPPED
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:29:15 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE calib Using CNS From line 108
+
+
+---- p  priser
+
+p(1)
+                (.LO, .L, .UP, .M = 1, 1, 1, 0)
+      (10.1)    SUPERNUMeq(1)
+      (11.143)  SUPERNUMeq(2)
+      (13.129)  SUPERNUMeq(3)
+      (15.838)  SUPERNUMeq(4)
+      (14.087)  SUPERNUMeq(5)
+       (0.156)  HHFOC1(1,1)
+       (0.831)  HHFOC1(2,1)
+       (2.036)  HHFOC1(3,1)
+       (0.227)  HHFOC1(4,1)
+       (3.635)  HHFOC1(5,1)
+
+p(2)
+                (.LO, .L, .UP, .M = 1, 1, 1, 0)
+      (21.5)    SUPERNUMeq(1)
+      (22.634)  SUPERNUMeq(2)
+      (26.875)  SUPERNUMeq(3)
+      (31.219)  SUPERNUMeq(4)
+      (32.069)  SUPERNUMeq(5)
+       (0.105)  HHFOC1(1,2)
+       (2.318)  HHFOC1(2,2)
+       (4.333)  HHFOC1(3,2)
+       (2.621)  HHFOC1(4,2)
+       (5.575)  HHFOC1(5,2)
+
+p(3)
+                (.LO, .L, .UP, .M = 1, 1, 1, 0)
+      (42.808)  SUPERNUMeq(1)
+      (53.459)  SUPERNUMeq(2)
+      (64.495)  SUPERNUMeq(3)
+      (76.719)  SUPERNUMeq(4)
+      (99.98)   SUPERNUMeq(5)
+      (10.895)  HHFOC1(1,3)
+       (7.331)  HHFOC1(2,3)
+      (12.502)  HHFOC1(3,3)
+       (5.429)  HHFOC1(4,3)
+      (15.892)  HHFOC1(5,3)
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- x  forbrug af vare g i husholdninger
+
+x(1,1)
+                (.LO, .L, .UP, .M = 10.256, 10.256, 10.256, 0)
+       (1)      HHFOC1(1,1)
+
+x(1,2)
+                (.LO, .L, .UP, .M = 21.605, 21.605, 21.605, 0)
+       (1)      HHFOC1(1,2)
+
+x(1,3)
+                (.LO, .L, .UP, .M = 53.703, 53.703, 53.703, 0)
+       (1)      HHFOC1(1,3)
+
+REMAINING 37 ENTRIES SKIPPED
+
+---- b  minimumsforbrug
+
+b(1,1)
+                (.LO, .L, .UP, .M = 10.1, 10.1, 10.1, 0)
+       (1)      SUPERNUMeq(1)
+      (-1)      HHFOC1(1,1)
+
+b(1,2)
+                (.LO, .L, .UP, .M = 21.5, 21.5, 21.5, 0)
+       (1)      SUPERNUMeq(1)
+      (-1)      HHFOC1(1,2)
+
+b(1,3)
+                (.LO, .L, .UP, .M = 42.808, 42.808, 42.808, 0)
+       (1)      SUPERNUMeq(1)
+      (-1)      HHFOC1(1,3)
+
+REMAINING 37 ENTRIES SKIPPED
+
+---- exp  total expenditure
+
+exp(1)
+                (.LO, .L, .UP, .M = 206.201, 206.201, 206.201, 0)
+       -1       SUPERNUMeq(1)
+
+exp(2)
+                (.LO, .L, .UP, .M = 251.374, 251.374, 251.374, 0)
+       -1       SUPERNUMeq(2)
+
+exp(3)
+                (.LO, .L, .UP, .M = 331.788, 331.788, 331.788, 0)
+       -1       SUPERNUMeq(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- supernum  supernumeraryincome
+
+supernum(1)
+                (.LO, .L, .UP, .M = -INF, 55.391, +INF, 0)
+        1       SUPERNUMeq(1)
+      (-0.008)  HHFOC1(1,1)
+      (-0.032)  HHFOC1(1,2)
+      (-0.131)  HHFOC1(1,3)
+      (-0.105)  HHFOC1(1,4)
+      (-0.03)   HHFOC1(1,5)
+      (-0.231)  HHFOC1(1,6)
+      (-0.291)  HHFOC1(1,7)
+      (-0.172)  HHFOC1(1,8)
+
+supernum(2)
+                (.LO, .L, .UP, .M = -INF, 46.359, +INF, 0)
+        1       SUPERNUMeq(2)
+      (-0.039)  HHFOC1(2,1)
+      (-0.081)  HHFOC1(2,2)
+      (-0.104)  HHFOC1(2,3)
+      (-0.029)  HHFOC1(2,4)
+      (-0.025)  HHFOC1(2,5)
+      (-0.276)  HHFOC1(2,6)
+      (-0.244)  HHFOC1(2,7)
+      (-0.202)  HHFOC1(2,8)
+
+supernum(3)
+                (.LO, .L, .UP, .M = -INF, 82.091, +INF, 0)
+        1       SUPERNUMeq(3)
+      (-0.034)  HHFOC1(3,1)
+      (-0.067)  HHFOC1(3,2)
+      (-0.122)  HHFOC1(3,3)
+      (-0.122)  HHFOC1(3,4)
+      (-0.025)  HHFOC1(3,5)
+      (-0.244)  HHFOC1(3,6)
+      (-0.169)  HHFOC1(3,7)
+      (-0.217)  HHFOC1(3,8)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- alpha  marginal budget share
+
+alpha(1,1)
+                (.LO, .L, .UP, .M = -INF, 0.008, +INF, 0)
+     (-55.391)  HHFOC1(1,1)
+
+alpha(1,2)
+                (.LO, .L, .UP, .M = -INF, 0.032, +INF, 0)
+     (-55.391)  HHFOC1(1,2)
+
+alpha(1,3)
+                (.LO, .L, .UP, .M = -INF, 0.131, +INF, 0)
+     (-55.391)  HHFOC1(1,3)
+
+REMAINING 37 ENTRIES SKIPPED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:29:15 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE calib Using CNS From line 108
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           2     SINGLE EQUATIONS           45
+BLOCKS OF VARIABLES           6     SINGLE VARIABLES          138
+NON ZERO ELEMENTS           290     NON LINEAR N-Z            280
+DERIVATIVE POOL              20     CONSTANT POOL              16
+CODE LENGTH                 526
+SINGLE =E|X= EQUS            45     SINGLE UNFIXED VARS        45
+
+
+GENERATION TIME      =        0.006 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:29:15 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE calib Using CNS From line 108
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   calib               
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  108
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.009 10000000000.000
+ ITERATION COUNT, LIMIT         2    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   45
+                   Post-triangular equations:  0
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.009 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.000 =  0.0%
+ 
+
+---- EQU SUPERNUMeq  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+
+---- EQU HHFOC1  
+
+           LOWER          LEVEL          UPPER
+
+1.1          .              .              .          
+1.2          .              .              .          
+1.3          .              .              .          
+1.4          .              .              .          
+1.5          .              .              .          
+1.6          .              .              .          
+1.7          .              .              .          
+1.8          .              .              .          
+2.1          .              .              .          
+2.2          .              .              .          
+2.3          .              .              .          
+2.4          .              .              .          
+2.5          .              .              .          
+2.6          .              .              .          
+2.7          .              .              .          
+2.8          .              .              .          
+3.1          .              .              .          
+3.2          .              .              .          
+3.3          .              .              .          
+3.4          .              .              .          
+3.5          .              .              .          
+3.6          .              .              .          
+3.7          .              .              .          
+3.8          .              .              .          
+4.1          .              .              .          
+4.2          .              .              .          
+4.3          .              .              .          
+4.4          .              .              .          
+4.5          .              .              .          
+4.6          .              .              .          
+4.7          .              .              .          
+4.8          .              .              .          
+5.1          .              .              .          
+5.2          .              .              .          
+5.3          .              .              .          
+5.4          .              .              .          
+5.5          .              .              .          
+5.6          .              .              .          
+5.7          .              .              .          
+5.8          .              .              .          
+
+---- VAR p  priser
+
+         LOWER          LEVEL          UPPER
+
+1         1.0000         1.0000         1.0000      
+2         1.0000         1.0000         1.0000      
+3         1.0000         1.0000         1.0000      
+4         1.0000         1.0000         1.0000      
+5         1.0000         1.0000         1.0000      
+6         1.0000         1.0000         1.0000      
+7         1.0000         1.0000         1.0000      
+8         1.0000         1.0000         1.0000      
+
+---- VAR x  forbrug af vare g i husholdninger
+
+           LOWER          LEVEL          UPPER
+
+1.1        10.2560        10.2560        10.2560      
+1.2        21.6050        21.6050        21.6050      
+1.3        53.7030        53.7030        53.7030      
+1.4        21.1720        21.1720        21.1720      
+1.5         4.2690         4.2690         4.2690      
+1.6        19.1370        19.1370        19.1370      
+1.7        32.0060        32.0060        32.0060      
+1.8        44.0530        44.0530        44.0530      
+2.1        11.9740        11.9740        11.9740      
+2.2        24.9520        24.9520        24.9520      
+2.3        60.7900        60.7900        60.7900      
+2.4        22.3130        22.3130        22.3130      
+2.5         5.2450         5.2450         5.2450      
+2.6        25.9330        25.9330        25.9330      
+2.7        39.9990        39.9990        39.9990      
+2.8        60.1680        60.1680        60.1680      
+3.1        15.1650        15.1650        15.1650      
+3.2        31.2080        31.2080        31.2080      
+3.3        76.9970        76.9970        76.9970      
+3.4        26.4680        26.4680        26.4680      
+3.5         8.2920         8.2920         8.2920      
+3.6        37.1510        37.1510        37.1510      
+3.7        52.1960        52.1960        52.1960      
+3.8        84.3110        84.3110        84.3110      
+4.1        16.0650        16.0650        16.0650      
+4.2        33.8400        33.8400        33.8400      
+4.3        82.1480        82.1480        82.1480      
+4.4        26.1850        26.1850        26.1850      
+4.5        10.1660        10.1660        10.1660      
+4.6        44.0850        44.0850        44.0850      
+4.7        61.1410        61.1410        61.1410      
+4.8        92.5100        92.5100        92.5100      
+5.1        17.7220        17.7220        17.7220      
+5.2        37.6440        37.6440        37.6440      
+5.3       115.8720       115.8720       115.8720      
+5.4        27.1600        27.1600        27.1600      
+5.5        10.3290        10.3290        10.3290      
+5.6        62.4080        62.4080        62.4080      
+5.7        85.6450        85.6450        85.6450      
+5.8       114.1180       114.1180       114.1180      
+
+---- VAR b  minimumsforbrug
+
+           LOWER          LEVEL          UPPER
+
+1.1        10.1000        10.1000        10.1000      
+1.2        21.5000        21.5000        21.5000      
+1.3        42.8080        42.8080        42.8080      
+1.4        14.2980        14.2980        14.2980      
+1.5         2.3990         2.3990         2.3990      
+1.6         6.6650         6.6650         6.6650      
+1.7        19.2870        19.2870        19.2870      
+1.8        33.7530        33.7530        33.7530      
+2.1        11.1430        11.1430        11.1430      
+2.2        22.6340        22.6340        22.6340      
+2.3        53.4590        53.4590        53.4590      
+2.4        17.9900        17.9900        17.9900      
+2.5         4.8500         4.8500         4.8500      
+2.6         5.3610         5.3610         5.3610      
+2.7        34.4690        34.4690        34.4690      
+2.8        55.1090        55.1090        55.1090      
+3.1        13.1290        13.1290        13.1290      
+3.2        26.8750        26.8750        26.8750      
+3.3        64.4950        64.4950        64.4950      
+3.4        18.5010        18.5010        18.5010      
+3.5         6.4400         6.4400         6.4400      
+3.6        16.5880        16.5880        16.5880      
+3.7        38.9860        38.9860        38.9860      
+3.8        64.6830        64.6830        64.6830      
+4.1        15.8380        15.8380        15.8380      
+4.2        31.2190        31.2190        31.2190      
+4.3        76.7190        76.7190        76.7190      
+4.4        24.0040        24.0040        24.0040      
+4.5         8.8120         8.8120         8.8120      
+4.6        36.6760        36.6760        36.6760      
+4.7        51.6150        51.6150        51.6150      
+4.8        87.7610        87.7610        87.7610      
+5.1        14.0870        14.0870        14.0870      
+5.2        32.0690        32.0690        32.0690      
+5.3        99.9800        99.9800        99.9800      
+5.4        18.9140        18.9140        18.9140      
+5.5         8.1670         8.1670         8.1670      
+5.6        35.5750        35.5750        35.5750      
+5.7        40.4090        40.4090        40.4090      
+5.8        86.5310        86.5310        86.5310      
+
+---- VAR exp  total expenditure
+
+         LOWER          LEVEL          UPPER
+
+1       206.2010       206.2010       206.2010      
+2       251.3740       251.3740       251.3740      
+3       331.7880       331.7880       331.7880      
+4       366.1400       366.1400       366.1400      
+5       470.8980       470.8980       470.8980      
+
+---- VAR supernum  supernumeraryincome
+
+         LOWER          LEVEL          UPPER
+
+1        -INF           55.3910        +INF         
+2        -INF           46.3590        +INF         
+3        -INF           82.0910        +INF         
+4        -INF           33.4960        +INF         
+5        -INF          135.1660        +INF         
+
+---- VAR alpha  marginal budget share
+
+           LOWER          LEVEL          UPPER
+
+1.1        -INF            0.0028        +INF         
+1.2        -INF            0.0019        +INF         
+1.3        -INF            0.1967        +INF         
+1.4        -INF            0.1241        +INF         
+1.5        -INF            0.0338        +INF         
+1.6        -INF            0.2252        +INF         
+1.7        -INF            0.2296        +INF         
+1.8        -INF            0.1860        +INF         
+2.1        -INF            0.0179        +INF         
+2.2        -INF            0.0500        +INF         
+2.3        -INF            0.1581        +INF         
+2.4        -INF            0.0933        +INF         
+2.5        -INF            0.0085        +INF         
+2.6        -INF            0.4438        +INF         
+2.7        -INF            0.1193        +INF         
+2.8        -INF            0.1091        +INF         
+3.1        -INF            0.0248        +INF         
+3.2        -INF            0.0528        +INF         
+3.3        -INF            0.1523        +INF         
+3.4        -INF            0.0971        +INF         
+3.5        -INF            0.0226        +INF         
+3.6        -INF            0.2505        +INF         
+3.7        -INF            0.1609        +INF         
+3.8        -INF            0.2391        +INF         
+4.1        -INF            0.0068        +INF         
+4.2        -INF            0.0782        +INF         
+4.3        -INF            0.1621        +INF         
+4.4        -INF            0.0651        +INF         
+4.5        -INF            0.0404        +INF         
+4.6        -INF            0.2212        +INF         
+4.7        -INF            0.2844        +INF         
+4.8        -INF            0.1418        +INF         
+5.1        -INF            0.0269        +INF         
+5.2        -INF            0.0412        +INF         
+5.3        -INF            0.1176        +INF         
+5.4        -INF            0.0610        +INF         
+5.5        -INF            0.0160        +INF         
+5.6        -INF            0.1985        +INF         
+5.7        -INF            0.3347        +INF         
+5.8        -INF            0.2041        +INF         
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+                             9  PROJECTED
+
+
+EXECUTION TIME       =        0.059 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+
+
+USER: Course License                                 S210104/0001AO-GEN
+      University of Copenhagen, Department of Economics         DCE1064
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/calibrating bs.gms
+Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/calibrating bs.lst

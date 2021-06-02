@@ -1,4 +1,4 @@
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 15:17:57 Page 1
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:59:10 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -145,38 +145,728 @@ C o m p i l a t i o n
  140  *Kalibrering
  141  w.l=1;
  142  *T_total.fx(i)=24;
- 143  Gov_spdg.fx=50;
+ 143  Gov_spdg.fx=3;
  144  p.l(g)=1;
- 145  tau_p=2;
+ 145  tau_p=1.5;
  146   
- 147  F.l(g)  = sum(i,x.l(i,g);
-****                          $8
-****   8  ')' expected
+ 147  F.l(g)  = sum(i,x.l(i,g));
  148  T.l(g)  = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
  149  T_total.fx(i)=sum(g,T.l(g));
  150   
  151  z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
  152  L.l = (sum(g,tau_P*z.l(g)) + sum(i,tau_w(i)*phi(i)*w.l*T_total.l(i)) - Gov_spdg.l)/card(i);
  153   
- 154  Model Klenert /all/;
- 155   
- 156  Solve Klenert using cns;
-****                         $257
-**** 257  Solve statement not checked because of previous errors
- 157   
- 158  *Test om man kan hæve skatten - det kan man, og prisen på det forurenende gode stiger.
- 159  *tau_P=1;
- 160  *Solve Klenert using cns;
- 161   
- 162   
- 163  $offtext
-****         $216
-**** 216  No previous "ontext"
-
-**** 3 ERROR(S)   0 WARNING(S)
+ 154  ******
+ 155  *Checking calibration
+ 156  ******
+ 157  Parameters
+ 158  xtot_pre(g)
+ 159  xtot(g);
+ 160   
+ 161  xtot_pre(g)=sum(i, x.l(i,g));
+ 162  Model Klenert /all/;
+ 163   
+ 164  Solve Klenert using cns;
+ 165   
+ 166  xtot(g)=sum(i, x.l(i,g));
+ 167   
+       
+      Parameters
+      m(i) 'samlet forbrug til i'
+      p_0 'priser i basisforløb'
+      sigma(g) 'hjælpevariabel til EV-mål'
+      EVLES(i)  'EV-mål'
+      EVLESdivinc(i) 'EV/indkomst';
+       
+      m(i)=w.l*phi(i)*T_total.l(i)+L.l;
+      p_0(g)=p.l(g);
+      sigma(g)=p_0(g)/p.l(g);
+       
+      EVLES(i)= m(i)*(  prod(g,sigma(g)**alpha(i,g))-1  )+  sum(g,p_0(g)*b(i,g)) - prod(g,sigma(g)**alpha(i,g))*(sum(g,p.l(g)*b(i,g)));
+       
+      display EVLES;
+       
+      *Test om man kan hæve skatten - det kan man, og prisen på det forurenende gode stiger.
+      *lgie her kan man ikke hæve den for meget....
+      tau_P=2;
+      Solve Klenert using cns;
+       
+      m(i)=w.l*phi(i)*T_total.l(i)+L.l;
+      sigma(g)=p_0(g)/p.l(g);
+      EVLES(i)= m(i)*(  prod(g,sigma(g)**alpha(i,g))-1  )+  sum(g,p_0(g)*b(i,g)) - prod(g,sigma(g)**alpha(i,g))*(sum(g,p.l(g)*b(i,g)));
+       
+      EVLESdivinc(i) = EVLES(i)/m(i);
+      display EVLESdivinc;
+       
+       
+        
+       
 
 
 COMPILATION TIME     =        0.009 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:59:10 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----     98 PARAMETER b  minimumsforbrug
+
+            1           2           3           4           5           6           7           8
+
+1      10.100      21.500      42.808      14.298       2.399       6.665      19.287      33.753
+2      11.143      22.634      53.459      17.990       4.850       5.361      34.469      55.109
+3      13.129      26.875      64.495      18.501       6.440      16.588      38.986      64.683
+4      15.838      31.219      76.719      24.004       8.812      36.676      51.615      87.761
+5      14.087      32.069      99.980      18.914       8.167      35.575      40.409      86.531
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:59:10 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE Klenert Using CNS From line 164
+
+
+---- FirmFOC1  =E=  
+
+FirmFOC1(1)..  w + (0.029330104354743)*t(1) - (0.028096990812284)*F(1) - (1)*p(1) =E= 0 ; (LHS = 0)
+     
+FirmFOC1(2)..  w + (0.0143607759667213)*t(2) - (0.0134004247934659)*F(2) - (0.999999999999999)*p(2) =E= 0 ; (LHS = 0)
+     
+FirmFOC1(3)..  w + (0.00520003632058923)*t(3) - (0.00513465636312289)*F(3) - (0.999999999999999)*p(3) =E= 0 ; (LHS = 0)
+     
+REMAINING 5 ENTRIES SKIPPED
+
+
+---- FirmFOC2  =E=  
+
+FirmFOC2(1)..  - (0.042145486218426)*F(1) + (0.179907947164554)*z(1) - (1.5)*p(1) =E= -1.5 ; (LHS = -1.5)
+     
+FirmFOC2(2)..  - (0.0201006371901989)*F(2) + (0.0684698225547576)*z(2) - (1.5)*p(2) =E= -1.5 ; (LHS = -1.5)
+     
+FirmFOC2(3)..  - (0.00770198454468434)*F(3) + (0.0596737800389441)*z(3) - (1.5)*p(3) =E= -1.5 ; (LHS = -1.5)
+     
+REMAINING 5 ENTRIES SKIPPED
+
+
+---- NulProfit  =E=  
+
+NulProfit(1)..  (68.1893243818812)*w + (1)*t(1) - (1)*F(1) + 1.5*z(1) - (71.182)*p(1) =E= 0 ; (LHS = 22.0201160396285, INFES = 22.0201160396285 ****)
+     
+NulProfit(2)..  (139.268240423405)*w + (1)*t(2) - (1)*F(2) + 1.5*z(2) - (149.249)*p(2) =E= 0 ; (LHS = 55.7416248563598, INFES = 55.7416248563598 ****)
+     
+NulProfit(3)..  (384.612698200033)*w + (1)*t(3) - (1)*F(3) + 1.5*z(3) - (389.51)*p(3) =E= 0 ; (LHS = 70.5127023436157, INFES = 70.5127023436157 ****)
+     
+REMAINING 5 ENTRIES SKIPPED
+
+
+---- Copeland  =L=  
+
+Copeland(1)..  - t(1) + z(1) =L= 0 ; (LHS = -51.514129943383)
+     
+Copeland(2)..  - t(2) + z(2) =L= 0 ; (LHS = -95.4533174681013)
+     
+Copeland(3)..  - t(3) + z(3) =L= 0 ; (LHS = -334.339362104312)
+     
+REMAINING 5 ENTRIES SKIPPED
+
+
+---- TimeConstr  =E=  
+
+TimeConstr..  - t(1) - t(2) - t(3) - t(4) - t(5) - t(6) - t(7) - t(8) + 0.126784*T_total(1) + 0.154558*T_total(2) + 0.204001*T_total(3) + 0.225123*T_total(4) + 0.289534*T_total(5) =E= 0 ; (LHS = 0)
+     
+
+---- HHFOC1  =E=  
+
+HHFOC1(1,1)..  (0.156000000000001)*p(1) - (0.0262500000000001)*p(2) + (1)*x(1,1) - (0.25)*x(1,2) =E= 0 ; (LHS = 0.12975, INFES = 0.12975 ****)
+     
+HHFOC1(1,2)..  (0.105)*p(2) - (2.66137404580153)*p(3) + (1)*x(1,2) - (0.244274809160305)*x(1,3) =E= 0 ; (LHS = -2.55637404580153, INFES = 2.55637404580153 ****)
+     
+HHFOC1(1,3)..  (10.895)*p(3) - (8.57613333333333)*p(4) + (1)*x(1,3) - (1.24761904761905)*x(1,4) =E= 0 ; (LHS = 2.31886666666667, INFES = 2.31886666666667 ****)
+     
+REMAINING 32 ENTRIES SKIPPED
+
+
+---- HHBudget  =E=  
+
+HHBudget(1)..  - (196.919201479605)*w + (10.256)*p(1) + (21.605)*p(2) + (53.703)*p(3) + (21.172)*p(4) + (4.269)*p(5) + (19.137)*p(6) + (32.006)*p(7) + (44.053)*p(8) + (1)*x(1,1) + (1)*x(1,2) + (1)*x(1,3) + (1)*x(1,4) + (1)*x(1,5) + (1)*x(1,6) + (1)*x(1,7) + (1)*x(1,8) - L - (0.126784)*T_total(1) =E= 0 ; (LHS = -94.4963799518084, INFES = 94.4963799518084 ****)
+     
+HHBudget(2)..  - (240.057404264613)*w + (11.974)*p(1) + (24.952)*p(2) + (60.79)*p(3) + (22.313)*p(4) + (5.245)*p(5) + (25.933)*p(6) + (39.999)*p(7) + (60.168)*p(8) + (1)*x(2,1) + (1)*x(2,2) + (1)*x(2,3) + (1)*x(2,4) + (1)*x(2,5) + (1)*x(2,6) + (1)*x(2,7) + (1)*x(2,8) - L - (0.154558)*T_total(2) =E= 0 ; (LHS = -92.461582736817, INFES = 92.461582736817 ****)
+     
+HHBudget(3)..  - (316.851606046826)*w + (15.165)*p(1) + (31.208)*p(2) + (76.997)*p(3) + (26.468)*p(4) + (8.292)*p(5) + (37.151)*p(6) + (52.196)*p(7) + (84.311)*p(8) + (1)*x(3,1) + (1)*x(3,2) + (1)*x(3,3) + (1)*x(3,4) + (1)*x(3,5) + (1)*x(3,6) + (1)*x(3,7) + (1)*x(3,8) - L - (0.204001)*T_total(3) =E= 0 ; (LHS = -88.8417845190301, INFES = 88.8417845190301 ****)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+
+---- Lumpsum  =E=  
+
+Lumpsum..  - 1.5*z(1) - 1.5*z(2) - 1.5*z(3) - 1.5*z(4) - 1.5*z(5) - 1.5*z(6) - 1.5*z(7) - 1.5*z(8) + 5*L + Gov_spdg =E= 0 ; (LHS = 0)
+     
+
+---- Numeraire  =E=  
+
+Numeraire..  w =E= 1 ; (LHS = 1)
+     
+
+---- GenEq  =E=  
+
+GenEq(1)..  F(1) + (0.375)*p(1) - x(1,1) - x(2,1) - x(3,1) - x(4,1) - x(5,1) - (0.125)*Gov_spdg =E= 0 ; (LHS = -0.375, INFES = 0.375 ****)
+     
+GenEq(2)..  F(2) + (0.375)*p(2) - x(1,2) - x(2,2) - x(3,2) - x(4,2) - x(5,2) - (0.125)*Gov_spdg =E= 0 ; (LHS = -0.375, INFES = 0.375 ****)
+     
+GenEq(3)..  F(3) + (0.375)*p(3) - x(1,3) - x(2,3) - x(3,3) - x(4,3) - x(5,3) - (0.125)*Gov_spdg =E= 0 ; (LHS = -0.375, INFES = 0.375 ****)
+     
+REMAINING 4 ENTRIES SKIPPED
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:59:10 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE Klenert Using CNS From line 164
+
+
+---- w  loen
+
+w
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+        1       FirmFOC1(1)
+        1       FirmFOC1(2)
+        1       FirmFOC1(3)
+        1       FirmFOC1(4)
+        1       FirmFOC1(5)
+        1       FirmFOC1(6)
+        1       FirmFOC1(7)
+        1       FirmFOC1(8)
+      (68.1893) NulProfit(1)
+     (139.2682) NulProfit(2)
+     (384.6127) NulProfit(3)
+      (95.3824) NulProfit(4)
+      (36.0217) NulProfit(5)
+     (177.7226) NulProfit(6)
+     (263.7645) NulProfit(7)
+     (388.2251) NulProfit(8)
+    (-196.9192) HHBudget(1)
+    (-240.0574) HHBudget(2)
+    (-316.8516) HHBudget(3)
+    (-349.658)  HHBudget(4)
+    (-449.7003) HHBudget(5)
+        1       Numeraire
+
+
+---- t  labour input
+
+t(1)
+                (.LO, .L, .UP, .M = -INF, 68.1893243818812, +INF, 0)
+       (0.0293) FirmFOC1(1)
+       (1)      NulProfit(1)
+       -1       Copeland(1)
+       -1       TimeConstr
+
+t(2)
+                (.LO, .L, .UP, .M = -INF, 139.268240423405, +INF, 0)
+       (0.0144) FirmFOC1(2)
+       (1)      NulProfit(2)
+       -1       Copeland(2)
+       -1       TimeConstr
+
+t(3)
+                (.LO, .L, .UP, .M = -INF, 384.612698200033, +INF, 0)
+       (0.0052) FirmFOC1(3)
+       (1)      NulProfit(3)
+       -1       Copeland(3)
+       -1       TimeConstr
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- F  produktion
+
+F(1)
+                (.LO, .L, .UP, .M = -INF, 71.182, +INF, 0)
+      (-0.0281) FirmFOC1(1)
+      (-0.0421) FirmFOC2(1)
+      (-1)      NulProfit(1)
+        1       GenEq(1)
+
+F(2)
+                (.LO, .L, .UP, .M = -INF, 149.249, +INF, 0)
+      (-0.0134) FirmFOC1(2)
+      (-0.0201) FirmFOC2(2)
+      (-1)      NulProfit(2)
+        1       GenEq(2)
+
+F(3)
+                (.LO, .L, .UP, .M = -INF, 389.51, +INF, 0)
+      (-0.0051) FirmFOC1(3)
+      (-0.0077) FirmFOC2(3)
+      (-1)      NulProfit(3)
+        1       GenEq(3)
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- z  polluion
+
+z(1)
+                (.LO, .L, .UP, .M = -INF, 16.6751944384982, +INF, 0)
+       (0.1799) FirmFOC2(1)
+        1.5     NulProfit(1)
+        1       Copeland(1)
+       -1.5     Lumpsum
+
+z(2)
+                (.LO, .L, .UP, .M = -INF, 43.8149229553034, +INF, 0)
+       (0.0685) FirmFOC2(2)
+        1.5     NulProfit(2)
+        1       Copeland(2)
+       -1.5     Lumpsum
+
+z(3)
+                (.LO, .L, .UP, .M = -INF, 50.2733360957216, +INF, 0)
+       (0.0597) FirmFOC2(3)
+        1.5     NulProfit(3)
+        1       Copeland(3)
+       -1.5     Lumpsum
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- p  priser
+
+p(1)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (-1)      FirmFOC1(1)
+      (-1.5)    FirmFOC2(1)
+     (-71.182)  NulProfit(1)
+       (0.156)  HHFOC1(1,1)
+       (0.831)  HHFOC1(2,1)
+       (2.036)  HHFOC1(3,1)
+       (0.227)  HHFOC1(4,1)
+       (3.635)  HHFOC1(5,1)
+      (10.256)  HHBudget(1)
+      (11.974)  HHBudget(2)
+      (15.165)  HHBudget(3)
+      (16.065)  HHBudget(4)
+      (17.722)  HHBudget(5)
+       (0.375)  GenEq(1)
+
+p(2)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (-1)      FirmFOC1(2)
+      (-1.5)    FirmFOC2(2)
+    (-149.249)  NulProfit(2)
+      (-0.0263) HHFOC1(1,1)
+       (0.105)  HHFOC1(1,2)
+      (-1.1161) HHFOC1(2,1)
+       (2.318)  HHFOC1(2,2)
+      (-2.1988) HHFOC1(3,1)
+       (4.333)  HHFOC1(3,2)
+      (-2.0543) HHFOC1(4,1)
+       (2.621)  HHFOC1(4,2)
+      (-4.3361) HHFOC1(5,1)
+       (5.575)  HHFOC1(5,2)
+      (21.605)  HHBudget(1)
+      (24.952)  HHBudget(2)
+      (31.208)  HHBudget(3)
+      (33.84)   HHBudget(4)
+      (37.644)  HHBudget(5)
+       (0.375)  GenEq(2)
+
+p(3)
+                (.LO, .L, .UP, .M = -INF, 1, +INF, 0)
+      (-1)      FirmFOC1(3)
+      (-1.5)    FirmFOC2(3)
+    (-389.51)   NulProfit(3)
+      (-2.6614) HHFOC1(1,2)
+      (10.895)  HHFOC1(1,3)
+      (-5.7097) HHFOC1(2,2)
+       (7.331)  HHFOC1(2,3)
+      (-6.8659) HHFOC1(3,2)
+      (12.502)  HHFOC1(3,3)
+      (-1.8261) HHFOC1(4,2)
+       (5.429)  HHFOC1(4,3)
+      (-7.946)  HHFOC1(5,2)
+      (15.892)  HHFOC1(5,3)
+      (53.703)  HHBudget(1)
+      (60.79)   HHBudget(2)
+      (76.997)  HHBudget(3)
+      (82.148)  HHBudget(4)
+     (115.872)  HHBudget(5)
+       (0.375)  GenEq(3)
+
+REMAINING 5 ENTRIES SKIPPED
+
+---- x  forbrug af vare g i husholdninger
+
+x(1,1)
+                (.LO, .L, .UP, .M = -INF, 10.256, +INF, 0)
+       (1)      HHFOC1(1,1)
+       (1)      HHBudget(1)
+       -1       GenEq(1)
+
+x(1,2)
+                (.LO, .L, .UP, .M = -INF, 21.605, +INF, 0)
+      (-0.25)   HHFOC1(1,1)
+       (1)      HHFOC1(1,2)
+       (1)      HHBudget(1)
+       -1       GenEq(2)
+
+x(1,3)
+                (.LO, .L, .UP, .M = -INF, 53.703, +INF, 0)
+      (-0.2443) HHFOC1(1,2)
+       (1)      HHFOC1(1,3)
+       (1)      HHBudget(1)
+       -1       GenEq(3)
+
+REMAINING 37 ENTRIES SKIPPED
+
+---- L  offforbrug
+
+L
+                (.LO, .L, .UP, .M = -INF, 103.778178472204, +INF, 0)
+       -1       HHBudget(1)
+       -1       HHBudget(2)
+       -1       HHBudget(3)
+       -1       HHBudget(4)
+       -1       HHBudget(5)
+        5       Lumpsum
+
+
+---- T_total  
+
+T_total(1)
+                (.LO, .L, .UP, .M = 1553.18653362889, 1553.18653362889, 1553.18653362889, 0)
+        0.1268  TimeConstr
+      (-0.1268) HHBudget(1)
+
+T_total(2)
+                (.LO, .L, .UP, .M = 1553.18653362889, 1553.18653362889, 1553.18653362889, 0)
+        0.1546  TimeConstr
+      (-0.1546) HHBudget(2)
+
+T_total(3)
+                (.LO, .L, .UP, .M = 1553.18653362889, 1553.18653362889, 1553.18653362889, 0)
+        0.204   TimeConstr
+      (-0.204)  HHBudget(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- Gov_spdg  
+
+Gov_spdg
+                (.LO, .L, .UP, .M = 3, 3, 3, 0)
+        1       Lumpsum
+      (-0.125)  GenEq(1)
+      (-0.125)  GenEq(2)
+      (-0.125)  GenEq(3)
+      (-0.125)  GenEq(4)
+      (-0.125)  GenEq(5)
+      (-0.125)  GenEq(6)
+      (-0.125)  GenEq(7)
+
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:59:10 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE Klenert Using CNS From line 164
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS          10     SINGLE EQUATIONS           82
+BLOCKS OF VARIABLES           9     SINGLE VARIABLES           80
+NON ZERO ELEMENTS           427     NON LINEAR N-Z            324
+DERIVATIVE POOL              20     CONSTANT POOL             111
+CODE LENGTH                 827
+SINGLE =E|X= EQUS            74     SINGLE UNFIXED VARS        74
+
+
+GENERATION TIME      =        0.006 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:59:10 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE Klenert Using CNS From line 164
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   Klenert             
+     TYPE    CNS                 
+     SOLVER  CONOPT              FROM LINE  164
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      16 Solved                   
+
+ RESOURCE USAGE, LIMIT          0.023 10000000000.000
+ ITERATION COUNT, LIMIT        13    2147483647
+ EVALUATION ERRORS              0             0
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+                   Pre-triangular equations:   1
+                   Post-triangular equations:  0
+ 
+ 
+ ** Feasible solution to a square system.
+ 
+ 
+ CONOPT time Total                            0.020 seconds
+   of which: Function evaluations             0.000 =  0.0%
+             1st Derivative evaluations       0.001 =  5.0%
+ 
+
+---- EQU FirmFOC1  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+6          .              .              .          
+7          .              .              .          
+8          .              .              .          
+
+---- EQU FirmFOC2  
+
+         LOWER          LEVEL          UPPER
+
+1        -1.5000        -1.5000        -1.5000      
+2        -1.5000        -1.5000        -1.5000      
+3        -1.5000        -1.5000        -1.5000      
+4        -1.5000        -1.5000        -1.5000      
+5        -1.5000        -1.5000        -1.5000      
+6        -1.5000        -1.5000        -1.5000      
+7        -1.5000        -1.5000        -1.5000      
+8        -1.5000        -1.5000        -1.5000      
+
+---- EQU NulProfit  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+6          .              .              .          
+7          .              .              .          
+8          .              .              .          
+
+---- EQU Copeland  
+
+         LOWER          LEVEL          UPPER
+
+1        -INF          -60.8305          .          
+2        -INF         -118.7641          .          
+3        -INF         -343.9821          .          
+4        -INF          -37.9466          .          
+5        -INF          -28.4152          .          
+6        -INF          -94.3942          .          
+7        -INF         -183.5295          .          
+8        -INF         -328.1076          .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU TimeConstr          .              .              .          
+
+---- EQU HHFOC1  
+
+           LOWER          LEVEL          UPPER
+
+1.1          .              .              .          
+1.2          .              .              .          
+1.3          .              .              .          
+1.4          .              .              .          
+1.5          .              .              .          
+1.6          .              .              .          
+1.7          .              .              .          
+2.1          .              .              .          
+2.2          .              .              .          
+2.3          .              .              .          
+2.4          .              .              .          
+2.5          .              .              .          
+2.6          .              .              .          
+2.7          .              .              .          
+3.1          .              .              .          
+3.2          .              .              .          
+3.3          .              .              .          
+3.4          .              .              .          
+3.5          .              .              .          
+3.6          .              .              .          
+3.7          .              .              .          
+4.1          .              .              .          
+4.2          .              .              .          
+4.3          .              .              .          
+4.4          .              .              .          
+4.5          .              .              .          
+4.6          .              .              .          
+4.7          .              .              .          
+5.1          .              .              .          
+5.2          .              .              .          
+5.3          .              .              .          
+5.4          .              .              .          
+5.5          .              .              .          
+5.6          .              .              .          
+5.7          .              .              .          
+
+---- EQU HHBudget  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- EQU Lumpsum             .              .              .          
+---- EQU Numeraire          1.0000         1.0000         1.0000      
+
+---- EQU GenEq  
+
+         LOWER          LEVEL          UPPER
+
+1          .              .              .          
+2          .              .              .          
+3          .              .              .          
+4          .              .              .          
+5          .              .              .          
+6          .              .              .          
+7          .              .              .          
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR w                 -INF            1.0000        +INF         
+
+  w  loen
+
+---- VAR t  labour input
+
+         LOWER          LEVEL          UPPER
+
+1        -INF           80.5214        +INF         
+2        -INF          173.2792        +INF         
+3        -INF          395.7054        +INF         
+4        -INF          114.5826        +INF         
+5        -INF           40.3063        +INF         
+6        -INF          133.2437        +INF         
+7        -INF          227.2471        +INF         
+8        -INF          388.3008        +INF         
+
+---- VAR F  produktion
+
+         LOWER          LEVEL          UPPER
+
+1        -INF           64.1963        +INF         
+2        -INF          135.2020        +INF         
+3        -INF          339.3176        +INF         
+4        -INF           95.5786        +INF         
+5        -INF           31.5893        +INF         
+6        -INF          104.5218        +INF         
+7        -INF          186.1466        +INF         
+8        -INF          326.4008        +INF         
+
+---- VAR z  polluion
+
+         LOWER          LEVEL          UPPER
+
+1        -INF           19.6909        +INF         
+2        -INF           54.5150        +INF         
+3        -INF           51.7233        +INF         
+4        -INF           76.6360        +INF         
+5        -INF           11.8911        +INF         
+6        -INF           38.8494        +INF         
+7        -INF           43.7176        +INF         
+8        -INF           60.1932        +INF         
+
+---- VAR p  priser
+
+         LOWER          LEVEL          UPPER
+
+1        -INF            1.7144        +INF         
+2        -INF            1.8864        +INF         
+3        -INF            1.3948        +INF         
+4        -INF            2.4015        +INF         
+5        -INF            1.8406        +INF         
+6        -INF            1.8323        +INF         
+7        -INF            1.5731        +INF         
+8        -INF            1.4663        +INF         
+
+---- VAR x  forbrug af vare g i husholdninger
+
+           LOWER          LEVEL          UPPER
+
+1.1        -INF           10.3571        +INF         
+1.2        -INF           22.4347        +INF         
+1.3        -INF           47.9833        +INF         
+1.4        -INF           16.7072        +INF         
+1.5        -INF            3.2971        +INF         
+1.6        -INF           13.6119        +INF         
+1.7        -INF           29.4805        +INF         
+1.8        -INF           40.2170        +INF         
+2.1        -INF           11.4450        +INF         
+2.2        -INF           23.2040        +INF         
+2.3        -INF           54.4487        +INF         
+2.4        -INF           18.1503        +INF         
+2.5        -INF            5.0303        +INF         
+2.6        -INF            7.3604        +INF         
+2.7        -INF           36.5279        +INF         
+2.8        -INF           56.9377        +INF         
+3.1        -INF           13.4741        +INF         
+3.2        -INF           27.4930        +INF         
+3.3        -INF           66.0170        +INF         
+3.4        -INF           19.3850        +INF         
+3.5        -INF            6.6763        +INF         
+3.6        -INF           18.9052        +INF         
+3.7        -INF           40.8554        +INF         
+3.8        -INF           67.2582        +INF         
+4.1        -INF           14.3517        +INF         
+4.2        -INF           29.4957        +INF         
+4.3        -INF           69.7898        +INF         
+4.4        -INF           21.5161        +INF         
+4.5        -INF            7.9527        +INF         
+4.6        -INF           26.7498        +INF         
+4.7        -INF           35.6405        +INF         
+4.8        -INF           73.1396        +INF         
+5.1        -INF           14.3496        +INF         
+5.2        -INF           32.3758        +INF         
+5.3        -INF          100.8100        +INF         
+5.4        -INF           19.6639        +INF         
+5.5        -INF            8.4291        +INF         
+5.6        -INF           37.6898        +INF         
+5.7        -INF           43.4038        +INF         
+5.8        -INF           88.5926        +INF         
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR L                 -INF          106.5650        +INF         
+
+  L  offforbrug
+
+---- VAR T_total  
+
+         LOWER          LEVEL          UPPER
+
+1      1553.1865      1553.1865      1553.1865      
+2      1553.1865      1553.1865      1553.1865      
+3      1553.1865      1553.1865      1553.1865      
+4      1553.1865      1553.1865      1553.1865      
+5      1553.1865      1553.1865      1553.1865      
+
+                           LOWER          LEVEL          UPPER
+
+---- VAR Gov_spdg           3.0000         3.0000         3.0000      
+
+
+**** REPORT SUMMARY :        0 INFEASIBLE
+                             0  DEPENDENT
+                             0     ERRORS
+                            73  PROJECTED
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/28/21 15:59:10 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.137 SECONDS      4 MB  32.2.0 rc62c018 DEX-DEG
 
 
 USER: Course License                                 S210104/0001AO-GEN
@@ -188,5 +878,3 @@ USER: Course License                                 S210104/0001AO-GEN
 
 Input      /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Klenert_Model_8x5.gms
 Output     /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Klenert_Model_8x5.lst
-
-**** USER ERROR(S) ENCOUNTERED

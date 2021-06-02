@@ -250,6 +250,7 @@ sigma(f)=p_0(f)/(p.l(f)+tau(f));
 
 EVLES(hh)= m(hh)*(prod(f,sigma(f)**alpha.l(f,hh))-1)+sum(f,p_0(f)*mu.l(f)) - prod(f,sigma(f)**alpha.l(f,hh))*(sum(f,(p.l(f)+tau(f))*mu.l(f)));
 
+
 output('tax','X',hh,f)=X.l(hh,f);
 output('tax','Xrel',hh,f)=[X.l(hh,f)-output('base','X',hh,f)]/output('base','X',hh,f);
 output2('tax','U',hh)=prod(f,[X.l(hh,f)-mu.l(f)]**alpha.l(f,hh));

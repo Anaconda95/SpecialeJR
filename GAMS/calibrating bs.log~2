@@ -1,0 +1,31 @@
+--- Job calibrating bs.gms Start 05/28/21 15:28:17 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/calibrating bs.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/225b/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- calibrating bs.gms(108) 3 Mb
+--- Starting execution: elapsed 0:00:00.004
+--- calibrating bs.gms(104) 4 Mb
+--- Generating CNS model calib
+--- calibrating bs.gms(108) 6 Mb
+---   45 rows  133 columns  350 non-zeroes
+---   601 nl-code  335 nl-non-zeroes
+--- calibrating bs.gms(108) 4 Mb 1 Error
+*** SOLVE aborted
+--- calibrating bs.gms(108) 4 Mb 1 Error
+*** Status: Execution error(s)
+--- Job calibrating bs.gms Stop 05/28/21 15:28:17 elapsed 0:00:00.012

@@ -11,10 +11,16 @@
 ################ ?ndre datas?ttet #############################
 df_kvintiler <- list(kvint_1,kvint_2,kvint_3,kvint_4,kvint_5, df_h)  ###
 ###############################################################
-b_min <- c()
-forbrug <- c()
-solutions <- list()
+rnams_kvinttab <- c("Meat and dairy","Other foods","Housing","Energy for housing",
+                    "Energy for transport","Transport","Other goods","Other services")
+cnams_kvinttab <- c("1", "2", "3", "4", "5", "Avg.")
 
+kvinttab_alpha  = matrix(nrow=n,ncol=6) #5+1 kvintiler
+rownames(kvinttab_alpha) <- rnams_kvinttab
+colnames(kvinttab_alpha) <- cnams_kvinttab
+kvinttab_b2019   = kvinttab_alpha
+kvinttab_actual2019   = kvinttab_alpha
+kvinttab_pred2019= kvinttab_alpha
 
 for (dfdf in 1:length(df_kvintiler) ) {
   
@@ -32,7 +38,7 @@ for (dfdf in 1:length(df_kvintiler) ) {
                        p5 = priser$Pris.ene_tra,
                        p6 = priser$Pris.tra,
                        p7 = priser$Pris.ovr_var,
-                       p8 = priser$Pris.tra
+                       p8 = priser$Pris.ovr_tje
   ) 
   #shares findes som forbrug i løbende priser/samlet forbrug af de otte varer.
   df     <- transform( df,
@@ -67,13 +73,14 @@ for (dfdf in 1:length(df_kvintiler) ) {
                        x5 = df$ene_tra      /priser$Pris.ene_tra,
                        x6 = df$tra          /priser$Pris.tra,
                        x7 = df$ovr_var      /priser$Pris.ovr_var,
-                       x8 = df$ovr_tje      /priser$Pris.tra 
+                       x8 = df$ovr_tje      /priser$Pris.ovr_tje 
   )
   
   #Datasættet sættes op i 'pæne' matricer.
   w = matrix(c(df$w1,df$w2,df$w3,df$w4,df$w5,df$w6,df$w7,df$w8),  nrow=26, ncol=8)
   phat = matrix(c(df$phat1,df$phat2,df$phat3,df$phat4,df$phat5,df$phat6,df$phat7,df$phat8), nrow=26, ncol=8)
   x = matrix(c(df$x1,df$x2,df$x3,df$x4,df$x5,df$x6,df$x7,df$x8), nrow=26, ncol=8)
+  p = matrix(c(df$p1,df$p2,df$p3,df$p4,df$p5,df$p6,df$p7,df$p8), nrow=26, ncol=8)
   
   #x og phat skaleres. X er forbrug i faste priser. Det er for at få bedre konvergens når der optimeres. Uklart
   # om det stadig er et problem
@@ -85,11 +92,9 @@ for (dfdf in 1:length(df_kvintiler) ) {
   n=dims[2]
   
   
-  ############################ Finder startv?rdier for optimeringsproblemet ##################################
-  
+  # Startværdier ----------------    
   #Løser ligningssystem, så gamma'erne afspejler de ønskede alphaer startværdier
   #Sæt ønskede alpha fx lig budgetandele i sidste periode. gamma_n er lig 0.
-  # Her har vi valgt startv?rdier p? 0.5 for AR, bstar og habit, samt en lav startv?rdi for timetrend og en h?j startvrdi for autocorrelation. 
   gammafn <- function(par,alpha_goal) {
     return(  sum((alpha_goal - exp(par)/(1+sum(exp(par))) )^2)    )
   }
@@ -98,7 +103,6 @@ for (dfdf in 1:length(df_kvintiler) ) {
   gamma_start <- c(gammasol$par,0)
   
   #sætter startværdier for bstar: her z pct. af det mindste forbrug over årene af en given vare i fastepriser
-  
   b_start <- 0.7*apply(x, 2, min) # b skal fortolkes som 10.000 2015-kroner.
   
   a <- w[T,1:(n)]  #igen, a er en logit
@@ -110,28 +114,14 @@ for (dfdf in 1:length(df_kvintiler) ) {
   uhat <- u[ ,1:(n-1)]
   #find invers af cov(uhat) - jf. Peters note
   covar <- cov(uhat)
-  #covar=t(chol(covar))%*%chol(covar)
-  #cholcovar <- chol(covar)
-  #covar_start <- c(cholcovar)
   covar_start <- covar[lower.tri(covar,diag=TRUE)]
   
   habit=rep(0.5,n)
   AR = rep(0.5,n)
   timetrend=rep(0.01,n)
   autocorr <- 0.9
-  
-  start_1 = c(gamma_start[1:(n-1)], b_start, covar_start)
-  start_2 = c(gamma_start[1:(n-1)], b_start, covar_start, autocorr)
-  start_3 = c(gamma_start[1:(n-1)], b_start, timetrend, covar_start)
-  start_4 = c(gamma_start[1:(n-1)], b_start, timetrend, covar_start, autocorr)
-  start_5 = c(gamma_start[1:(n-1)], b_start, habit, covar_start)
-  start_6 = c(gamma_start[1:(n-1)], b_start, habit, covar_start, autocorr)
-  start_7 = c(gamma_start[1:(n-1)], AR, habit, covar_start, autocorr)
-  start_8 = c(gamma_start[1:(n-1)], AR, habit, covar_start, autocorr)
-  
-  
-  
-  
+
+  start_7 = c(gamma_start[1:(n-1)], AR, sqrt(habit), covar_start)
   ##############  K?r den foretrukne model ##########
   sol <-  optim(par = start_7, fn = loglik, model=7, 
                  phat=phat, w=w, x=x, method="BFGS",
@@ -143,7 +133,9 @@ for (dfdf in 1:length(df_kvintiler) ) {
   
   solutions = rbind(solutions,sol)
   
-  
+  #Udregner minimumsforbruget for alle perioder.
+  sol_gamma <- c(sol$par[1:(n-1)],0)
+  alpha_sol <- exp(sol_gamma)/sum(exp(sol_gamma))
   ######
   beta1_sol7 = sol$par[(2*n):(3*n-1)]**2
   beta2_sol7 = sol$par[n:(2*n-1)]
@@ -177,77 +169,24 @@ for (dfdf in 1:length(df_kvintiler) ) {
   
   b_min[[dfdf]] = sol_b_mat_7
   forbrug[[dfdf]] =x*10000
+  mu=df$ialt
+  supernum=mu-rowSums(p*sol_b_mat_7)
+  
+  for (g in 1:n){
+    kvinttab_alpha[(g),dfdf]               =alpha_sol[g]
+    kvinttab_b2019[(g),dfdf]               = p[26,g]*sol_b_mat_7[26,g]
+    kvinttab_actual2019[(g),dfdf]          = p[26,g]*x[26,g]*10000
+    kvinttab_pred2019[(g),dfdf]            = p[26,g]*sol_b_mat_7[26,g] + alpha_sol[g]*(supernum[26])
+  }
 
 }
 
-b_min1 = b_min[[1]]
-b_min2 = b_min[[2]]
-b_min3 = b_min[[3]]
-b_min4 = b_min[[4]]
-b_min5 = b_min[[5]]
+kvinttab_alpha
+kvinttab_b2019
+kvinttab_actual2019
+kvinttab_pred2019
+alphanam<-rep("alpha",6)
+output <- rbind(kvinttab_alpha,kvinttab_b2019,kvinttab_actual2019,kvinttab_pred2019)
 
-forbrug1 = forbrug[[1]]
-forbrug2 = forbrug[[2]]
-forbrug3 = forbrug[[3]]
-forbrug4 = forbrug[[4]]
-forbrug5 = forbrug[[5]]
-
-b_min2019 <- b_min1[26,]
-b_min2019 <- rbind(b_min2019, b_min2[26,])
-b_min2019 <- rbind(b_min2019, b_min3[26,])
-b_min2019 <- rbind(b_min2019, b_min4[26,])
-b_min2019 <- rbind(b_min2019, b_min5[26,])
-
-forbrug2019 <- forbrug1[26,]
-forbrug2019 <- rbind(forbrug2019,forbrug2[26,])
-forbrug2019 <- rbind(forbrug2019,forbrug3[26,])
-forbrug2019 <- rbind(forbrug2019,forbrug4[26,])
-forbrug2019 <- rbind(forbrug2019,forbrug5[26,])
-
-write.csv(b_min2019, "C:/specialeJR/MODELLEN/b_min2019.csv" )
-write.csv(forbrug2019, "C:/specialeJR/MODELLEN/forbrug2019.csv" )
-
-write.csv(b_min1, "C:/specialeJR/MODELLEN/b_min1" )
-write.csv(b_min2, "C:/specialeJR/MODELLEN/b_min2" )
-write.csv(b_min3, "C:/specialeJR/MODELLEN/b_min3" )
-write.csv(b_min4, "C:/specialeJR/MODELLEN/b_min4" )
-write.csv(b_min5, "C:/specialeJR/MODELLEN/b_min5" )
-
-write.csv(forbrug1, "C:/specialeJR/MODELLEN/forbrug1" )
-write.csv(forbrug2, "C:/specialeJR/MODELLEN/forbrug2" )
-write.csv(forbrug3, "C:/specialeJR/MODELLEN/forbrug3" )
-write.csv(forbrug4, "C:/specialeJR/MODELLEN/forbrug4" )
-write.csv(forbrug5, "C:/specialeJR/MODELLEN/forbrug5" )
-
-x*10000
-sol_kvint1 = solutions[[1]]
-sol_kvint2 = solutions[[2]]
-sol_kvint3 = solutions[[3]]
-sol_kvint4 = solutions[[4]]
-sol_kvint5 = solutions[[5]]
-
-sol_gamma_1 <- c(sol_kvint1[1:(n-1)],0)
-sol_gamma_2 <- c(sol_kvint2[1:(n-1)],0)
-sol_gamma_3 <- c(sol_kvint3[1:(n-1)],0)
-sol_gamma_4 <- c(sol_kvint4[1:(n-1)],0)
-sol_gamma_5 <- c(sol_kvint5[1:(n-1)],0)
-
-beta2_sol_1 <- sol_kvint1[n:(2*n-1)]
-beta2_sol_2 <- sol_kvint2[n:(2*n-1)]
-beta2_sol_3 <- sol_kvint3[n:(2*n-1)]
-beta2_sol_4 <- sol_kvint4[n:(2*n-1)]
-beta2_sol_5 <- sol_kvint5[n:(2*n-1)]
-  
-alpha_sol_1 <- exp(sol_gamma_1)/sum(exp(sol_gamma_1))
-alpha_sol_2 <- exp(sol_gamma_1)/sum(exp(sol_gamma_2))
-alpha_sol_3 <- exp(sol_gamma_1)/sum(exp(sol_gamma_3))
-alpha_sol_4 <- exp(sol_gamma_1)/sum(exp(sol_gamma_4))
-alpha_sol_5 <- exp(sol_gamma_1)/sum(exp(sol_gamma_5))
-
-beta_sol_1 <- sol_kvint1[(2*n):(3*n-1)]**2
-beta_sol_2 <- sol_kvint2[(2*n):(3*n-1)]**2
-beta_sol_3 <- sol_kvint3[(2*n):(3*n-1)]**2
-beta_sol_4 <- sol_kvint4[(2*n):(3*n-1)]**2
-beta_sol_5 <- sol_kvint5[(2*n):(3*n-1)]**2
-
-
+write.xlsx(output, "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /MODELLEN/Resultater til modelbrug/output.xlsx", sheetName = "Modelresultater", 
+           col.names = TRUE, row.names = TRUE, append = FALSE)

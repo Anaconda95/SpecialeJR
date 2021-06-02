@@ -48,13 +48,19 @@ df_7 <-read.csv("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /PRISDATA DST/
 df_8 <-read.csv("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /PRISDATA DST/v8_decil_8.csv",sep=',')
 df_9 <-read.csv("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /PRISDATA DST/v8_decil_9.csv",sep=',')
 df_10<-read.csv("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /PRISDATA DST/v8_decil_10.csv",sep=',')
-
+disp_indk <- read.xlsx("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Data/Disponibel indkomst tidsserie.xlsx",1)
 #Lav kvintiler
 kvint_1 <- (df_1+df_2)/2
 kvint_2 <- (df_3+df_4)/2
 kvint_3 <- (df_5+df_6)/2
 kvint_4 <- (df_7+df_8)/2
 kvint_5 <- (df_9+df_10)/2
+indk_forb_kvint <- data.frame(Year=c(1994:2019), Dispk1=(disp_indk$X1..decil+disp_indk$X2..decil)/2,
+                                                 Dispk2=(disp_indk$X3..decil+disp_indk$X4..decil)/2,
+                                                 Dispk3=(disp_indk$X5..decil+disp_indk$X6..decil)/2,
+                                                 Dispk4=(disp_indk$X7..decil+disp_indk$X8..decil)/2,
+                                                 Dispk5=(disp_indk$X9..decil+disp_indk$X10..decil)/2,
+                  Forbk1=kvint_1$ialt, Forbk2=kvint_2$ialt, Forbk3=kvint_3$ialt, Forbk4=kvint_4$ialt, Forbk5=kvint_5$ialt    )
 
 #INDLÆSER DATA: JULIE
 

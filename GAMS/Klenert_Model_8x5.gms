@@ -140,24 +140,61 @@ r    = 1-1/s;
 *Kalibrering
 w.l=1;
 *T_total.fx(i)=24;
-Gov_spdg.fx=50;
+Gov_spdg.fx=3;
 p.l(g)=1;
-tau_p=2;
+tau_p=1.5;
 
-F.l(g)  = sum(i,x.l(i,g);
+F.l(g)  = sum(i,x.l(i,g));
 T.l(g)  = ( w.l/ ( epsilon(g)*F.l(g)**(1-r)*p.l(g) ))**(1/(r-1));
 T_total.fx(i)=sum(g,T.l(g));
 
 z.l(g) = (tau_p/((1-epsilon(g))*F.l(g)**(1-r)*p.l(g)))**(1/(r-1));
 L.l = (sum(g,tau_P*z.l(g)) + sum(i,tau_w(i)*phi(i)*w.l*T_total.l(i)) - Gov_spdg.l)/card(i);
 
+******
+*Checking calibration
+******
+Parameters
+xtot_pre(g)
+xtot(g);
+
+xtot_pre(g)=sum(i, x.l(i,g));
 Model Klenert /all/;
 
 Solve Klenert using cns;
 
+xtot(g)=sum(i, x.l(i,g));
+
+$ontext  
+
+Parameters
+m(i) 'samlet forbrug til i'
+p_0 'priser i basisforløb'
+sigma(g) 'hjælpevariabel til EV-mål'
+EVLES(i)  'EV-mål'
+EVLESdivinc(i) 'EV/indkomst';
+
+m(i)=w.l*phi(i)*T_total.l(i)+L.l;
+p_0(g)=p.l(g);
+sigma(g)=p_0(g)/p.l(g);
+
+EVLES(i)= m(i)*(  prod(g,sigma(g)**alpha(i,g))-1  )+  sum(g,p_0(g)*b(i,g)) - prod(g,sigma(g)**alpha(i,g))*(sum(g,p.l(g)*b(i,g)));
+
+display EVLES;
+
 *Test om man kan hæve skatten - det kan man, og prisen på det forurenende gode stiger.
-*tau_P=1;
-*Solve Klenert using cns;
-        
+*lgie her kan man ikke hæve den for meget....
+tau_P=2;
+Solve Klenert using cns;
+
+m(i)=w.l*phi(i)*T_total.l(i)+L.l;
+sigma(g)=p_0(g)/p.l(g);
+EVLES(i)= m(i)*(  prod(g,sigma(g)**alpha(i,g))-1  )+  sum(g,p_0(g)*b(i,g)) - prod(g,sigma(g)**alpha(i,g))*(sum(g,p.l(g)*b(i,g)));
+
+EVLESdivinc(i) = EVLES(i)/m(i);
+display EVLESdivinc;
+
+
+  
 
 $offtext
