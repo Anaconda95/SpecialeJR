@@ -1,0 +1,981 @@
+cls; close*; clear;
+
+%xls_sti      = 'tabeller.xlsm';           // Excel-sti
+
+%base = '2030grund'; // sti til base bank
+%alt  = '2_3_ingenCCS'; // sti til alternativ bank
+open %base as base;
+open %alt as alt;
+
+//kvælstof
+OPTION series array calc missing = zero;
+
+Prod_redu = -(alt:Y['01000a']/base:Y['01000a']-1)*165000;
+//Sættes til nul ved kun CO2-afgift
+tiltag_redu $ (alt:CO2eTax_dummyIE['01000a','N2O'] > 0.9) = 10 * alt:KBtot['01000a'][2016]* ((base:co2emlf['01000a'][2016]/base:KBtot['01000a'][2016])-(alt:co2emlf['01000a'][2016]/alt:KBtot['01000a'][2016]));
+
+
+tot_redu = Prod_redu+tiltag_redu;
+value_redu1 = 0;
+value_redu2 = 0;
+value_redu3 = 0;
+value_redu4 = 0;
+value_redu1 $ (tot_redu[2016] < 165000*0.1)  = tot_redu[2016] * 0.8;
+value_redu2 $ (tot_redu[2016] > 165000*0.1)  = 165000*0.1 * (0.8-0.2) + tot_redu[2016] * 0.2;
+value_redu3 $ (tot_redu[2016] > 165000*0.25) = 165000*0.1 * (0.8-0.2) + tot_redu[2016] * 0.2;
+value_redu4 $ (tot_redu[2016] > 165000*0.25) = 165000*0.1 * (0.8-0.2) + 165000*0.25 * 0.2;
+value_redu = value_redu1+value_redu2-value_redu3+value_redu4;
+rela_redu = value_redu/tot_redu;
+samf_value = value_redu*60/1000;
+
+sheet <2016 2016 cell='b2' sheet='kvaelstof' names='NO' dates='NO' append='YES' colors='no'>
+ Prod_redu, tiltag_redu, tot_redu, rela_redu, value_redu,samf_value
+ File={%xls_sti};
+ 
+//luftforurening
+luft_IE_Prod_redu = -sum((#j,#udled_type), (alt:Y[#j]/base:Y[#j]-1)*base:Ieudled[#j,#udled_type]*Enhedsp_IkkeE[#j,#udled_type] * 10**(-6));
+//Sættes til nul ved kun CO2-afgift
+tiltag_redu_a $ (alt:CO2eTax_dummyIE['01000a','N2O'] > 0.9) = 1 * alt:KBtot['01000a'][2016]* ((base:co2emlf['01000a'][2016]/base:KBtot['01000a'][2016])-(alt:co2emlf['01000a'][2016]/alt:KBtot['01000a'][2016]));
+tiltag_redu_b $ (alt:CO2eTax_dummyIE['01000b','CH4']*alt:CO2Etax > 1333) = 1943*alt:Y['01000b']/base:Y['01000b'];
+tiltag_redu_c $ (alt:CO2eTax_dummyIE['01000c','CH4']*alt:CO2Etax > 586)  = 2550*alt:Y['01000c']/base:Y['01000c'];
+
+luft_HH = sum((#kilder,#udled_type), base:EVAir_HH[#kilder,#udled_type]-alt:EVAir_HH[#kilder,#udled_type]);
+luft_E  = sum((#j,#kilder,#udled_type), base:EVAir_E[#j,#kilder,#udled_type]-alt:EVAir_E[#j,#kilder,#udled_type]);
+luft_IE_tiltag = (tiltag_redu_a+tiltag_redu_b+tiltag_redu_c) * alt:Enhedsp_IkkeE['01000a','NH3'] * 10**(-6);
+
+EV_luft = luft_HH + luft_E + luft_IE_Prod_redu + luft_IE_tiltag;
+
+sheet <2016 2016 cell='b2' sheet='luft' names='NO' dates='NO' append='YES' colors='no'>
+ EV_luft*1000, luft_HH*1000, luft_E*1000, luft_IE_Prod_redu*1000, luft_IE_tiltag*1000 
+ File={%xls_sti};
+
+//goto slut;
+
+//Makrotabel
+skat = alt:co2etax;
+Reduk = -(alt:co2eDK-base:co2eDK)/1000;
+netInd = alt:Nettoindkomst-base:Nettoindkomst;
+Pris = (base:PCH['c']/alt:PCH['c']-1)*alt:Nettoindkomst;
+fri = base:disnytte-alt:disnytte*base:PCH['c']/alt:PCH['c'];
+EVmodel = netInd + Pris + fri;
+luft = base:EVairTot-alt:EVairTot;
+Kvael = base:EVNudled-alt:EVNudled;
+//luft = EV_luft;
+//Kvael = samf_value/1000;
+EVtot = netInd + Pris + fri + luft + Kvael;
+EV_Y = EVtot/alt:GDP*100;
+BVT = alt:BVTf0Tot-base:BVTf0Tot;
+BVTrela = (alt:BVTf0Tot/base:BVTf0Tot-1)*100;
+C = alt:Ctot-base:Ctot;
+Crela = (alt:Ctot[2016]/base:Ctot[2016]-1)*100;
+Lump = (alt:Lump-alt:Lump0)-(base:Lump-base:Lump0);
+t_w = alt:t_w*100-base:t_w*100;
+pc = (alt:PCH['c']/base:PCH['c']-1);
+w = alt:w/base:w-1;
+rw = ((1-alt:t_w)*alt:w/alt:PCH['c'])/((1-base:t_w)*base:w/base:PCH['c'])-1;
+hour = alt:hour[2016]/base:hour[2016]-1;
+//V = sum(#j,alt:V[#j])-sum(#j,base:V[#j]);
+V = sum(#j,alt:V[#j])-alt:V['060000a']-alt:V['060000b']-(sum(#j,base:V[#j])-base:V['060000a']-base:V['060000b']);
+Vrela = ((sum(#j,alt:V[#j])-alt:V['060000a']-alt:V['060000b'])/(sum(#j,base:V[#j])-base:V['060000a']-base:V['060000b'])-1)*100;
+Formue = alt:wealth-base:wealth;
+Formuerela = (alt:wealth/base:wealth-1)*100;
+Lon = sum(#j, alt:w*alt:L[#j]) * (1-alt:t_w) - sum(#j, base:w*base:L[#j]) * (1-base:t_w);
+Overf = (( alt:N_LabForce- alt:N_Emp)* alt:rateComp* alt:w +  alt:Trans) * (1- alt:t_w) +  alt:lumpsum*base:N_Pop
+      -(((base:N_LabForce-base:N_Emp)*base:rateComp*base:w + base:Trans) * (1-base:t_w) + base:lumpsum*base:N_Pop);
+Kapafk = ( alt:r- alt:grow)* alt:Wealth/(1+ alt:grow) * (1- alt:t_r) - (base:r-base:grow)*base:Wealth/(1+base:grow) * (1-base:t_r);
+BoP_lob = sum(#i, alt:P_Ex[#i]* alt:Ex[#i] -  alt:PF[#i]*(sum(#j,  alt:xF[#j,#i]) +  alt:ExF[#i] +  alt:cF[#i] + sum(#j,  alt:IBIF[#j,#i] +  alt:IMIF[#j,#i]) +  alt:ILF[#i] +  alt:gF[#i]))  -  alt:TaxEU
+        -(sum(#i,base:P_Ex[#i]*base:Ex[#i] - base:PF[#i]*(sum(#j, base:xF[#j,#i]) + base:ExF[#i] + base:cF[#i] + sum(#j, base:IBIF[#j,#i] + base:IMIF[#j,#i]) + base:ILF[#i] + base:gF[#i]))  - base:TaxEU);
+eksp    = sum(#i, alt:P_Ex[#i]* alt:Ex[#i])-sum(#i,base:P_Ex[#i]*base:Ex[#i]);
+eksp_f0 = sum(#i,base:P_Ex[#i]* alt:Ex[#i])-sum(#i,base:P_Ex[#i]*base:Ex[#i]);
+Imp     = sum(#i,  alt:PF[#i]*(sum(#j,  alt:xF[#j,#i]) +  alt:ExF[#i] +  alt:cF[#i] + sum(#j,  alt:IBIF[#j,#i] +  alt:IMIF[#j,#i]) +  alt:ILF[#i] +  alt:gF[#i]))
+         -sum(#i, base:PF[#i]*(sum(#j, base:xF[#j,#i]) + base:ExF[#i] + base:cF[#i] + sum(#j, base:IBIF[#j,#i] + base:IMIF[#j,#i]) + base:ILF[#i] + base:gF[#i]));
+
+
+
+//sheet <2016 2016 cell='b2' sheet='Makro' names='NO' dates='NO' append='YES' colors='no'>
+// skat,Reduk,netind,pris,fri,EVmodel,luft
+// File={%xls_sti};
+//sheet <2016 2016 cell='b12' sheet='Makro' names='NO' dates='NO' append='YES' colors='no'>
+// BVT,BVTrela,C,Crela,Lump,t_w,pc,w,rw,hour,V,Vrela,Formue,Formuerela,Lon,Overf,Kapafk,BoP_lob,eksp,eksp_f0,Imp
+// File={%xls_sti};
+//sheet <2016 2016 cell='d11' sheet='Makro' names='NO' dates='NO' append='YES' colors='no'>
+// alt:GDP
+// File={%xls_sti};
+
+sheet <2016 2016 cell='b2' sheet='Makro' names='NO' dates='NO' append='YES' colors='no'>
+ skat,Reduk,netind,pris,fri,EVmodel,luft,kvael,EVtot,EV_Y,BVT,BVTrela,C,Crela,Lump,t_w,pc,w,rw,hour,V,Vrela,Formue,Formuerela,Lon,Overf,Kapafk,BoP_lob,eksp,eksp_f0,Imp
+ File={%xls_sti};
+
+// Offentlige finanser
+Indk = base:TRw;
+Kap = base:TRcap;
+sel = base:TRcor;
+afg = base:TRAfgifter;
+prod = base:TRprod;
+Indt = Indk+Kap+sel+afg+prod;
+
+off = base:Gval;
+Over = base:Overf;
+Lump = base:Lump;
+Udg = off+over+lump;
+
+CO2Eskat = sum((#j,#kilder,#udled_type), base:TR_Eudled[#j,#kilder,#udled_type]) 
+         + sum((#kilder,#udled_type), base:TR_EudledHH[#kilder,#udled_type]) 
+         + sum((#j,#udled_type), base:TR_Ieudled[#j,#udled_type]);
+CO2skat = sum((#j,#kilder), base:TR_Eudled[#j,#kilder,'CO2']) 
+        + sum((#kilder), base:TR_EudledHH[#kilder,'CO2']) 
+        + sum((#j), base:TR_Ieudled[#j,'CO2']);
+fradrag = sum(#j, base:Subs_Y[#j]);
+BECCS = sum((#part,#j),base:NegaUdled[#part,#j]*base:s_CCS[#part,#j]*10**(-6)); 
+Drivhus = CO2Eskat-fradrag-BECCS;
+
+elproces = sum(#j, base:Subs_KEel[#j]); 
+eltransVirk = sum(#j,base:Subs_TTE[#j]);
+eltransHus = 0;
+redukLand = base:Subs_KB['01000a']+base:Subs_KB['01000b']+base:Subs_KB['01000c']+base:Subs_KB['01000d']; 
+redukCreno = base:Subs_KB['230020']+base:Subs_KB['383900']; 
+
+sheet <2016 2016 cell='b2' sheet='off.finans' names='NO' dates='NO' append='YES' colors='no'>
+ Indt,Indk,Kap,sel,afg,prod,udg,off,over,lump,Drivhus,CO2skat,CO2Eskat-CO2skat,fradrag,BECCS,elproces,eltransVirk,eltransHus,redukLand,redukCreno
+ File={%xls_sti};
+
+
+
+Indk = alt:TRw;
+Kap = alt:TRcap;
+sel = alt:TRcor;
+afg = alt:TRAfgifter;
+prod = alt:TRprod;
+Indt = Indk+Kap+sel+afg+prod;
+
+off = alt:Gval;
+Over = alt:Overf;
+Lump = alt:Lump;
+Udg = off+over+lump;
+
+CO2Eskat = sum((#j,#kilder,#udled_type), alt:TR_Eudled[#j,#kilder,#udled_type]) 
+         + sum((#kilder,#udled_type), alt:TR_EudledHH[#kilder,#udled_type]) 
+         + sum((#j,#udled_type), alt:TR_Ieudled[#j,#udled_type]);
+CO2skat = sum((#j,#kilder), alt:TR_Eudled[#j,#kilder,'CO2']) 
+        + sum((#kilder), alt:TR_EudledHH[#kilder,'CO2']) 
+        + sum((#j), alt:TR_Ieudled[#j,'CO2']);
+fradrag = sum(#j, alt:Subs_Y[#j]);
+BECCS = sum((#part,#j),alt:NegaUdled[#part,#j]*alt:s_CCS[#part,#j]*10**(-6)); 
+Drivhus = CO2Eskat-fradrag-BECCS;
+
+elproces = sum(#j, alt:Subs_KEel[#j]); 
+eltransVirk = sum(#j,alt:Subs_TTE[#j]);
+eltransHus = 0;
+redukLand = alt:Subs_KB['01000a']+alt:Subs_KB['01000b']+alt:Subs_KB['01000c']+alt:Subs_KB['01000d']; 
+redukCreno = alt:Subs_KB['230020']+alt:Subs_KB['383900']; 
+
+sheet <2016 2016 cell='c2' sheet='off.finans' names='NO' dates='NO' append='YES' colors='no'>
+ Indt,Indk,Kap,sel,afg,prod,udg,off,over,lump,Drivhus,CO2skat,CO2Eskat-CO2skat,fradrag,BECCS,elproces,eltransVirk,eltransHus,redukLand,redukCreno
+ File={%xls_sti};
+
+//goto slut;
+
+
+//Sammensætningseffekter
+
+dY = series(1);
+YL = series(1);
+DivY = series(1);
+dDivY = series(1);
+
+dY[#j] = alt:P[#j][2016]*alt:Y[#j][2016]-base:P[#j][2016]*base:Y[#j][2016];
+YL[#j] = alt:Y[#j][2016]/alt:L[#j][2016];
+YLavgBase = sum(#j,base:Y[#j])/sum(#j,base:L[#j]);
+YLavgAlt = sum(#j,alt:Y[#j])/sum(#j,alt:L[#j]);
+DivY[#j] = alt:Div[#j][2016]/(alt:P[#j][2016]*alt:Y[#j][2016]);
+DivYavgBase = (sum(#j,Base:Div[#j])-Base:Div['060000a']-Base:Div['060000b'])/sum(#j,Base:P[#j]*Base:Y[#j]);
+DivYavgAlt = (sum(#j,alt:Div[#j])-alt:Div['060000a']-alt:Div['060000b'])/sum(#j,alt:P[#j]*alt:Y[#j]);
+dDivY[#j] = alt:Div[#j][2016]-base:Div[#j][2016]*alt:P[#j][2016]*alt:Y[#j][2016]/(base:P[#j][2016]*base:Y[#j][2016]);
+
+
+
+sheet <2016 2016 cell='a1' sheet='FIG_sammen1' cols='no' names='yes' dates='NO' append='YES' colors='no'>
+ dY, YL, YLavgBase, YLavgalt 
+ File={%xls_sti};
+ 
+ sheet <2016 2016 cell='a1' sheet='FIG_sammen2' cols='no' names='yes' dates='NO' append='YES' colors='no'>
+  dY, DivY, DivYavgBase, DivYavgalt 
+ File={%xls_sti};
+ 
+
+Sammen1 = sum(#j,alt:Y[#j]*base:L[#j]/alt:L[#j])/sum(#j,base:Y[#j])-1;
+Sammen2 = alt:hour[2016]/base:hour[2016]-1;
+Sammen3 = (sum(#j, alt:P[#j]*alt:Y[#j])/sum(#j,alt:Y[#j])/(sum(#j, base:P[#j]*base:Y[#j])/sum(#j,base:Y[#j]))-1);
+SammenA = YLavgAlt/YLavgBase-1-Sammen1;
+SammenB = DivYavgAlt/DivYavgBase-1;
+SammenC = (sum(#j, dDivY[#j]) - dDivY['060000a'] - dDivY['060000b'])/sum(#j,alt:DIV[#j]);
+
+ sheet <2016 2016 cell='b2' sheet='sammen_tabel' names='no' dates='NO' append='YES' colors='no'>
+  Sammen1*100, Sammen2*100, Sammen3*100, SammenA*100, SammenB*100, SammenC*100 
+ File={%xls_sti}; 
+ 
+ sheet <2016 2016 cell='f2' sheet='sammen_tabel' cols='no' names='yes' dates='NO' append='YES' colors='no'>
+  dDivY
+ File={%xls_sti};  
+ 
+ //goto slut;
+
+
+
+
+
+
+
+
+//Niveautabel fo aggregerede brancher
+#landbrug = ('01000a','01000b','01000c','01000d',);
+#mad =('100010a','100010b','100010c','100020','100030','100040','100050','11200',);
+#forsyning = ('080090','190000a','190000b','350010a','350010b','350020a','350020b','350030a','350030b','36700','383900',);
+#Nord = ('060000a','060000b',);
+#industri = ('industri','160000','200010','200020','210000','220000','230010','230020','240000','250000','280010','280020',);
+#PriTjeneste = ('45000','460000','470000','490012','490030a','490030b','50000a','50000b','51000a','51000b','52000','53000','550000','560000','Tjenester','Boliger','79000',);
+#OffTjeneste = ('Offentlig',);
+#Ovrig = ('020000','030000','410009','420000','43000',);
+
+BVT_Tot = sum(#j, base:BVTf0[#j]);
+Produktion_Tot = sum(#j, base:Y[#j]);
+arbkraft_Tot = sum(#j, base:L[#j]);
+P_Tot = sum(#j, base:P[#j]*base:Y[#j])/sum(#j, base:Y[#j]);
+V_Tot = sum(#j, base:V[#j]);
+CO2e_Tot = sum(#j, base:CO2e[#j]) - base:CO2BogD['50000b'] - base:CO2BogD['51000b'] - base:CO2BogD['490030b'];
+CO2eBVT_tot = CO2e_tot/BVT_tot;
+BVT_landbrug = sum(#landbrug, base:BVTf0[#landbrug]);
+Produktion_landbrug = sum(#landbrug, base:Y[#landbrug]);
+arbkraft_landbrug = sum(#landbrug, base:L[#landbrug]);
+P_landbrug = sum(#landbrug, base:P[#landbrug]*base:Y[#landbrug])/sum(#landbrug, base:Y[#landbrug]);
+V_landbrug = sum(#landbrug, base:V[#landbrug]);
+CO2e_landbrug = sum(#landbrug, base:CO2e[#landbrug]);
+CO2eBVT_landbrug = CO2e_landbrug/BVT_landbrug;
+BVT_mad = sum(#mad, base:BVTf0[#mad]);
+Produktion_mad = sum(#mad, base:Y[#mad]);
+arbkraft_mad = sum(#mad, base:L[#mad]);
+P_mad = sum(#mad, base:P[#mad]*base:Y[#mad])/sum(#mad, base:Y[#mad]);
+V_mad = sum(#mad, base:V[#mad]);
+CO2e_mad = sum(#mad, base:CO2e[#mad]);
+CO2eBVT_mad = CO2e_mad/BVT_mad;
+BVT_forsyning = sum(#forsyning, base:BVTf0[#forsyning]);
+Produktion_forsyning = sum(#forsyning, base:Y[#forsyning]);
+arbkraft_forsyning = sum(#forsyning, base:L[#forsyning]);
+P_forsyning = sum(#forsyning, base:P[#forsyning]*base:Y[#forsyning])/sum(#forsyning, base:Y[#forsyning]);
+V_forsyning = sum(#forsyning, base:V[#forsyning]);
+CO2e_forsyning = sum(#forsyning, base:CO2e[#forsyning]);
+CO2eBVT_forsyning = CO2e_forsyning/BVT_forsyning;
+BVT_Nord = sum(#Nord, base:BVTf0[#Nord]);
+Produktion_Nord = sum(#Nord, base:Y[#Nord]);
+arbkraft_Nord = sum(#Nord, base:L[#Nord]);
+P_Nord = sum(#Nord, base:P[#Nord]*base:Y[#Nord])/sum(#Nord, base:Y[#Nord]);
+V_Nord = sum(#Nord, base:V[#Nord]);
+CO2e_Nord = sum(#Nord, base:CO2e[#Nord]);
+CO2eBVT_Nord = CO2e_Nord/BVT_Nord;
+BVT_industri = sum(#industri, base:BVTf0[#industri]);
+Produktion_industri = sum(#industri, base:Y[#industri]);
+arbkraft_industri = sum(#industri, base:L[#industri]);
+P_industri = sum(#industri, base:P[#industri]*base:Y[#industri])/sum(#industri, base:Y[#industri]);
+V_industri = sum(#industri, base:V[#industri]);
+CO2e_industri = sum(#industri, base:CO2e[#industri]);
+CO2eBVT_industri = CO2e_industri/BVT_industri;
+BVT_PriTjeneste = sum(#PriTjeneste, base:BVTf0[#PriTjeneste]);
+Produktion_PriTjeneste = sum(#PriTjeneste, base:Y[#PriTjeneste]);
+arbkraft_PriTjeneste = sum(#PriTjeneste, base:L[#PriTjeneste]);
+P_PriTjeneste = sum(#PriTjeneste, base:P[#PriTjeneste]*base:Y[#PriTjeneste])/sum(#PriTjeneste, base:Y[#PriTjeneste]);
+V_PriTjeneste = sum(#PriTjeneste, base:V[#PriTjeneste]);
+CO2e_PriTjeneste = sum(#PriTjeneste, base:CO2e[#PriTjeneste]) - base:CO2BogD['50000b'] - base:CO2BogD['51000b'] - base:CO2BogD['490030b'];
+CO2eBVT_PriTjeneste = CO2e_PriTjeneste/BVT_PriTjeneste;
+BVT_OffTjeneste = sum(#OffTjeneste, base:BVTf0[#OffTjeneste]);
+Produktion_OffTjeneste = sum(#OffTjeneste, base:Y[#OffTjeneste]);
+arbkraft_OffTjeneste = sum(#OffTjeneste, base:L[#OffTjeneste]);
+P_OffTjeneste = sum(#OffTjeneste, base:P[#OffTjeneste]*base:Y[#OffTjeneste])/sum(#OffTjeneste, base:Y[#OffTjeneste]);
+V_OffTjeneste = sum(#OffTjeneste, base:V[#OffTjeneste]);
+CO2e_OffTjeneste = sum(#OffTjeneste, base:CO2e[#OffTjeneste]);
+CO2eBVT_OffTjeneste = CO2e_OffTjeneste/BVT_OffTjeneste;
+BVT_Ovrig = sum(#Ovrig, base:BVTf0[#Ovrig]);
+Produktion_Ovrig = sum(#Ovrig, base:Y[#Ovrig]);
+arbkraft_Ovrig = sum(#Ovrig, base:L[#Ovrig]);
+P_Ovrig = sum(#Ovrig, base:P[#Ovrig]*base:Y[#Ovrig])/sum(#Ovrig, base:Y[#Ovrig]);
+V_Ovrig = sum(#Ovrig, base:V[#Ovrig]);
+CO2e_Ovrig = sum(#Ovrig, base:CO2e[#Ovrig]);
+CO2eBVT_Ovrig = CO2e_Ovrig/BVT_Ovrig;
+
+sheet <2016 2016 cell='c2' sheet='Makro_branche' names='NO' dates='NO' append='YES' colors='no'>
+BVT_Tot, Produktion_Tot, arbkraft_Tot, P_Tot, V_Tot, CO2e_tot, CO2eBVT_Tot,
+BVT_landbrug, Produktion_landbrug, arbkraft_landbrug, P_landbrug,V_landbrug, CO2e_landbrug, CO2eBVT_landbrug,
+BVT_mad, Produktion_mad, arbkraft_mad, P_mad,V_mad, CO2e_mad, CO2eBVT_mad,
+BVT_forsyning, Produktion_forsyning, arbkraft_forsyning, P_forsyning,V_forsyning, CO2e_forsyning, CO2eBVT_forsyning,
+BVT_Nord, Produktion_Nord, arbkraft_Nord, P_Nord,V_Nord, CO2e_Nord, CO2eBVT_Nord,
+BVT_industri, Produktion_industri, arbkraft_industri, P_industri,V_industri, CO2e_industri, CO2eBVT_industri,
+BVT_PriTjeneste, Produktion_PriTjeneste, arbkraft_PriTjeneste, P_PriTjeneste,V_PriTjeneste, CO2e_PriTjeneste, CO2eBVT_PriTjeneste,
+BVT_OffTjeneste, Produktion_OffTjeneste, arbkraft_OffTjeneste, P_OffTjeneste,V_OffTjeneste, CO2e_OffTjeneste, CO2eBVT_OffTjeneste,
+BVT_Ovrig, Produktion_Ovrig, arbkraft_Ovrig, P_Ovrig, V_Ovrig, CO2e_Ovrig, CO2eBVT_Ovrig
+ File={%xls_sti};
+
+
+BVT_Tot = sum(#j, alt:BVTf0[#j]);
+Produktion_Tot = sum(#j, alt:Y[#j]);
+arbkraft_Tot = sum(#j, alt:L[#j]);
+P_Tot = sum(#j, alt:P[#j]*alt:Y[#j])/sum(#j, alt:Y[#j]);
+V_Tot = sum(#j, alt:V[#j]);
+CO2e_Tot = sum(#j, alt:CO2e[#j]) - alt:CO2BogD['50000b'] - alt:CO2BogD['51000b'] - alt:CO2BogD['490030b'];
+CO2eBVT_tot = CO2e_tot/BVT_tot;
+BVT_landbrug = sum(#landbrug, alt:BVTf0[#landbrug]);
+Produktion_landbrug = sum(#landbrug, alt:Y[#landbrug]);
+arbkraft_landbrug = sum(#landbrug, alt:L[#landbrug]);
+P_landbrug = sum(#landbrug, alt:P[#landbrug]*alt:Y[#landbrug])/sum(#landbrug, alt:Y[#landbrug]);
+V_landbrug = sum(#landbrug, alt:V[#landbrug]);
+CO2e_landbrug = sum(#landbrug, alt:CO2e[#landbrug]);
+CO2eBVT_landbrug = CO2e_landbrug/BVT_landbrug;
+BVT_mad = sum(#mad, alt:BVTf0[#mad]);
+Produktion_mad = sum(#mad, alt:Y[#mad]);
+arbkraft_mad = sum(#mad, alt:L[#mad]);
+P_mad = sum(#mad, alt:P[#mad]*alt:Y[#mad])/sum(#mad, alt:Y[#mad]);
+V_mad = sum(#mad, alt:V[#mad]);
+CO2e_mad = sum(#mad, alt:CO2e[#mad]);
+CO2eBVT_mad = CO2e_mad/BVT_mad;
+BVT_forsyning = sum(#forsyning, alt:BVTf0[#forsyning]);
+Produktion_forsyning = sum(#forsyning, alt:Y[#forsyning]);
+arbkraft_forsyning = sum(#forsyning, alt:L[#forsyning]);
+P_forsyning = sum(#forsyning, alt:P[#forsyning]*alt:Y[#forsyning])/sum(#forsyning, alt:Y[#forsyning]);
+V_forsyning = sum(#forsyning, alt:V[#forsyning]);
+CO2e_forsyning = sum(#forsyning, alt:CO2e[#forsyning]);
+CO2eBVT_forsyning = CO2e_forsyning/BVT_forsyning;
+BVT_Nord = sum(#Nord, alt:BVTf0[#Nord]);
+Produktion_Nord = sum(#Nord, alt:Y[#Nord]);
+arbkraft_Nord = sum(#Nord, alt:L[#Nord]);
+P_Nord = sum(#Nord, alt:P[#Nord]*alt:Y[#Nord])/sum(#Nord, alt:Y[#Nord]);
+V_Nord = sum(#Nord, alt:V[#Nord]);
+CO2e_Nord = sum(#Nord, alt:CO2e[#Nord]);
+CO2eBVT_Nord = CO2e_Nord/BVT_Nord;
+BVT_industri = sum(#industri, alt:BVTf0[#industri]);
+Produktion_industri = sum(#industri, alt:Y[#industri]);
+arbkraft_industri = sum(#industri, alt:L[#industri]);
+P_industri = sum(#industri, alt:P[#industri]*alt:Y[#industri])/sum(#industri, alt:Y[#industri]);
+V_industri = sum(#industri, alt:V[#industri]);
+CO2e_industri = sum(#industri, alt:CO2e[#industri]);
+CO2eBVT_industri = CO2e_industri/BVT_industri;
+BVT_PriTjeneste = sum(#PriTjeneste, alt:BVTf0[#PriTjeneste]);
+Produktion_PriTjeneste = sum(#PriTjeneste, alt:Y[#PriTjeneste]);
+arbkraft_PriTjeneste = sum(#PriTjeneste, alt:L[#PriTjeneste]);
+P_PriTjeneste = sum(#PriTjeneste, alt:P[#PriTjeneste]*alt:Y[#PriTjeneste])/sum(#PriTjeneste, alt:Y[#PriTjeneste]);
+V_PriTjeneste = sum(#PriTjeneste, alt:V[#PriTjeneste]);
+CO2e_PriTjeneste = sum(#PriTjeneste, alt:CO2e[#PriTjeneste]) - alt:CO2BogD['50000b'] - alt:CO2BogD['51000b'] - alt:CO2BogD['490030b'];
+CO2eBVT_PriTjeneste = CO2e_PriTjeneste/BVT_PriTjeneste;
+BVT_OffTjeneste = sum(#OffTjeneste, alt:BVTf0[#OffTjeneste]);
+Produktion_OffTjeneste = sum(#OffTjeneste, alt:Y[#OffTjeneste]);
+arbkraft_OffTjeneste = sum(#OffTjeneste, alt:L[#OffTjeneste]);
+P_OffTjeneste = sum(#OffTjeneste, alt:P[#OffTjeneste]*alt:Y[#OffTjeneste])/sum(#OffTjeneste, alt:Y[#OffTjeneste]);
+V_OffTjeneste = sum(#OffTjeneste, alt:V[#OffTjeneste]);
+CO2e_OffTjeneste = sum(#OffTjeneste, alt:CO2e[#OffTjeneste]);
+CO2eBVT_OffTjeneste = CO2e_OffTjeneste/BVT_OffTjeneste;
+BVT_Ovrig = sum(#Ovrig, alt:BVTf0[#Ovrig]);
+Produktion_Ovrig = sum(#Ovrig, alt:Y[#Ovrig]);
+arbkraft_Ovrig = sum(#Ovrig, alt:L[#Ovrig]);
+P_Ovrig = sum(#Ovrig, alt:P[#Ovrig]*alt:Y[#Ovrig])/sum(#Ovrig, alt:Y[#Ovrig]);
+V_Ovrig = sum(#Ovrig, alt:V[#Ovrig]);
+CO2e_Ovrig = sum(#Ovrig, alt:CO2e[#Ovrig]);
+CO2eBVT_Ovrig = CO2e_Ovrig/BVT_Ovrig;
+
+sheet <2016 2016 cell='d2' sheet='Makro_branche' names='NO' dates='NO' append='YES' colors='no'>
+BVT_Tot, Produktion_Tot, arbkraft_Tot, P_Tot, V_Tot, CO2e_tot, CO2eBVT_Tot,
+BVT_landbrug, Produktion_landbrug, arbkraft_landbrug, P_landbrug,V_landbrug, CO2e_landbrug, CO2eBVT_landbrug,
+BVT_mad, Produktion_mad, arbkraft_mad, P_mad,V_mad, CO2e_mad, CO2eBVT_mad,
+BVT_forsyning, Produktion_forsyning, arbkraft_forsyning, P_forsyning,V_forsyning, CO2e_forsyning, CO2eBVT_forsyning,
+BVT_Nord, Produktion_Nord, arbkraft_Nord, P_Nord,V_Nord, CO2e_Nord, CO2eBVT_Nord,
+BVT_industri, Produktion_industri, arbkraft_industri, P_industri,V_industri, CO2e_industri, CO2eBVT_industri,
+BVT_PriTjeneste, Produktion_PriTjeneste, arbkraft_PriTjeneste, P_PriTjeneste,V_PriTjeneste, CO2e_PriTjeneste, CO2eBVT_PriTjeneste,
+BVT_OffTjeneste, Produktion_OffTjeneste, arbkraft_OffTjeneste, P_OffTjeneste,V_OffTjeneste, CO2e_OffTjeneste, CO2eBVT_OffTjeneste,
+BVT_Ovrig, Produktion_Ovrig, arbkraft_Ovrig, P_Ovrig, V_Ovrig, CO2e_Ovrig, CO2eBVT_Ovrig
+ File={%xls_sti};
+ 
+//goto slut;
+
+//Først udregnes reduktioner fra brancher opdelt i "normale", international transport, landbrug og cement samt kraftvarmeværker og affald
+//Slutligt regnes husholdninger og total DK. Totalen summeres løbende sammen igennem brancherne.
+
+// Definition af branchegrupper
+#j3 = ('01000a', '01000b', '01000c', '01000d', '230020',);
+#jUdl = ('490030b','50000B','51000b',);
+#jBECCS = ('350010a', '383900',);
+#j2 = #j -#jUdl - #j3 - #jBECCS;
+
+
+// Definition af summeringsvariable
+qbaseTot = 0;  
+wbaseTot = 0;   
+ebaseTot = 0;     
+rbaseTot = 0;
+wowbaseTot = 0;
+tbaseTot = 0;
+qaltTot = 0;  
+waltTot = 0;   
+ealtTot = 0;     
+raltTot = 0;
+wowaltTot = 0;
+taltTot = 0;
+qbaseTotDK = 0;  
+wbaseTotDK = 0;   
+ebaseTotDK = 0;     
+rbaseTotDK = 0; 
+wowbaseTotDK = 0; 
+tbaseTotDK = 0;
+qaltTotDK = 0;  
+waltTotDK = 0;   
+ealtTotDK = 0;     
+raltTotDK = 0;
+wowaltTotDK = 0;
+taltTotDK = 0;
+aTot = 0;  
+sTot = 0;   
+dTot = 0;     
+fTot = 0;   
+gTot = 0;
+jTot = 0;
+hTot = 0;
+aTotDK = 0;  
+sTotDK = 0;   
+dTotDK = 0;     
+fTotDK = 0;   
+gTotDK = 0;
+jTotDK = 0;
+hTotDK = 0;
+
+
+
+for string %i = #j2 ;
+
+%branche=%i;
+
+ q = base:BVTF0[%branche][2016]*1000;  
+ 
+ //udskriver de første rækker for basis banken 
+ sheet <2016 2016 cell='b4' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q
+ File={%xls_sti};
+ 
+ q = ((alt:P[%branche][2016]/base:P[%branche][2016])-1)*100;
+ w = alt:BVTF0[%branche][2016]*1000;  
+ e = (alt:BVTF0[%branche][2016]/base:BVTF0[%branche][2016]-1)*100;
+ r = (alt:Y[%branche][2016]/base:Y[%branche][2016]-1)*100;
+ t = (alt:M[%branche][2016]/base:M[%branche][2016]-1)*100;  
+ y = (alt:T[%branche][2016]/base:T[%branche][2016]-1)*100;     
+ u = (alt:KB[%branche][2016]/base:KB[%branche][2016]-1)*100; 
+ o = (alt:L[%branche][2016]/base:L[%branche][2016]-1)*100;
+ K = (alt:Kefo[%branche][2016]/base:Kefo[%branche][2016]-1)*100;
+ g = ((alt:KE[%branche][2016]-alt:Kefo[%branche][2016])/(base:KE[%branche][2016]-base:Kefo[%branche][2016])-1)*100;
+ 
+ 
+ //udskriver de første række for alternativ banken
+ sheet <2016 2016 cell='c3' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,t,y,u,o,K,g
+ File={%xls_sti};
+ 
+  
+q = base:co2energi[%branche];  
+w = base:Co2bogd[%branche];   
+e = base:co2Ie[%branche];     
+r = base:co2emlf[%branche];   
+t = base:co2e[%branche];
+qbaseTot = qbaseTot+q;  
+wbaseTot = wbaseTot+w;   
+ebaseTot = ebaseTot+e;     
+rbaseTot = rbaseTot+r;   
+tbaseTot = tbaseTot+t;
+qbaseTotDK = qbaseTotDK+q;  
+wbaseTotDK = wbaseTotDK+w;   
+ebaseTotDK = ebaseTotDK+e;     
+rbaseTotDK = rbaseTotDK+r;   
+tbaseTotDK = tbaseTotDK+t;
+
+//udskriver de midterste rækker for basis banken 
+sheet <2016 2016 cell='b14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+ q,w,e,r,t
+ File={%xls_sti};
+ 
+ q = alt:co2energi[%branche];  
+ w = alt:Co2bogd[%branche];   
+ e = alt:co2Ie[%branche]  ;     
+ r = alt:co2emlf[%branche];   
+ t = alt:co2e[%branche];
+ qaltTot = qaltTot+q;  
+ waltTot = waltTot+w;   
+ ealtTot = ealtTot+e;     
+ raltTot = raltTot+r;   
+ taltTot = taltTot+t;
+ qaltTotDK = qaltTotDK+q;  
+ waltTotDK = waltTotDK+w;   
+ ealtTotDK = ealtTotDK+e;     
+ raltTotDK = raltTotDK+r;   
+ taltTotDK = taltTotDK+t;
+ 
+ //udskriver de midterste rækker for alternativ banken
+ sheet <2016 2016 cell='c14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,t
+ File={%xls_sti};
+  
+
+ //Reduktion i alt
+ tmp1 = alt:co2e[%branche];
+ tmp2 = base:co2e[%branche];
+ a = -tmp1[2016] + tmp2[2016];
+ // reduktion pga lavere produktion
+ s = (base:Y[%branche][2016]-alt:Y[%branche][2016])*(base:co2e[%branche][2016]/base:Y[%branche][2016]);
+ //reduktion via proces- og varmeteknologi
+ d = alt:KE2[%branche][2016]*(((base:co2energi[%branche][2016]-base:co2bogd[%branche][2016])/base:KE2[%branche][2016])-((alt:co2energi[%branche][2016]-alt:co2bogd[%branche][2016])/alt:KE2[%branche][2016]));
+ //Reduktion i transporten
+ f = alt:T[%branche][2016]*((base:co2bogd[%branche][2016]/base:T[%branche][2016])-(alt:co2bogd[%branche][2016]/alt:T[%branche][2016])) ;
+ //reduktionstiltag ift øvrige drivhusgasser  
+ g = 0;
+ // reduktion via ørrige tiltag i produktionen
+ h = alt:Y[%branche][2016]*((base:co2e[%branche][2016]/base:Y[%branche][2016])-(alt:co2e[%branche][2016]/alt:Y[%branche][2016]))
+     -  d
+     -  f
+     -  g;
+aTot = aTot+a;  
+sTot = sTot+s;   
+dTot = dTot+d;     
+fTot = fTot+f;   
+gTot = gTot+g;
+hTot = hTot+h;
+aTotDK = aTotDK+a;  
+sTotDK = sTotDK+s;   
+dTotDK = dTotDK+d;     
+fTotDK = fTotDK+f;   
+gTotDK = gTotDK+g;
+hTotDK = hTotDK+h;
+
+ // udskriver de nederste rækker
+  
+  sheet <2016 2016 cell='b20' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+   a,s,d,f,g,h
+  File={%xls_sti};
+
+ tell %branche;
+
+END;
+
+for string %i = #jUdl ;
+
+%branche=%i;
+
+ q = base:BVTF0[%branche][2016]*1000;  
+ 
+ //udskriver de første rækker for basis banken 
+ sheet <2016 2016 cell='b4' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q
+ File={%xls_sti};
+ 
+ q = ((alt:P[%branche][2016]/base:P[%branche][2016])-1)*100;
+ w = alt:BVTF0[%branche][2016]*1000;  
+ e = (alt:BVTF0[%branche][2016]/base:BVTF0[%branche][2016]-1)*100;
+ r = (alt:Y[%branche][2016]/base:Y[%branche][2016]-1)*100;
+ t = (alt:M[%branche][2016]/base:M[%branche][2016]-1)*100;   
+ y = (alt:T[%branche][2016]/base:T[%branche][2016]-1)*100;     
+ u = (alt:KB[%branche][2016]/base:KB[%branche][2016]-1)*100; 
+ o = (alt:L[%branche][2016]/base:L[%branche][2016]-1)*100;
+ K = (alt:Kefo[%branche][2016]/base:Kefo[%branche][2016]-1)*100;
+ g = ((alt:KE[%branche][2016]-alt:Kefo[%branche][2016])/(base:KE[%branche][2016]-base:Kefo[%branche][2016])-1)*100;
+ 
+ 
+ //udskriver de første række for alternativ banken
+ sheet <2016 2016 cell='c3' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,t,y,u,o,K,g
+ File={%xls_sti};
+ 
+// Det er ikke muligt at udskrive variablene direkte, derfor defineres den q,w,e,r,t,y som mellemled
+q = base:co2energi[%branche];  
+w = base:Co2bogd[%branche];   
+e = base:co2Ie[%branche];     
+r = base:co2emlf[%branche];   
+t = base:co2e[%branche];
+qbaseTot = qbaseTot+q;  
+wbaseTot = wbaseTot+w;   
+ebaseTot = ebaseTot+e;     
+rbaseTot = rbaseTot+r;   
+tbaseTot = tbaseTot+t;
+qbaseTotDK = qbaseTotDK+q-w;  
+//wbaseTotDK = wbaseTotDK+w;   
+ebaseTotDK = ebaseTotDK+e;     
+//rbaseTotDK = rbaseTotDK+r;   
+tbaseTotDK = tbaseTotDK+q-w+e;
+
+//udskriver de midterste rækker for basis banken 
+sheet <2016 2016 cell='b14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+ q,w,e,r,t
+ File={%xls_sti};
+ 
+ q = alt:co2energi[%branche];  
+ w = alt:Co2bogd[%branche];   
+ e = alt:co2Ie[%branche]  ;     
+ r = alt:co2emlf[%branche];   
+ t = alt:co2e[%branche];
+ qaltTot = qaltTot+q;  
+ waltTot = waltTot+w;   
+ ealtTot = ealtTot+e;     
+ raltTot = raltTot+r;   
+ taltTot = taltTot+t;
+ qaltTotDK = qaltTotDK+q-w;  
+//wbaseTotDK = wbaseTotDK+w;   
+ ealtTotDK = ealtTotDK+e;     
+//rbaseTotDK = rbaseTotDK+r;   
+ taltTotDK = taltTotDK+q-w+e;
+ 
+ //udskriver de midterste rækker for alternativ banken
+ sheet <2016 2016 cell='c14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,t
+ File={%xls_sti};
+  
+
+ //Reduktion i alt
+ tmp1 = alt:co2e[%branche];
+ tmp2 = base:co2e[%branche];
+ a = -tmp1[2016] + tmp2[2016];
+ // reduktion pga lavere produktion
+ s = (base:Y[%branche][2016]-alt:Y[%branche][2016])*(base:co2e[%branche][2016]/base:Y[%branche][2016]);
+ //reduktion via proces- og varmeteknologi
+ d = alt:KE2[%branche][2016]*(((base:co2energi[%branche][2016]-base:co2bogd[%branche][2016])/base:KE2[%branche][2016])-((alt:co2energi[%branche][2016]-alt:co2bogd[%branche][2016])/alt:KE2[%branche][2016]));
+ //Reduktion i transporten
+ f = alt:T[%branche][2016]*((base:co2bogd[%branche][2016]/base:T[%branche][2016])-(alt:co2bogd[%branche][2016]/alt:T[%branche][2016])) ;
+ //reduktionstiltag ift øvrige drivhusgasser  
+ g = 0;
+ // reduktion via ørrige tiltag i produktionen
+ h = alt:Y[%branche][2016]*((base:co2e[%branche][2016]/base:Y[%branche][2016])-(alt:co2e[%branche][2016]/alt:Y[%branche][2016]))
+     -  d
+     -  f
+     -  g;
+aTot = aTot+a;  
+sTot = sTot+s;   
+dTot = dTot+d;     
+fTot = fTot+f;   
+gTot = gTot+g;
+hTot = hTot+h;
+
+
+ // udskriver de nederste rækker
+  
+  sheet <2016 2016 cell='b20' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+   a,s,d,f,g,h
+  File={%xls_sti};
+
+ tell %branche;
+END;
+
+
+
+
+for string %i = #j3 ;
+
+%branche=%i;
+
+ q = base:BVTF0[%branche][2016]*1000;  
+ 
+ //udskriver de første rækker for basis banken 
+ sheet <2016 2016 cell='b4' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q
+ File={%xls_sti};
+ 
+ q = ((alt:P[%branche][2016]/base:P[%branche][2016])-1)*100;
+ w = alt:BVTF0[%branche][2016]*1000;  
+ e = (alt:BVTF0[%branche][2016]/base:BVTF0[%branche][2016]-1)*100;
+ r = (alt:Y[%branche][2016]/base:Y[%branche][2016]-1)*100;
+ t = (alt:M[%branche][2016]/base:M[%branche][2016]-1)*100; 
+ y = (alt:T[%branche][2016]/base:T[%branche][2016]-1)*100;     
+ u = (alt:KB[%branche][2016]/base:KB[%branche][2016]-1)*100; 
+ o = (alt:L[%branche][2016]/base:L[%branche][2016]-1)*100;
+ K = (alt:Kefo[%branche][2016]/base:Kefo[%branche][2016]-1)*100;
+ g = ((alt:KE[%branche][2016]-alt:Kefo[%branche][2016])/(base:KE[%branche][2016]-base:Kefo[%branche][2016])-1)*100;
+ 
+ 
+ //udskriver de første række for alternativ banken
+ sheet <2016 2016 cell='c3' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,t,y,u,o,K,g
+ File={%xls_sti};
+
+// Det er ikke muligt at udskrive variablene direkte, derfor defineres den q,w,e,r,t,y som mellemled
+q = base:co2energi[%branche];  
+w = base:Co2bogd[%branche];   
+e = base:co2Ie[%branche];     
+r = base:co2emlf[%branche];   
+t = base:co2e[%branche];
+qbaseTot = qbaseTot+q;  
+wbaseTot = wbaseTot+w;   
+ebaseTot = ebaseTot+e;     
+rbaseTot = rbaseTot+r;   
+tbaseTot = tbaseTot+t;
+qbaseTotDK = qbaseTotDK+q;  
+wbaseTotDK = wbaseTotDK+w;   
+ebaseTotDK = ebaseTotDK+e;     
+rbaseTotDK = rbaseTotDK+r;   
+tbaseTotDK = tbaseTotDK+t;
+
+//udskriver de midterste rækker for basis banken 
+sheet <2016 2016 cell='b14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+ q,w,e,r,t
+ File={%xls_sti};
+ 
+ q = alt:co2energi[%branche];  
+ w = alt:Co2bogd[%branche];   
+ e = alt:co2Ie[%branche]  ;     
+ r = alt:co2emlf[%branche];   
+ t = alt:co2e[%branche];
+ qaltTot = qaltTot+q;  
+ waltTot = waltTot+w;   
+ ealtTot = ealtTot+e;     
+ raltTot = raltTot+r;   
+ taltTot = taltTot+t;
+ qaltTotDK = qaltTotDK+q;  
+ waltTotDK = waltTotDK+w;   
+ ealtTotDK = ealtTotDK+e;     
+ raltTotDK = raltTotDK+r;   
+ taltTotDK = taltTotDK+t;
+
+ //udskriver de midterste rækker for alternativ banken
+ sheet <2016 2016 cell='c14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,t
+ File={%xls_sti};
+  
+
+ //Reduktion i alt
+ tmp1 = alt:co2e[%branche];
+ tmp2 = base:co2e[%branche];
+ a = -tmp1[2016] + tmp2[2016];
+ // reduktion pga lavere produktion
+ s = (base:Y[%branche][2016]-alt:Y[%branche][2016])*(base:co2e[%branche][2016]/base:Y[%branche][2016]);
+ //reduktion via proces- og varmeteknologi
+ d = alt:KE2[%branche][2016]*(((base:co2energi[%branche][2016]-base:co2bogd[%branche][2016])/base:KE2[%branche][2016])-((alt:co2energi[%branche][2016]-alt:co2bogd[%branche][2016])/alt:KE2[%branche][2016]));
+ //Reduktion i transporten
+ f = alt:T[%branche][2016]*((base:co2bogd[%branche][2016]/base:T[%branche][2016])-(alt:co2bogd[%branche][2016]/alt:T[%branche][2016])) ;
+ //reduktionstiltag ift øvrige drivhusgasser  
+ g = alt:KBtot[%branche][2016]*(((base:co2ie[%branche][2016]+base:co2emlf[%branche][2016])/base:KBtot[%branche][2016])-((alt:co2ie[%branche][2016]+alt:co2emlf[%branche][2016])/alt:KBtot[%branche][2016]));
+ // reduktion via ørrige tiltag i produktionen
+ h = alt:Y[%branche][2016]*((base:co2e[%branche][2016]/base:Y[%branche][2016])-(alt:co2e[%branche][2016]/alt:Y[%branche][2016]))
+     -  d
+     -  f
+     -  g;
+aTot = aTot+a;  
+sTot = sTot+s;   
+dTot = dTot+d;     
+fTot = fTot+f;   
+gTot = gTot+g;
+hTot = hTot+h;
+aTotDK = aTotDK+a;  
+sTotDK = sTotDK+s;   
+dTotDK = dTotDK+d;     
+fTotDK = fTotDK+f;   
+gTotDK = gTotDK+g;
+hTotDK = hTotDK+h;
+
+
+ // udskriver de nederste rækker
+  
+  sheet <2016 2016 cell='b20' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+   a,s,d,f,g,h
+  File={%xls_sti};
+
+ tell %branche;
+
+END;
+
+ k = alt:BECCSshare['230020'][2016];
+ l = sum(#part,alt:NegaUdled[#part,'230020'][2016]); 
+
+  sheet <2016 2016 cell='c27' sheet='230020' names='NO' dates='NO' append='YES' colors='no'>
+   k,l
+  File={%xls_sti};
+
+
+
+for string %i = #jBECCS ;
+
+%branche=%i;
+
+ q = base:BVTF0[%branche][2016]*1000;  
+ 
+ //udskriver de første rækker for basis banken 
+ sheet <2016 2016 cell='b4' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q
+ File={%xls_sti};
+ 
+ q = ((alt:P[%branche][2016]/base:P[%branche][2016])-1)*100;
+ w = alt:BVTF0[%branche][2016]*1000;  
+ e = (alt:BVTF0[%branche][2016]/base:BVTF0[%branche][2016]-1)*100;
+ r = (alt:Y[%branche][2016]/base:Y[%branche][2016]-1)*100;
+ t = (alt:M[%branche][2016]/base:M[%branche][2016]-1)*100;   
+ y = (alt:T[%branche][2016]/base:T[%branche][2016]-1)*100;     
+ u = (alt:KB[%branche][2016]/base:KB[%branche][2016]-1)*100; 
+ o = (alt:L[%branche][2016]/base:L[%branche][2016]-1)*100;
+ K = (alt:Kefo[%branche][2016]/base:Kefo[%branche][2016]-1)*100;
+ g = ((alt:KE[%branche][2016]-alt:Kefo[%branche][2016])/(base:KE[%branche][2016]-base:Kefo[%branche][2016])-1)*100;
+ 
+ 
+ //udskriver de første række for alternativ banken
+ sheet <2016 2016 cell='c3' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,t,y,u,o,K,g
+ File={%xls_sti};
+
+q   = base:CO2energi[%branche]-sum(#part,base:negaudled[#part,%branche]*(1-base:BECCSshare[%branche]));  
+w   = base:CO2bogd[%branche];   
+e   = base:CO2Ie[%branche]  ;     
+r   = base:CO2emlf[%branche];  
+wow = sum(#part,base:negaudled[#part,%branche]*base:BECCSshare[%branche]);
+t   = base:co2e[%branche];
+qbaseTot     = qbaseTot+q;  
+wbaseTot     = wbaseTot+w;   
+ebaseTot     = ebaseTot+e;     
+rbaseTot     = rbaseTot+r;
+wowbaseTot   = wowbaseTot+wow;
+tbaseTot     = tbaseTot+t;
+qbaseTotDK   = qbaseTotDK+q;  
+wbaseTotDK   = wbaseTotDK+w;   
+ebaseTotDK   = ebaseTotDK+e;     
+rbaseTotDK   = rbaseTotDK+r;
+wowbaseTotDK = wowbaseTotDK+wow;
+tbaseTotDK   = tbaseTotDK+t;
+
+//udskriver de midterste rækker for basis banken
+sheet <2016 2016 cell='b14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+ q,w,e,r,wow,t
+File={%xls_sti};
+ 
+ q   = alt:co2energi[%branche]-sum(#part,alt:negaudled[#part,%branche]*(1-alt:BECCSshare[%branche]));  
+ w   = alt:Co2bogd[%branche];   
+ e   = alt:co2Ie[%branche]  ;     
+ r   = alt:co2emlf[%branche];   
+ wow = sum(#part,alt:negaudled[#part,%branche]*alt:BECCSshare[%branche]);
+ t   = alt:co2e[%branche];
+ qaltTot = qaltTot+q;  
+ waltTot = waltTot+w;   
+ ealtTot = ealtTot+e;     
+ raltTot = raltTot+r; 
+ wowaltTot = wowaltTot+wow;
+ taltTot = taltTot+t;
+ qaltTotDK = qaltTotDK+q;  
+ waltTotDK = waltTotDK+w;   
+ ealtTotDK = ealtTotDK+e;     
+ raltTotDK = raltTotDK+r; 
+ wowaltTotDK = wowaltTotDK+wow;
+ taltTotDK = taltTotDK+t; 
+ 
+  //udskriver de midterste række for alternativ banken
+ sheet <2016 2016 cell='c14' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+  q,w,e,r,wow,t
+ File={%xls_sti};
+ 
+ //Reduktion i alt
+ tmp1 = alt:co2e[%branche];
+ tmp2 = base:co2e[%branche];
+ a = -tmp1[2016] + tmp2[2016];
+ // reduktion pga lavere produktion
+ s = (base:Y[%branche][2016]-alt:Y[%branche][2016])*(base:co2e[%branche][2016]/base:Y[%branche][2016]);
+ //reduktion via proces- og varmeteknologi
+ d = alt:KE2[%branche][2016]*(((base:co2energi[%branche][2016]-base:co2bogd[%branche][2016])/base:KE2[%branche][2016])-((alt:co2energi[%branche][2016]-alt:co2bogd[%branche][2016])/alt:KE2[%branche][2016]));
+ //Reduktion i transporten
+ f = alt:T[%branche][2016]*((base:co2bogd[%branche][2016]/base:T[%branche][2016])-(alt:co2bogd[%branche][2016]/alt:T[%branche][2016])) ;
+ //reduktionstiltag ift øvrige drivhusgasser  
+ g = alt:KBtot[%branche][2016]*(((base:co2ie[%branche][2016]+base:co2emlf[%branche][2016])/base:KBtot[%branche][2016])-((alt:co2ie[%branche][2016]+alt:co2emlf[%branche][2016])/alt:KBtot[%branche][2016]));
+ //BECCS
+ j = sum(#part,alt:negaudled[#part,%branche]*alt:BECCSshare[%branche])-sum(#part,base:negaudled[#part,%branche]*base:BECCSshare[%branche]);
+ // reduktion via ørrige tiltag i produktionen
+ h = alt:Y[%branche][2016]*((base:co2e[%branche][2016]/base:Y[%branche][2016])-(alt:co2e[%branche][2016]/alt:Y[%branche][2016]))
+     -  d
+     -  f
+     -  g
+     -  j;
+aTot = aTot+a;  
+sTot = sTot+s;   
+dTot = dTot+d;     
+fTot = fTot+f;   
+gTot = gTot+g;
+jTot = jTot+j;
+hTot = hTot+h;
+aTotDK = aTotDK+a;  
+sTotDK = sTotDK+s;   
+dTotDK = dTotDK+d;     
+fTotDK = fTotDK+f;   
+gTotDK = gTotDK+g;
+jTotDK = jTotDK+j;
+hTotDK = hTotDK+h;
+
+
+ // udskriver de nederste rækker
+  
+  sheet <2016 2016 cell='b21' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+   a,s,d,f,g,j,h
+  File={%xls_sti};
+
+ k = alt:BECCSshare[%branche][2016];
+  
+  sheet <2016 2016 cell='e27' sheet=%branche names='NO' dates='NO' append='YES' colors='no'>
+   k
+  File={%xls_sti};  
+
+ tell %branche;
+
+END;
+
+
+
+
+ // For Husholdninger
+  // Det er ikke muligt at udskrive variablene direkte, derfor defineres den q,w,e,r som mellemled
+   q = base:CO2EnergiHH[2016];  
+   w = base:CO2BogDHH[2016];   
+   e = base:CO2eMLFHH[2016];     
+   r = base:CO2EnergiHH[2016]+base:CO2eMLFHH[2016];  
+qbaseTot = qbaseTot+q;  
+wbaseTot = wbaseTot+w;    
+rbaseTot = rbaseTot+e;
+tbaseTot = tbaseTot+r;
+qbaseTotDK = qbaseTotDK+q;  
+wbaseTotDK = wbaseTotDK+w;        
+rbaseTotDK = rbaseTotDK+e;
+tbaseTotDK = tbaseTotDK+r;
+
+   
+   // Udskriver de første rækker for basis banken
+   sheet <2016 2016 cell='b3' sheet='husholdninger' names='NO' dates='NO' append='YES' colors='no'>
+    q,w,0,e,r
+   File={%xls_sti}; 
+    
+  // Det er ikke muligt at udskrive variablene direkte, derfor defineres den q,w,e,r som mellemled
+     
+   q = alt:CO2EnergiHH[2016];  
+   w = alt:CO2BogDHH[2016];   
+   e = alt:CO2eMLFHH[2016];     
+   r = alt:CO2EnergiHH[2016]+alt:CO2eMLFHH[2016];  
+qaltTot = qaltTot+q;  
+waltTot = waltTot+w;    
+raltTot = raltTot+e;
+taltTot = taltTot+r;
+qaltTotDK = qaltTotDK+q;  
+waltTotDK = waltTotDK+w;        
+raltTotDK = raltTotDK+e;
+taltTotDK = taltTotDK+r;
+hhTotDK = base:CO2EnergiHH[2016]+base:CO2eMLFHH[2016]-alt:CO2EnergiHH[2016]-alt:CO2eMLFHH[2016];
+aTotDK = aTotDK + hhTotDK;
+
+   // Udskriver de første rækker for basis banken
+   sheet <2016 2016 cell='c3' sheet='husholdninger' names='NO' dates='NO' append='YES' colors='no'>
+    q,w,0,e,r
+   File={%xls_sti}; 
+
+
+
+// Total DK
+  sheet <2016 2016 cell='b3' sheet='Total DK' names='NO' dates='NO' append='YES' colors='no'>
+   qbaseTotDK,wbaseTotDK,ebaseTotDK,rbaseTotDK,wowbaseTotDK,tbaseTotDK
+  File={%xls_sti};
+  
+  sheet <2016 2016 cell='c3' sheet='Total DK' names='NO' dates='NO' append='YES' colors='no'>
+   qaltTotDK,waltTotDK,ealtTotDK,raltTotDK,wowaltTotDK,taltTotDK
+  File={%xls_sti};
+
+  sheet <2016 2016 cell='b10' sheet='Total DK' names='NO' dates='NO' append='YES' colors='no'>
+   aTotDK,sTotDK,dTotDK,fTotDK,gTotDK,jTotDK,hTotDK,hhTotDK
+  File={%xls_sti};
+
+    
+    
+Target SLUT;    

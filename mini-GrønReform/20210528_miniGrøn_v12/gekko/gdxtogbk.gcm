@@ -1,0 +1,92 @@
+close*; cls; clear;
+
+%gdxnavn = 'gdx_work\2_3_ingenCCS';
+%gbknavn = '2_3_ingenCCS';
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+close*; cls; clear;
+goto slut;
+
+%gdxnavn = 'gdx_work\6_fradrag_anvafgift';
+%gbknavn = '6_fradrag_anvafgift';
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+
+close*; cls; clear;
+
+%gdxnavn = 'gdx_work\11_tilskud';
+%gbknavn = '11_tilskud';
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+close*; cls; clear;
+
+%gdxnavn = 'gdx_work\12_tilskud_skat';
+%gbknavn = '12_tilskud_skat';
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+close*; cls; clear;
+goto slut;
+
+%gdxnavn = 'gdx_work\5_fradrag_udvalgte';
+%gbknavn = '5_fradrag_udvalgte';
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+close*; cls; clear;
+
+
+%gdxnavn = 'gdx_work\6_fradrag_anvafgift';
+%gbknavn = '6_fradrag_anvafgift';
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+close*; cls; clear;
+
+
+%gdxnavn = 'gdx_work\7_kunCO2';
+%gbknavn = '7_kunCO2';
+
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+close*; cls; clear;
+
+
+%gdxnavn = 'gdx_work\8_kunCO2_skat';
+%gbknavn = '8_kunCO2_skat';
+
+
+// Her rettes stien til at den gdx bank der skal omdannes
+import <gdx> '{%gdxnavn}.gdx' to base; 
+
+write base:** file={%gbknavn}.gbk;
+
+close*; cls; clear;
+
+
+target slut;
