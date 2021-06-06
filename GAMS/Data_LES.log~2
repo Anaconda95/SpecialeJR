@@ -1,0 +1,79 @@
+--- Job Data_LES.gms Start 05/27/21 15:03:35 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/225b/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- Data_LES.gms(6) 2 Mb 2 Errors
+*** Error 120 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    Unknown identifier entered as set
+*** Error 120 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    Unknown identifier entered as set
+--- Data_LES.gms(18) 3 Mb 4 Errors
+*** Error 361 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    Values for domain 1 are unknown - no checking possible
+*** Error 362 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    Values for domain 2 are unknown - no checking possible
+--- Data_LES.gms(29) 3 Mb 6 Errors
+*** Error 353 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    The domain for this index position is unknown and the element
+       cannot be checked at this point. Missing data statement.
+*** Error 353 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    The domain for this index position is unknown and the element
+       cannot be checked at this point. Missing data statement.
+--- Data_LES.gms(30) 3 Mb 8 Errors
+*** Error 353 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    The domain for this index position is unknown and the element
+       cannot be checked at this point. Missing data statement.
+*** Error 353 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    The domain for this index position is unknown and the element
+       cannot be checked at this point. Missing data statement.
+--- Data_LES.gms(34) 3 Mb 10 Errors
+*** Error 361 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    Values for domain 1 are unknown - no checking possible
+*** Error 362 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    Values for domain 2 are unknown - no checking possible
+--- Data_LES.gms(42) 3 Mb 11 Errors
+*** Error 166 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    A table must have two or more dimensions - use parameter list
+       rest of table will be ignored
+--- Data_LES.gms(50) 3 Mb 12 Errors
+*** Error 166 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    A table must have two or more dimensions - use parameter list
+       rest of table will be ignored
+--- Data_LES.gms(58) 3 Mb 13 Errors
+*** Error 166 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    A table must have two or more dimensions - use parameter list
+       rest of table will be ignored
+--- Data_LES.gms(66) 3 Mb 14 Errors
+*** Error 166 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    A table must have two or more dimensions - use parameter list
+       rest of table will be ignored
+--- Data_LES.gms(77) 3 Mb 15 Errors
+*** Error 166 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    A table must have two or more dimensions - use parameter list
+       rest of table will be ignored
+--- Data_LES.gms(88) 3 Mb 16 Errors
+*** Error 166 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    A table must have two or more dimensions - use parameter list
+       rest of table will be ignored
+--- Data_LES.gms(99) 3 Mb 17 Errors
+*** Error 166 in /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gms
+    A table must have two or more dimensions - use parameter list
+       rest of table will be ignored
+--- Data_LES.gms(111) 3 Mb 17 Errors
+*** Status: Compilation error(s)
+--- Job Data_LES.gms Stop 05/27/21 15:03:35 elapsed 0:00:00.013

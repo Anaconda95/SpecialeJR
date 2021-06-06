@@ -1,4 +1,4 @@
---- Job Data_LES.gms Start 06/04/21 09:44:24 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job Data_LES.gms Start 06/03/21 15:18:50 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -91,4 +91,4 @@ Licensee: Course License                                 S210104/0001AO-GEN
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /GAMS/Data_LES.gdx
 --- Data_LES.gms(173) 3 Mb 23 Errors
 *** Status: Compilation error(s)
---- Job Data_LES.gms Stop 06/04/21 09:44:24 elapsed 0:00:00.029
+--- Job Data_LES.gms Stop 06/03/21 15:18:50 elapsed 0:00:00.027

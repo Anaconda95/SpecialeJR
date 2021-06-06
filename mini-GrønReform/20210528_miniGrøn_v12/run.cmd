@@ -7,13 +7,13 @@ REM gamX func.gms
 timer start
 
 Rem hvis NAF lig 1 benyttes marginalsats (nettoafgiftsfaktor) fra FM, hvis NOTNAF lig 1 benyttes afgiftssatser fra data
-Rem Den ene parameter skal være sat lig 1 og den anden skal være sat lig 0
-REM Bemærk at beregningen af EV-målet ændres når der skiftes mellem de to valgmuligheder
+Rem Den ene parameter skal vÃ¦re sat lig 1 og den anden skal vÃ¦re sat lig 0
+REM BemÃ¦rk at beregningen af EV-mÃ¥let Ã¦ndres nÃ¥r der skiftes mellem de to valgmuligheder
 set "NAF=0"
 set "NOTNAF=1"
 
-REM Når forbrugeren har additiv nyttefunktion medfører det endogent arbejdsudbud i modellen
-REM Bemærk at beregningen af EV-målet ændres når der skiftes mellem de to valgmuligheder
+REM NÃ¥r forbrugeren har additiv nyttefunktion medfÃ¸rer det endogent arbejdsudbud i modellen
+REM BemÃ¦rk at beregningen af EV-mÃ¥let Ã¦ndres nÃ¥r der skiftes mellem de to valgmuligheder
 set "NYTADD=1"
 set "NYTMUL=0"
 
@@ -37,21 +37,19 @@ goto end
 gamX model_fremskriv.gms --NAF=%NAF% --NOTNAF=%NOTNAF% --NYTADD=%NYTADD% --NYTMUL=%NYTMUL% r=m_ti s=m_frem
 
 
-
-
 REM - - - Fremskrivning til 2030 - - - -
 
-rem - Fremskrivning af Nordsøproduktion og energipriser
+rem - Fremskrivning af NordsÃ¸produktion og energipriser
 gamX fremEksoEnergi.gms r=m_frem s=fremEksoEnergi
 
 rem - Fremskrivning af befolkning og arbejdsstyrke
 gamX fremStruk1.gms r=fremEksoEnergi s=fremstruk1 
 
-rem - Fremskrivning af BNP, dividender, markup, TFP, beskæftigelse, produktionsværdi mm
+rem - Fremskrivning af BNP, dividender, markup, TFP, beskÃ¦ftigelse, produktionsvÃ¦rdi mm
 gamX fremStruk2.gms r=fremstruk1 s=fremstruk2 
 
 
-rem - Indførelse af ETS-kvoter
+rem - IndfÃ¸relse af ETS-kvoter
 gamX fremskriv_ETS2030.gms r=fremstruk2 s=Base2030_ETS
 
 rem - Fremskrivning af udledninger og energiforbrug
@@ -61,7 +59,7 @@ gamX Pre_frem2030endo.gms r=Base2030_ETS s=Pre2030endo
 gamX frem2030endo.gms r=Pre2030endo s=Base2030endo
 
 
-rem - Indførelse af aftaler
+rem - IndfÃ¸relse af aftaler
 gamX frem_aftaler1_2030.gms --filnavn=2030grund r=Base2030endo s=Base2030_aftaler
 
 
@@ -76,7 +74,7 @@ rem MACpartiel.gms --luk=0 r=offsektor
 rem gamX Eafgift_provenu.gms r=Base2030_aftaler 
 rem gamX Eafgift_provenu.gms r=m_frem
 
-REM  - - - Fjernelse af eksisterende afgifter på brændsel enkeltvis
+REM  - - - Fjernelse af eksisterende afgifter pÃ¥ brÃ¦ndsel enkeltvis
 rem gamX eksisterende.gms --luk=0  --filnavn=2030_X --tax_n=tax1  r=offsektor s=Base2030x
 rem gamX eksisterende.gms --luk=0  --filnavn=2030_X --tax_n=tax8  r=offsektor s=Base2030x
 rem gamX eksisterende.gms --luk=0  --filnavn=2030_X --tax_n=tax9  r=offsektor s=Base2030x
@@ -94,10 +92,10 @@ Rem - Hvis luk=1 lukkes de offentlige finanser via arbejdsindkomstbeskatning
 
 
 REM - - - Grundberegning med ensartet drivhusgasbeskatning - - - - Grundberegning med ensartet drivhusgasbeskatning - - - -
-REM  - - - CO2e-afgiften sættes ens for alle brancher
+REM  - - - CO2e-afgiften sÃ¦ttes ens for alle brancher
 gamX CO2eafg.gms --luk=0 r=offsektor s=CO2eafg
 
-REM - - - CO2e-afgiften hæves for at opnå 70 pct. reduktion
+REM - - - CO2e-afgiften hÃ¦ves for at opnÃ¥ 70 pct. reduktion
 gamX CO2eafg2.gms --luk=0 --fradrag=0 --leakage=0 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0 --filnavn=1_ensartet r=CO2eafg
 
 rem gamX CO2eafg2slow.gms --luk=0 --fradrag=0 --leakage=0 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0 --filnavn=ensartet_slow r=CO2eafg
@@ -118,7 +116,7 @@ gamX CO2eafg2.gms --luk=0 --fradrag=0 --leakage=0 --anvafgift=0 --kvotetax=0 --k
 
 
 
-rem - følsomhed med jordrente
+rem - fÃ¸lsomhed med jordrente
 gamX jordrente.gms  --luk=0 --land=1 --fisk=0   r=offsektor s=jordrente
 gamX Eafgifter_ekslB.gms --luk=0 --filnavn=2030_X r=jordrente s=Base2030x
 gamX CO2eafg.gms --luk=0 r=Base2030x s=CO2eafg
@@ -149,12 +147,12 @@ rem gamX CO2eafg2.gms --luk=0 --fradrag=0 --leakage=0 --anvafgift=0 --kvotetax=0
 
 
 REM - - - - - Fradragsberegning - - - - - Fradragsberegning - - - - - Fradragsberegning - - - - - Fradragsberegning - - - - - 
-REM  - - - CO2e-afgiften sættes ens for alle brancher
+REM  - - - CO2e-afgiften sÃ¦ttes ens for alle brancher
 gamX Eafgifter_ekslB.gms --luk=0  --filnavn=2030_X r=offsektor s=Base2030x
 gamX CO2eafg.gms --luk=0 r=Base2030x s=CO2eafg
 
 
-REM - - - CO2e-afgift samt fradrag i CO2e-beskatningen hæves for at opnå 70 pct. reduktion
+REM - - - CO2e-afgift samt fradrag i CO2e-beskatningen hÃ¦ves for at opnÃ¥ 70 pct. reduktion
 rem gamX CO2eafg2.gms --luk=0 --fradrag=1  --leakage=0 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0  --filnavn=9_fradrag r=CO2eafg
 
 
@@ -162,7 +160,7 @@ REM - - - CO2e-afgift samt fradrag i CO2e-beskatningen for udvalgte brancher
 gamX CO2eafg2.gms --luk=0 --fradrag=1  --leakage=1 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0  --filnavn=5_fradrag_udvalgte r=CO2eafg
 
 
-REM - - - CO2e-afgift samt fradrag i CO2e-beskatningen og dertilhørende anvendelsesafgift for udvalgte brancher
+REM - - - CO2e-afgift samt fradrag i CO2e-beskatningen og dertilhÃ¸rende anvendelsesafgift for udvalgte brancher
 gamX CO2eafg2.gms --luk=0 --fradrag=1  --leakage=1 --anvafgift=1 --kvotetax=0 --kvote2xfradrag=0  --filnavn=6_fradrag_anvafgift r=CO2eafg
 goto end
 
@@ -175,15 +173,15 @@ gamX CO2eafg2.gms --luk=1 --fradrag=1  --leakage=0 --anvafgift=0 --kvotetax=0 --
 goto end
 REM - - - - - Kun CO2 - - - - - Kun CO2 - - - - - Kun CO2 - - - - - Kun CO2 - - - - - 
 
-REM  - - - CO2-afgiften (altså kun CO2, ikke øvrige drivhusgasser) sættes ens for alle brancher
+REM  - - - CO2-afgiften (altsÃ¥ kun CO2, ikke Ã¸vrige drivhusgasser) sÃ¦ttes ens for alle brancher
 gamX CO2_afg.gms --luk=0 r=Base2030x s=CO2_afg
 goto end
 
-REM - - - CO2-afgiften hæves for at opnå 70 pct. reduktion
+REM - - - CO2-afgiften hÃ¦ves for at opnÃ¥ 70 pct. reduktion
 gamX CO2eafg2.gms --luk=0 --fradrag=0  --leakage=0 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0  --filnavn=7_kunCO2 r=CO2_afg
 goto end
 
-REM - - - Følsomhed ift. jordrente
+REM - - - FÃ¸lsomhed ift. jordrente
 
 gamX jordrente.gms  --luk=0 --land=1 --fisk=0   r=offsektor s=jordrente
 gamX Eafgifter_ekslB.gms --luk=0 --filnavn=2030_X r=jordrente s=Base2030x
@@ -209,13 +207,13 @@ goto end
 REM - - - - - Tilskudsvejen - - - - - Tilskudsvejen - - - - - Tilskudsvejen - - - - - Tilskudsvejen - - - - - 
 :tilskud
 
-rem - Fastsættelse af "stien"
+rem - FastsÃ¦ttelse af "stien"
 gamX CO2eafg.gms --luk=0 r=offsektor s=CO2eafg
 gamX CO2eafg2.gms --luk=0 --fradrag=0 --leakage=0 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0 --filnavn=tom r=CO2eafg s=CO2eafg2
 
 rem - Selve tilskudsberegningen
 
-rem CO2-afgiften i ikke-kvote-sektoren sættes lig kvoteprisen
+rem CO2-afgiften i ikke-kvote-sektoren sÃ¦ttes lig kvoteprisen
 gamX CO2_afg.gms --luk=0 r=offsektor s=CO2_afg
 
 gamX tilskudsvejen.gms --antal=299 --filnavn=tilskud r=CO2_afg
@@ -223,20 +221,20 @@ goto end
 
 rem - gentagelse med skattefinansiering
 
-rem - Fastsættelse af "stien"
+rem - FastsÃ¦ttelse af "stien"
 gamX CO2eafg.gms --luk=1 r=offsektor s=CO2eafg
 gamX CO2eafg2.gms --luk=1 --fradrag=0 --leakage=0 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0 --filnavn=tom r=CO2eafg s=CO2eafg2
 
 rem - Selve tilskudsberegningen
 
-rem CO2-afgiften i ikke-kvote-sektoren sættes lig kvoteprisen
+rem CO2-afgiften i ikke-kvote-sektoren sÃ¦ttes lig kvoteprisen
 gamX CO2_afg.gms --luk=1 r=offsektor s=CO2_afg
 
 gamX tilskudsvejen.gms --antal=299 --filnavn=tilskud_skat r=CO2_afg
 goto end
 
 
-REM - - - - - Følsomhed ift CCS - - - - - 
+REM - - - - - FÃ¸lsomhed ift CCS - - - - - 
 :CCS
 
 gamX Eafgifter_ekslB.gms --luk=0  --filnavn=2030_X r=offsektor s=Base2030x
@@ -267,14 +265,14 @@ goto end
 
 
 
-REM - - - Lækage - - - Lækage - - - Lækage - - - Lækage - - - Lækage - - - Lækage - - - Lækage - - - Lækage - - - Lækage
+REM - - - LÃ¦kage - - - LÃ¦kage - - - LÃ¦kage - - - LÃ¦kage - - - LÃ¦kage - - - LÃ¦kage - - - LÃ¦kage - - - LÃ¦kage - - - LÃ¦kage
 
-REM  - - - Følsomhedsanalyser
+REM  - - - FÃ¸lsomhedsanalyser
 gamX foelsomhed.gms r=offsektor s=foelsomhed
 goto end
 
 
-REM  - - - Beregning af lækagerater
+REM  - - - Beregning af lÃ¦kagerater
 
 gamX foelsomhed_slagt.gms --filnavn=test1 r=offsektor s=slagt
 goto end
@@ -304,16 +302,16 @@ gamX leakage1200land.gms --luk=0 --filnavn=leakagerate1200land_5 r=jordrente
 goto end
 
 
-REM  - - - CO2e-afgiften sættes ens for alle brancher
+REM  - - - CO2e-afgiften sÃ¦ttes ens for alle brancher
 gamX CO2eafg.gms --luk=0 r=offsektor s=CO2eafg
 goto end
 
-REM - - - CO2e-afgift hæves for at opnå 70 pct. reduktion (med varierende antagelser)
+REM - - - CO2e-afgift hÃ¦ves for at opnÃ¥ 70 pct. reduktion (med varierende antagelser)
 
 gamX CO2eafg2.gms --luk=0 --fradrag=0 --anvafgift=0 --kvotetax=0 --kvote2xfradrag=0 --filnavn=ensartet r=CO2eafg
 goto end
 
-REM - - - Teststød med anvendelsesafgift
+REM - - - TeststÃ¸d med anvendelsesafgift
 gamX anvafgift.gms --luk=0 --fradrag=0 --anvafgift=1 --kvotetax=0 --kvote2xfradrag=0 --filnavn=anvafgift r=Base2030_aftaler
 goto end
 

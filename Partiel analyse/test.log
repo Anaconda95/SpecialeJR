@@ -1,0 +1,706 @@
+--- Job test.gms Start 06/04/21 10:21:27 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Applying:
+    /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
+--- GAMS Parameters defined
+    Input "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/test.gms"
+    PageSize 0
+    ScrDir "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/225a/"
+    SysDir /Library/Frameworks/GAMS.framework/Versions/32/Resources/
+    LogOption 3
+    ErrMsg 1
+    ErrorLog 99
+    IDE 1
+    GDX "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/test.gdx"
+    LstTitleLeftAligned 1
+GAMS 32.2.0   Copyright (C) 1987-2020 GAMS Development. All rights reserved
+Licensee: Course License                                 S210104/0001AO-GEN
+          University of Copenhagen, Department of Economics         DCE1064
+          /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
+          Course license for use within the course and related course work
+--- Starting compilation
+--- test.gms(120) 3 Mb
+--- Starting execution: elapsed 0:00:00.007
+--- test.gms(86) 4 Mb
+--- Generating CNS model partial
+--- test.gms(89) 6 Mb
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(89) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.013
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.1408900000E+02 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.056
+--- test.gms(99) 4 Mb
+--- Generating CNS model partial
+--- test.gms(101) 6 Mb
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(101) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.063
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.5684764960E+05 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.093
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 1
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.097
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.1505107977E-10 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.129
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 2
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.132
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5313507232E+05 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.162
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 3
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.165
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.2250805786E+05 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.194
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 4
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.198
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.8006446285E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.224
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 5
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.228
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        7.8405157028E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.258
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 6
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.261
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.2724125622E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.291
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 7
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.294
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.0179300498E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.323
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 8
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.326
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.0143440398E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.353
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 9
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.356
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.2114752319E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.382
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 10
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.386
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.5691801855E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.416
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 11
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.420
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.0553441484E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.459
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 12
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.463
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.6442753187E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.492
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 13
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.496
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.3154202550E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.523
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 14
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.526
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.0523362040E+04 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.557
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 15
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.561
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        8.4186896318E+03 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.587
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 16
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.590
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        6.7349517054E+03 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.617
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 17
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.621
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        5.3879613644E+03 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.649
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 18
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.652
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        4.3103690915E+03 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.682
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 19
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.686
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.4482952732E+03 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.717
+--- test.gms(110) 4 Mb
+--- Generating CNS model partial
+--- test.gms(111) 6 Mb
+--- LOOPS t = 20
+---   40 rows  53 columns  435 non-zeroes
+---   336 nl-code  150 nl-non-zeroes
+--- test.gms(111) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.720
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.7586362186E+03 (Input point)
+ 
+                   Pre-triangular equations:   40
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.746
+--- test.gms(110) 4 Mb
+--- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/test.gdx
+*** Status: Normal completion
+--- Job test.gms Stop 06/04/21 10:21:28 elapsed 0:00:00.749

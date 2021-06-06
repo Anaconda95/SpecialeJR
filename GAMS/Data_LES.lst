@@ -1,4 +1,4 @@
-GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 05/27/21 15:03:35 Page 1
+GAMS 32.2.0  rc62c018 Released Aug 26, 2020 DEX-DEG x86 64bit/Mac OS X - 06/04/21 09:44:24 Page 1
 G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
 C o m p i l a t i o n
 
@@ -8,152 +8,221 @@ C o m p i l a t i o n
    3  ****************************************************************************************
    4   
    5  ******************* 'DATA' ****************************
-   6  Table alphas(i,g) "Alphaer"
-****               $120,120
+   6  Table alphas(i.g) "Alphaer"
+****                 $120       $166
 **** 120  Unknown identifier entered as set
-   7      1     2     3     4     5     6     7     8
-   8  1   0.008 0.032 0.131 0.105 0.03  0.231 0.291 0.172
-   9  2   0.039 0.081 0.104 0.029 0.025 0.276 0.244 0.202
-  10  3   0.034 0.067 0.122 0.122 0.025 0.244 0.169 0.217
-  11  4   0.029 0.037 0.11  0.068 0.018 0.207 0.286 0.244
-  12  5   0.028 0.036 0.072 0.112 0.03  0.241 0.293 0.188
+**** 166  A table must have two or more dimensions - use parameter list
+****         rest of table will be ignored
+   7      1       2       3       4       5       6       7       8
+   8  1   0.008   0.032   0.131   0.105   0.030   0.231   0.291   0.172
+   9  2   0.039   0.081   0.104   0.029   0.025   0.276   0.244   0.202
+  10  3   0.034   0.067   0.122   0.122   0.025   0.244   0.169   0.217
+  11  4   0.034   0.078   0.138   0.077   0.025   0.265   0.199   0.183
+  12  5   0.029   0.037   0.110   0.068   0.018   0.207   0.286   0.244
   13  ;
   14   
-  15   
-  16   
-  17  Table min_cons(i,g) "b'er"
-  18      1       2       3       4       5       6       7       8
+  15  Table alphak(i,g) "kalibrerede alphaer"
+****                 $120
+**** 120  Unknown identifier entered as set
+  16          1       2       3       4       5       6       7       8
+  17  1       0.0029  0.0019  0.2067  0.1181  0.0351  0.2254  0.2162  0.1936
+  18  2       0.0184  0.0509  0.1656  0.0884  0.0088  0.4427  0.1119  0.1132
+  19  3       0.0254  0.0535  0.159   0.0918  0.0233  0.2492  0.1506  0.2473
+  20  4       0.007   0.08    0.1706  0.0621  0.0422  0.2219  0.2683  0.1479
+  21  5       0.0279  0.0423  0.1242  0.0584  0.0167  0.1999  0.3169  0.2136
+  22  ;
+  23   
+  24  parameter tauPP(g) "tau_P fundet i løsning"
+  25  /1 33.8604
+****   $361
+**** 361  Values for domain 1 are unknown - no checking possible
+  26  2  24.6075
+  27  3  76.1783
+  28  4  12.6729
+  29  5  44.8317
+  30  6  30.3631
+  31  7  49.2305
+  32  8  52.6201/;
+  33   
+  34  parameter skattefradrag(g) "skattefradrag fra løsning"
+  35  /1    75201.1972
+****   $361
+**** 361  Values for domain 1 are unknown - no checking possible
+  36  2    157169.9723
+  37  3    415673.4526
+  38  4    124087.0979
+  39  5     40688.4838
+  40  6    193994.5281
+  41  7    260178.4944
+  42  8    419038.0149/;
+  43   
+  44  parameter YY(g) "Y fundet i løsning"
+  45  /1        75183.2103
+****   $361
+**** 361  Values for domain 1 are unknown - no checking possible
+  46  2        157096.1108
+  47  3        415654.8122
+  48  4        123834.4645
+  49  5         40683.0606
+  50  6        193936.1735
+  51  7        260149.9189
+  52  8        418997.8972/
+  53  ;
+  54   
+  55  Table min_cons(i,g) "b'er"
+  56      1       2       3       4       5       6       7       8
 ****      $361,362
 **** 361  Values for domain 1 are unknown - no checking possible
 **** 362  Values for domain 2 are unknown - no checking possible
-  19  1   10821   21847   42808   14298   2399    6665    19287   33753
-  20  2   11143   22634   53459   17990   4850    5361    34469   55109
-  21  3   13129   26875   64495   18501   6440    16588   38986   64683
-  22  4   15838   31219   76719   24004   8812    36676   51615   87761
-  23  5   14087   32069   99980   18914   8167    35575   40409   86531
-  24  ;
-  25   
-  26   
-  27   
-  28  *** må justere 1,1 og 1,2 lidt ned, da de er højere end cons
-  29  min_cons("1","1") = 10100;
-****             $353$353
-**** 353  The domain for this index position is unknown and the element
-****         cannot be checked at this point. Missing data statement.
-  30  min_cons('1','2') = 21500;
-****             $353$353
-**** 353  The domain for this index position is unknown and the element
-****         cannot be checked at this point. Missing data statement.
-  31   
-  32   
-  33  Table cons(i,g) "samlet forbrug"
-  34      1       2       3       4       5       6       7       8
-****      $361,362
-**** 361  Values for domain 1 are unknown - no checking possible
-**** 362  Values for domain 2 are unknown - no checking possible
-  35  1   10256   21605   53703   21172   4269    19137   32006   44053
-  36  2   11974   24952   60790   22313   5245    25933   39999   60168
-  37  3   15165   31208   76997   26468   8292    37151   52196   84311
-  38  4   16065   33840   82148   26185   10166   44085   61141   92510
-  39  5   17722   37644   115872  27160   10329   62408   85645   114118
-  40  ;
-  41   
-  42  Table cons_share(i) "kvintilers forbrugsandel"
-****                                               $166
-**** 166  A table must have two or more dimensions - use parameter list
-****         rest of table will be ignored
-  43  1   0.126784
-  44  2   0.154558
-  45  3   0.204001
-  46  4   0.225123
-  47  5   0.289534
-  48  ;
-  49   
-  50  Table income(i) "Kvintilers indkomst 2019"
-****                                           $166
-**** 166  A table must have two or more dimensions - use parameter list
-****         rest of table will be ignored
-  51  1   392009.15
-  52  2   612026.48
-  53  3   927983.33
-  54  4   1083464.21
-  55  5   1698144.8
-  56  ;
-  57   
-  58  Table income_share(i) "Indkomstandel 2019"
-****                                           $166
-**** 166  A table must have two or more dimensions - use parameter list
-****         rest of table will be ignored
-  59  1   0.083165059
-  60  2   0.129841915
-  61  3   0.196872417
-  62  4   0.229857812
-  63  5   0.360262798
-  64  ;
+  57  1   10821   21847   42808   14298   2399    6665    19287   33753
+  58  2   11143   22634   53459   17990   4850    5361    34469   55109
+  59  3   13129   26875   64495   18501   6440    16588   38986   64683
+  60  4   15838   31219   76719   24004   8812    36676   51615   87761
+  61  5   14087   32069   99980   18914   8167    35575   40409   86531
+  62  ;
+  63   
+  64   
   65   
-  66  Table CO2_koef(g) "Varegruppernes co2-andel af produktion"
-****                                                           $166
-**** 166  A table must have two or more dimensions - use parameter list
-****         rest of table will be ignored
-  67  1   0.0823176
-  68  2   0.129274392
-  69  3   0.024987882
-  70  4   0.401554549
-  71  5   0.115478351
-  72  6   0.113095265
-  73  7   0.052594913
-  74  8   0.034791298
-  75  ;
-  76   
-  77  Table production(g) "Varergruppernes produktion"
-****                                                 $166
-**** 166  A table must have two or more dimensions - use parameter list
-****         rest of table will be ignored
-  78  1   27390.536
-  79  2   50466.738
-  80  3   219834.253
-  81  4   25459.668
-  82  5   7948.585
-  83  6   57465.41
-  84  7   101537.846
-  85  8   231128.268
-  86  ;
+  66  *** må justere 1,1 og 1,2 lidt ned, da de er højere end cons
+  67  min_cons("1","1") = 10100;
+****             $353$353
+**** 353  The domain for this index position is unknown and the element
+****         cannot be checked at this point. Missing data statement.
+  68  min_cons('1','2') = 21500;
+****             $353$353
+**** 353  The domain for this index position is unknown and the element
+****         cannot be checked at this point. Missing data statement.
+  69   
+  70   
+  71  Table cons(i,g) "samlet forbrug"
+  72      1       2       3       4       5       6       7       8
+****      $361,362
+**** 361  Values for domain 1 are unknown - no checking possible
+**** 362  Values for domain 2 are unknown - no checking possible
+  73  1   10256   21605   53703   21172   4269    19137   32006   44053
+  74  2   11974   24952   60790   22313   5245    25933   39999   60168
+  75  3   15165   31208   76997   26468   8292    37151   52196   84311
+  76  4   16065   33840   82148   26185   10166   44085   61141   92510
+  77  5   17722   37644   115872  27160   10329   62408   85645   114118
+  78  ;
+  79   
+  80  parameter cons_share(i) "kvintilers forbrugsandel i 2019 priser"/
+  81  1       0.126773
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+  82  2       0.154567
+  83  3       0.204116
+  84  4       0.225107
+  85  5       0.289437/;
+  86   
   87   
-  88  Table prod_share(g) "Varergruppers andel af produktion"
-****                                                        $166
-**** 166  A table must have two or more dimensions - use parameter list
-****         rest of table will be ignored
-  89  1       0.037977464
-  90  2       0.069973028
-  91  3       0.304804092
-  92  4       0.035300281
-  93  5       0.011020854
-  94  6       0.079676811
-  95  7       0.140784025
-  96  8       0.320463445
-  97  ;
-  98   
-  99  Table prices(g) "varergruppers 2015-priser for 2019"
-****                                                     $166
-**** 166  A table must have two or more dimensions - use parameter list
-****         rest of table will be ignored
- 100  1   1.040037111
- 101  2   1.031743332
- 102  3   1.060924014
- 103  4   0.964655349
- 104  5   1.052080537
- 105  6   1.007260708
- 106  7   0.949414731
- 107  8   1.045076628
- 108  ;
- 109   
- 110   
- 111   
+  88   
+  89  parameter income(i) "Kvintilers indkomst 2019 (i 2015 priser)"/
+  90  1   392009.15
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+  91  2   612026.48
+  92  3   927983.33
+  93  4   1083464.21
+  94  5   1698144.8/
+  95  ;
+  96   
+  97  parameter income_share(i) "Indkomstandel 2019"/
+  98  1   0.083165059
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+  99  2   0.129841915
+ 100  3   0.196872417
+ 101  4   0.229857812
+ 102  5   0.360262798/
+ 103  ;
+ 104   
+ 105  parameter Emissions(g)  "Udledninger: 1000 ton co2e"/
+ 106  1       2255
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+ 107  2       6524
+ 108  3       5493
+ 109  4       10223
+ 110  5       918
+ 111  6       6499
+ 112  7       5340
+ 113  8       8041/
+ 114  ;
+ 115   
+ 116   
+ 117  parameter CO2_koef(g) "Varegruppernes co2-andel af produktion"/
+ 118  1   0.0823176
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+ 119  2   0.129274392
+ 120  3   0.024987882
+ 121  4   0.401554549
+ 122  5   0.115478351
+ 123  6   0.113095265
+ 124  7   0.052594913
+ 125  8   0.034791298/
+ 126  ;
+ 127   
+ 128  parameter production(g) "Varergruppernes produktion"/
+ 129  1   27391
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+ 130  2   50467
+ 131  3   219834
+ 132  4   25460
+ 133  5   7949
+ 134  6   57465
+ 135  7   101538
+ 136  8   231129/
+ 137  ;
+ 138   
+ 139  parameter prod_share(g) "Varergruppers andel af produktion"/
+ 140  1       0.037977464
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+ 141  2       0.069973028
+ 142  3       0.304804092
+ 143  4       0.035300281
+ 144  5       0.011020854
+ 145  6       0.079676811
+ 146  7       0.140784025
+ 147  8       0.320463445/
+ 148  ;
+ 149   
+ 150  parameter prices(g) "varergruppers 2015-priser for 2019"/
+ 151  1   1.04
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+ 152  2   1.03
+ 153  3   1.06
+ 154  4   0.96
+ 155  5   1.05
+ 156  6   1.01
+ 157  7   0.95
+ 158  8   1.05/
+ 159  ;
+ 160   
+ 161  parameter production2019(g) "Varergruppernes produktion i 2019-priser"/
+ 162  1       26338
+****  $361
+**** 361  Values for domain 1 are unknown - no checking possible
+ 163  2       48997
+ 164  3       207391
+ 165  4       26521
+ 166  5       7570
+ 167  6       56896
+ 168  7       106882
+ 169  8       220123/
+ 170  ;
+ 171   
+ 172   
+ 173   
 
-**** 17 ERROR(S)   0 WARNING(S)
+**** 23 ERROR(S)   0 WARNING(S)
 
 
-COMPILATION TIME     =        0.009 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
+COMPILATION TIME     =        0.013 SECONDS      3 MB  32.2.0 rc62c018 DEX-DEG
 
 
 USER: Course License                                 S210104/0001AO-GEN

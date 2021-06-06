@@ -19,6 +19,8 @@ kvinttab_alpha  = matrix(nrow=n,ncol=6) #5+1 kvintiler
 rownames(kvinttab_alpha) <- rnams_kvinttab
 colnames(kvinttab_alpha) <- cnams_kvinttab
 kvinttab_b2019   = kvinttab_alpha
+kvinttab_beta1   = kvinttab_alpha
+kvinttab_beta2   = kvinttab_alpha
 kvinttab_actual2019   = kvinttab_alpha
 kvinttab_pred2019= kvinttab_alpha
 
@@ -175,6 +177,8 @@ for (dfdf in 1:length(df_kvintiler) ) {
   for (g in 1:n){
     kvinttab_alpha[(g),dfdf]               =alpha_sol[g]
     kvinttab_b2019[(g),dfdf]               = p[26,g]*sol_b_mat_7[26,g]
+    kvinttab_beta1[(g),dfdf]               = beta1_sol7[g]
+    kvinttab_beta2[(g),dfdf]               = beta2_sol7[g] 
     kvinttab_actual2019[(g),dfdf]          = p[26,g]*x[26,g]*10000
     kvinttab_pred2019[(g),dfdf]            = p[26,g]*sol_b_mat_7[26,g] + alpha_sol[g]*(supernum[26])
   }
@@ -186,7 +190,7 @@ kvinttab_b2019
 kvinttab_actual2019
 kvinttab_pred2019
 alphanam<-rep("alpha",6)
-output <- rbind(kvinttab_alpha,kvinttab_b2019,kvinttab_actual2019,kvinttab_pred2019)
+output <- rbind(kvinttab_alpha,kvinttab_b2019,kvinttab_beta1,kvinttab_beta2,kvinttab_actual2019,kvinttab_pred2019)
 
-write.xlsx(output, "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /MODELLEN/Resultater til modelbrug/output.xlsx", sheetName = "Modelresultater", 
+write.xlsx(output, "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/Output.xlsx", sheetName = "Output", 
            col.names = TRUE, row.names = TRUE, append = FALSE)
