@@ -1,4 +1,4 @@
---- Job Data_LES_RLK.gms Start 06/04/21 10:50:38 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job Data_LES_RLK.gms Start 06/08/21 13:14:48 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -18,9 +18,9 @@ Licensee: Course License                                 S210104/0001AO-GEN
           /Users/rasmuskaslund/Library/Application Support/GAMS/gamslice.txt
           Course license for use within the course and related course work
 --- Starting compilation
---- Data_LES_RLK.gms(57) 3 Mb
---- Starting execution: elapsed 0:00:00.019
---- Data_LES_RLK.gms(57) 4 Mb
+--- Data_LES_RLK.gms(71) 3 Mb
+--- Starting execution: elapsed 0:00:00.013
+--- Data_LES_RLK.gms(71) 4 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/Data_LES_RLK.gdx
 *** Status: Normal completion
---- Job Data_LES_RLK.gms Stop 06/04/21 10:50:38 elapsed 0:00:00.027
+--- Job Data_LES_RLK.gms Stop 06/08/21 13:14:48 elapsed 0:00:00.020

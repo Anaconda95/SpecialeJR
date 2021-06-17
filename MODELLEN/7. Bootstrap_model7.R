@@ -27,7 +27,7 @@ dataframe = dataframelist[[df_kvint]]
 
 ############## Datamanipulation #############
 df <- dataframe
-df = kvint_1
+
 df     <- transform( df,
                      p1 = priser$Pris.kod_fisk_mej,
                      p2 = priser$Pris.ovr_fode,
@@ -140,9 +140,6 @@ startvals = list(start_1,start_2,start_3, start_4, start_5, start_6, start_7, st
 j=7;
   
   startval <- startvals[[j]]  
-
- 
-  startval
   
   sol <-  optim(par = startval, fn = loglik, model=j, 
                 phat=phat, w=w, x=x, method="BFGS",
@@ -173,7 +170,7 @@ j=7;
   
   #Udregner elasticiteter - sidste periode
   mu=df$ialt/10000
-  supernum=mu*10000-rowSums(sol_b_mat)
+  supernum=mu*10000-rowSums(sol_b_mat) #ups bør man gange priser på her???
   sol_el_op = (p[T,]*sol_b_mat[(T),]*(1-alpha_sol))/(p[T,]*sol_b_mat[(T),]+alpha_sol*supernum[T])-1
   sol_el_exp = alpha_sol*mu[T]*10000/(p[T,]*sol_b_mat[(T),]+alpha_sol*supernum[T])
   rbind(alpha_sol, beta_sol, beta2_sol,sol_el_op,sol_el_exp)
@@ -195,7 +192,7 @@ mu=df$ialt/10000
 phat
 
 #Initialize bootstrap
-B=100al
+B=100
 w1_boot_mat       <- matrix(ncol=B,nrow=T)
 w3_boot_mat       <- matrix(ncol=B,nrow=T)
 alpha_boot_mat    <- matrix(ncol=n,nrow=B)

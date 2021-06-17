@@ -57,6 +57,15 @@ Table beta2est(i,g) "beta1'er"
 6   0.01   0.014    0.090   0.892   0.250   0.495   -0.338   0.172
 ;
 
+Parameter disp_inc_data(i) "disponibel indkomst";
+disp_inc_data('1')=196005;
+disp_inc_data('2')=306013;
+disp_inc_data('3')=463992;
+disp_inc_data('4')=541732;
+disp_inc_data('5')=849072;
+disp_inc_data('6')=459282;
+;
+
 Parameter sumbeta(i,g);
 sumbeta(i,g)=beta1est(i,g)+beta2est(i,g);
 display sumbeta;

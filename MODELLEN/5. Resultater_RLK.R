@@ -15,6 +15,8 @@ rnams_kvinttab <- c("Meat and dairy","Other foods","Housing","Energy for housing
                     "Energy for transport","Transport","Other goods","Other services")
 cnams_kvinttab <- c("1", "2", "3", "4", "5", "Avg.")
 
+n=8
+
 kvinttab_alpha  = matrix(nrow=n,ncol=6) #5+1 kvintiler
 rownames(kvinttab_alpha) <- rnams_kvinttab
 colnames(kvinttab_alpha) <- cnams_kvinttab
@@ -23,6 +25,9 @@ kvinttab_beta1   = kvinttab_alpha
 kvinttab_beta2   = kvinttab_alpha
 kvinttab_actual2019   = kvinttab_alpha
 kvinttab_pred2019= kvinttab_alpha
+
+solutions = NA
+bmin= NA
 
 for (dfdf in 1:length(df_kvintiler) ) {
   
@@ -132,7 +137,7 @@ for (dfdf in 1:length(df_kvintiler) ) {
                               ndeps = rep(1e-10,length(start_7))) )
   
   ######## gemmer solution ########
-  
+
   solutions = rbind(solutions,sol)
   
   #Udregner minimumsforbruget for alle perioder.
