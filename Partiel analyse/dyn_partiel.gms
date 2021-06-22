@@ -136,7 +136,8 @@ Table p_udenbenz_frem(g,t)
 ;
 
 loop(t,
-   P.fx(g)=p_1250indfast_frem(g,t);
+ P.fx(g)=p.l(g)*1.02 
+*P.fx(g)=p_1250indfast_frem(g,t);
 *   P.fx(g)=p_1250straks_frem(g,t);
 *P.fx(g)=p_landbrugkun_frem(g,t);
 *P.fx(g)=p_udenbenz_frem(g,t);
@@ -161,6 +162,9 @@ loop(t,
 *  updating the minimum consumption --------------
 *    b(i,g)       = 0.85*b(i,g);
     b(i,g)       =  beta1(i,g)*x.l(i,g) + beta2(i,g)*b(i,g);
+*Letting expenditure rise by 2 pct.
+mu.fx(i)   =  mu.l(i)*1.2
+    
     
 * updating prices
     

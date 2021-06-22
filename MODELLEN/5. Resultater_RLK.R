@@ -27,7 +27,8 @@ kvinttab_actual2019   = kvinttab_alpha
 kvinttab_pred2019= kvinttab_alpha
 
 solutions = NA
-bmin= NA
+b_min= list()
+forbrug=list()
 
 for (dfdf in 1:length(df_kvintiler) ) {
   
@@ -199,3 +200,37 @@ output <- rbind(kvinttab_alpha,kvinttab_b2019,kvinttab_beta1,kvinttab_beta2,kvin
 
 write.xlsx(output, "/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/Output.xlsx", sheetName = "Output", 
            col.names = TRUE, row.names = TRUE, append = FALSE)
+
+
+#Making figures with B's and actual consumption
+
+p <- list()
+vareagg = c("Meat and dairy","Other foods","Housing","Energy for housing","Energy for transport","Transport","Other goods","Other services")
+
+for (i in 1:8) {
+  v=data.frame(Year=c(1996:2019), Quintile_1_b=b_min[[1]][3:26,i], Quintile_1_Cons = forbrug[[1]][3:26,i],
+                                  Quintile_3_b=b_min[[3]][3:26,i], Quintile_3_Cons = forbrug[[3]][3:26,i],
+                                  Quintile_5_b=b_min[[5]][3:26,i], Quintile_5_Cons = forbrug[[5]][3:26,i])
+  v <- v %>%
+    #select(Year, Consumption, M1, M2, M3, M4, M5, M6, M7, M8) %>%
+    gather(key = "Quintile", value = "value", -Year)
+  #If you want a legend:
+  p[[i]] <- ggplot(v, aes(x = Year, y = value)) + ggtitle(vareagg[i])+ theme_bw()+
+    geom_line(aes(color = Quintile, linetype = Quintile)) + 
+    scale_color_manual(values = c("cornflowerblue","cornflowerblue", "gold2","gold2","brown2","brown2"))+
+    scale_linetype_manual(values = c("twodash", "solid", "twodash","solid","twodash","solid"))+
+    labs(y = "DKK (2015 Prices)")
+}
+stortplot = ggarrange(plotlist=p, ncol=2, nrow=4, common.legend = TRUE, legend="bottom")
+
+ggsave(
+  "b_quintileplot.pdf",
+  plot = stortplot,
+  device="pdf",
+  width = 8.27,
+  height = 11.69,
+  units = c("in", "cm", "mm"),
+  dpi = 300,
+  limitsize = TRUE,
+)
+

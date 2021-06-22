@@ -1,4 +1,4 @@
---- Job dyn_partiel.gms Start 06/14/21 12:54:31 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job dyn_partiel.gms Start 06/17/21 15:46:25 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -20,15 +20,15 @@ Licensee: Course License                                 S210104/0001AO-GEN
 --- Starting compilation
 --- dyn_partiel.gms(37) 3 Mb
 --- . Data_LES_RLK.gms(71) 3 Mb
---- dyn_partiel.gms(168) 3 Mb
---- Starting execution: elapsed 0:00:00.058
+--- dyn_partiel.gms(172) 3 Mb
+--- Starting execution: elapsed 0:00:00.012
 --- dyn_partiel.gms(133) 4 Mb
 --- Generating CNS model partial
 --- dyn_partiel.gms(136) 6 Mb
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
 --- dyn_partiel.gms(136) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.097
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.019
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -51,14 +51,14 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.360
+--- Executing after solve: elapsed 0:00:00.062
 --- dyn_partiel.gms(140) 4 Mb
 --- Generating CNS model partial
 --- dyn_partiel.gms(142) 6 Mb
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
 --- dyn_partiel.gms(142) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.372
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.070
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -81,15 +81,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.433
+--- Executing after solve: elapsed 0:00:00.122
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2018
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.457
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.131
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -100,7 +100,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        8.2991391537E-11 (Input point)
+      0   0        7.0649042180E+04 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -112,15 +112,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.509
+--- Executing after solve: elapsed 0:00:00.177
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2019
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.533
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.189
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -131,7 +131,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        2.5169600629E+04 (Input point)
+      0   0        6.4173994368E+05 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -143,15 +143,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.601
+--- Executing after solve: elapsed 0:00:00.231
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2020
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.610
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.235
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -162,7 +162,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.8623535251E+04 (Input point)
+      0   0        7.6491595415E+05 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -174,14 +174,293 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.656
+--- Executing after solve: elapsed 0:00:00.287
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2021
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.295
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        9.1166809220E+05 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.324
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2022
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.328
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.0897930769E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.358
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2023
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.362
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.3044813109E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.407
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2024
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.417
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.5630334213E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.450
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2025
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.454
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        1.8739183532E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.483
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2026
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.487
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.2474774569E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.546
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2027
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.553
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        2.6961189439E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.603
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2028
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.608
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.2347749225E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.652
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2029
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.657
+CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
+ 
+ 
+    C O N O P T 3   version 3.17L
+    Copyright (C)   ARKI Consulting and Development A/S
+                    Bagsvaerdvej 246 A
+                    DK-2880 Bagsvaerd, Denmark
+ 
+ 
+   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
+      0   0        3.8813802252E+06 (Input point)
+ 
+                   Pre-triangular equations:   48
+                   Post-triangular equations:  0
+ 
+      1   0        0.0000000000E+00 (After pre-processing)
+      2   0        0.0000000000E+00 (After scaling)
+      2            0.0000000000E+00
+ 
+ ** Feasible solution to a square system.
+ 
+--- Reading solution for model partial
+--- Executing after solve: elapsed 0:00:00.687
+--- dyn_partiel.gms(209) 4 Mb
+--- Generating CNS model partial
+--- dyn_partiel.gms(217) 6 Mb
+--- LOOPS t = 2030
+---   48 rows  62 columns  522 non-zeroes
+---   403 nl-code  180 nl-non-zeroes
+--- dyn_partiel.gms(217) 4 Mb
 --- Executing CONOPT (Solvelink=2): elapsed 0:00:00.692
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
@@ -193,7 +472,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.4786281820E+04 (Input point)
+      0   0        4.6574738447E+06 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -205,294 +484,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.752
+--- Executing after solve: elapsed 0:00:00.732
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2022
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.760
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.2133280686E+04 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.807
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2023
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.817
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.0034704202E+04 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.871
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2024
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.889
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        8.3616059338E+03 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.950
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2025
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.967
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        7.0222486151E+03 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.007
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2026
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.019
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.5888487310E+04 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.093
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2027
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.099
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.4329288829E+04 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.146
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2028
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.158
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.3420662837E+04 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.214
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2029
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.223
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.1792756607E+04 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.270
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
---- LOOPS t = 2030
----   48 rows  62 columns  522 non-zeroes
----   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.292
-CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
- 
- 
-    C O N O P T 3   version 3.17L
-    Copyright (C)   ARKI Consulting and Development A/S
-                    Bagsvaerdvej 246 A
-                    DK-2880 Bagsvaerd, Denmark
- 
- 
-   Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.1250088521E+04 (Input point)
- 
-                   Pre-triangular equations:   48
-                   Post-triangular equations:  0
- 
-      1   0        0.0000000000E+00 (After pre-processing)
-      2   0        0.0000000000E+00 (After scaling)
-      2            0.0000000000E+00
- 
- ** Feasible solution to a square system.
- 
---- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.347
---- dyn_partiel.gms(209) 4 Mb
---- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2031
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.359
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.736
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -503,7 +503,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        5.7075905992E+03 (Input point)
+      0   0        5.5889138613E+06 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -515,15 +515,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.411
+--- Executing after solve: elapsed 0:00:00.795
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2032
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.425
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.800
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -534,7 +534,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        4.6830443607E+03 (Input point)
+      0   0        6.7067391302E+06 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -546,15 +546,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.475
+--- Executing after solve: elapsed 0:00:00.851
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2033
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.486
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.864
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -565,7 +565,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        3.9021643746E+03 (Input point)
+      0   0        8.0482030882E+06 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -577,15 +577,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.556
+--- Executing after solve: elapsed 0:00:00.921
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2034
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.568
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.933
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -596,7 +596,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        3.3118566394E+03 (Input point)
+      0   0        9.6580151571E+06 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -608,15 +608,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.619
+--- Executing after solve: elapsed 0:00:00.984
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2035
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.628
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.988
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -627,7 +627,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        2.8404433485E+03 (Input point)
+      0   0        1.1589830706E+07 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -639,15 +639,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.682
+--- Executing after solve: elapsed 0:00:01.027
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2036
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.691
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.032
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -658,7 +658,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        2.4589134639E+03 (Input point)
+      0   0        1.3908039330E+07 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -670,15 +670,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.753
+--- Executing after solve: elapsed 0:00:01.072
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2037
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.761
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.078
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -689,7 +689,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        2.1443593352E+03 (Input point)
+      0   0        1.6689910987E+07 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -701,15 +701,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.818
+--- Executing after solve: elapsed 0:00:01.107
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2038
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.828
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.112
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -720,7 +720,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.8825282676E+03 (Input point)
+      0   0        2.0028171534E+07 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -732,15 +732,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.895
+--- Executing after solve: elapsed 0:00:01.142
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2039
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.908
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.147
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -751,7 +751,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.6625306200E+03 (Input point)
+      0   0        2.4034093484E+07 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -763,15 +763,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.970
+--- Executing after solve: elapsed 0:00:01.196
 --- dyn_partiel.gms(209) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(216) 6 Mb
+--- dyn_partiel.gms(217) 6 Mb
 --- LOOPS t = 2040
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(216) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.978
+--- dyn_partiel.gms(217) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.203
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -782,7 +782,7 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  
  
    Iter Phase Ninf   Infeasibility   RGmax    NSB   Step InItr MX OK
-      0   0        1.4919996964E+03 (Input point)
+      0   0        2.8841205021E+07 (Input point)
  
                    Pre-triangular equations:   48
                    Post-triangular equations:  0
@@ -794,8 +794,8 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:02.023
+--- Executing after solve: elapsed 0:00:01.244
 --- dyn_partiel.gms(209) 4 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/dyn_partiel.gdx
 *** Status: Normal completion
---- Job dyn_partiel.gms Stop 06/14/21 12:54:33 elapsed 0:00:02.043
+--- Job dyn_partiel.gms Stop 06/17/21 15:46:27 elapsed 0:00:01.254

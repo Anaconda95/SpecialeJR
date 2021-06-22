@@ -20,6 +20,8 @@ kvinttab_beta   = kvinttab_alpha
 kvinttab_beta2  = kvinttab_alpha
 kvinttab_el_op  = kvinttab_alpha
 kvinttab_el_exp = kvinttab_alpha
+kvinttab_b2019  = kvinttab_alpha
+
 
 
 for (df_kvint in 1:6){
@@ -174,7 +176,7 @@ j=7;
   sol_el_op = (p[T,]*sol_b_mat[(T),]*(1-alpha_sol))/(p[T,]*sol_b_mat[(T),]+alpha_sol*supernum[T])-1
   sol_el_exp = alpha_sol*mu[T]*10000/(p[T,]*sol_b_mat[(T),]+alpha_sol*supernum[T])
   rbind(alpha_sol, beta_sol, beta2_sol,sol_el_op,sol_el_exp)
-  
+  b2019_sol = sol_b_mat[(T),]
   
 ##SÅ SKAL DER BOOTSTRAPPES ---- 
 
@@ -200,6 +202,7 @@ beta_boot_mat     <- matrix(ncol=n,nrow=B)
 beta2_boot_mat     <- matrix(ncol=n,nrow=B)
 el_op_boot_mat    <- matrix(ncol=n,nrow=B)
 el_exp_boot_mat   <- matrix(ncol=n,nrow=B)
+b2019_boot_mat   <- matrix(ncol=n,nrow=B)
 
 b_mat_boot <- matrix(ncol=n,nrow=T)
 
@@ -251,7 +254,7 @@ while (b<=B) {
   supernum=mu-rowSums(sol_b_mat)
   el_op_boot_mat[b,] = (p[T,]*sol_b_mat[(T),]*(1-alpha_boot_mat[b,]))/(p[T,]*sol_b_mat[(T),]+alpha_boot_mat[b,]*supernum[T])-1
   el_exp_boot_mat[b,] = alpha_boot_mat[b,]*mu[T]/(p[T,]*sol_b_mat[(T),]+alpha_boot_mat[b,]*supernum[T])
-
+  b2019_boot_mat[b,] = sol_b_mat[T,]*1000
   b=b+1
   #if (min(alpha_boot_mat[b,])>0.001 & max(el_op_boot_mat[b,])<0 & max(alpha_boot_mat[b,]-alpha_sol)>0.001)
   #{b=b+1} 
@@ -265,11 +268,13 @@ beta2_conf    = matrix(nrow=2,ncol = n)
 beta_conf     = matrix(nrow=2,ncol = n)
 el_op_conf    = matrix(nrow=2,ncol = n)
 el_exp_conf   = matrix(nrow=2,ncol = n)
+b2019_conf    = matrix(nrow=2,ncol = n)
 alpha_se    = c(1:n)
 beta2_se    = c(1:n)
 beta_se     = c(1:n)
 el_op_se    = c(1:n)
 el_exp_se   = c(1:n)
+b2019_se    = c(1:n)
 
 for (s in 1:n){
   ci <-quantile(alpha_boot_mat[,s], c(.05,.95))
@@ -292,6 +297,10 @@ for (s in 1:n){
   el_exp_conf[1,s]=ci[1]
   el_exp_conf[2,s]=ci[2]
   el_exp_se[s] = sd(el_exp_boot_mat[,s])
+  ci <-quantile(b2019_boot_mat[,s], c(.05,.95))
+  b2019_conf[1,s]=ci[1]
+  b2019_conf[2,s]=ci[2]
+  b2019_se[s] = sd(b2019_boot_mat[,s])
 }
 
 
@@ -306,7 +315,10 @@ for (g in 1:n){
   kvinttab_el_op[(2*g),df_kvint]=el_op_se[g]
   kvinttab_el_exp[(2*g-1),df_kvint]=sol_el_exp[g]
   kvinttab_el_exp[(2*g),df_kvint]=el_exp_se[g]
+  kvinttab_b2019[(2*g-1),df_kvint]=b2019_sol[g]
+  kvinttab_b2019[(2*g),df_kvint]=b2019_se[g]
 }
+b2019_se
 
 
 #results_h <- rbind(alpha_sol, alpha_se,beta_sol,beta_se,beta2_sol, beta2_se, sol_el_op, el_op_se,
@@ -327,10 +339,11 @@ kvinttab_beta   =round(kvinttab_beta   ,digits=antaldigits)
 kvinttab_beta2  =round(kvinttab_beta2  ,digits=antaldigits)
 kvinttab_el_op  =round(kvinttab_el_op  ,digits=antaldigits)
 kvinttab_el_exp =round(kvinttab_el_exp ,digits=antaldigits)
+kvinttab_b2019  =round(kvinttab_b2019 ,digits=antaldigits)
 
-stortab=rbind(kvinttab_alpha,kvinttab_beta,kvinttab_beta2,kvinttab_el_op,kvinttab_el_exp)
-tablist=list(kvinttab_alpha,kvinttab_beta,kvinttab_beta2,kvinttab_el_op,kvinttab_el_exp)
-for (tab in 1:5){
+stortab=rbind(kvinttab_alpha,kvinttab_beta,kvinttab_beta2,kvinttab_el_op,kvinttab_el_exp,kvinttab_b2019)
+tablist=list(kvinttab_alpha,kvinttab_beta,kvinttab_beta2,kvinttab_el_op,kvinttab_el_exp,kvinttab_b2019)
+for (tab in 1:6){
   tablist[[tab]]
   # every second row
   ind = which(row(tablist[[tab]]) %% 2 == 0, arr.ind = TRUE)
@@ -356,6 +369,7 @@ betatab <- xtable(tablist[[2]])
 beta2tab <- xtable(tablist[[3]])
 eloptab <- xtable(tablist[[4]])
 elexptab <- xtable(tablist[[5]])
+b2019tab <- xtable(tablist[[6]])
 
 print(infotab, file="infotab.txt")
 print(alphatab, file="alphatab.txt")
@@ -363,7 +377,7 @@ print(betatab, file="betatab.txt")
 print(beta2tab, file="beta2tab.txt")
 print(eloptab, file="eloptab.txt")
 print(elexptab, file="elexptab.txt")
-
+print(b2019tab, file="b2019tab.txt")
 
 #v=data.frame(Year=c(1994:2019),w_pred[,3],w[,3],w3_boot_mat)
 #v <- v %>%
