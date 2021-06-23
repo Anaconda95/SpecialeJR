@@ -1,0 +1,705 @@
+B 3 C o m p i l a t i o n
+B 293 Include File Summary
+B 305 E x e c u t i o n
+I 305 sumbeta
+B 321 Equation Listing    SOLVE fast Using CNS From line 154
+D 324 E_demand_fast
+D 335 E_budget
+B 347 Column Listing      SOLVE fast Using CNS From line 154
+E 350 X
+E 387 p
+E 418 mu
+B 435 Model Statistics    SOLVE fast Using CNS From line 154
+B 451 Solution Report     SOLVE fast Using CNS From line 154
+F 493 E_demand_fast
+F 540 E_budget
+G 551 X
+G 604 p
+G 617 mu
+B 635 Equation Listing    SOLVE cobbdoug Using CNS From line 158
+D 638 E_demand_cd
+D 649 E_budget
+B 661 Column Listing      SOLVE cobbdoug Using CNS From line 158
+E 664 X
+E 683 p
+E 732 mu
+B 770 Model Statistics    SOLVE cobbdoug Using CNS From line 158
+B 786 Solution Report     SOLVE cobbdoug Using CNS From line 158
+F 828 E_demand_cd
+F 875 E_budget
+G 886 X
+G 939 p
+G 952 mu
+B 969 Equation Listing    SOLVE partial Using CNS From line 165
+D 972 E_demand
+D 983 E_budget
+B 995 Column Listing      SOLVE partial Using CNS From line 165
+E 998 X
+E 1017 p
+E 1174 mu
+B 1212 Model Statistics    SOLVE partial Using CNS From line 165
+B 1228 Solution Report     SOLVE partial Using CNS From line 165
+F 1270 E_demand
+F 1317 E_budget
+G 1328 X
+G 1381 p
+G 1394 mu
+B 1412 Equation Listing    SOLVE partial Using CNS From line 171
+D 1415 E_demand
+D 1426 E_budget
+B 1438 Column Listing      SOLVE partial Using CNS From line 171
+E 1441 X
+E 1460 p
+E 1617 mu
+B 1655 Model Statistics    SOLVE partial Using CNS From line 171
+B 1671 Solution Report     SOLVE partial Using CNS From line 171
+F 1713 E_demand
+F 1760 E_budget
+G 1771 X
+G 1824 p
+G 1837 mu
+B 1855 Equation Listing    SOLVE partial Using CNS From line 260
+D 1858 E_demand
+D 1869 E_budget
+B 1881 Column Listing      SOLVE partial Using CNS From line 260
+E 1884 X
+E 1903 p
+E 2060 mu
+B 2098 Model Statistics    SOLVE partial Using CNS From line 260
+B 2119 Solution Report     SOLVE partial Using CNS From line 260
+F 2161 E_demand
+F 2208 E_budget
+G 2219 X
+G 2272 p
+G 2285 mu
+B 2303 Equation Listing    SOLVE partial Using CNS From line 267
+D 2306 E_demand
+D 2317 E_budget
+B 2329 Column Listing      SOLVE partial Using CNS From line 267
+E 2332 X
+E 2351 p
+E 2508 mu
+B 2546 Model Statistics    SOLVE partial Using CNS From line 267
+B 2567 Solution Report     SOLVE partial Using CNS From line 267
+F 2609 E_demand
+F 2656 E_budget
+G 2667 X
+G 2720 p
+G 2733 mu
+B 2751 Equation Listing    SOLVE partial Using CNS From line 260
+D 2754 E_demand
+D 2765 E_budget
+B 2777 Column Listing      SOLVE partial Using CNS From line 260
+E 2780 X
+E 2799 p
+E 2956 mu
+B 2994 Model Statistics    SOLVE partial Using CNS From line 260
+B 3015 Solution Report     SOLVE partial Using CNS From line 260
+F 3057 E_demand
+F 3104 E_budget
+G 3115 X
+G 3168 p
+G 3181 mu
+B 3199 Equation Listing    SOLVE partial Using CNS From line 267
+D 3202 E_demand
+D 3213 E_budget
+B 3225 Column Listing      SOLVE partial Using CNS From line 267
+E 3228 X
+E 3247 p
+E 3404 mu
+B 3442 Model Statistics    SOLVE partial Using CNS From line 267
+B 3463 Solution Report     SOLVE partial Using CNS From line 267
+F 3505 E_demand
+F 3552 E_budget
+G 3563 X
+G 3616 p
+G 3629 mu
+B 3647 Equation Listing    SOLVE partial Using CNS From line 260
+D 3650 E_demand
+D 3661 E_budget
+B 3673 Column Listing      SOLVE partial Using CNS From line 260
+E 3676 X
+E 3695 p
+E 3852 mu
+B 3890 Model Statistics    SOLVE partial Using CNS From line 260
+B 3911 Solution Report     SOLVE partial Using CNS From line 260
+F 3953 E_demand
+F 4000 E_budget
+G 4011 X
+G 4064 p
+G 4077 mu
+B 4095 Equation Listing    SOLVE partial Using CNS From line 267
+D 4098 E_demand
+D 4109 E_budget
+B 4121 Column Listing      SOLVE partial Using CNS From line 267
+E 4124 X
+E 4143 p
+E 4300 mu
+B 4338 Model Statistics    SOLVE partial Using CNS From line 267
+B 4359 Solution Report     SOLVE partial Using CNS From line 267
+F 4401 E_demand
+F 4448 E_budget
+G 4459 X
+G 4512 p
+G 4525 mu
+B 4543 Equation Listing    SOLVE partial Using CNS From line 260
+D 4546 E_demand
+D 4557 E_budget
+B 4569 Column Listing      SOLVE partial Using CNS From line 260
+E 4572 X
+E 4591 p
+E 4748 mu
+B 4786 Model Statistics    SOLVE partial Using CNS From line 260
+B 4807 Solution Report     SOLVE partial Using CNS From line 260
+F 4849 E_demand
+F 4896 E_budget
+G 4907 X
+G 4960 p
+G 4973 mu
+B 4991 Equation Listing    SOLVE partial Using CNS From line 267
+D 4994 E_demand
+D 5005 E_budget
+B 5017 Column Listing      SOLVE partial Using CNS From line 267
+E 5020 X
+E 5039 p
+E 5196 mu
+B 5234 Model Statistics    SOLVE partial Using CNS From line 267
+B 5255 Solution Report     SOLVE partial Using CNS From line 267
+F 5297 E_demand
+F 5344 E_budget
+G 5355 X
+G 5408 p
+G 5421 mu
+B 5439 Equation Listing    SOLVE partial Using CNS From line 260
+D 5442 E_demand
+D 5453 E_budget
+B 5465 Column Listing      SOLVE partial Using CNS From line 260
+E 5468 X
+E 5487 p
+E 5644 mu
+B 5682 Model Statistics    SOLVE partial Using CNS From line 260
+B 5703 Solution Report     SOLVE partial Using CNS From line 260
+F 5745 E_demand
+F 5792 E_budget
+G 5803 X
+G 5856 p
+G 5869 mu
+B 5887 Equation Listing    SOLVE partial Using CNS From line 267
+D 5890 E_demand
+D 5901 E_budget
+B 5913 Column Listing      SOLVE partial Using CNS From line 267
+E 5916 X
+E 5935 p
+E 6092 mu
+B 6130 Model Statistics    SOLVE partial Using CNS From line 267
+B 6151 Solution Report     SOLVE partial Using CNS From line 267
+F 6193 E_demand
+F 6240 E_budget
+G 6251 X
+G 6304 p
+G 6317 mu
+B 6335 Equation Listing    SOLVE partial Using CNS From line 260
+D 6338 E_demand
+D 6349 E_budget
+B 6361 Column Listing      SOLVE partial Using CNS From line 260
+E 6364 X
+E 6383 p
+E 6540 mu
+B 6578 Model Statistics    SOLVE partial Using CNS From line 260
+B 6599 Solution Report     SOLVE partial Using CNS From line 260
+F 6641 E_demand
+F 6688 E_budget
+G 6699 X
+G 6752 p
+G 6765 mu
+B 6783 Equation Listing    SOLVE partial Using CNS From line 267
+D 6786 E_demand
+D 6797 E_budget
+B 6809 Column Listing      SOLVE partial Using CNS From line 267
+E 6812 X
+E 6831 p
+E 6988 mu
+B 7026 Model Statistics    SOLVE partial Using CNS From line 267
+B 7047 Solution Report     SOLVE partial Using CNS From line 267
+F 7089 E_demand
+F 7136 E_budget
+G 7147 X
+G 7200 p
+G 7213 mu
+B 7231 Equation Listing    SOLVE partial Using CNS From line 260
+D 7234 E_demand
+D 7245 E_budget
+B 7257 Column Listing      SOLVE partial Using CNS From line 260
+E 7260 X
+E 7279 p
+E 7436 mu
+B 7474 Model Statistics    SOLVE partial Using CNS From line 260
+B 7495 Solution Report     SOLVE partial Using CNS From line 260
+F 7537 E_demand
+F 7584 E_budget
+G 7595 X
+G 7648 p
+G 7661 mu
+B 7679 Equation Listing    SOLVE partial Using CNS From line 267
+D 7682 E_demand
+D 7693 E_budget
+B 7705 Column Listing      SOLVE partial Using CNS From line 267
+E 7708 X
+E 7727 p
+E 7884 mu
+B 7922 Model Statistics    SOLVE partial Using CNS From line 267
+B 7943 Solution Report     SOLVE partial Using CNS From line 267
+F 7985 E_demand
+F 8032 E_budget
+G 8043 X
+G 8096 p
+G 8109 mu
+B 8127 Equation Listing    SOLVE partial Using CNS From line 260
+D 8130 E_demand
+D 8141 E_budget
+B 8153 Column Listing      SOLVE partial Using CNS From line 260
+E 8156 X
+E 8175 p
+E 8332 mu
+B 8370 Model Statistics    SOLVE partial Using CNS From line 260
+B 8391 Solution Report     SOLVE partial Using CNS From line 260
+F 8433 E_demand
+F 8480 E_budget
+G 8491 X
+G 8544 p
+G 8557 mu
+B 8575 Equation Listing    SOLVE partial Using CNS From line 267
+D 8578 E_demand
+D 8589 E_budget
+B 8601 Column Listing      SOLVE partial Using CNS From line 267
+E 8604 X
+E 8623 p
+E 8780 mu
+B 8818 Model Statistics    SOLVE partial Using CNS From line 267
+B 8839 Solution Report     SOLVE partial Using CNS From line 267
+F 8881 E_demand
+F 8928 E_budget
+G 8939 X
+G 8992 p
+G 9005 mu
+B 9023 Equation Listing    SOLVE partial Using CNS From line 260
+D 9026 E_demand
+D 9037 E_budget
+B 9049 Column Listing      SOLVE partial Using CNS From line 260
+E 9052 X
+E 9071 p
+E 9228 mu
+B 9266 Model Statistics    SOLVE partial Using CNS From line 260
+B 9287 Solution Report     SOLVE partial Using CNS From line 260
+F 9329 E_demand
+F 9376 E_budget
+G 9387 X
+G 9440 p
+G 9453 mu
+B 9471 Equation Listing    SOLVE partial Using CNS From line 267
+D 9474 E_demand
+D 9485 E_budget
+B 9497 Column Listing      SOLVE partial Using CNS From line 267
+E 9500 X
+E 9519 p
+E 9676 mu
+B 9714 Model Statistics    SOLVE partial Using CNS From line 267
+B 9735 Solution Report     SOLVE partial Using CNS From line 267
+F 9777 E_demand
+F 9824 E_budget
+G 9835 X
+G 9888 p
+G 9901 mu
+B 9919 Equation Listing    SOLVE partial Using CNS From line 260
+D 9922 E_demand
+D 9933 E_budget
+B 9945 Column Listing      SOLVE partial Using CNS From line 260
+E 9948 X
+E 9967 p
+E 10124 mu
+B 10162 Model Statistics    SOLVE partial Using CNS From line 260
+B 10183 Solution Report     SOLVE partial Using CNS From line 260
+F 10225 E_demand
+F 10272 E_budget
+G 10283 X
+G 10336 p
+G 10349 mu
+B 10367 Equation Listing    SOLVE partial Using CNS From line 267
+D 10370 E_demand
+D 10381 E_budget
+B 10393 Column Listing      SOLVE partial Using CNS From line 267
+E 10396 X
+E 10415 p
+E 10572 mu
+B 10610 Model Statistics    SOLVE partial Using CNS From line 267
+B 10631 Solution Report     SOLVE partial Using CNS From line 267
+F 10673 E_demand
+F 10720 E_budget
+G 10731 X
+G 10784 p
+G 10797 mu
+B 10815 Equation Listing    SOLVE partial Using CNS From line 260
+D 10818 E_demand
+D 10829 E_budget
+B 10841 Column Listing      SOLVE partial Using CNS From line 260
+E 10844 X
+E 10863 p
+E 11020 mu
+B 11058 Model Statistics    SOLVE partial Using CNS From line 260
+B 11079 Solution Report     SOLVE partial Using CNS From line 260
+F 11121 E_demand
+F 11168 E_budget
+G 11179 X
+G 11232 p
+G 11245 mu
+B 11263 Equation Listing    SOLVE partial Using CNS From line 267
+D 11266 E_demand
+D 11277 E_budget
+B 11289 Column Listing      SOLVE partial Using CNS From line 267
+E 11292 X
+E 11311 p
+E 11468 mu
+B 11506 Model Statistics    SOLVE partial Using CNS From line 267
+B 11527 Solution Report     SOLVE partial Using CNS From line 267
+F 11569 E_demand
+F 11616 E_budget
+G 11627 X
+G 11680 p
+G 11693 mu
+B 11711 Equation Listing    SOLVE partial Using CNS From line 260
+D 11714 E_demand
+D 11725 E_budget
+B 11737 Column Listing      SOLVE partial Using CNS From line 260
+E 11740 X
+E 11759 p
+E 11916 mu
+B 11954 Model Statistics    SOLVE partial Using CNS From line 260
+B 11975 Solution Report     SOLVE partial Using CNS From line 260
+F 12017 E_demand
+F 12064 E_budget
+G 12075 X
+G 12128 p
+G 12141 mu
+B 12159 Equation Listing    SOLVE partial Using CNS From line 267
+D 12162 E_demand
+D 12173 E_budget
+B 12185 Column Listing      SOLVE partial Using CNS From line 267
+E 12188 X
+E 12207 p
+E 12364 mu
+B 12402 Model Statistics    SOLVE partial Using CNS From line 267
+B 12423 Solution Report     SOLVE partial Using CNS From line 267
+F 12465 E_demand
+F 12512 E_budget
+G 12523 X
+G 12576 p
+G 12589 mu
+B 12607 Equation Listing    SOLVE partial Using CNS From line 260
+D 12610 E_demand
+D 12621 E_budget
+B 12633 Column Listing      SOLVE partial Using CNS From line 260
+E 12636 X
+E 12655 p
+E 12812 mu
+B 12850 Model Statistics    SOLVE partial Using CNS From line 260
+B 12871 Solution Report     SOLVE partial Using CNS From line 260
+F 12913 E_demand
+F 12960 E_budget
+G 12971 X
+G 13024 p
+G 13037 mu
+B 13055 Equation Listing    SOLVE partial Using CNS From line 267
+D 13058 E_demand
+D 13069 E_budget
+B 13081 Column Listing      SOLVE partial Using CNS From line 267
+E 13084 X
+E 13103 p
+E 13260 mu
+B 13298 Model Statistics    SOLVE partial Using CNS From line 267
+B 13319 Solution Report     SOLVE partial Using CNS From line 267
+F 13361 E_demand
+F 13408 E_budget
+G 13419 X
+G 13472 p
+G 13485 mu
+B 13503 Equation Listing    SOLVE partial Using CNS From line 260
+D 13506 E_demand
+D 13517 E_budget
+B 13529 Column Listing      SOLVE partial Using CNS From line 260
+E 13532 X
+E 13551 p
+E 13708 mu
+B 13746 Model Statistics    SOLVE partial Using CNS From line 260
+B 13767 Solution Report     SOLVE partial Using CNS From line 260
+F 13809 E_demand
+F 13856 E_budget
+G 13867 X
+G 13920 p
+G 13933 mu
+B 13951 Equation Listing    SOLVE partial Using CNS From line 267
+D 13954 E_demand
+D 13965 E_budget
+B 13977 Column Listing      SOLVE partial Using CNS From line 267
+E 13980 X
+E 13999 p
+E 14156 mu
+B 14194 Model Statistics    SOLVE partial Using CNS From line 267
+B 14215 Solution Report     SOLVE partial Using CNS From line 267
+F 14257 E_demand
+F 14304 E_budget
+G 14315 X
+G 14368 p
+G 14381 mu
+B 14399 Equation Listing    SOLVE partial Using CNS From line 260
+D 14402 E_demand
+D 14413 E_budget
+B 14425 Column Listing      SOLVE partial Using CNS From line 260
+E 14428 X
+E 14447 p
+E 14604 mu
+B 14642 Model Statistics    SOLVE partial Using CNS From line 260
+B 14663 Solution Report     SOLVE partial Using CNS From line 260
+F 14705 E_demand
+F 14752 E_budget
+G 14763 X
+G 14816 p
+G 14829 mu
+B 14847 Equation Listing    SOLVE partial Using CNS From line 267
+D 14850 E_demand
+D 14861 E_budget
+B 14873 Column Listing      SOLVE partial Using CNS From line 267
+E 14876 X
+E 14895 p
+E 15052 mu
+B 15090 Model Statistics    SOLVE partial Using CNS From line 267
+B 15111 Solution Report     SOLVE partial Using CNS From line 267
+F 15153 E_demand
+F 15200 E_budget
+G 15211 X
+G 15264 p
+G 15277 mu
+B 15295 Equation Listing    SOLVE partial Using CNS From line 260
+D 15298 E_demand
+D 15309 E_budget
+B 15321 Column Listing      SOLVE partial Using CNS From line 260
+E 15324 X
+E 15343 p
+E 15500 mu
+B 15538 Model Statistics    SOLVE partial Using CNS From line 260
+B 15559 Solution Report     SOLVE partial Using CNS From line 260
+F 15601 E_demand
+F 15648 E_budget
+G 15659 X
+G 15712 p
+G 15725 mu
+B 15743 Equation Listing    SOLVE partial Using CNS From line 267
+D 15746 E_demand
+D 15757 E_budget
+B 15769 Column Listing      SOLVE partial Using CNS From line 267
+E 15772 X
+E 15791 p
+E 15948 mu
+B 15986 Model Statistics    SOLVE partial Using CNS From line 267
+B 16007 Solution Report     SOLVE partial Using CNS From line 267
+F 16049 E_demand
+F 16096 E_budget
+G 16107 X
+G 16160 p
+G 16173 mu
+B 16191 Equation Listing    SOLVE partial Using CNS From line 260
+D 16194 E_demand
+D 16205 E_budget
+B 16217 Column Listing      SOLVE partial Using CNS From line 260
+E 16220 X
+E 16239 p
+E 16396 mu
+B 16434 Model Statistics    SOLVE partial Using CNS From line 260
+B 16455 Solution Report     SOLVE partial Using CNS From line 260
+F 16497 E_demand
+F 16544 E_budget
+G 16555 X
+G 16608 p
+G 16621 mu
+B 16639 Equation Listing    SOLVE partial Using CNS From line 267
+D 16642 E_demand
+D 16653 E_budget
+B 16665 Column Listing      SOLVE partial Using CNS From line 267
+E 16668 X
+E 16687 p
+E 16844 mu
+B 16882 Model Statistics    SOLVE partial Using CNS From line 267
+B 16903 Solution Report     SOLVE partial Using CNS From line 267
+F 16945 E_demand
+F 16992 E_budget
+G 17003 X
+G 17056 p
+G 17069 mu
+B 17087 Equation Listing    SOLVE partial Using CNS From line 260
+D 17090 E_demand
+D 17101 E_budget
+B 17113 Column Listing      SOLVE partial Using CNS From line 260
+E 17116 X
+E 17135 p
+E 17292 mu
+B 17330 Model Statistics    SOLVE partial Using CNS From line 260
+B 17351 Solution Report     SOLVE partial Using CNS From line 260
+F 17393 E_demand
+F 17440 E_budget
+G 17451 X
+G 17504 p
+G 17517 mu
+B 17535 Equation Listing    SOLVE partial Using CNS From line 267
+D 17538 E_demand
+D 17549 E_budget
+B 17561 Column Listing      SOLVE partial Using CNS From line 267
+E 17564 X
+E 17583 p
+E 17740 mu
+B 17778 Model Statistics    SOLVE partial Using CNS From line 267
+B 17799 Solution Report     SOLVE partial Using CNS From line 267
+F 17841 E_demand
+F 17888 E_budget
+G 17899 X
+G 17952 p
+G 17965 mu
+B 17983 Equation Listing    SOLVE partial Using CNS From line 260
+D 17986 E_demand
+D 17997 E_budget
+B 18009 Column Listing      SOLVE partial Using CNS From line 260
+E 18012 X
+E 18031 p
+E 18188 mu
+B 18226 Model Statistics    SOLVE partial Using CNS From line 260
+B 18247 Solution Report     SOLVE partial Using CNS From line 260
+F 18289 E_demand
+F 18336 E_budget
+G 18347 X
+G 18400 p
+G 18413 mu
+B 18431 Equation Listing    SOLVE partial Using CNS From line 267
+D 18434 E_demand
+D 18445 E_budget
+B 18457 Column Listing      SOLVE partial Using CNS From line 267
+E 18460 X
+E 18479 p
+E 18636 mu
+B 18674 Model Statistics    SOLVE partial Using CNS From line 267
+B 18695 Solution Report     SOLVE partial Using CNS From line 267
+F 18737 E_demand
+F 18784 E_budget
+G 18795 X
+G 18848 p
+G 18861 mu
+B 18879 Equation Listing    SOLVE partial Using CNS From line 260
+D 18882 E_demand
+D 18893 E_budget
+B 18905 Column Listing      SOLVE partial Using CNS From line 260
+E 18908 X
+E 18927 p
+E 19084 mu
+B 19122 Model Statistics    SOLVE partial Using CNS From line 260
+B 19143 Solution Report     SOLVE partial Using CNS From line 260
+F 19185 E_demand
+F 19232 E_budget
+G 19243 X
+G 19296 p
+G 19309 mu
+B 19327 Equation Listing    SOLVE partial Using CNS From line 267
+D 19330 E_demand
+D 19341 E_budget
+B 19353 Column Listing      SOLVE partial Using CNS From line 267
+E 19356 X
+E 19375 p
+E 19532 mu
+B 19570 Model Statistics    SOLVE partial Using CNS From line 267
+B 19591 Solution Report     SOLVE partial Using CNS From line 267
+F 19633 E_demand
+F 19680 E_budget
+G 19691 X
+G 19744 p
+G 19757 mu
+B 19775 Equation Listing    SOLVE partial Using CNS From line 260
+D 19778 E_demand
+D 19789 E_budget
+B 19801 Column Listing      SOLVE partial Using CNS From line 260
+E 19804 X
+E 19823 p
+E 19980 mu
+B 20018 Model Statistics    SOLVE partial Using CNS From line 260
+B 20039 Solution Report     SOLVE partial Using CNS From line 260
+F 20081 E_demand
+F 20128 E_budget
+G 20139 X
+G 20192 p
+G 20205 mu
+B 20223 Equation Listing    SOLVE partial Using CNS From line 267
+D 20226 E_demand
+D 20237 E_budget
+B 20249 Column Listing      SOLVE partial Using CNS From line 267
+E 20252 X
+E 20271 p
+E 20428 mu
+B 20466 Model Statistics    SOLVE partial Using CNS From line 267
+B 20487 Solution Report     SOLVE partial Using CNS From line 267
+F 20529 E_demand
+F 20576 E_budget
+G 20587 X
+G 20640 p
+G 20653 mu
+B 20671 Equation Listing    SOLVE partial Using CNS From line 260
+D 20674 E_demand
+D 20685 E_budget
+B 20697 Column Listing      SOLVE partial Using CNS From line 260
+E 20700 X
+E 20719 p
+E 20876 mu
+B 20914 Model Statistics    SOLVE partial Using CNS From line 260
+B 20935 Solution Report     SOLVE partial Using CNS From line 260
+F 20977 E_demand
+F 21024 E_budget
+G 21035 X
+G 21088 p
+G 21101 mu
+B 21119 Equation Listing    SOLVE partial Using CNS From line 267
+D 21122 E_demand
+D 21133 E_budget
+B 21145 Column Listing      SOLVE partial Using CNS From line 267
+E 21148 X
+E 21167 p
+E 21324 mu
+B 21362 Model Statistics    SOLVE partial Using CNS From line 267
+B 21383 Solution Report     SOLVE partial Using CNS From line 267
+F 21425 E_demand
+F 21472 E_budget
+G 21483 X
+G 21536 p
+G 21549 mu
+B 21567 Equation Listing    SOLVE partial Using CNS From line 260
+D 21570 E_demand
+D 21581 E_budget
+B 21593 Column Listing      SOLVE partial Using CNS From line 260
+E 21596 X
+E 21615 p
+E 21772 mu
+B 21810 Model Statistics    SOLVE partial Using CNS From line 260
+B 21831 Solution Report     SOLVE partial Using CNS From line 260
+F 21873 E_demand
+F 21920 E_budget
+G 21931 X
+G 21984 p
+G 21997 mu
+B 22015 Equation Listing    SOLVE partial Using CNS From line 267
+D 22018 E_demand
+D 22029 E_budget
+B 22041 Column Listing      SOLVE partial Using CNS From line 267
+E 22044 X
+E 22063 p
+E 22220 mu
+B 22258 Model Statistics    SOLVE partial Using CNS From line 267
+B 22279 Solution Report     SOLVE partial Using CNS From line 267
+F 22321 E_demand
+F 22368 E_budget
+G 22379 X
+G 22432 p
+G 22445 mu
+B 22463 E x e c u t i o n

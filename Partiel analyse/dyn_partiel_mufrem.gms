@@ -67,11 +67,14 @@ Parameters p_0(g)
 sigma(g)
 EVLES(i,stod)
 EVLESinc(i,stod)
+mu_nul(i)
 ;
 p_0(g)=p.l(g);
 sigma(g)=p_0(g)/(p.l(g));
 
 EVLES(i,'kali')= mu.l(i)*(prod(g,sigma(g)**alpha(i,g))-1)   +  sum(g,p_0(g)*b(i,g)) -  prod(g,  sigma(g)**alpha(i,g))*sum(gg,b(i,gg)*p.l(gg))    ;
+mu_nul(i)=mu.l(i);
+
 
 Model partial /E_demand, E_budget/;
 Model fast /E_demand_fast, E_budget/;
@@ -106,6 +109,11 @@ EVLESinc(i,'shock') = EVLES(i,'shock')/mu.l(i);
 Parameter EVexp_t(i,t)
 EVdispinc_t(i,t)
 EVLES_t(i,T)
+EVLES_base_t(i,t)
+EVexp_base_t(i,t)
+EVdispinc_base_t(i,t)
+EVexp_diff(i,t)
+EVdispinc_diff
 b_resul(i,g,t)
 x_resul_t(i,g,t)
 CS_g(i,g,t)
@@ -118,7 +126,10 @@ CS_fast(i,g,t)
 CS_fast_exp(i,t)
 CS_cd(i,g,t)
 CS_cd_exp(i,t)
+
 ;
+
+
 
 Table p_1250indfast_frem(g,t)
   2018 2019 2020 2021 2022 2023 2024 2025   2026   2027   2028   2029   2030   2031   2032   2033   2034   2035   2036   2037   2038   2039   2040
@@ -169,43 +180,35 @@ Table p_udenbenz_frem(g,t)
 
 loop(t,
 *P.fx(g)=p.l(g)*1.02 
-P.fx(g)=p_1250indfast_frem(g,t);
+
 *   P.fx(g)=p_1250straks_frem(g,t);
 *P.fx(g)=p_landbrugkun_frem(g,t);
 *P.fx(g)=p_udenbenz_frem(g,t);
 *   b(i,g)=0;
+P.fx(g)=1;
+solve partial using CNS;
 
-   solve partial using CNS;
+    EVLES_base_t(i,t)= mu.l(i)*prod(g,sigma(g)**alpha(i,g)) - mu_nul(i)   +  sum(g,p_0(g)*b(i,g)) -  prod(g,  sigma(g)**alpha(i,g))*sum(gg,b(i,gg)*p.l(gg))   ;
+    EVexp_base_t(i,t) = EVLES_base_t(i,t)/mu.l(i);
+    EVdispinc_base_t(i,t) = EVLES_base_t(i,t)/disp_inc(i);
+   
+P.fx(g)=p_1250indfast_frem(g,t);
+solve partial using CNS;
 
 *  storing results -------------------------
     sigma(g)=p_0(g)/(p.l(g));
-    EVLES_t(i,t)= mu.l(i)*(prod(g,sigma(g)**alpha(i,g))-1)   +  sum(g,p_0(g)*b(i,g)) -  prod(g,  sigma(g)**alpha(i,g))*sum(gg,b(i,gg)*p.l(gg))   ;
+    EVLES_t(i,t)= mu.l(i)*prod(g,sigma(g)**alpha(i,g)) - mu_nul(i)   +  sum(g,p_0(g)*b(i,g)) -  prod(g,  sigma(g)**alpha(i,g))*sum(gg,b(i,gg)*p.l(gg))   ;
     EVexp_t(i,t) = EVLES_t(i,t)/mu.l(i);
     EVdispinc_t(i,t) = EVLES_t(i,t)/disp_inc(i);
-    CS_g(i,g,t) = x.l(i,g)*( p.l(g) - p_0(g) ) + (x_resul(i,g,'nul') - x.l(i,g) )*( p.l(g) - p_0(g) )*0.5; 
-    CS_inc(i,t)   =  sum(g, CS_g(i,g,t) )/mu.l(i);
-    b_resul(i,g,t) = b(i,g);
-    x_resul_t(i,g,t) = x.l(i,g);
-    delta_x_avg(g,t) = x.l('6',g)/x_resul('6',g,'nul');
-    x_kraka_t(i,g,t) = x_resul(i,g,'nul')*delta_x_avg(g,t);
-    CS_kraka_g(i,g,t) = x_kraka_t(i,g,t)*( p.l(g) - p_0(g) ) + (x_resul(i,g,'nul') - x_kraka_t(i,g,t) )*( p.l(g) - p_0(g) )*0.5; 
-    CS_kraka_inc(i,t)   =  sum(g, CS_kraka_g(i,g,t) )/mu.l(i);
+    EVexp_diff(i,t) = EVexp_t(i,t) - EVexp_base_t(i,t);
     
+
+   
 *  updating the minimum consumption --------------
 *    b(i,g)       = 0.85*b(i,g);
     b(i,g)       =  beta1(i,g)*x.l(i,g) + beta2(i,g)*b(i,g);
-
-
-*Letting expenditure rise by 2 pct.
-*mu.fx(i)   =  mu.l(i)*1.2
-    solve fast using CNS;
-    CS_fast(i,g,t) = x.l(i,g)*( p.l(g) - p_0(g) ) + (x_fast_nul(i,g) - x.l(i,g) )*( p.l(g) - p_0(g) )*0.5; 
-    CS_fast_exp(i,t)   =  sum(g, CS_fast(i,g,t) )/mu.l(i);
     
-    solve cobbdoug using CNS;
-    CS_cd(i,g,t) = x.l(i,g)*( p.l(g) - p_0(g) ) + (x_fast_nul(i,g)- x.l(i,g) )*( p.l(g) - p_0(g) )*0.5; 
-    CS_cd_exp(i,t)   =  sum(g, CS_cd(i,g,t) )/mu.l(i);
-    
+mu.fx(i)=mu.l(i)*1.015;
 
 );
 *$offtext

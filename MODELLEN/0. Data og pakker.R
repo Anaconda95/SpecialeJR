@@ -49,6 +49,8 @@ df_8 <-read.csv("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /PRISDATA DST/
 df_9 <-read.csv("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /PRISDATA DST/v8_decil_9.csv",sep=',')
 df_10<-read.csv("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /PRISDATA DST/v8_decil_10.csv",sep=',')
 disp_indk <- read.xlsx("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Data/Disponibel indkomst tidsserie.xlsx",1)
+disp_indk <- disp_indk[order(disp_indk$Aar),] 
+
 #Lav kvintiler
 kvint_1 <- (df_1+df_2)/2
 kvint_2 <- (df_3+df_4)/2

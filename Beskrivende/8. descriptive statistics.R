@@ -134,7 +134,7 @@ ggsave(
   limitsize = TRUE,
 )
 
-prisindeksdata <- read_xlsx("prisindeks.xlsx", sheet="prisindeks")
+prisindeksdata <- read.xlsx("/Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Data/prisindeks.xlsx", 1)
 
 
 v <- indk_forb_kvint
@@ -145,6 +145,19 @@ v2 <- data.frame(Year=v$Year, Q1.Disposable.Income = v$Dispk1,Q2.Disposable.Inco
                  Q4.Total.Consumption = v$Forbk4, Q5.Total.Consumption = v$Forbk5)
 
 head(v2)
+
+prisindeksdata$Prisindeks_2015
+
+v2=v2/prisindeksdata$Prisindeks_2015
+
+v2$Year=c(1994:2019)
+
+v2$Q1.Disposable.Income[26]/v2$Q1.Disposable.Income[1]
+v2$Q5.Disposable.Income[26]/v2$Q5.Disposable.Income[1]
+v2$Q1.Total.Consumption[26]/v2$Q1.Total.Consumption[1]
+v2$Q5.Total.Consumption[26]/v2$Q5.Total.Consumption[1]
+
+
 colnames(v2) = c("Year","Q1 Disposable Income",
                  "Q2 Disposable Income",
                  "Q3 Disposable Income",
@@ -165,7 +178,7 @@ forbindkplot <-   ggplot(v, aes(x = Year, y = value)) + theme_bw() +
   geom_line(aes(color = Quintile, linetype = Quintile)) + 
   scale_color_manual(values = c("#3B9AB2","#3B9AB2","#78B7C5", "#78B7C5","#EBCC2A","#EBCC2A","#E1AF00","#E1AF00","#F21A00","#F21A00"),)+
   scale_linetype_manual(values = c("solid","twodash", "solid", "twodash","solid","twodash","solid","twodash","solid","twodash"))+
-  labs(y = "1,000 DKK")
+  labs(y = "1,000 DKK (2015-prices)")
 
 ggsave(
   "forb_indk.pdf",
