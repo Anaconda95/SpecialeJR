@@ -1,0 +1,156 @@
+In this section, we describe the linear expenditure system, how we incorporate habit formation, how we estimate it, and how we measure welfare effects.
+
+\subsection{The linear expenditure demand system}\label{LESintro}
+Stone-Geary preferences \citep{stone1954linear,geary1950note}, also known as the linear expenditure system (LES) can be interpreted as a generalization of the well known Cobb Douglas utility function. It contains a threshold $b$ representing a minimum consumption level for each good in the system. As consumption of a given good approaches $b$, the utility of the household approaches $0$. 
+\begin{equation}
+U(X)=\prod_{i=1}^n (x_i-b_i)^{\alpha_i}.
+\end{equation}
+Note that in the case of $b=0$, Stone-Geary preferences collapses to standard Cobb Douglas preferences. The budget constraint can be written 
+\begin{equation}
+    \sum p_k x_k = \mu,
+\end{equation}
+where $\mu$ is total expenditure on goods in the system. The linear expenditure system is found by maximizing the utility function with respect to the budget constraint, yielding the Marshallian demand function
+\begin{align}
+    x_i &= b_i - \frac{\alpha_i}{p_i} \sum p_k b_k + \frac{\alpha_i}{p_i} \mu,
+\end{align}
+which can be rewritten to its expenditure form
+\begin{align}\label{expfunc}
+    p_i x_i = p_i b_i + \alpha_i(\mu - \sum p_k b_k).
+\end{align}
+Consumers allocate income to cover the minimum consumption level of each good and only further consumption enters the function for consumer preferences. As is evident from (\ref{expfunc}), in the linear expenditure system, expenditure on each good is indeed a linear function of prices and expenditure.
+
+It is straightforward to give a behaviorial interpretation of the LES demand system \citep{pollak1992demand}. The household buys a "necessary" or "subsistence" amount of each good ($b_1,...,b_n$) and divides the remaining budget $\mu - \sum p_k b_k$, which we will refer to as supernumerary expenditure, among the goods in fixed proportions ($\alpha_1,...,\alpha_n)$. In any demand system, the marginal budget shares, defined as
+\begin{equation}
+    \frac{\partial p_i x_i}{\partial \mu} = \alpha
+\end{equation}
+must sum to 1. For normal goods, they are positive, and for inferior goods, they are negative. In the LES, the marginal budget shares equal the $\alpha$'s and are independent of prices and expenditure. 
+Thus, the $\alpha$'s must satisfy a normalization rule $\sum \alpha_k=1$ \citep{pollak1992demand}. Due to this normalization rule, the LES demand system in its simplest form has $2n-1$ independent parameters.
+
+Own-price and expenditure elasticities can be calculated following \cite{pollak1992demand},
+\begin{align}
+    E_{i}^i &= \frac{p_i b_{i} (1-a_i)}{p_i b_i + a_i(\mu-\sum p_k b_k)}-1 \\
+    E_{\mu}^i &= \frac{a_i \mu}{p_i b_i + a_i(\mu-\sum p_k b_k)}-1,
+\end{align}
+where $E_{i}^i$ and $E_{\mu}^i$ denotes own-price and expenditure elasticities, respectively.
+
+However, as the elasticities depends on prices and expenditures of all goods, the LES is more easily interpreted in terms of the parameters of the system.
+
+\subsubsection{Habit formation}\label{sec:habit_formation}
+
+The minimum consumption quantities, $b_i$, can be interpreted as necessary quantities, however, they could as well be psychological necessities as well as physiological \citep{pollak1992demand}. When interpreted as a psychological necessity, it is natural to assume that the necessity expresses a habit, that can change over time. An example could be that as meat consumption has grown over time due to increase in incomes, it is likely that it has affected the psychological minimum requirement for meat consumption, since consumers have evolved a habit of eating more meat. When prices on meat potentially increases due to a carbon tax, it will take consumers time to break this habit.
+
+In its very simple form, habit formation can be modeled as a function of past consumption, as done by \cite{pollak1992demand}:
+\begin{align}
+    b_{it} = b_i^* + \beta_i x_{i,t-1},
+\end{align}
+where $b_i^*$ can be interpreted as the 'physiological necessity' and $ b_{it}$ as the psychological necessity. For this simple specification to be unbiased, it must be hold that there are no omitted variables that correlate with past consumption. Variables affecting consumption could be advertising, socioeconomic factors or demographics, which we do not have access to for this analysis. \cite{pollak1992demand} find very large (between 0.7 and 0.9) and significant coefficients for the lagged dependent variable. As argued by \cite{test_habit}, the coefficient of the lagged dependent variable can also overstate the habit effect if there exist collinearity problems, arising from mutual trends or simultaneity, autocorrelation or aggregation. These problems can for instance arise using aggregated consumption data, which move together with aggregated income, that move smoothly over time. In this thesis we, however, use fairly disaggregated data, which is split into 8 consumption groups and 5 income groups, see figure \ref{figshare}. However, one should probably be careful interpreting on the size of the coefficients of past consumption in the simple habit equation, since habit formation is most likely a more complex process.
+
+We consider different model specifications.
+First of all we consider the case where dynamics are ignored and there is thus no habit formation effects:
+\begin{equation}
+    b_{it} = b_i^*
+\end{equation}
+Second, we consider a linear trend specification, which is not dependent on past consumption:
+\begin{equation}
+    b_{it} = b_i^* + \gamma t
+\end{equation}
+Third, we consider the specification where habit formation modeled as a function of past consumption:
+\begin{align}\label{habiteq}
+    b_{it} = b_i^* + \beta_i x_{i,t-1}
+\end{align}
+Finally we consider habit formation modeled as a function of past consumption and of its own past.
+\begin{align}\label{smootheq}
+    b_{it} = \beta_1 x_{i,t-1} + \beta_2 b_{i,t-1}
+\end{align}
+This is a an AR(1) process that requires a specification of starting values when estimating it. Using this specification, we aim to address that habit formation is affected by unobserved demand shifts, considered important in various studies \citep{demand_shift}. In our empirical analysis we find that the estimation of (\ref{habiteq}) seems to overfit the process for $b_{it}$. Using equation (\ref{smootheq}) is an attempt to alleviate that problem, by smoothing the process. 
+
+\subsection{Estimation equation}\label{sec:estimationequation}
+The simplest form of the LES demand equation in share form that we would like to estimate with time series data is:
+\begin{align}
+    w_{it} = \omega^i(z_t,\theta) = \frac{p_{it} b_{it}}{\mu_t} + \alpha_i \left( 1-\frac{\sum p_{kt}b_{kt}}{\mu_t}\right)+ u_{it}
+\end{align}
+where t indicates time, $w_{it}$ is the budget share of good \textit{i}, \textit{k} is an alias for \textit{i}, $p_{it}$ is the price of good \textit{i}, $\mu_t$ is the income, $b_{it}$ is the 'subsistence' or 'necessary' level of consumption of good \textit{i} and $u_{it}$ in a stochastic error term.  The equation is estimated in share form to reduce the likelihood of heteroscedasticity, as argued by \cite{pollak1992demand}. We model $b_{it}$ in four different ways: One where $b_i$ is constant, one with a time trend and one where we let the minimum consumption level depend on the consumption of the past, which can be interpreted as a simple form of habit formation. Finally we have a model where $b_{it}$ is 'smoothed', and depends on both the past of itself and past consumption:
+\begin{align}
+    b_{it} &= b_i, \label{constanteq}\\
+    b_{it} &= b_i^* + \gamma t, \label{trendeq}\\
+    b_{it} &= b_i^* + \beta_i x_{i,t-1}, \\ 
+    b_{it} &= \beta_{1i} x_{i,t-1} +\beta_{2i} b_{i,t-1}   ,
+\end{align}
+The fact that $\mu$ is total expenditure on goods in the system implies that 
+\begin{align}\label{eqsumofw}
+    \sum w_{it} = \sum \omega^i(z_t,\theta)  = 1
+\end{align}
+with $w_i \geq 0  \hspace{0.5em} \forall  \hspace{0.5em} i$, as consumption of each good cannot be negative. An implication is $\sum u_{it} = 0$ for each $t$, thus the $u_{it}$'s are not independent.
+
+Due to this restriction, according to \cite{pollak1992demand}, one arbitrarily chosen good can be dropped, such that the vector of error terms is
+\begin{align}
+    u_t = [u_{1t}, u_{2t},...,u_{n-1,t}], \qquad u_t \sim N(0,\Omega), 
+\end{align}
+and a likelihood function can be written:
+
+\begin{align}
+    L(\theta,\Omega) = - \frac{(n-1)T}{2} \text{log} 2\pi - \frac{T}{2} \text{log}|\Omega| - \frac{1}{2} \sum_{t=1}^{T} u_t' \Omega^{-1}u_t
+\end{align}
+
+To address autocorrelation, we follow \cite{pollak1992demand} by modelling the error terms such that
+\begin{align}\label{ac_eq}
+    u_{it} = \rho u_{i t-1} + e_{it}.
+\end{align}
+As we delete one equation, $\rho$ must be the same for each good to ensure that estimates are independent of the equation deleted \citep{pollak1992demand}. An implication is that the autocorrelated process is the same for each error term, which is quite a restricive assumption. To estimate the models with autocorrelation, $e_{it}$ replaces $u_{it}$ and is assumed normally distributed.
+
+\subsection{Restrictions}
+The normalization rule of the LES described in section \ref{LESintro} says that 
+$\sum \alpha_k=1$. To ensure that this normalization rule is upheld, we follow \cite{stephensen2021note} and let
+\begin{align}
+    \alpha_i = \frac{e^{\gamma_i}}{1+ \sum_{j\neq i_0} e^{\gamma_j}},
+\end{align}
+where $i_0$ is the good deleted from the system. Setting $\gamma_{i_0}=0$ ensures that $\sum \alpha_k=1$ and $\alpha_i > 0$ for all $i$. At the same time, the specification ensures that $\sum u_{it} = 0$ for each $t$. This can be seen from summing over (\ref{eqsumofw})
+\begin{align}
+    1 &= \sum_i  \frac{p_{it} b_{it}}{\mu_t} +  \sum_i \alpha_i \left( 1-\frac{\sum_k p_{kt}b_{kt}}{\mu_t}\right) + \sum_i u_{it} \\
+    \Rightarrow 1 &= 1 + \sum_i u_{it} \Rightarrow \sum_i u_{it}=0
+\end{align}
+Thus, we identify the $\alpha_i$'s by estimating $\gamma_i$'s for $i=1,2,...,n-1$, with $\gamma_n=0$.
+
+In our estimations of the system, we have encountered negative $\beta$'s in estimation of models with habit formation. The interpretation of negative $\beta$'s is that a increased consumption of a good in the previous year $x_{i t-1}$ leads to a lower necessary amount $b_{it}$ the following year, implying a sort of inverse habit formation. We do not find this plausible from a theoretical point of view. To ensure that $\beta_i>0$ in specification 3.16, we identify them by estimating $z_i$, such that
+\begin{align}
+    \beta_i = z_i^2.
+\end{align}
+In the specification in 3.17 we restrict $\beta_{1i}$ to be positive but let $\beta_{2i}$ be free, such that:
+\begin{align}
+    \beta_{1i} = z_{1i}^2.
+\end{align}
+\subsection{Implementation in R}
+We estimate the model in R using the \texttt{optim()} function. Through experiments, we find that the BFGS-algorithm is the most suitable algorithm to solve our optimization problem. Other algorithms either could not solve the problem or gave very different solutions for different starting values. In the appendix, section \ref{codelikfunction}, we provide the R code we used to estimate the model with constant $b$ and no autocorrelation. The likelihood function for the other models are very similar to this one, but less readable.
+
+To define the likelihood funcion, we first write up the set of parameters, in this case $\alpha = [\alpha_1,...,\alpha_{n-1}]$, which is parametrized as described in the previous section and $b = [b_1,...,b_n]$. We then write up the supernumerary income and define the error terms, $u_{it}$. We then write up the $\Omega$ matrix, which is parametrized by its lower triangular. All parameters are initially defined by their starting values. Finally, we find the likelihood function by the R function \texttt{dmvnorm()} taking $u_{it}$ and $\Omega$ as inputs. Likelihood is then maximized using the \texttt{optim()} function in R.
+
+\subsection{Starting values}
+When estimating a simultaneous model system, the number of parameters increases quickly due to the co-variance matrix, which is assumed not to be constant. For our 8 models system we have from 52 parameters (for models 1-2 without an ac parameter) up to 69 parameters (for models 4-8 including an ac parameter). It is very likely that the likelihood functions have many local optima, and an estimated solution might not be the solution of the global optimum. This gives us a challenge selecting starting values for the optimization problem, as there is a large amount of combinations. We try to find the best starting values by applying a best-of-N strategy with random starting points \citep{startingvalues}. Thus, we estimate the 8 models over combinations of a low, medium and high starting value for the different parameters based on data for the average household, and chose the combination of starting values that gives the highest Likelihood value.
+
+\subsection{Bootstrap algorithm}
+There are no asymptotics provided in \cite{pollak1992demand}, on which we base our estimation method. 
+To obtain standard errors for our parameters, we employ a bootstrap procedure to our preferred model. We choose to do so also on the basis of the small sample size, which most likely would mean that any asymptotic analysis is invalid.
+
+The bootstrap algorithm is described in the following. We use a residual based bootstrap, inspired by appendix D.3 of \cite{lutkepohl2005new} as well as the approach in \cite{CRANFIELD2002289}.
+
+\begin{enumerate}
+    \item We estimate our preferred model and obtain the residuals $\hat{u}_{t}$. The residuals are a matrix of size $(T-2 \times n)$,
+    \begin{align}
+       \hat{u}_t= \begin{bmatrix}
+\hat{u}_{13}  & \hat{u}_{23}    & \cdots    &   \hat{u}_{n3}      \\
+\hat{u}_{14}   & \ddots &  & \vdots  \\
+\vdots &  & \ddots & \vdots  \\
+\hat{u}_{1T}  & \cdots & \cdots & \hat{u}_{nT}  
+\end{bmatrix},
+    \end{align}
+    as model 7 requires the two first observations to initiate the model. As each row sums to zero, the errors are not linearly independent, as discussed previously.
+    \item \cite{lutkepohl2005new} suggests to recenter the residuals by the sample average, such that the bootstrap residuals $u^{*}_{t}=u_t - \Bar{u}_t$. We do no not recenter our residuals, as this would violate the assumption of $\sum_i u_{it}=0$ for each period. However, this should not pose problems, as the residuals are already reasonably centered around 0 for each good. We obtain the bootstrap residuals by drawing with replacement rows of the residual matrix.
+    \item Bootstrap time series are computed recursively as 
+    \begin{align}
+        w^{*}_{it} &=  \frac{p_{it} b^{*}_{it}}{\mu_t} + \hat{\alpha}_i \left( 1-\frac{\sum p_{kt}b^{*}_{kt}}{\mu_t}\right)+ u^{*}_{it}, \\
+        b^{*}_{it} &= \hat{\beta}_{1i} b^{*}_{i,t-1}  + \hat{\beta}_{2i} x^{*}_{i,t-1}
+    \end{align}
+    which involves computing $b^{*}_{it}$ for each period. We use the true observations of $\mu_t$, as we do not model the expenditure.
+    \item Based on the bootstrap time series, we reestimate the parameters $\alpha_i, \beta_{1i}, \beta_{2i}$ and store them.
+\end{enumerate}
+These steps are repeated $B=100$ times. From the resulting distribution of bootstrapped parameter estimates, we calculate standard errors of the estimates. These are provided together with the central estimates on the true data set.

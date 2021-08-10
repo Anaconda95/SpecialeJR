@@ -66,6 +66,14 @@ disp_inc_data('5')=849072;
 disp_inc_data('6')=459282;
 ;
 
+Parameter growth(i);
+growth('1')= 0.0055255;
+growth('2')= 0.0090084;
+growth('3')=0.0157379;
+growth('4')= 0.0176093;
+growth('5')= 0.0195942;
+growth('6')=0.0143842;
+
 Parameter sumbeta(i,g);
 sumbeta(i,g)=beta1est(i,g)+beta2est(i,g);
 display sumbeta;

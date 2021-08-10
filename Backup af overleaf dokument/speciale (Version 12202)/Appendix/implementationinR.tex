@@ -1,0 +1,36 @@
+\subsection{Code for model 1}\label{codelikfunction}
+The following piece of R code defines the function that is maximized with \texttt{optim()} for the model with a constant $b$ and not habit formation.
+\begin{lstlisting}[language=R]
+ loglik <- function(par,w,phat,x,model) {
+  #setting dimensions
+  dims=dim(w)
+  T=dims[1]
+  n=dims[2]
+  if (model == 1) { 
+    gamma <- c(par[1:(n-1)],0)  
+    a <- exp(gamma)/sum(exp(gamma))  #a (alpha) is a logit
+    b <- c(par[n:(2*n-1)])           # b is time invariant
+    supernum <- 1-rowSums(phat %*% diag(b))
+    supernummat <- matrix(rep(supernum,n),ncol=n)
+    u <- w - phat %*% diag(b) - supernummat%*%diag(a)
+    #Throwing out a variable
+    uhat <- u[-(1:2),1:(n-1)]
+    #find omega matrix()
+    omega <- matrix(NA,(n-1),(n-1))
+    omega[lower.tri(omega,diag=TRUE)] <- 
+    par[(2*n) : ((2*(n) + (n-1)*((n-1)+1)/2) - 1) ]
+    omega<-makeSymm(omega)
+    #likelihood function
+    l1 = dmvnorm(x=uhat, mean=rep(0,n-1), sigma=omega, log=TRUE)
+    return(   -sum(l1) )} #minus added as optim minimizes
+  }
+\end{lstlisting}
+
+The solution to the maximum likelihood problem is found by the following piece of code.
+\begin{lstlisting}[language=R]
+ sol <-  optim(par = start_1, fn = loglik, model=1, 
+                 phat=phat, w=w, x=x, method="BFGS",
+                 control=list(maxit=5000,
+                              trace=6,
+                              ndeps = rep(1e-10,length(start_1))) )
+\end{lstlisting}

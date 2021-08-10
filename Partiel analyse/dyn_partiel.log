@@ -1,4 +1,4 @@
---- Job dyn_partiel.gms Start 06/23/21 11:28:13 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
+--- Job dyn_partiel.gms Start 07/02/21 09:26:12 32.2.0 rc62c018 DEX-DEG x86 64bit/Mac OS X
 --- Applying:
     /Library/Frameworks/GAMS.framework/Versions/32/Resources/gmsprmun.txt
 --- GAMS Parameters defined
@@ -19,16 +19,16 @@ Licensee: Course License                                 S210104/0001AO-GEN
           Course license for use within the course and related course work
 --- Starting compilation
 --- dyn_partiel.gms(48) 3 Mb
---- . Data_LES_RLK.gms(71) 3 Mb
---- dyn_partiel.gms(211) 3 Mb
+--- . Data_LES_RLK.gms(79) 3 Mb
+--- dyn_partiel.gms(217) 3 Mb
 --- Starting execution: elapsed 0:00:00.007
---- dyn_partiel.gms(145) 4 Mb
+--- dyn_partiel.gms(153) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(151) 6 Mb
+--- dyn_partiel.gms(159) 6 Mb
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(151) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.010
+--- dyn_partiel.gms(159) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.016
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -51,14 +51,14 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.043
---- dyn_partiel.gms(153) 4 Mb
+--- Executing after solve: elapsed 0:00:00.092
+--- dyn_partiel.gms(161) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(155) 6 Mb
+--- dyn_partiel.gms(163) 6 Mb
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(155) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.047
+--- dyn_partiel.gms(163) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.094
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -81,14 +81,14 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.079
---- dyn_partiel.gms(157) 4 Mb
+--- Executing after solve: elapsed 0:00:00.124
+--- dyn_partiel.gms(165) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(162) 6 Mb
+--- dyn_partiel.gms(170) 6 Mb
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(162) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.083
+--- dyn_partiel.gms(170) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.127
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -111,14 +111,14 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.110
---- dyn_partiel.gms(166) 4 Mb
+--- Executing after solve: elapsed 0:00:00.157
+--- dyn_partiel.gms(174) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(168) 6 Mb
+--- dyn_partiel.gms(176) 6 Mb
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(168) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.114
+--- dyn_partiel.gms(176) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.160
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -141,15 +141,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.144
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.188
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2018
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.150
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.192
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -172,15 +172,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.182
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.221
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2018
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.186
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.225
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -203,15 +203,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.214
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.255
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2018
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.217
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.259
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -234,15 +234,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.243
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.287
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2019
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.247
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.291
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -265,15 +265,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.275
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.318
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2019
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.279
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.322
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -296,15 +296,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.312
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.351
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2019
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.315
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.354
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -327,15 +327,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.341
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.383
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2020
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.345
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.387
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -358,15 +358,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.374
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.416
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2020
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.377
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.419
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -389,15 +389,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.405
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.448
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2020
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.408
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.452
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -420,15 +420,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.436
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.481
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2021
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.440
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.485
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -451,15 +451,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.475
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.516
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2021
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.478
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.520
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -482,15 +482,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.507
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.548
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2021
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.510
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.552
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -513,15 +513,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.536
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.579
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2022
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.540
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.583
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -544,15 +544,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.572
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.611
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2022
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.575
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.615
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -575,15 +575,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.604
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.644
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2022
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.607
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.648
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -606,15 +606,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.634
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.677
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2023
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.638
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.681
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -637,15 +637,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.665
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.711
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2023
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.668
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.715
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -668,15 +668,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.700
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.746
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2023
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.703
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.749
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -699,15 +699,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.729
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.780
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2024
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.732
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.785
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -730,15 +730,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.761
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.817
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2024
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.764
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.821
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -761,15 +761,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.791
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.850
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2024
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.794
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.853
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -792,15 +792,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.828
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.886
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2025
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.832
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.890
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -823,15 +823,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.861
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.919
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2025
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.864
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.923
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -854,15 +854,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.890
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.950
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2025
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.894
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.953
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -885,15 +885,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:00.925
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:00.982
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2026
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.929
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:00.986
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -916,15 +916,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:00.958
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.016
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2026
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.961
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.020
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -947,15 +947,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:00.987
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.050
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2026
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:00.990
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.054
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -978,15 +978,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.017
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.080
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2027
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.020
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.085
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1009,15 +1009,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.046
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.114
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2027
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.049
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.118
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1040,15 +1040,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.084
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.151
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2027
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.087
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.155
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1071,15 +1071,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.120
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.184
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2028
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.124
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.188
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1102,15 +1102,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.156
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.217
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2028
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.161
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.222
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1133,15 +1133,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.199
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.264
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2028
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.203
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.269
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1164,15 +1164,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.238
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.301
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2029
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.243
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.306
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1195,15 +1195,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.281
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.335
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2029
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.286
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.338
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1226,15 +1226,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.319
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.373
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2029
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.324
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.376
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1257,15 +1257,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.354
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.407
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2030
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.358
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.412
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1288,15 +1288,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.385
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.441
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2030
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.389
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.444
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1319,15 +1319,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.425
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.473
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2030
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.428
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.476
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1350,15 +1350,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.458
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.506
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2031
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.462
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.509
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1381,15 +1381,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.491
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.536
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2031
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.496
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.540
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1412,15 +1412,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.535
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.568
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2031
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.539
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.572
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1443,15 +1443,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.571
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.598
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2032
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.579
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.603
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1474,15 +1474,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.622
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.635
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2032
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.626
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.638
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1505,15 +1505,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.667
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.664
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2032
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.671
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.668
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1536,15 +1536,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.699
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.694
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2033
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.703
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.698
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1567,15 +1567,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.734
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.728
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2033
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.737
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.733
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1598,15 +1598,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.765
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.768
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2033
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.768
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.772
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1629,15 +1629,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.801
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.798
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2034
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.806
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.802
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1660,15 +1660,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.834
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.830
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2034
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.837
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.833
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1691,15 +1691,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.865
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.862
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2034
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.868
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.865
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1722,15 +1722,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:01.896
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.894
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2035
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.901
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.900
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1753,15 +1753,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:01.935
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.931
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2035
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.939
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.935
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1784,15 +1784,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:01.970
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.961
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2035
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:01.973
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.964
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1815,15 +1815,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:02.001
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:01.992
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2036
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.005
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:01.997
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1846,15 +1846,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:02.033
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.023
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2036
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.036
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.026
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1877,15 +1877,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:02.072
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.059
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2036
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.075
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.062
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1908,15 +1908,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:02.109
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.089
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2037
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.113
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.093
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1939,15 +1939,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:02.140
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.121
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2037
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.144
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.124
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -1970,15 +1970,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:02.171
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.153
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2037
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.174
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.157
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2001,15 +2001,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:02.205
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.186
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2038
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.209
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.190
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2032,15 +2032,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:02.234
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.218
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2038
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.238
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.222
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2063,15 +2063,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:02.268
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.249
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2038
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.273
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.253
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2094,15 +2094,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:02.304
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.279
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2039
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.309
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.284
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2125,15 +2125,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:02.335
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.313
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2039
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.339
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.316
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2156,15 +2156,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:02.365
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.342
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2039
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.368
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.346
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2187,15 +2187,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:02.398
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.376
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model partial
---- dyn_partiel.gms(249) 6 Mb
+--- dyn_partiel.gms(261) 6 Mb
 --- LOOPS t = 2040
 ---   48 rows  62 columns  522 non-zeroes
 ---   403 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(249) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.402
+--- dyn_partiel.gms(261) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.380
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2218,15 +2218,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model partial
---- Executing after solve: elapsed 0:00:02.437
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.406
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model fast
---- dyn_partiel.gms(272) 6 Mb
+--- dyn_partiel.gms(286) 6 Mb
 --- LOOPS t = 2040
 ---   48 rows  62 columns  438 non-zeroes
 ---   151 nl-code  96 nl-non-zeroes
---- dyn_partiel.gms(272) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.441
+--- dyn_partiel.gms(286) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.409
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2249,15 +2249,15 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model fast
---- Executing after solve: elapsed 0:00:02.467
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.439
+--- dyn_partiel.gms(253) 4 Mb
 --- Generating CNS model cobbdoug
---- dyn_partiel.gms(276) 6 Mb
+--- dyn_partiel.gms(290) 6 Mb
 --- LOOPS t = 2040
 ---   48 rows  62 columns  228 non-zeroes
 ---   319 nl-code  180 nl-non-zeroes
---- dyn_partiel.gms(276) 4 Mb
---- Executing CONOPT (Solvelink=2): elapsed 0:00:02.471
+--- dyn_partiel.gms(290) 4 Mb
+--- Executing CONOPT (Solvelink=2): elapsed 0:00:02.443
 CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X 
  
  
@@ -2280,8 +2280,8 @@ CONOPT 3         32.2.0 rc62c018 Released Aug 26, 2020 DEG x86 64bit/Mac OS X
  ** Feasible solution to a square system.
  
 --- Reading solution for model cobbdoug
---- Executing after solve: elapsed 0:00:02.500
---- dyn_partiel.gms(241) 4 Mb
+--- Executing after solve: elapsed 0:00:02.473
+--- dyn_partiel.gms(253) 4 Mb
 --- GDX File /Users/rasmuskaslund/Documents/GitHub/SpecialeJR /Partiel analyse/dyn_partiel.gdx
 *** Status: Normal completion
---- Job dyn_partiel.gms Stop 06/23/21 11:28:15 elapsed 0:00:02.505
+--- Job dyn_partiel.gms Stop 07/02/21 09:26:15 elapsed 0:00:02.478

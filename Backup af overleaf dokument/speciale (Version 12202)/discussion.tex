@@ -1,0 +1,75 @@
+In this section, we discuss some of the methodological issues in our theoretical and empirical approach. We discuss potential weaknesses and how future research on the distributional impact of carbon taxation could build upon our work. We also discuss which policies might be relevant to offset any regressive taxation effects. 
+
+%\begin{itemize}
+%    \item Shortcomings of our approach
+%    \item Implementation in CGE model
+%    \item Policy recommendations
+%    \item Short run versus long run effects
+%    \item We have not considered demographics
+%    \item We have not considered households' assets
+    
+%\end{itemize}
+
+\subsection{Shortcomings of our approach}
+Our analysis could potentially be improved in several regards. 
+
+\subsubsection{The demand system and estimation thereof}
+The linear expenditure system is a very inflexible functional form, for example, its assumption that demand systems are linear in expenditure is too restrictive when analyzing household budget data. \citep[p. 30]{pollak1969estimation}. They suggest the quadratic expenditure system (QES) as an alternative approach. Other potential approaches are the AIDS, QUAIDS, Translog and EASI demand systems \citep{shojaeddiniconsumer}. The drawback of those systems are, as previously discussed, that they are harder to interpret and difficult to implement in a CGE model. 
+
+However, we do circumvent some of the limitations of the LES. Even though the LES is linear in expenditure, we estimate one system for 5 representative consumers, implying that marginal budget shares need not be constant across the income distribution - and the results show that they are indeed not. 
+
+The dataset also put some limitations on our analysis. Most of the consumer demand system estimation that we have reviewed use cross-sectional or repeated cross-sections data. These kind of datasets, with more data points, allow for more flexible consumer demand systems, and the possibility of including more demographic variables than just income. Repeated cross sections is the data set behind many of the analyses reviewed in section \ref{sec:litrev} and can be used to estimate a variety of demand systems  \citep{shojaeddiniconsumer, schulte2017price, harold2017incomeelasticityenergy} These types of datasets do, however, come with some limitations, such as lack of price variation, which in practice may inhibit estimation \citep{jussila2012estimation}. 
+
+Repeated cross-sectional data would also make it possible to incorporate demographic variables, e.g. with demographic translating or demographic scaling as outlined in \cite{pollak1992demand}. In this analysis, we have not considered other demographics than income that might be of great importance to the impact. For example, it is likely that rural households spend more on transport fuels and heating than urban households. Table \ref{transportsharetab} shows that households in more rural parts of Denmark spend a higher fraction of their total consumption on transport fuels. An interesting extension of our analysis could be to incorporate such demographic variables.
+\begin{table}[H]
+\centering
+\caption{Share of consumption related to operating personal transport equipment}
+\label{transportsharetab}
+\begin{tabular}{lllllll} \hline
+Region & Average & CPH & Zealand & South. DK & Central Jutl. & North. Jutl. \\ \hline
+Share (pct.) & 6.60    & 5.56       & 7.07    & 7.30        & 6.82            & 7.85 \\ \hline
+\end{tabular}
+\label{tabdirectemissions}
+\captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} Consumption related to operating personal transport is mostly made up of gasoline and diesel consumption. \\ \textbf{Source:} \citet[Table FU07]{statbank} }
+\end{table}
+
+In our empirical analysis, we estimated habit formation to be quite persistent, but also with widely varying estimates across goods and income quintile. As we model habit formation as a process for an unobserved variable, we believe we should interpret those estimates with caution. 
+
+\subsubsection{The input-output model}
+As outlined in section \ref{sec:io-assumptions}, there are many assumptions associtaed with an input-output analysis of a tax reform: There is no substitution between inputs and materials, the tax is fully passed on to consumers, and the effect of foreign competition is not really accounted for. This is of course not very realistic. As we argued in section \ref{sec:io-assumptions}, there are reasons to believe that given these assumptions, the price increases reported from the input-output model are upper bounds estimate, given the above assumptions. 
+
+The input-output analysis does have its advantages, though. It measures the carbon emissions associated with production and consumption on a very disaggregated level, and all (relevant) national carbon emissions are accounted for.
+
+\subsubsection{GreenREFORM analysis}
+In the GreenREFORM analysis we found that income effects are more prominent than price effects. How a carbon tax will affect wages in reality is a complex matter, and the GreenREFORM model has a fairly simple modeling of the labor market. The wage rate will most likely be sluggish and the unemployment rate will be endogenous, as modeled in the MAKRO model \citep{MAKRO_mini}. If we consider sluggish wages, however, the price effect will probably be bigger in the short run, and the income effect lower.
+
+Taking into account savings effects and effects on asset prices, the income effect will most likely be less regressive (and probably progressive) as share of income. However, considering that the lower part of the income distribution will be more exposed to the risk of unemployment, following reduced demand, will push in the other direction.
+
+\subsection{Implementation in a CGE model}
+An obvious extension of our analyisis would be to incorporate our parameter estimates of the LES to a CGE model. An LES demand system is directly implementable in a CGE model as the system is \textit{regular} \citep{shojaeddiniconsumer}. In a Danish context, most of the analyses of carbon taxation has been based on CES consumer demand systems which have been calibrated to existing parameter estimates \citep{dmoer2009, dmoer2021, Kraka2020}, and is generally not based on estimation of the particular demand system. As discussed in \cite{shojaeddiniconsumer}, inconsistencies between the demand system in the model and the estimated demand system can lead to modeled responses not supported by empirical results. Our estimates and method are directly implementable and thus ensures consistency between model and empirical estimates. Our method can quite easily be altered to estimate parameters on a different grouping of consumption goods, however, it might be necessary to use a stronger numerical optimization software to estimate the model with a higher number of consumption goods. Furthermore, our estimates make it possible to consider the confidence intervals of the estimates in modelling, as proposed by \cite{hertel2007confident}.
+
+Including our estimates for demand systems across the income distribution in a CGE model would allow for a more detailed distributional analysis of policy changes, such as a carbon tax reform. \cite{dmoer2009} do model different households in their CGE model, but calibrate the utility function identically for all. However, as our experiments showed in section \ref{sec:krakacompare}, our analysis indicates that implementation of differentiated demand systems has very small effects on the distributional impact of at least a carbon tax reform.
+
+Implemented heterogeneous households in the CGE model wold have been ideally if we were to look further into income effects, which would be relevant after recognizing that in the CGE framework, price effects are smaller, while income effects are substantial. Implementing the five consumers in GreenREFORM would enable us to look at differentiated wage rates, savings behavior and the evolution of assets across the income distribution.
+
+\subsection{Policy recommendations}
+The prevalent concerns regarding the distributional effect of carbon taxation might be excessive in a Danish context. Our results suggest that a carbon taxation is not regressive when looking it lifetime income, but it is regressive looking at annual disposable income. We consider the most likely scenario of a carbon tax reform is that of a gradual phase-in towards 2030, as suggested by \cite{Kraka2020}, \cite{klimaraad2021}, \cite{dmoer2021} among others. This implies that lifetime income is probably the most relevant measure of regressivity, as the impact of the reform will materialize over the longer run. Thus, a carbon tax reform will not increase inequality in a lifetime perspective
+
+However, there might still be relevant compensation schemes to implement to make sure that a carbon tax reform do not hit certain groups disproportionately hard. 
+
+\cite{Wier2005} reach the same conclusion regarding regressivity as we do. They suggest that a compensation scheme should focus on groups that will not be able to increase their income across the live cycle, for example adults with low education levels or retired persons receiving public. We note here that such a compensation scheme should probably take account the wealth of retired persons, which most likely is of a considerable size for some people, who can consume out of their old-age savings. 
+
+An unequal impact across the urban-rural divide also seems likely, as previously discussed. If politicians wish to make sure that rural households are compensated, a relevant policy could be to subsidize charging infrastructure in rural areas which could enable households to substitute towards electric vehicles, as suggested by the \cite{eldrupkommission2021}.
+
+Our analysis in section \ref{sec:regressivetaxref} showed that increased food prices in themselves are regressive, also measured relative to lifetime income. This indicates that if the government chooses to impose a carbon tax reform which primary effect will be increased food prices, a compensation scheme might be relevant to offset the regressivity. Increased transfers and lowering other energy taxes has been suggested. \cite{dmoer2021,Kraka2020}.
+
+In our analysis we examined the potential role of habit formation. We estimated the habits to be ver persistent. Thus, when evaluating the impact of carbon taxation, it stayed more or less constant as long as prices are constant. If habits were less persistent, it would be another argument for phasing in carbon taxation, as consumers would adjust their preferences towards less expensive goods over time. As we model habit formation as an unobserved process of an unobserved variable, and that different models gave quite different results, we believe that our habit formation estimates should be interpreted with caution. Thus we cannot rule out that habits do play an important role in the distributional impact of carbon taxation, but our results do not indicate so. 
+
+%Relevant citation from \cite{Wier2005} for policy recommendations. 
+%\textit{The less regressive effect of a CO2 tax, when looking at lifetime income, suggests that any compensation scheme should focus on those persons/
+%groups that will not be able to equalize low income in part of their life with higher incomes in other parts, e.g. single parents with low level of education, and retired persons with public old age pensions as their only potential income source.}
+
+

@@ -152,10 +152,35 @@ v2=v2/prisindeksdata$Prisindeks_2015
 
 v2$Year=c(1994:2019)
 
-v2$Q1.Disposable.Income[26]/v2$Q1.Disposable.Income[1]
-v2$Q5.Disposable.Income[26]/v2$Q5.Disposable.Income[1]
-v2$Q1.Total.Consumption[26]/v2$Q1.Total.Consumption[1]
-v2$Q5.Total.Consumption[26]/v2$Q5.Total.Consumption[1]
+((v2$Q1.Disposable.Income[26]/v2$Q1.Disposable.Income[1])^(1/26)-1)*100
+((v2$Q5.Disposable.Income[26]/v2$Q5.Disposable.Income[1])^(1/26)-1)*100
+((v2$Q1.Total.Consumption[26]/v2$Q1.Total.Consumption[1])^(1/26)-1)*100
+((v2$Q5.Total.Consumption[26]/v2$Q5.Total.Consumption[1])^(1/26)-1)*100
+
+#LAVER LIGE EN FED lineær MODEL for fremskrivning af forbrug og indkomst
+realindkforb = v2
+head(realindkforb)
+realindkforb$trend=c(1:26)
+realindkforb$Q6.Total.Consumption = df_h$ialt/prisindeksdata$Prisindeks_2015
+realindkforb$Q6.Disposable.Income = disp_indk$Hele.landet/prisindeksdata$Prisindeks_2015
+c1=lm(log(Q1.Total.Consumption)~trend, data = realindkforb)
+c2=lm(log(Q2.Total.Consumption)~trend, data = realindkforb)
+c3=lm(log(Q3.Total.Consumption)~trend, data = realindkforb)
+c4=lm(log(Q4.Total.Consumption)~trend, data = realindkforb)
+c5=lm(log(Q5.Total.Consumption)~trend, data = realindkforb)
+c6=lm(log(Q6.Total.Consumption)~trend, data = realindkforb)
+i1=lm(log(Q1.Disposable.Income)~trend, data = realindkforb)
+i2=lm(log(Q2.Disposable.Income)~trend, data = realindkforb)
+i3=lm(log(Q3.Disposable.Income)~trend, data = realindkforb)
+i4=lm(log(Q4.Disposable.Income)~trend, data = realindkforb)
+i5=lm(log(Q5.Disposable.Income)~trend, data = realindkforb)
+i6=lm(log(Q6.Disposable.Income)~trend, data = realindkforb)
+
+trends= data.frame(cons=c(c1$coefficients[2],c2$coefficients[2],c3$coefficients[2],c4$coefficients[2],c5$coefficients[2],c6$coefficients[2]), 
+dispinc=c(i1$coefficients[2],i2$coefficients[2],i3$coefficients[2],i4$coefficients[2],i5$coefficients[2],i6$coefficients[2]) )
+
+write.xlsx(trends,"trends.xlsx",)
+write.xlsx(realindkforb,"realindkforb.xlsx",)
 
 
 colnames(v2) = c("Year","Q1 Disposable Income",

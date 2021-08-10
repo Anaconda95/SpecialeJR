@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{import}
+
+\import{./}{preamble.tex}
+
+\title{The Distributional Impact of Increased Carbon Pricing in Denmark: An Analysis of Consumer Demand}
+\author{Rasmus Lindø Kaslund og Julie Deding Nielsen}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+\input{intro.tex}
+
+\section{Literature review}\label{sec:litrev}
+\input{litreview}
+
+\section{Demand system specification and estimation}
+\input{demandsys}
+\input{measurewelfare}
+
+\section{Data}\label{sec:data}
+\input{Data}
+
+\section{Empirical analysis}
+
+\subsection{Model evaluation}
+\input{Model fit}
+
+\subsection{Results}
+\input{LESresults}
+
+\section{Partial model for household demand}\label{sec:partialmodel}
+\input{Partiel}
+
+\section{Input-output analysis}\label{sec:iomodel}
+\input{iomodel}
+
+\section{GreenREFORM analysis}\label{GRmodel}
+\input{GR_model}
+
+\section{Discussion}\label{sec:discussion}
+\input{discussion}
+
+%\section{Estimating substitution elasticities in consumption for different income groups}
+%\input{CES_estimation}
+
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\newpage
+\appendix
+
+\section{Implementation in R}
+
+\input{Appendix/implementationinR}
+
+\section{Mapping to 30 sectors}
+\input{Appendix/A_mapping}
+
+
+
+\end{document}

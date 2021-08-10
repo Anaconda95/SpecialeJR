@@ -1,0 +1,63 @@
+\subsection{Partial model}
+To analyze how a CO2 tax will affect households across the income distribution, we set up a partial model for consumer demand in GAMS. The model i partial in the sense that it takes prices and income as given, and returns the demand for each consumption group for each quintile. To get the price changes, we make two different analyses of how a carbon tax on production affects consumer prices. The first one is an input-output analysis, presented in section \ref{sec:iomodel}, and the second one is a carbon tax reform in the CGE model GreenREFORM, presented in section \ref{GRmodel}.  
+\\
+\\
+The model for household demand is quite simple. Prices and total expenditure are exogenously given, and parameters are given from our estimation in section \ref{LESresults}. Each household must adhere to their expenditure function for each good: 
+\begin{align}
+    p_{it} x_{it} = p_{it} b_{it} + \alpha_i(\mu - \sum p_{kt} b_{kt}),
+\end{align}
+where
+\begin{align}
+    b_{it} = \beta_{1i} x_{i,t-1} + \beta_{2i} b_{i,t-1},
+\end{align}
+subject to the budget constraint
+\begin{align}
+    \sum p_{it} x_{it} = \mu.
+\end{align}
+We initialize the system using our estimates for $b_i$ and predicted consumption from our estimated demand system in 2019. As we have 8 goods, there are 9 equations and 8 endogenous variables for each consumer in each time period. We delete one of the expenditure functions to exactly identify the system. The choice of the equation deleted does not influence the results, since all parameters and exogenous variables are still present in the system, and consumption is limited by the budget constraint. We then proceed to calculate the EV and consumer surplus for each consumer and time period following the method outlined in section \ref{sec:measurewelfare}. 
+\\
+\\
+The model is static in the sense that total expenditure and disposable income are 'frozen' at their observed levels in 2019. Consequently, our results can be interpreted \textit{ceteris paribus}, that is, savings behavior is not affected, and households do not become richer over the time period. In reality, income and total expenditure are expected to grow over the coming 20 years. If we did not have an LES system with non-homothetic preferences, income growth would not be interesting for our results, since the relevant measure of the future impact of carbon taxation is the difference between a scenario with increased carbon taxation and a scenario that is completely similar except for the carbon tax. However, since we have LES preferences, growth will not just be equaled out, since it will affect the budget shares of the different consumption groups. 
+
+\subsection{Letting income grow}\label{sec:inc_growth}
+Towards 2030 and beyond, disposable income and total expenditure will most likely grow. During the sample data period, 1994-2019, we estimate the log-trend in average real disposable income to be 1.44 pct. During the same period, total real expenditure has only grown 0.28 pct. annually. This is a consequence of the rising savings rates that we discussed in section \ref{sec:data}. As is obvious from table \ref{tab:trends}, the average growth in disposable income masks considerable differences between the deciles. The real disposable income grew only 0.55 annually in the poorest quintile, but almost 2 pct. for the richest quintile. This unequal distribution of disposable income growth is partly a result of changes in the progressivity of the tax system \citep{aeskattesystem2021}, but also a trend that is well documented in both Denmark \citep{ae2019stigendeindkomstulighed} and abroad \citep{piketty2014inequality}. Thus, we find it relevant to forecast income and expenditure growth with differentiated growth rates, continuing the trend from the past 25 years. We also forecast income growth with a uniform growth rate. 
+
+\begin{table}[H]
+\centering
+    \caption{Estimated trends for log real expenditure and real disposable income}
+    \label{tab:trends}
+\begin{tabular}{lllllll}
+\toprule \hline
+                 & \multicolumn{5}{c}{Decile} &               \\  \cline{2-6} 
+\textit{Pct.}                 & 1     & 2    & 3    & 4    & 5    & Avg. \\ \hline
+Total expenditure & -0.28 & 0.06 & 0.38 & 0.54 & 0.69 & 0.28 \\
+Disp. Income     & 0.55  & 0.90 & 1.57 & 1.76 & 1.96 & 1.44 \\
+\hline \bottomrule
+\end{tabular}
+\captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} }
+\end{table}
+
+We choose to forecast total expenditure in our partial model by the growth rates in disposable income. This is based on an assumption that the observed increases in savings rates will not continue in the forecast period. As a consequence, growth in total real expenditure has been very low in the sample period. Table \ref{wtable} shows the consumption composition in three scenarios: 1) With no income growth, 2) with uniform income growth, where expenditure grows by 1.44 pct each year for all quintiles, and 3) with differentiated income growth, where the estimated trend for each quintile is applied. Prices are constant to evaluate the income effects on the consumption composition.
+
+When income grows, the consumption shares for meat and dairy and other foods fall for the poorest quintile. This is due to the low income elasticity of these goods for that group. We also see that in the case of uniform income growth, where the income of the poorest quintile grows relatively more than in the case of differentiated growth, the consumption share of food falls more. In these cases, we also see that the consumption share for energy for transport increases a bit more than in the case of no income growth. The share of consumption devoted to transport increases when income grows, consistent with the high income elasticities for the lowest quintile, see table \ref{mdl7estpart3}. 
+
+For the middle quintile, it is obvious that the transport composite, other goods and to some degree other services are luxury goods, while energy for housing and housing are necessity goods. The demand for food and energy for transport is virtually unchanged across the income growth scenarios. 
+
+For the richest quintile other goods and other services are luxury goods while housing is a necessity good. Other good composites seem to be normal goods. 
+
+\begin{table}[H]
+    \centering
+    \caption{Consumption shares with constant prices 2018-2040}
+    \label{wtable}
+    \resizebox{\textwidth}{!}{%
+    \input{tables/wtab}
+    }
+    \captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} }
+\end{table}
+

@@ -1,0 +1,74 @@
+\subsection{Measuring welfare: Equivalent variation and consumer surplus}\label{sec:measurewelfare}
+To assess the welfare effects of tax reforms, we use the equivalent variation (EV) as a measure of the welfare effect of changing prices. Since income does not change in many of our applications, the welfare effect stems only from changes in prices. The equivalent variation is the change in income (or here, rather total expenditure) that, at current prices, would have the same effect on welfare as the price changes \citep{araar2019prices}. Thus, it can be interpreted as the amount of money the consumer should be given as a lump-sum transfer to be just as well off as before the tax. This makes it an appropriate measure of the cost of the tax for the consumer. The EV can be found by isolation from
+\begin{align}\label{eq:evdef}
+    V(\mu_0 + EV, p_0) = V(\mu_1, p_1),
+\end{align}
+where $V(\cdot)$ is the indirect utility function, $\mu_0,\mu_1$ is total expenditure before and after a change and $p_0,p_1$ are price vectors of length $n$, representing prices before and after a change.
+
+The indirect utility function of the LES model is
+\begin{align}\label{eq:indirectu}
+    V(p,\mu) = \frac{\mu - \sum_i p_i b_i}{\prod_i p_i^{\alpha_i} }.
+\end{align}
+The EV can be found by inserting (\ref{eq:indirectu}) in (\ref{eq:evdef}) and isolating 
+\begin{align}
+    \frac{\mu_0 + EV - \sum_i p_{i0} b_i}{\prod_i p_{i0}^{\alpha_i} } &= \frac{\mu_1 - \sum_i p_{i1} b_i}{\prod_i p_{i1}^{\alpha_i} }  \\
+    \Rightarrow EV &= (\mu_1 - \sum_i p_{i1} b_i) \prod_i \frac{p_{i0}^{\alpha_i}}{p_{i1}^{\alpha_i}} - (\mu_0  - \sum_i p_{i0}b_i),
+\end{align}
+which simplifies to 
+\begin{align}
+    EV = \mu_1 \left( \prod_i \left (\frac{p_{i0}}{p_{i1}}\right)^{\alpha_i}-1 \right) + \mu_1 - \mu_0 + \sum_i p_{i0}b_i - \prod_i \left(\frac{p_{i0}}{p_{i1}}\right)^{\alpha_i} \left( \sum_i p_{i1} b_i \right).
+\end{align}
+which can be divided into an income and a price effect:
+\begin{align}
+    EV_I = \mu_1 - \mu_0 
+\end{align}
+\begin{align}
+    EV_P = \mu_1 \left( \prod_i \left (\frac{p_{i0}}{p_{i1}}\right)^{\alpha_i}-1 \right) + \sum_i p_{i0}b_i - \prod_i \left(\frac{p_{i0}}{p_{i1}}\right)^{\alpha_i} \left( \sum_i p_{i1} b_i \right)
+\end{align}
+\subsubsection{Measuring consumer surplus by 'rule-of-half'}
+An alternative way of measuring welfare is approximating the consumer surplus. \cite{Kraka2020} measures consumer surplus by the 'rule of half', where the change in consumer surplus for each good is given by
+\begin{align*}
+    \Delta CS_{i,h} = X_{i,h,1}(P_{i1}-P_{i0}) +  \frac{1}{2}(X_{i,h,0} - X_{i,h,1})(P_{i1}-P_{i0})
+\end{align*}
+such that the total welfare change given by a set of price changes is
+\begin{align}
+    \Delta CS_h = \frac{\sum_i \Delta CS_{i,h}}{\mu_h}.
+\end{align}
+As \cite{Kraka2020} uses REFORM, a representative-agent model, they calculate changes in household consumption after the tax reform as 
+\begin{align}
+    X_{i,h,1} = \frac{X_{i,avg,1}}{X_{i,avg,0}} \cdot X_{i,h,0},
+\end{align}
+where subscript $avg$ denotes the representative consumer, such that $\frac{X_{i,avg,1}}{X_{i,avg,0}}$ is the relative change in demand for $X_i$
+
+\subsubsection{Measuring welfare relative to income or expenditure}\label{sec:incomeorexpenditure}
+To assess the distributional impact of carbon taxation, the equivalent variation (or the consumer surplus) can be divided by total expenditure to assess the impact of a carbon tax reform relative to each consumer's total expenditure, 
+\begin{align}
+    EV_{exp,h} = \frac{EV_h}{\mu_h},
+\end{align}
+where subscript $h$ indicates a given quintile. This makes the impact of price changes comparable across households with different budgets. An alternative is to divide the EV with annual disposable income:
+\begin{align}
+    EV_{inc,h} = \frac{EV_h}{inc_h},
+\end{align}
+
+Both measures of the distribution are relevant, and the choice between them is not straightforwards as \cite{Wier2005} argue. However, there are reasons to prefer measuring the impact relative to total expenditure. First, as we are measuring the impact of tax increases on consumption, measuring the regressivity of a tax reform relative to total expenditure is obviously relevant. Second, households are generally thought to smooth consumption over the life cycle, which if true means that total expenditure may be a better indicator of lifetime income. \citep{friedman1957front,Wier2005,dmoer2009} For low-income households, the choice is particularly important, as many households in the lower part of the income distribution are students or retirees who may have significantly higher lifetime income than what their current disposable income indicates \citep{Wier2005}. This can also help explain why expenditure exceeds disposable income for the lowest quintile, i.e., they have negative savings, see section \ref{sec:data}. In our analysis, we measure the impact of a tax reform implemented over time. During the analyzed period, households will move in the income distribution, and thus it may seem most reasonable to use expenditure as the relevant income measure, when assessing the impact of the tax reform in the longer run. 
+
+It should be noted, however, that some households do not improve their consumption possibilities over time, e.g. people whose primary source of income are social benefits throughout their lives. For these people disposable income is a more relevant measure. \cite{sune2020} further argues that in the short run, disposable income is relevant when measuring regressivity, as it represents a household's immediate consumption possibilities. However, in the longer run, he argues along the lines of \cite{Wier2005} that it might be preferable to measure the distributional impact relative to total expenditure, as the lower savings rates of the lower income quintiles is accounted for. 
+
+Using current expenditure as the income measure is also associated with some uncertainty. The household budget survey is primarily based on interviews where respondents account for their consumption over the course of two weeks \citep{hhbudgetsurvey}. These interviews are carried out for a representative sample of households over the course of a year. Even so, total expenditure in a given year is basically extrapolated from a two-week period, and should be interpreted with caution \citep{Wier2005}.
+
+Using expenditure is as the income measure generally yields less regressive impacts of taxation \citep{meta_carbontax}. This will quite obviously also be true in our case looking at the data set. As savings rates are much higher for the upper quintiles, their disposable income are much higher relative to the lower quintiles compared to their total expenditure. Thus, quite mechanically, all consumption-based taxes are more regressive measured relative to disposable income than to total expenditure.
+
+
+In the analysis, we will report the distributional impact of carbon taxation relative to both total expenditure and disposable income and compare the results. 
+
+
+
+
+
+
+
+
+
+
+
+

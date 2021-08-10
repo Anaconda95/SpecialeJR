@@ -1,0 +1,91 @@
+%It is beneficial to analyze this question in a computational general equilibrium framework. First of all, we consider it important to capture general equilibrium effects. The equilibrium price-increase of a taxed good will be a function of the feedback mechanisms between demand and supply. While consumers will lower demand for taxed goods, firms will in turn react to the change in demand by substituting towards less polluting input in production. This will affect demand in the opposite direction, and for some combination of price and polluting production input the market for goods clears. Labor market ge effects? Second of all, we would like to quantify our results, to get an actual measure of the costs to consumers of a carbon tax. This will give an idea of how much different income groups should be compensated for the tax when negotiating real policy. 
+
+Our CGE model is based on \cite{klenert2018}, which we also used in a previous assignment \cite{ourselves2020}.  
+
+\subsection{Firms}  
+In the CGE model, we model 8 firms, whose production corresponds to the 8 consumption groups in the LES estimation. The firms produce according to the CES production function with two inputs: a composite labor-capital input, which we denote $T$ and shall refer to as 'labor', and a pollution input $Z$. The production function is given by
+\begin{align}\label{eq:prodfunc}
+F_g(T_g,Z_g)=\begin{cases} 
+      (\epsilon_gT^r_g + (1-\epsilon_g)Z^r_g)^{(\frac{1}{r})}, & \textrm{if $Z_g \leq xT_g$ }\\\
+      0, & \textrm{if $Z_g > xT_g$, }
+   \end{cases}
+\end{align}
+where $\sigma=1/(1-r)$ is the elasticity of substitution between labor and emissions, and $\epsilon_g$ is  the labor share parameter in sector $g$. The additional inequality $Z_g > xT_g$ implies that firms will allocate some of their labor to abatement activities, following the approach of \cite{copelandandtaylor1994}. 
+
+The firms sell their goods at price $p_g$ and pays a 'wage' $w$ to the labor input and pays a tax $tau_P$ for their pollution input. Profit maximization yields the following first order conditions.
+
+\begin{equation}
+    w= \epsilon_gT_g^{(r-1)}F_g^{(1-r)}p_g
+\end{equation}
+
+\begin{equation}
+   \tau_P = (1-\epsilon_g)Z_g^{(r-1)}F_g^{(1-r)}p_g
+\end{equation}
+
+The firms are assumed to be operation under perfect competition, implying that their profits are zero:
+\begin{align}
+    w L_g + \tau_P z_g = p_g F_g
+\end{align}
+
+Total labor input must equal total labor supply:
+\begin{align}
+    \sum_g T_g = \sum_i \phi_i N,
+\end{align}
+where $\phi_i$ is an individual productivity parameter for each quintile $i$. N is total labor supply.
+
+\subsection{Consumers}
+We model 5 consumers representing each quintile of the income distribution. They demand goods according to the linear expenditure system. 
+
+The first order conditions of the household consumption demand becomes
+\begin{equation}
+    \frac{\alpha_{g,i}}{\alpha_{g+1,i}}\frac{(X_{g+1,i} - b_{g+1,i})}{(X_{g,i} - b_{g,i})}=\frac{p_g}{p_{g+1}}, 
+\end{equation}
+where $\alpha_{g,i}$ is the marginal budget share (unique for each good for each consumer) and $b_{i,g}$ is the minimum consumption level. The households must adhere to the budget constraint
+\begin{align}
+    \sum_g p_g x_{i,g} = \phi_i w N + L,
+\end{align}
+where $\phi_i w N$ is total labor income and L are lump sum transfers from the government. 
+
+\subsection{Government}
+The government has a balanced budget, such that total government spending $G$ is the revenue from the carbon tax net of lump sum transfers.
+\begin{equation}
+    G = \sum_g \tau_p z_g - 5L
+\end{equation}
+
+
+\subsection{General equilibrium}
+The government must spend its revenue on goods. One (overly simplified) assumption could be that it spends equal amount of nominal revenue on each good. This implies a general equilibrium on the goods market: 
+\begin{align}
+    F_g = \sum_i x_{i,g} + \frac{1}{8}\frac{G}{p_g}
+\end{align}
+Finally, we set the wage as the numeraire
+\begin{align}
+    w=1
+\end{align}
+
+\subsection{Calibration}
+\begin{itemize}
+\item We set the parameters $\alpha$'s and $b$'s to our estimates in the empirical section. As we estimate a time-varying $b$, we choose to use the last-period estimate of b, 2019. 
+\item We calculate the levels of prices and consumption to match the estimated parameters of alpha and b given equation 1.6. 
+\item Then total labor supply is set to equal the total consumption, given that w=1, such that consumers budget contraint is fulfilled. 
+\item The production in each sector is then calibrated to adhere to the FOC of the firm, given that w=1. 
+\item Total pollution is calibrated from epsilon (which is computed from Statistics Denmark's data on pollution intensity in each sector) together with a (at the moment) arbitrary level of $\tau_p$. 
+\item The level of government spending is calculated to equal the income from $\tau_p$.
+\item Lumpsum is fixed to zero.
+\end{itemize}
+
+%In this attempt of a calibration, we get way %lower production (and higher prices). This is %most likely because the firms have to pay for %pollution. This also means that resulting %consumption is lower than the observed.
+%
+%Combined with data on actual consumption of %the deciles in 2019, this poses a problem. %The resulting consumption in the model %solution does not correspond to the observed %consumption in 2019.
+%
+%Using input-output tables, we have a decent %idea of the level of pollution of each %production sector $z_g$
+%
+%Overall we must figure out a list of things %regarding the model and the calibration %thereof:
+%\begin{itemize}
+%    \item How do we calibrate the consumption %side such that our estimated parameters %and actual consumption in the calibration %year matches?
+    %\item How do we calibrate the pollution %side and the carbon tax such that %production equals observed total %consumption? One idea is to make some %sort of sector-specific tax exemption. 
+    %\item At the moment, our idea is to %calibrate the produciton side such that %it matches the observed consumption. %Should we make a more sophisticated %model? I.e. should we rather be %calibrating the model to total income and %somehow model savings and activity in the %public sector?
+    %\item Do we need larger/ more realistic %government spending?
+    %\item If we do not have a dedicated %public sector, how should we go about %distributing the public spending across %goods? One idea could be to let the %government spend its revenue on service %goods. How do we then make sure that %production can satisfy both public and %private demand?
+    %\item Is this model useful for our %purpose? As we see it, the main point of %our thesis is to see what consequences it %has for distributional effects of carbon %taxation that each quintile is modelled %explicitly as opposed to assuming a %representative agent. The question is %then if we \textit{need} to model %capital, capital income an%%d savings %behaviour. 
+\%end%{itemize}%

@@ -103,22 +103,7 @@ EVLESinc(i,'shock') = EVLES(i,'shock')/mu.l(i);
 *solve fast using CNS;
 
 
-Parameter EVexp_t(i,t)
-EVdispinc_t(i,t)
-EVLES_t(i,T)
-b_resul(i,g,t)
-x_resul_t(i,g,t)
-CS_g(i,g,t)
-CS_inc(i,t)
-delta_x_avg(g,t)
-x_kraka_t(i,g,t)
-CS_kraka_g(i,g,t)
-CS_kraka_inc(i,t)
-CS_fast(i,g,t)
-CS_fast_exp(i,t)
-CS_cd(i,g,t)
-CS_cd_exp(i,t)
-;
+
 
 Table p_1250indfast_frem(g,t)
   2018 2019 2020 2021 2022 2023 2024 2025   2026   2027   2028   2029   2030   2031   2032   2033   2034   2035   2036   2037   2038   2039   2040
@@ -167,6 +152,25 @@ Table p_udenbenz_frem(g,t)
 8    1    1    1    1    1    1    1    1 1.0019 1.0036 1.0052 1.0064 1.0077 1.0077 1.0077 1.0077 1.0077 1.0077 1.0077 1.0077 1.0077 1.0077 1.0077
 ;
 
+Parameter EVexp_t(i,t)
+EVdispinc_t(i,t)
+EVLES_t(i,T)
+b_resul(i,g,t)
+x_resul_t(i,g,t)
+CS_g(i,g,t)
+CS_g_exp(i,g,t)
+CS_g_inc(i,g,t)
+CS_inc(i,t)
+delta_x_avg(g,t)
+x_kraka_t(i,g,t)
+CS_kraka_g(i,g,t)
+CS_kraka_inc(i,t)
+CS_fast(i,g,t)
+CS_fast_exp(i,t)
+CS_cd(i,g,t)
+CS_cd_exp(i,t)
+;
+
 loop(t,
 *P.fx(g)=p.l(g)*1.02 
 P.fx(g)=p_1250indfast_frem(g,t);
@@ -182,7 +186,9 @@ P.fx(g)=p_1250indfast_frem(g,t);
     EVLES_t(i,t)= mu.l(i)*(prod(g,sigma(g)**alpha(i,g))-1)   +  sum(g,p_0(g)*b(i,g)) -  prod(g,  sigma(g)**alpha(i,g))*sum(gg,b(i,gg)*p.l(gg))   ;
     EVexp_t(i,t) = EVLES_t(i,t)/mu.l(i);
     EVdispinc_t(i,t) = EVLES_t(i,t)/disp_inc(i);
-    CS_g(i,g,t) = x.l(i,g)*( p.l(g) - p_0(g) ) + (x_resul(i,g,'nul') - x.l(i,g) )*( p.l(g) - p_0(g) )*0.5; 
+    CS_g(i,g,t) = x.l(i,g)*( p.l(g) - p_0(g) ) + (x_resul(i,g,'nul') - x.l(i,g) )*( p.l(g) - p_0(g) )*0.5;
+    CS_g_exp(i,g,t) = CS_g(i,g,t)/mu.l(i);
+    CS_g_inc(i,g,t) = CS_g(i,g,t)/disp_inc(i);
     CS_inc(i,t)   =  sum(g, CS_g(i,g,t) )/mu.l(i);
     b_resul(i,g,t) = b(i,g);
     x_resul_t(i,g,t) = x.l(i,g);

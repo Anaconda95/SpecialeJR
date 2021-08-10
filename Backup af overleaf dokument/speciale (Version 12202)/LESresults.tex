@@ -1,0 +1,105 @@
+\subsubsection{Estimating our preferred model}\label{LESresults}
+Based on the criteria described in the previous section, we proceed with model 7 as our preferred model. We estimate the model on 6 different datasets, 5 for each quintile of the distribution of disposable income (which we will refer to as simply 'the income distribution', and 1 for the average household. 
+Recall the we model consumer demand as
+\begin{align}
+    p_{it} x_{it} = p_{it} b_{it} + \alpha_i(\mu - \sum p_{kt} b_{kt}),
+\end{align}
+where
+\begin{align} \label{eq:habitform}
+    b_{it} = \beta_{1i} x_{i,t-1} + \beta_{2i} b_{i,t-1}.
+\end{align}
+
+In table \ref{mdl7estpart1} we see that the model fits best on the average household. This is most likely due to the average household having a more smoothed series, as can be seen from [insert reference to relevant figure]. The likelihood of the model fitted to average household data is 799, compared to likelihoods in the range 689-744 for the different quintiles. Obviously, as the number of the parameters and the sample size is the same across datasets, the higher likelihood also results in a higher BIC. 
+
+Recall that the marginal budget share, $\alpha$, is defined by
+\begin{equation}
+    \alpha= \frac{\partial p_i x_i}{\partial \mu},
+\end{equation}
+that is, the change in expenditure on a given good with respect to a change in total expenditure. Generally speaking, the estimated marginal budget shares are not very different across the income distribution. From our bootstrapped standard errors, we see that few estimates are significantly different across the income distribution, with an exception to the rule being the marginal budget share of meat and dairy for quintile 1 and 2. 
+
+The marginal budget share of meat and dairy is in around .03 for all quintiles except the first. For other foods, it is in the range .03-.08, but with no clear gradient across the income distribution. For housing, the estimate is in the range .10-.13 for all quintiles.
+
+Energy for housing, where we ex-ante would expect marginal budget shares to differ, as the poorer households have a larger consumption share of this good composite than the rich households. As is obvious from table  \ref{mdl7estpart1}, there is no clear cut relationship between the marginal budget share and income for energy for housing. However, both quintile 4 and 5 have lower estimates than the average. For energy for transport, we see what potentially could be an income gradient in the marginal budget share for energy for transport - the richer households tend to have a lower marginal budget share. For transport goods and services, which include the purchase of cars, there is no clear relationship. All estimates lie in the range 0.20-0.28. For other goods, there seems to be a U-shaped relationship between the marginal budget share and income.  However, the highest marginal budget share is estimated for the average household. For other services, there could be an indication a positive income gradient, that is, the higher income, the larger marginal budget share.
+
+\begin{table}[H]
+\renewcommand{\arraystretch}{0.7}
+\centering
+\caption{Estimation results, part 1}
+\label{mdl7estpart1}
+\input{tables/mainLESestimationpart1}
+\captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} Standard errors in parentheses}
+\end{table}
+The estimates of $\beta_1$ and $\beta_2$ are difficult to interpret by themselves. Together, they model the habit formation as described in equation (\ref{eq:habitform}). In table \ref{mdl7estpart2}, where these estimates are reported, it seems that there is a clear tendency for $\beta_1+\beta_2$ to be close to 1 for many goods. For almost all goods and quintiles, $\beta_1>\beta_2$, indicating that the most important part of habit formation is not past minimum consumption, but rather past consumption. 
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{0.7}
+\caption{Estimation results, part 2}
+\label{mdl7estpart2}
+\input{tables/mainLESestimationpart2}
+\captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} Standard errors in parentheses}
+\end{table}
+
+To grasp what the estimates for $\beta_1$ and $\beta_2$ imply for the minimum consumption levels, these are plotted in figure  \ref{fig:mincons}. One feature of the minimum consumption levels, e.g. for meat and dairy as well as other foods, is that minimum consumption are much closer to actual consumption for the poorer quintiles compared to the richer quintiles. This is in accordance with our expectations. Poor households and rich households most likely \textit{need} the same amount of food, and thus minimum consumption should be closer to actual consumption for the poorer households. The result also makes intuitive sense considering Engels' law. As poorer households spend a larger share out of total expenditure on food, it makes sense that their minimum consumption levels are closer to actual consumption. 
+
+For housing, minimum consumption follows actual consumption quite closely. It seems plausible that habit formation is strong for housing, as there are high costs to moving. Regarding energy for housing we see that the minimum consumption levels of the middle and the richest quintile are quite close, but lower for the bottom quintile. This indicates that the relationship between income and necessary expenditure on energy for housing is concave. The difference in energy for housing minimum consumption needs can most likely also be explained by poorer households having smaller dwellings to heat and perhaps fewer electric appliances.
+
+The minimum consumption needs for energy for transport also differ a lot across the income distribution. Common to all of them are that they are pretty close to actual consumption, indicating that is a necessity good. The transport good and service composite seems to be more of a luxury good. Minimum consumptions is further below actual consumption for all 3 quintiles graphed. 
+
+Finally, the broader good composites other goods and other services seem described a bit more as luxury goods, which is as expected. Minimum consumption levels, especially for the richest households, are quite far off actual consumption. 
+
+\begin{figure}[H]
+\centering
+\caption{Minimum consumption and actual consumption for different quintiles}
+\label{fig:mincons}
+\includegraphics[width=.9\textwidth]{Figures/b_quintileplot.pdf}
+\captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} Solid lines indicate actual consumption in 2015-prices. Dashed lines indicate minimum consumption levels.\\}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{0.7}
+\caption{Estimation results, minimum consumption levels}
+\label{mdl7estpart}
+\input{tables/mainLESestimationpart4}
+\captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} Standard errors in parentheses}
+\end{table}
+
+
+The low marginal budget share and high minimum consumption levels impliy that the own-price elasticity of meat and dairy and other foods are lower for the poorer quintiles. The income elasticities are also lower for the poorest quintiles for these two good composites, but rise with income. For the rest of the good composites, there is no clear relationship between own-price elasticities and income. Transport and other goods have the highest elasticities, while housing, other services and the two energy good compositse have way lower elasticities. 
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{0.7}
+\caption{Estimation results, part 3}
+\label{mdl7estpart3}
+\input{tables/mainLESestimationpart3}
+\captionsetup{singlelinecheck=off,size=scriptsize}
+\setlength{\captionmargin}{10pt}
+\caption*{
+\textbf{Note:} Standard errors in parentheses}
+\end{table}
+The expenditure elasticities of energy for transport are decreasing across the income distribution. As expenditure rises, the poorer quintiles will tend to increase their consumption of this good relatively more than the richer households. The same can be said for the transport good composite. At the same time, these two goods have the highest expenditure elasticities, indicating that these are luxury goods, but more so for the lower quintiles.
+
+
+\subsection{Endogeneity concerns}
+A possible cause of endogenity is the fact that we do not model the choice between savings and consumption. Total expenditure is treated as if it was disposable income. An increase in total expenditure will, for unchanged $b$, result in increased consumption of each of the $n=8$ goods with their respective marginal budget share $\alpha_i$, where $\sum \alpha_i=1$. An increase in disposable income will, in reality, most likely increase both total expenditure and savings. 
+
+One potential source of endogeneity in our models is the fact that price increases cannot affect savings. Consider our estimation equation
+\begin{align}
+    w_{it} = \frac{p_{it} b_{it}}{\mu_t} + \alpha_i \left( 1-\frac{\sum p_{kt}b_{kt}}{\mu_t}\right)+ u_{it}.
+\end{align}
+Let us assume that the price of a specific good which has a high level of minimum consumption $b$. If the price of that increases significantly, in our model, it only affects the consumption of other goods. In reality, the consumer may choose to lower her savings, increasing total expenditure (an income effect). On the other hand, increased prices for relatively unimportant goods, may lead the consumer to increase savings, as consumption has become more expensive (a substitution effect). Thus the effect of prices on savings behaviour is ambigous, and the direction of potential bias of our estimates are uncertain.
+
+The fact that we estimate our parameters on consumption \textit{shares} may mitigate the bias. If a price increase of a given good increases savings, total expenditure falls - and that will, all else equal, lower consumption of all goods by their marginal budget share. Thus, the consumption share, $w_{it}$, may be approximately unaffected. 

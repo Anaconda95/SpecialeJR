@@ -113,9 +113,12 @@ EVLES_base_t(i,t)
 EVexp_base_t(i,t)
 EVdispinc_base_t(i,t)
 EVexp_diff(i,t)
-EVdispinc_diff
+EVdispinc_diff(i,t)
 b_resul(i,g,t)
-x_resul_t(i,g,t)
+x_resul_t
+mu_resul_t
+w_resul_t
+dispinc_resul_t
 CS_g(i,g,t)
 CS_inc(i,t)
 delta_x_avg(g,t)
@@ -126,9 +129,7 @@ CS_fast(i,g,t)
 CS_fast_exp(i,t)
 CS_cd(i,g,t)
 CS_cd_exp(i,t)
-
 ;
-
 
 
 Table p_1250indfast_frem(g,t)
@@ -192,23 +193,34 @@ solve partial using CNS;
     EVexp_base_t(i,t) = EVLES_base_t(i,t)/mu.l(i);
     EVdispinc_base_t(i,t) = EVLES_base_t(i,t)/disp_inc(i);
    
-P.fx(g)=p_1250indfast_frem(g,t);
+*P.fx(g)=p_1250indfast_frem(g,t);
+P.fx(g) = 1;
 solve partial using CNS;
 
 *  storing results -------------------------
+    x_resul_t(i,g,t) = x.l(i,g);
+    w_resul_t(i,g,t) = p.l(g)*x.l(i,g)/mu.l(i);
+    b_resul(i,g,t) = b(i,g);
+    mu_resul_t(i,t) = mu.l(i);
+    dispinc_resul_t(i,t) = disp_inc(i);  
     sigma(g)=p_0(g)/(p.l(g));
     EVLES_t(i,t)= mu.l(i)*prod(g,sigma(g)**alpha(i,g)) - mu_nul(i)   +  sum(g,p_0(g)*b(i,g)) -  prod(g,  sigma(g)**alpha(i,g))*sum(gg,b(i,gg)*p.l(gg))   ;
-    EVexp_t(i,t) = EVLES_t(i,t)/mu.l(i);
-    EVdispinc_t(i,t) = EVLES_t(i,t)/disp_inc(i);
-    EVexp_diff(i,t) = EVexp_t(i,t) - EVexp_base_t(i,t);
-    
-
-   
+    EVexp_t(i,t) = EVLES_t(i,t)/mu.l(i) + eps;
+    EVdispinc_t(i,t) = EVLES_t(i,t)/disp_inc(i) + eps;
+    EVexp_diff(i,t) = EVexp_t(i,t) - EVexp_base_t(i,t) +eps ;
+    EVdispinc_diff(i,t) = EVdispinc_t(i,t) - EVdispinc_base_t(i,t) +eps;
+    CS_inc(i,t)=EPS;
 *  updating the minimum consumption --------------
 *    b(i,g)       = 0.85*b(i,g);
     b(i,g)       =  beta1(i,g)*x.l(i,g) + beta2(i,g)*b(i,g);
-    
-mu.fx(i)=mu.l(i)*1.015;
+
+*Differentiated growth rates    
+*mu.fx(i)    = mu.l(i)     *  (1+growth(i));
+*disp_inc(i) = disp_inc(i) *  (1+growth(i));
+
+*Uniform growth rates
+*mu.fx(i)    = mu.l(i)     *  (1+growth('6'));
+*disp_inc(i) = disp_inc(i) *  (1+growth('6'));
 
 );
 *$offtext
